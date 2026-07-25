@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.env
+uv.lock.bak
+*.key
+*.pem
+*-key.json
+*credentials*.json
