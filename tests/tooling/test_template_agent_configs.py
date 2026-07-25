@@ -57,3 +57,7 @@ def test_eval_set_matches_adk_schema():
 
     raw = json.loads((TEMPLATE_DIR / "eval" / "agent.evalset.json").read_text())
     EvalSet.model_validate(raw)
+
+
+def test_no_template_meta_readme_inside_the_copied_tree():
+    assert not (TEMPLATE_DIR / "README.md").exists()
