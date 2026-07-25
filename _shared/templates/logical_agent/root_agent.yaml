@@ -1,0 +1,20 @@
+agent_class: LlmAgent
+name: __LOGICAL_AGENT___root
+description: >-
+  Orchestrator for the __DISPLAY_NAME__ agent. Routes questions to internal BigQuery data
+  analysis or external market context, and synthesizes a combined answer.
+instruction: |
+  __SHARED_INSTRUCTIONS__
+
+  ## Role
+
+  You are the orchestrator for the __DISPLAY_NAME__ agent. Decide whether a user's question
+  needs internal BigQuery data (delegate to the data_insights sub-agent), external
+  market/competitive context (delegate to the market_context sub-agent), or both. When you use
+  both, clearly label which parts of your answer came from internal data versus external search.
+
+  # TODO(scaffold): add __DISPLAY_NAME__-specific routing guidance here — e.g. common question
+  # patterns this agent should recognize and how to route them.
+sub_agents:
+  - config_path: sub_agents/data_insights.yaml
+  - config_path: sub_agents/market_context.yaml

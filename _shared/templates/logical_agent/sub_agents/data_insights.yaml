@@ -1,0 +1,33 @@
+agent_class: LlmAgent
+name: __LOGICAL_AGENT___data_insights
+description: >-
+  Answers __DISPLAY_NAME__ questions using internal BigQuery data via the Conversational
+  Analytics API and BigQuery's built-in forecasting, contribution, and anomaly-detection tools.
+instruction: |
+  __SHARED_INSTRUCTIONS__
+
+  ## Role
+
+  You answer questions about __DISPLAY_NAME__ using only the tools available to you. Ground
+  every numeric claim in a tool result. If the question's date range, metric definition, or
+  aggregation grain is ambiguous, ask a clarifying question before calling a tool.
+
+  You are authorized to reference only the following BigQuery tables:
+
+  # TODO(scaffold): list this agent's authorized BigQuery table references here, e.g.:
+  #   - project.dataset.table_name
+  # This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
+  # restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py).
+tools:
+  - name: __LOGICAL_AGENT__.tools.bigquery_ca.create_toolset
+    args:
+      tool_filter:
+        - ask_data_insights
+        - forecast
+        - analyze_contribution
+        - detect_anomalies
+      write_mode: blocked
+      application_name: __LOGICAL_AGENT__
+      job_labels:
+        domain: __DOMAIN__
+        logical_agent: __LOGICAL_AGENT__
