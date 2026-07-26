@@ -26,6 +26,21 @@
 # `data/*.csv` files; never design an agent to read another agent's tables cross-agent (each
 # agent's service account only ever gets table-level IAM on its own tables).
 #
+# When duplicating content across agents, reuse the same entity identifiers and align seed-data
+# date windows with what's already established, so multiple agents read as one consistent
+# business timeline rather than disjoint universes (added 2026-07-26, first exercised by
+# `vendor_performance` reusing `assortment_planning`/`pricing_promotions`'s SKU-001..006 ids and
+# `WINDOW_END = 2026-07-24` date anchor):
+#   - **Same identifiers for the same real-world entity.** If a new agent's data references an
+#     entity another agent already established (e.g. a SKU), reuse that agent's exact identifier
+#     values (e.g. `SKU-001`) rather than inventing new ones, even though the tables themselves
+#     stay physically independent per the duplication rule above.
+#   - **Same date anchor/overlapping windows.** Anchor synthetic seed data to the same real-world
+#     "today" reference other agents already use (e.g. a `WINDOW_END` constant equal to
+#     `assortment_planning`'s), with historical windows overlapping the range other agents already
+#     span, so a user (or a single conversation spanning multiple agents) sees one coherent
+#     timeline, not mismatched eras.
+#
 # Update this file in the same change that scaffolds a new agent's data/ folder, or adds/renames/
 # drops one of its tables. Both `domain_id` and `agent_id` must be exactly 4 lowercase letters
 # and, once assigned, must never change — table names loaded under the old id would silently
@@ -50,6 +65,9 @@ domains:
   merchandising:
     domain_id: merc
     display_name: Merchandising
+  supply_chain:
+    domain_id: spch
+    display_name: Supply Chain
 
 agents:
   assortment_planning:
@@ -67,3 +85,11 @@ agents:
       - price_history         # -> merc_prpm_price_history
       - promo_calendar         # -> merc_prpm_promo_calendar
       - promo_sales_lift        # -> merc_prpm_promo_sales_lift
+  vendor_performance:
+    domain: supply_chain
+    agent_id: vepe
+    tables:
+      - product_catalog     # -> spch_vepe_product_catalog
+      - vendors               # -> spch_vepe_vendors
+      - purchase_orders        # -> spch_vepe_purchase_orders
+      - vendor_scorecard        # -> spch_vepe_vendor_scorecard

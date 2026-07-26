@@ -20,6 +20,14 @@ tables); instead add your own `data/product_catalog.csv` with the same/similar r
 independent, physically separate table. Each agent's data stays self-contained and decoupled from
 every other agent's data lifecycle and IAM scope, even when the real-world content overlaps.
 
+When you do duplicate or reference another agent's entity (e.g. a product), reuse its exact
+identifier values (e.g. the same SKU id) rather than inventing new ones, and when generating
+synthetic date-based data, anchor it to the same real-world timeline other agents already use
+(the same "today" reference constant, with historical windows overlapping theirs) rather than an
+arbitrary independent date range. This keeps agents' tables physically independent while still
+letting them read as one consistent business/timeline when used together in the same conversation
+or demo.
+
 Load these into the shared dev BigQuery dataset with:
 
     uv run python _shared/scripts/load_agent_data.py --domain <domain> --name <logical_agent> --project <dev_project_id> --dataset retail_ent_agents
