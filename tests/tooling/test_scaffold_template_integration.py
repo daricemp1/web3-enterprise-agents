@@ -37,8 +37,8 @@ def test_scaffolded_agent_has_all_expected_files(scaffolded_agent):
         "tests/unit/test_bigquery_ca.py",
         "tests/integration/test_agent_end_to_end.py",
         "eval/agent.evalset.json",
-        "deployment/dev.yaml",
-        "deployment/prod.yaml",
+        "deployment/dev-example.yaml",
+        "deployment/prod-example.yaml",
         ".env.example",
         "data/README.md",
     ]

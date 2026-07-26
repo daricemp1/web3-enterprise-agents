@@ -16,3 +16,5 @@ GEMINI.md
 .superpowers/
 docs/
 .adk/
+**/deployment/dev.yaml
+**/deployment/prod.yaml

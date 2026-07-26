@@ -72,7 +72,10 @@ def test_market_context_yaml_disallows_agent_transfer():
 
 
 def test_deployment_manifests_are_valid_yaml():
-    for env_name, env_file in [("dev", "dev.yaml"), ("prod", "prod.yaml")]:
+    # Templates ship as dev-example.yaml/prod-example.yaml (copied to dev.yaml/prod.yaml by the
+    # developer, like .env.example -> .env) — those real files are gitignored since they hold
+    # live, deployment-specific identifiers, so only the -example versions exist in the template.
+    for env_name, env_file in [("dev", "dev-example.yaml"), ("prod", "prod-example.yaml")]:
         raw = yaml.safe_load((TEMPLATE_DIR / "deployment" / env_file).read_text())
         assert raw["environment"] == env_name
 
