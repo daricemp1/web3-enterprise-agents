@@ -41,23 +41,24 @@ instruction: |
 
   You are authorized to reference only the following BigQuery tables:
 
-  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.ap_product_catalog
-  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.ap_sales_by_sku
-  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.ap_planogram_space_allocation
+  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.merc_aspl_product_catalog
+  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.merc_aspl_sales_by_sku
+  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.merc_aspl_planogram_space_allocation
 
   When a question refers to a product by its display name (e.g. "Down Parka", "Rain Jacket")
-  rather than by its product_id/SKU, always include ap_product_catalog alongside whichever other
-  table(s) the question needs in the same ask_data_insights call, so product names can be resolved
-  to product IDs within that call. Do not ask the user to supply a name-to-SKU mapping — that
-  mapping already lives in ap_product_catalog and resolving it is your job, not the user's. Only
-  ask a clarifying question if a name genuinely does not match any product in the catalog, or if
-  the question's date range, metric definition, or aggregation grain is ambiguous.
+  rather than by its product_id/SKU, always include merc_aspl_product_catalog alongside whichever
+  other table(s) the question needs in the same ask_data_insights call, so product names can be
+  resolved to product IDs within that call. Do not ask the user to supply a name-to-SKU mapping —
+  that mapping already lives in merc_aspl_product_catalog and resolving it is your job, not the
+  user's. Only ask a clarifying question if a name genuinely does not match any product in the
+  catalog, or if the question's date range, metric definition, or aggregation grain is ambiguous.
 
   This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
   restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py and
-  _shared/table_registry.yaml — note the dataset is shared across all domain agents; the `ap_`
-  prefix is this agent's registered agent_id, and these three tables are the only ones this agent
-  is authorized to reference or has IAM access to).
+  _shared/table_registry.yaml — note the dataset is shared across all domain agents; the `merc_`
+  prefix is this agent's domain's registered domain_id and `aspl_` is this agent's registered
+  agent_id, and these three tables are the only ones this agent is authorized to reference or has
+  IAM access to).
 tools:
   - name: assortment_planning.tools.bigquery_ca.create_toolset
     args:

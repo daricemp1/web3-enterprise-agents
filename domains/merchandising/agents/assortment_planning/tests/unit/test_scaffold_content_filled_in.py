@@ -18,9 +18,9 @@ def test_data_insights_yaml_has_no_leftover_scaffold_todo():
 
 def test_data_insights_yaml_lists_the_three_authorized_tables():
     text = (AGENT_DIR / "sub_agents" / "data_insights.yaml").read_text()
-    assert "retail_ent_agents.ap_product_catalog" in text
-    assert "retail_ent_agents.ap_sales_by_sku" in text
-    assert "retail_ent_agents.ap_planogram_space_allocation" in text
+    assert "retail_ent_agents.merc_aspl_product_catalog" in text
+    assert "retail_ent_agents.merc_aspl_sales_by_sku" in text
+    assert "retail_ent_agents.merc_aspl_planogram_space_allocation" in text
 
 
 def test_all_three_agent_instructions_reference_current_date():

@@ -12,7 +12,8 @@ Usage:
     uv run python _shared/scripts/grant_table_access.py \
         --project REDACTED_GCP_PROJECT_ID --dataset retail_ent_agents \
         --service-account REPLACE_WITH_DEV_SERVICE_ACCOUNT_EMAIL \
-        --table ap_product_catalog --table ap_sales_by_sku --table ap_planogram_space_allocation
+        --table merc_aspl_product_catalog --table merc_aspl_sales_by_sku \
+        --table merc_aspl_planogram_space_allocation
 """
 from __future__ import annotations
 

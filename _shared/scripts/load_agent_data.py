@@ -2,11 +2,12 @@
 """Loads a logical agent's data/*.csv seed files into a dev BigQuery dataset.
 
 Creates the target dataset if it doesn't already exist. Each CSV is loaded into a table named
-`<agent_id>_<csv_file_stem>` (agent_id comes from this agent's entry in
-_shared/table_registry.yaml) with autodetected schema, replacing any existing table content —
-safe to rerun. The agent_id prefix prevents table-name collisions across agents sharing the
-dataset; the registry lookup also fails loudly if a CSV isn't listed under that agent's `tables:`,
-so the registry can't silently drift from what's actually loaded. See
+`<domain_id>_<agent_id>_<csv_file_stem>` (domain_id comes from the agent's domain entry, agent_id
+from the agent's own entry, both in _shared/table_registry.yaml) with autodetected schema,
+replacing any existing table content — safe to rerun. The domain_id+agent_id prefix prevents
+table-name collisions across agents sharing the dataset; the registry lookup also fails loudly if
+a CSV isn't listed under that agent's `tables:`, so the registry can't silently drift from what's
+actually loaded. See
 docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a (local-only
 doc, gitignored, not on a fresh clone).
 
@@ -38,8 +39,9 @@ def load_csvs_to_bigquery(
 ) -> list[str]:
   """Loads every data/*.csv file for one logical agent into `project.dataset`.
 
-  Table names are `<agent_id>_<csv_file_stem>`, where `agent_id` comes from this agent's entry
-  in the table registry. Returns the sorted list of prefixed table names loaded.
+  Table names are `<domain_id>_<agent_id>_<csv_file_stem>`, where `domain_id` comes from the
+  agent's domain entry and `agent_id` from the agent's own entry, both in the table registry.
+  Returns the sorted list of prefixed table names loaded.
   """
   data_dir = domains_root / domain / "agents" / name / "data"
   csv_files = sorted(data_dir.glob("*.csv"))
@@ -59,6 +61,13 @@ def load_csvs_to_bigquery(
     raise KeyError(
         f"Agent '{name}' has no agent_id under 'agents:' in {registry_path} — add a short, "
         "unique agent_id before loading its data."
+    )
+  domain_entry = (registry.get("domains") or {}).get(domain)
+  domain_id = domain_entry.get("domain_id") if domain_entry else None
+  if not domain_id:
+    raise KeyError(
+        f"Domain '{domain}' has no domain_id under 'domains:' in {registry_path} — add one "
+        "before loading data for agents in this domain."
     )
   registered_tables = set(agent_entry.get("tables", []))
 
@@ -82,7 +91,7 @@ def load_csvs_to_bigquery(
           f"'{logical_name}' is not listed under agents.{name}.tables in {registry_path} — "
           "add it there before loading."
       )
-    table_name = f"{agent_id}_{logical_name}"
+    table_name = f"{domain_id}_{agent_id}_{logical_name}"
     table_ref = dataset_ref.table(table_name)
     with open(csv_path, "rb") as source_file:
       load_job = client.load_table_from_file(source_file, table_ref, job_config=job_config)

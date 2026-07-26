@@ -6,11 +6,12 @@ realistic questions, not production-scale.
 
 **Before adding a table, register this agent (and this table) in `_shared/table_registry.yaml`.**
 All domain agents share one BigQuery dataset (`retail_ent_agents`). Collisions are prevented
-structurally: every agent gets a short, unique `agent_id` (2-4 lowercase letters, e.g. `ap`), and
-the loader physically names each table `<agent_id>_<this_csv's_file_stem>` — so it's fine for two
-agents to each use the same logical CSV name (e.g. both calling something `sales_by_sku`). List
-your agent's logical (unprefixed) table names under its entry in the registry; the loader refuses
-to load a table that isn't listed there.
+structurally: every domain gets a fixed 4-letter `domain_id` (under `domains:`, e.g. `merc`) and
+every agent gets a fixed 4-letter `agent_id` (under `agents:`, e.g. `aspl`), and the loader
+physically names each table `<domain_id>_<agent_id>_<this_csv's_file_stem>` (e.g.
+`merc_aspl_sales_by_sku`) — so it's fine for two agents to each use the same logical CSV name
+(e.g. both calling something `sales_by_sku`). List your agent's logical (unprefixed) table names
+under its entry in the registry; the loader refuses to load a table that isn't listed there.
 
 Load these into the shared dev BigQuery dataset with:
 

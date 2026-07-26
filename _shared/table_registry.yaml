@@ -4,28 +4,39 @@
 # docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a, updated
 # 2026-07-26 -- local-only doc, gitignored, not on a fresh clone) via
 # `_shared/scripts/load_agent_data.py`. Collisions are prevented structurally, not
-# just by convention: every agent gets a short, stable `agent_id` here, and the loader prefixes
-# every table it loads for that agent with `<agent_id>_`. This means agents can freely use the
-# same logical table name (e.g. two agents both calling something "sales_by_sku" in their own
+# just by convention: every domain gets a fixed 4-letter `domain_id` here (under `domains:`) and
+# every agent gets a fixed 4-letter `agent_id` (under `agents:`), and the loader prefixes every
+# table it loads for that agent with `<domain_id>_<agent_id>_`. This means agents can freely use
+# the same logical table name (e.g. two agents both calling something "sales_by_sku" in their own
 # data/ folder) without colliding — they land as distinct physical tables (e.g.
-# `ap_sales_by_sku` vs `vs_sales_by_sku`).
+# `merc_aspl_sales_by_sku` vs `<other_domain>_<other_agent>_sales_by_sku`).
+#
+# Originally a single free-length (2-4 char) `agent_id` with no domain component (e.g.
+# `assortment_planning` -> `ap`); revised 2026-07-26 to this fixed domain_id+agent_id form for
+# readability/organization as more domains and agents are added to the shared dataset.
 #
 # `tables:` below lists each agent's LOGICAL table names (== its data/*.csv file stems, unprefixed).
-# The actual BigQuery table name is always `<agent_id>_<logical_name>` — that's what belongs in a
-# data_insights.yaml's authorized-table list, not the bare logical name.
+# The actual BigQuery table name is always `<domain_id>_<agent_id>_<logical_name>` — that's what
+# belongs in a data_insights.yaml's authorized-table list, not the bare logical name.
 #
 # Update this file in the same change that scaffolds a new agent's data/ folder, or adds/renames/
-# drops one of its tables. `agent_id` must stay short (2-4 lowercase letters) and, once assigned,
-# must never change — table names loaded under the old id would silently orphan.
+# drops one of its tables. Both `domain_id` and `agent_id` must be exactly 4 lowercase letters
+# and, once assigned, must never change — table names loaded under the old id would silently
+# orphan. `agent_id` is also still required to be unique across the *entire* registry, not just
+# within its own domain — a stronger, cheap-to-keep invariant on top of the domain_id prefix.
 
 dataset: retail_ent_agents
 project: REDACTED_GCP_PROJECT_ID
 
+domains:
+  merchandising:
+    domain_id: merc
+
 agents:
   assortment_planning:
     domain: merchandising
-    agent_id: ap
+    agent_id: aspl
     tables:
-      - product_catalog        # -> ap_product_catalog
-      - sales_by_sku            # -> ap_sales_by_sku
-      - planogram_space_allocation  # -> ap_planogram_space_allocation
+      - product_catalog             # -> merc_aspl_product_catalog
+      - sales_by_sku                 # -> merc_aspl_sales_by_sku
+      - planogram_space_allocation   # -> merc_aspl_planogram_space_allocation

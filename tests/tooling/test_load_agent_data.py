@@ -29,10 +29,13 @@ def fake_registry_path(tmp_path):
     registry_file.write_text(
         "dataset: fake_dataset\n"
         "project: fake-project\n"
+        "domains:\n"
+        "  test_domain:\n"
+        "    domain_id: tsts\n"
         "agents:\n"
         "  widget_analytics:\n"
         "    domain: test_domain\n"
-        "    agent_id: wa\n"
+        "    agent_id: wdgt\n"
         "    tables:\n"
         "      - product_catalog\n"
         "      - sales_by_sku\n"
@@ -106,10 +109,13 @@ def test_load_csvs_to_bigquery_raises_if_table_not_registered(fake_agent_data_di
     partial_registry.write_text(
         "dataset: fake_dataset\n"
         "project: fake-project\n"
+        "domains:\n"
+        "  test_domain:\n"
+        "    domain_id: tsts\n"
         "agents:\n"
         "  widget_analytics:\n"
         "    domain: test_domain\n"
-        "    agent_id: wa\n"
+        "    agent_id: wdgt\n"
         "    tables:\n"
         "      - product_catalog\n"  # missing sales_by_sku on purpose
     )
@@ -147,7 +153,7 @@ def test_load_csvs_to_bigquery_creates_dataset_if_missing(fake_agent_data_dir, f
     assert kwargs["exists_ok"] is True
 
 
-def test_load_csvs_to_bigquery_prefixes_table_names_with_agent_id(
+def test_load_csvs_to_bigquery_prefixes_table_names_with_domain_and_agent_id(
     fake_agent_data_dir, fake_registry_path
 ):
     mock_client = MagicMock()
@@ -163,10 +169,10 @@ def test_load_csvs_to_bigquery_prefixes_table_names_with_agent_id(
         registry_path=fake_registry_path,
     )
 
-    assert loaded_tables == ["wa_product_catalog", "wa_sales_by_sku"]
+    assert loaded_tables == ["tsts_wdgt_product_catalog", "tsts_wdgt_sales_by_sku"]
     assert mock_client.load_table_from_file.call_count == 2
 
-    expected_table_ids = {"wa_product_catalog", "wa_sales_by_sku"}
+    expected_table_ids = {"tsts_wdgt_product_catalog", "tsts_wdgt_sales_by_sku"}
     seen_table_ids = set()
     for call_args in mock_client.load_table_from_file.call_args_list:
         args, kwargs = call_args
@@ -180,3 +186,33 @@ def test_load_csvs_to_bigquery_prefixes_table_names_with_agent_id(
         assert job_config.skip_leading_rows == 1
 
     assert seen_table_ids == expected_table_ids
+
+
+def test_load_csvs_to_bigquery_raises_a_clear_error_if_domain_id_missing(
+    fake_agent_data_dir, tmp_path
+):
+    no_domain_id_registry = tmp_path / "no_domain_id_registry.yaml"
+    no_domain_id_registry.write_text(
+        "dataset: fake_dataset\n"
+        "project: fake-project\n"
+        "domains:\n"
+        "  test_domain: {}\n"
+        "agents:\n"
+        "  widget_analytics:\n"
+        "    domain: test_domain\n"
+        "    agent_id: wdgt\n"
+        "    tables:\n"
+        "      - product_catalog\n"
+        "      - sales_by_sku\n"
+    )
+
+    with pytest.raises(KeyError, match="domain_id"):
+        load_csvs_to_bigquery(
+            domain="test_domain",
+            name="widget_analytics",
+            project="fake-project",
+            dataset="fake_dataset",
+            domains_root=fake_agent_data_dir,
+            client=MagicMock(),
+            registry_path=no_domain_id_registry,
+        )
