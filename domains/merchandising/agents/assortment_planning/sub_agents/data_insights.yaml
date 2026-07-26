@@ -5,6 +5,7 @@ description: >-
   Analytics API and BigQuery's built-in forecasting, contribution, and anomaly-detection tools.
 before_agent_callbacks:
   - name: assortment_planning.tools.callbacks.set_current_date
+  - name: assortment_planning.tools.callbacks.set_bigquery_project
 instruction: |
   ## Persona
 
@@ -41,9 +42,9 @@ instruction: |
 
   You are authorized to reference only the following BigQuery tables:
 
-  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.merc_aspl_product_catalog
-  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.merc_aspl_sales_by_sku
-  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.merc_aspl_planogram_space_allocation
+  - {temp:bq_project_id}.retail_ent_agents.merc_aspl_product_catalog
+  - {temp:bq_project_id}.retail_ent_agents.merc_aspl_sales_by_sku
+  - {temp:bq_project_id}.retail_ent_agents.merc_aspl_planogram_space_allocation
 
   When a question refers to a product by its display name (e.g. "Down Parka", "Rain Jacket")
   rather than by its product_id/SKU, always include merc_aspl_product_catalog alongside whichever
@@ -58,7 +59,8 @@ instruction: |
   _shared/table_registry.yaml — note the dataset is shared across all domain agents; the `merc_`
   prefix is this agent's domain's registered domain_id and `aspl_` is this agent's registered
   agent_id, and these three tables are the only ones this agent is authorized to reference or has
-  IAM access to).
+  IAM access to). The project id is resolved at runtime from the BIGQUERY_PROJECT_ID environment
+  variable (see tools/callbacks.py::set_bigquery_project), not hardcoded here.
 tools:
   - name: assortment_planning.tools.bigquery_ca.create_toolset
     args:

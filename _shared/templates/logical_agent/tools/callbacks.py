@@ -1,9 +1,8 @@
-"""Callback that injects the current date into session state so agent
-instructions can resolve relative date references (e.g. "last two months",
-"this week") against the real invocation-time date instead of the LLM's
-training-data notion of "today."
+"""Callbacks that inject runtime values into session state so otherwise-static YAML
+`instruction:` strings (Agent Config only accepts a plain string, no dotted-path/callable) can
+reference them via ADK's `{state_key}` placeholder substitution.
 
-Registered on EVERY agent in this logical agent's tree (root and every
+`set_current_date` is registered on EVERY agent in this logical agent's tree (root and every
 sub-agent), not just the root. The original design registered it on the
 root agent only, reasoning that a single before_agent_callback there would
 run before any transfer_to_agent into a sub-agent, and all agents in one
@@ -19,16 +18,27 @@ robust fix is for every agent to set its own copy rather than relying on
 any other agent having run first. See
 docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md
 section 5b (local-only doc, gitignored, not on a fresh clone).
+
+`set_bigquery_project` is registered on `data_insights.yaml` only -- it's the only agent whose
+instruction references fully-qualified BigQuery table names. Reading BIGQUERY_PROJECT_ID directly
+here (rather than depending on another agent having set it first) avoids repeating the exact
+invocation-order bug above. Injecting the project id dynamically, instead of hardcoding it as a
+literal string in the instruction, treats it the same as other deployment-specific identifiers
+(service account email, Agent Engine resource name) that agents built from this template
+deliberately don't commit -- see this repo's CLAUDE.md's "IAM is the real access boundary, not
+tool config" note.
 """
 from __future__ import annotations
 
 import datetime
+import os
 from typing import Optional
 
 from google.adk.agents.callback_context import CallbackContext
 from google.genai import types
 
 CURRENT_DATE_STATE_KEY = "temp:current_date"
+BQ_PROJECT_STATE_KEY = "temp:bq_project_id"
 
 
 def set_current_date(callback_context: CallbackContext) -> Optional[types.Content]:
@@ -40,4 +50,20 @@ def set_current_date(callback_context: CallbackContext) -> Optional[types.Conten
   invocation (i.e. every user turn).
   """
   callback_context.state[CURRENT_DATE_STATE_KEY] = datetime.date.today().isoformat()
+  return None
+
+
+def set_bigquery_project(callback_context: CallbackContext) -> Optional[types.Content]:
+  """Writes the dev BigQuery project id into session state from BIGQUERY_PROJECT_ID.
+
+  Fails loudly if the env var is missing rather than silently substituting the literal string
+  "None" into the instruction's authorized-table references.
+  """
+  project_id = os.environ.get("BIGQUERY_PROJECT_ID")
+  if not project_id:
+    raise RuntimeError(
+        "BIGQUERY_PROJECT_ID is not set -- required to resolve the authorized BigQuery table "
+        "references in this agent's instructions."
+    )
+  callback_context.state[BQ_PROJECT_STATE_KEY] = project_id
   return None

@@ -1,10 +1,14 @@
-"""Unit tests for the before_agent_callback that injects today's date into
-session state.
+"""Unit tests for the before_agent_callbacks that inject runtime values (today's date, the dev
+BigQuery project id) into session state.
 """
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
+import pytest
+
+from tools.callbacks import BQ_PROJECT_STATE_KEY
 from tools.callbacks import CURRENT_DATE_STATE_KEY
+from tools.callbacks import set_bigquery_project
 from tools.callbacks import set_current_date
 
 
@@ -38,3 +42,27 @@ def test_set_current_date_does_not_short_circuit_the_agent_turn(mock_datetime):
     mock_context.state = {}
 
     assert set_current_date(mock_context) is None
+
+
+def test_set_bigquery_project_writes_env_var_to_temp_state(monkeypatch):
+    monkeypatch.setenv("BIGQUERY_PROJECT_ID", "some-dev-project")
+    mock_context = MagicMock()
+    mock_context.state = {}
+
+    result = set_bigquery_project(mock_context)
+
+    assert mock_context.state[BQ_PROJECT_STATE_KEY] == "some-dev-project"
+    assert result is None
+
+
+def test_set_bigquery_project_uses_the_temp_prefix_so_it_is_never_persisted():
+    assert BQ_PROJECT_STATE_KEY.startswith("temp:")
+
+
+def test_set_bigquery_project_raises_a_clear_error_if_env_var_missing(monkeypatch):
+    monkeypatch.delenv("BIGQUERY_PROJECT_ID", raising=False)
+    mock_context = MagicMock()
+    mock_context.state = {}
+
+    with pytest.raises(RuntimeError, match="BIGQUERY_PROJECT_ID"):
+        set_bigquery_project(mock_context)

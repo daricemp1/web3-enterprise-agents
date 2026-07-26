@@ -10,7 +10,7 @@ specific tables listed for it in `_shared/table_registry.yaml`.
 
 Usage:
     uv run python _shared/scripts/grant_table_access.py \
-        --project REDACTED_GCP_PROJECT_ID --dataset retail_ent_agents \
+        --project REPLACE_WITH_DEV_PROJECT_ID --dataset retail_ent_agents \
         --service-account REPLACE_WITH_DEV_SERVICE_ACCOUNT_EMAIL \
         --table merc_aspl_product_catalog --table merc_aspl_sales_by_sku \
         --table merc_aspl_planogram_space_allocation

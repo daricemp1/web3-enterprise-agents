@@ -26,7 +26,10 @@
 # within its own domain — a stronger, cheap-to-keep invariant on top of the domain_id prefix.
 
 dataset: retail_ent_agents
-project: REDACTED_GCP_PROJECT_ID
+# Deliberately no `project:` field here: no script reads it (load_agent_data.py and
+# grant_table_access.py both require an explicit --project flag at invocation time), and the
+# real dev GCP project id is an environment fingerprint that shouldn't be committed here just for
+# documentation's sake — see each agent's own (gitignored) deployment/dev.yaml for that.
 
 domains:
   merchandising:
