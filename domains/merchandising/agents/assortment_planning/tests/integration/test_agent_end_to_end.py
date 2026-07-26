@@ -56,3 +56,17 @@ async def test_root_agent_answers_a_basic_question():
         if part.text
     ]
     assert any(final_texts), "expected at least one text response from the agent"
+
+    # A response existing at all is the real proof the current-date callback worked: the shared
+    # grounding-rules instruction references the strict (non-optional) `{temp:current_date}`
+    # form, which raises KeyError during instruction rendering if the before_agent_callback never
+    # ran or never set the key -- that would have failed this whole test with an exception, not
+    # just an empty response. (Confirmed empirically: querying.get_session() after the run does
+    # *not* show `temp:current_date` in this google-adk version -- its newer node-based execution
+    # engine doesn't appear to commit a content-less before_agent_callback state delta to the
+    # durably-fetchable session, even though the value is correctly visible live, within the same
+    # turn, to every agent's own instruction rendering. That's an ADK persistence-plumbing detail,
+    # not a sign the feature is broken -- don't try to assert on get_session() state here.)
+    assert not any("{temp:current_date}" in text for text in final_texts), (
+        "found a literal, unsubstituted {temp:current_date} placeholder in the agent's response"
+    )
