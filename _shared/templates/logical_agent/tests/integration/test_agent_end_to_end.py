@@ -56,3 +56,11 @@ async def test_root_agent_answers_a_basic_question():
         if part.text
     ]
     assert any(final_texts), "expected at least one text response from the agent"
+
+    updated_session = await runner.session_service.get_session(
+        app_name="__LOGICAL_AGENT__", user_id="test_user", session_id=session.id
+    )
+    assert "temp:current_date" in updated_session.state, (
+        "root agent's before_agent_callback did not populate temp:current_date; "
+        "any relative-date question would have raised KeyError on instruction rendering"
+    )

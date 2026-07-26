@@ -33,6 +33,20 @@ def test_root_agent_yaml_sets_an_explicit_model():
     assert raw.get("model"), "root_agent.yaml must set an explicit model"
 
 
+def test_root_agent_yaml_registers_the_current_date_callback():
+    # Without this, every agent's "{temp:current_date}" instruction placeholder (from
+    # safety_and_grounding_rules.md) would raise KeyError on the very first LLM call in a turn --
+    # inject_session_state() only substitutes keys already present in session.state, and nothing
+    # else in ADK populates a date into state on its own (confirmed against a real google-adk
+    # install: neither `adk run`, the API server, nor Agent Engine auto-inject any date/time).
+    # This callback must live on the root agent specifically: it's a before_agent_callback, which
+    # fires once before the root's own first LLM call and therefore before any transfer into a
+    # sub-agent in the same turn -- see tools/callbacks.py.
+    raw = yaml.safe_load((TEMPLATE_DIR / "root_agent.yaml").read_text())
+    callback_names = [c["name"] for c in raw.get("before_agent_callbacks", [])]
+    assert "__LOGICAL_AGENT__.tools.callbacks.set_current_date" in callback_names
+
+
 def test_data_insights_yaml_references_bigquery_ca_tool():
     raw = yaml.safe_load(
         (TEMPLATE_DIR / "sub_agents" / "data_insights.yaml").read_text()

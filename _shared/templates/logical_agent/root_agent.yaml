@@ -4,6 +4,8 @@ model: gemini-2.5-flash
 description: >-
   Orchestrator for the __DISPLAY_NAME__ agent. Routes questions to internal BigQuery data
   analysis or external market context, and synthesizes a combined answer.
+before_agent_callbacks:
+  - name: __LOGICAL_AGENT__.tools.callbacks.set_current_date
 instruction: |
   __SHARED_INSTRUCTIONS__
 

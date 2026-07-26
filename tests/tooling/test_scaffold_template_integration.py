@@ -34,7 +34,9 @@ def test_scaffolded_agent_has_all_expected_files(scaffolded_agent):
         "sub_agents/market_context.yaml",
         "tools/__init__.py",
         "tools/bigquery_ca.py",
+        "tools/callbacks.py",
         "tests/unit/test_bigquery_ca.py",
+        "tests/unit/test_callbacks.py",
         "tests/integration/test_agent_end_to_end.py",
         "eval/agent.evalset.json",
         "deployment/dev-example.yaml",
@@ -63,6 +65,12 @@ def test_scaffolded_bigquery_ca_module_compiles(scaffolded_agent):
     import py_compile
 
     py_compile.compile(str(scaffolded_agent / "tools" / "bigquery_ca.py"), doraise=True)
+
+
+def test_scaffolded_callbacks_module_compiles(scaffolded_agent):
+    import py_compile
+
+    py_compile.compile(str(scaffolded_agent / "tools" / "callbacks.py"), doraise=True)
 
 
 def test_scaffolded_agent_no_leftover_tokens(scaffolded_agent):
