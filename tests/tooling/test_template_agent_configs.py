@@ -23,6 +23,16 @@ def test_root_agent_yaml_is_valid_yaml_with_expected_shape():
     }
 
 
+def test_root_agent_yaml_sets_an_explicit_model():
+    # Without this, ADK's LlmAgent falls back to its own built-in DEFAULT_MODEL, which is not
+    # guaranteed to be an available publisher model in every project/region (confirmed: Assortment
+    # Planning's integration test 404'd against that default in REDACTED_GCP_PROJECT_ID/us-central1
+    # until this was added). Sub-agents inherit this from the nearest ancestor that sets one, so
+    # only the root needs it.
+    raw = yaml.safe_load((TEMPLATE_DIR / "root_agent.yaml").read_text())
+    assert raw.get("model"), "root_agent.yaml must set an explicit model"
+
+
 def test_data_insights_yaml_references_bigquery_ca_tool():
     raw = yaml.safe_load(
         (TEMPLATE_DIR / "sub_agents" / "data_insights.yaml").read_text()

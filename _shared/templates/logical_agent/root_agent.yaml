@@ -1,5 +1,6 @@
 agent_class: LlmAgent
 name: __LOGICAL_AGENT___root
+model: gemini-2.5-flash
 description: >-
   Orchestrator for the __DISPLAY_NAME__ agent. Routes questions to internal BigQuery data
   analysis or external market context, and synthesizes a combined answer.
