@@ -93,3 +93,10 @@ agents:
       - vendors               # -> spch_vepe_vendors
       - purchase_orders        # -> spch_vepe_purchase_orders
       - vendor_scorecard        # -> spch_vepe_vendor_scorecard
+  inventory_planning:
+    domain: supply_chain
+    agent_id: inpl
+    tables:
+      - product_catalog     # -> spch_inpl_product_catalog
+      - inventory_position    # -> spch_inpl_inventory_position
+      - demand_history          # -> spch_inpl_demand_history
