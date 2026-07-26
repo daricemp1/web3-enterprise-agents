@@ -1,0 +1,29 @@
+# Registry of BigQuery tables in the shared `retail_ent_agents` dataset, mapped to the
+# domain/agent that owns each one.
+#
+# Every domain agent loads its data/*.csv seed files into this one shared dataset (see
+# docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a, updated
+# 2026-07-26) via `_shared/scripts/load_agent_data.py`. Table names must therefore stay unique
+# across all agents sharing the dataset — two agents both owning a table named e.g. `sales_by_sku`
+# would silently overwrite each other on load (the loader does WRITE_TRUNCATE per table name).
+#
+# Update this file in the same change that adds, renames, or removes a table in any agent's
+# data/ folder. Before adding a new data/*.csv file to any agent, check here first to avoid a
+# name collision with a table another agent already owns.
+
+dataset: retail_ent_agents
+project: REDACTED_GCP_PROJECT_ID
+
+tables:
+  product_catalog:
+    domain: merchandising
+    agent: assortment_planning
+    description: One row per SKU — category, department, brand, launch date, status, planned_assortment.
+  sales_by_sku:
+    domain: merchandising
+    agent: assortment_planning
+    description: Daily units sold and revenue per (store, SKU) — sales history and forecasting input.
+  planogram_space_allocation:
+    domain: merchandising
+    agent: assortment_planning
+    description: Shelf location, facings, and allocated space per (store, SKU).
