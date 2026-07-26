@@ -13,3 +13,5 @@ uv.lock.bak
 .claude/
 CLAUDE.md
 GEMINI.md
+.superpowers/
+docs/
