@@ -14,7 +14,7 @@ uv.lock.bak
 CLAUDE.md
 GEMINI.md
 .superpowers/
-docs/
+docs/**
 .adk/
 **/deployment/dev.yaml
 **/deployment/prod.yaml
