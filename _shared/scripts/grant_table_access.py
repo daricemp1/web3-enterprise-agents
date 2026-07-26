@@ -3,7 +3,8 @@
 
 All domain agents share one BigQuery dataset (see
 docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a, updated
-2026-07-26), so per-agent data scoping is enforced with table-level IAM bindings, not
+2026-07-26 — that file is local-only, gitignored, not on a fresh clone), so per-agent data
+scoping is enforced with table-level IAM bindings, not
 dataset-level ones — each agent's service account only gets `roles/bigquery.dataViewer` on the
 specific tables listed for it in `_shared/table_registry.yaml`.
 

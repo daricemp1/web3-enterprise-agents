@@ -18,4 +18,5 @@ Load these into the shared dev BigQuery dataset with:
 
 See docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a for
 the full rationale (shared dataset, table-level IAM scoping via
-`_shared/scripts/grant_table_access.py`).
+`_shared/scripts/grant_table_access.py`). That file is local-only, gitignored, not on a fresh
+clone.

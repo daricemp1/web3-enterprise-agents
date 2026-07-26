@@ -7,7 +7,8 @@ _shared/table_registry.yaml) with autodetected schema, replacing any existing ta
 safe to rerun. The agent_id prefix prevents table-name collisions across agents sharing the
 dataset; the registry lookup also fails loudly if a CSV isn't listed under that agent's `tables:`,
 so the registry can't silently drift from what's actually loaded. See
-docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a.
+docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a (local-only
+doc, gitignored, not on a fresh clone).
 
 Usage:
     uv run python _shared/scripts/load_agent_data.py \

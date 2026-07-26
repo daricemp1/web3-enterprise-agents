@@ -42,7 +42,8 @@ def test_every_agent_yaml_registers_the_current_date_callback():
     # sub-agent within the same turn) -- that assumption broke once deployed and queried live
     # through Gemini Enterprise: a sub-agent (data_insights) hit exactly this KeyError even though
     # the root agent's own turns succeeded. Every agent now sets its own copy; see
-    # docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 5b.
+    # docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 5b
+    # (local-only doc, gitignored, not on a fresh clone).
     for rel_path in [
         "root_agent.yaml",
         "sub_agents/data_insights.yaml",

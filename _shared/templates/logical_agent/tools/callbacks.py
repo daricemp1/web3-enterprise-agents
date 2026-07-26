@@ -18,7 +18,7 @@ this callback is idempotent and cheap (a single date.today() call), the
 robust fix is for every agent to set its own copy rather than relying on
 any other agent having run first. See
 docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md
-section 5b.
+section 5b (local-only doc, gitignored, not on a fresh clone).
 """
 from __future__ import annotations
 

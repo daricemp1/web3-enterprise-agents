@@ -15,4 +15,5 @@ Shared persona/safety/formatting instructions live in `_shared/instructions/*.md
 concatenated into every scaffolded agent's instruction text at scaffold time — not at runtime.
 Editing them only affects agents scaffolded *after* the edit; already-scaffolded agents must be
 regenerated to pick up changes (see
-docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 4 for why).
+docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 4 for why —
+that file is local-only, gitignored, not on a fresh clone).

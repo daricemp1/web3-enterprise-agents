@@ -3,7 +3,7 @@
 
 Run once; the output is committed as static CSVs, not regenerated at load time. See
 docs/superpowers/specs/2026-07-25-assortment-planning-agent-design.md sections 3-5 for the
-schema and data design this implements.
+schema and data design this implements (local-only doc, gitignored, not on a fresh clone).
 
 Usage:
     uv run python domains/merchandising/agents/assortment_planning/data/generate_seed_data.py

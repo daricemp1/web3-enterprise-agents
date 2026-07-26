@@ -2,7 +2,8 @@
 #
 # Every domain agent loads its data/*.csv seed files into this one shared dataset (see
 # docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a, updated
-# 2026-07-26) via `_shared/scripts/load_agent_data.py`. Collisions are prevented structurally, not
+# 2026-07-26 -- local-only doc, gitignored, not on a fresh clone) via
+# `_shared/scripts/load_agent_data.py`. Collisions are prevented structurally, not
 # just by convention: every agent gets a short, stable `agent_id` here, and the loader prefixes
 # every table it loads for that agent with `<agent_id>_`. This means agents can freely use the
 # same logical table name (e.g. two agents both calling something "sales_by_sku" in their own

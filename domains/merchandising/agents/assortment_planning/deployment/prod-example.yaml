@@ -2,7 +2,7 @@
 # since it holds live, deployment-specific identifiers (service account email, Agent Engine
 # resource name, staging bucket, Agentspace app id) — not secrets, but environment fingerprints
 # that shouldn't be committed. See docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md
-# section 7.
+# section 7 (local-only doc, gitignored, not on a fresh clone).
 environment: prod
 gcp_project_id: REPLACE_WITH_PROD_PROJECT_ID
 region: us-central1

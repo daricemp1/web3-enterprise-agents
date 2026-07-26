@@ -1,7 +1,8 @@
 """Factory for this logical agent's BigQuery Conversational Analytics tool.
 
 See docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md
-sections 5a and 6 for why this is a Python factory instead of a YAML tool
+(local-only doc, gitignored, not on a fresh clone) sections 5a and 6 for why this is a Python
+factory instead of a YAML tool
 config: BigQueryToolset takes a BigQueryCredentialsConfig object as a
 constructor argument, which plain YAML cannot express.
 """
