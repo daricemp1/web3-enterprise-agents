@@ -3,16 +3,22 @@ instructions can resolve relative date references (e.g. "last two months",
 "this week") against the real invocation-time date instead of the LLM's
 training-data notion of "today."
 
-See docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md
-for why this is a before_agent_callback on the root agent only, not a
-before_model_callback duplicated onto every agent: this logical agent's
-topology is strictly root -> sub-agents, sub-agents are never invoked as
-standalone top-level agents, and all agents in one turn share the same
-Session/session.state. A single write here, before root's own first LLM
-call (and therefore before any transfer_to_agent into a sub-agent), is
-sufficient for every sub-agent's instruction to see it later in the same
-turn. If this agent's topology ever allows a sub-agent to run standalone,
-this would need to move to a before_model_callback on every agent instead.
+Registered on EVERY agent in this logical agent's tree (root and every
+sub-agent), not just the root. The original design registered it on the
+root agent only, reasoning that a single before_agent_callback there would
+run before any transfer_to_agent into a sub-agent, and all agents in one
+turn share the same Session/session.state. That assumption broke once
+deployed and invoked live through Gemini Enterprise: a sub-agent
+(data_insights) failed with "context variable temp:current_date not found"
+even though the root agent's own turns succeeded -- Gemini Enterprise's
+invocation path can apparently reach a sub-agent without the root agent's
+before_agent_callback having run first (root cause not fully isolated;
+the fix that matters is not depending on invocation order at all). Since
+this callback is idempotent and cheap (a single date.today() call), the
+robust fix is for every agent to set its own copy rather than relying on
+any other agent having run first. See
+docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md
+section 5b.
 """
 from __future__ import annotations
 

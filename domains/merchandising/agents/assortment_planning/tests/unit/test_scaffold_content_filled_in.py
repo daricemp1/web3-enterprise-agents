@@ -37,6 +37,17 @@ def test_all_three_agent_instructions_reference_current_date():
         assert "{temp:current_date}" in path.read_text(), f"{path} missing current-date grounding"
 
 
-def test_root_agent_yaml_registers_the_current_date_callback():
-    text = (AGENT_DIR / "root_agent.yaml").read_text()
-    assert "assortment_planning.tools.callbacks.set_current_date" in text
+def test_every_agent_yaml_registers_the_current_date_callback():
+    # Originally registered on the root agent only (a single before_agent_callback there,
+    # firing before any transfer_to_agent, was assumed sufficient for every sub-agent within the
+    # same turn) -- that assumption broke once deployed and queried live through Gemini
+    # Enterprise: data_insights hit "context variable temp:current_date not found" even though
+    # root's own turns succeeded. Every agent now sets its own copy; see architecture spec §5b.
+    for path in [
+        AGENT_DIR / "root_agent.yaml",
+        AGENT_DIR / "sub_agents" / "data_insights.yaml",
+        AGENT_DIR / "sub_agents" / "market_context.yaml",
+    ]:
+        assert "assortment_planning.tools.callbacks.set_current_date" in path.read_text(), (
+            f"{path} is missing the current-date callback"
+        )

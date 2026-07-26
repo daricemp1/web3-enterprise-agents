@@ -3,6 +3,8 @@ name: assortment_planning_market_context
 description: >-
   Answers external/competitive market questions relevant to Assortment Planning using Google Search
   grounding.
+before_agent_callbacks:
+  - name: assortment_planning.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

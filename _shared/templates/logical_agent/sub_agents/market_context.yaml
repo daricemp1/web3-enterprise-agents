@@ -3,6 +3,8 @@ name: __LOGICAL_AGENT___market_context
 description: >-
   Answers external/competitive market questions relevant to __DISPLAY_NAME__ using Google Search
   grounding.
+before_agent_callbacks:
+  - name: __LOGICAL_AGENT__.tools.callbacks.set_current_date
 instruction: |
   __SHARED_INSTRUCTIONS__
 

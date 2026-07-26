@@ -3,6 +3,8 @@ name: assortment_planning_data_insights
 description: >-
   Answers Assortment Planning questions using internal BigQuery data via the Conversational
   Analytics API and BigQuery's built-in forecasting, contribution, and anomaly-detection tools.
+before_agent_callbacks:
+  - name: assortment_planning.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

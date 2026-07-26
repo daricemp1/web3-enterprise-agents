@@ -33,18 +33,26 @@ def test_root_agent_yaml_sets_an_explicit_model():
     assert raw.get("model"), "root_agent.yaml must set an explicit model"
 
 
-def test_root_agent_yaml_registers_the_current_date_callback():
-    # Without this, every agent's "{temp:current_date}" instruction placeholder (from
-    # safety_and_grounding_rules.md) would raise KeyError on the very first LLM call in a turn --
-    # inject_session_state() only substitutes keys already present in session.state, and nothing
-    # else in ADK populates a date into state on its own (confirmed against a real google-adk
-    # install: neither `adk run`, the API server, nor Agent Engine auto-inject any date/time).
-    # This callback must live on the root agent specifically: it's a before_agent_callback, which
-    # fires once before the root's own first LLM call and therefore before any transfer into a
-    # sub-agent in the same turn -- see tools/callbacks.py.
-    raw = yaml.safe_load((TEMPLATE_DIR / "root_agent.yaml").read_text())
-    callback_names = [c["name"] for c in raw.get("before_agent_callbacks", [])]
-    assert "__LOGICAL_AGENT__.tools.callbacks.set_current_date" in callback_names
+def test_every_agent_yaml_registers_the_current_date_callback():
+    # Without this, an agent's "{temp:current_date}" instruction placeholder (from
+    # safety_and_grounding_rules.md) raises KeyError on its first LLM call -- inject_session_state()
+    # only substitutes keys already present in session.state, and nothing else in ADK populates a
+    # date on its own. Originally registered on the root agent only (reasoning that a single
+    # before_agent_callback there, firing before any transfer_to_agent, would cover every
+    # sub-agent within the same turn) -- that assumption broke once deployed and queried live
+    # through Gemini Enterprise: a sub-agent (data_insights) hit exactly this KeyError even though
+    # the root agent's own turns succeeded. Every agent now sets its own copy; see
+    # docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 5b.
+    for rel_path in [
+        "root_agent.yaml",
+        "sub_agents/data_insights.yaml",
+        "sub_agents/market_context.yaml",
+    ]:
+        raw = yaml.safe_load((TEMPLATE_DIR / rel_path).read_text())
+        callback_names = [c["name"] for c in raw.get("before_agent_callbacks", [])]
+        assert "__LOGICAL_AGENT__.tools.callbacks.set_current_date" in callback_names, (
+            f"{rel_path} is missing the current-date callback"
+        )
 
 
 def test_data_insights_yaml_references_bigquery_ca_tool():

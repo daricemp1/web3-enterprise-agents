@@ -3,6 +3,8 @@ name: __LOGICAL_AGENT___data_insights
 description: >-
   Answers __DISPLAY_NAME__ questions using internal BigQuery data via the Conversational
   Analytics API and BigQuery's built-in forecasting, contribution, and anomaly-detection tools.
+before_agent_callbacks:
+  - name: __LOGICAL_AGENT__.tools.callbacks.set_current_date
 instruction: |
   __SHARED_INSTRUCTIONS__
 
