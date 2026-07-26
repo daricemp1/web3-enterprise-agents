@@ -80,6 +80,19 @@ def test_deployment_manifests_are_valid_yaml():
         assert raw["environment"] == env_name
 
 
+def test_requirements_txt_pins_bigquery_and_dataplex():
+    # tools/bigquery_ca.py imports google.adk.integrations.bigquery.BigQueryToolset, whose module
+    # chain hard-imports google.cloud.bigquery and google.cloud.dataplex_v1 -- neither ships with
+    # the base google-adk install. `adk deploy agent_engine` only reads a requirements.txt in the
+    # agent's own folder (it does not see this repo's pyproject.toml); without one, it
+    # auto-generates a minimal requirements.txt containing only google-adk[a2a], and the deployed
+    # container fails every request with `ImportError: cannot import name 'dataplex_v1'`
+    # (confirmed: Assortment Planning's Task 12 post-deployment smoke check hit exactly this).
+    text = (TEMPLATE_DIR / "requirements.txt").read_text()
+    assert "google-cloud-bigquery" in text
+    assert "google-cloud-dataplex" in text
+
+
 def test_eval_set_matches_adk_schema():
     from google.adk.evaluation.eval_set import EvalSet
 

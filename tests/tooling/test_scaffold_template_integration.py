@@ -41,6 +41,7 @@ def test_scaffolded_agent_has_all_expected_files(scaffolded_agent):
         "deployment/prod-example.yaml",
         ".env.example",
         "data/README.md",
+        "requirements.txt",
     ]
     for rel_path in expected:
         assert (scaffolded_agent / rel_path).is_file(), f"missing {rel_path}"
