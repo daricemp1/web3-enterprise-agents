@@ -1,29 +1,30 @@
-# Registry of BigQuery tables in the shared `retail_ent_agents` dataset, mapped to the
-# domain/agent that owns each one.
+# Registry of agents sharing the `retail_ent_agents` BigQuery dataset, and the tables each owns.
 #
 # Every domain agent loads its data/*.csv seed files into this one shared dataset (see
 # docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 6a, updated
-# 2026-07-26) via `_shared/scripts/load_agent_data.py`. Table names must therefore stay unique
-# across all agents sharing the dataset — two agents both owning a table named e.g. `sales_by_sku`
-# would silently overwrite each other on load (the loader does WRITE_TRUNCATE per table name).
+# 2026-07-26) via `_shared/scripts/load_agent_data.py`. Collisions are prevented structurally, not
+# just by convention: every agent gets a short, stable `agent_id` here, and the loader prefixes
+# every table it loads for that agent with `<agent_id>_`. This means agents can freely use the
+# same logical table name (e.g. two agents both calling something "sales_by_sku" in their own
+# data/ folder) without colliding — they land as distinct physical tables (e.g.
+# `ap_sales_by_sku` vs `vs_sales_by_sku`).
 #
-# Update this file in the same change that adds, renames, or removes a table in any agent's
-# data/ folder. Before adding a new data/*.csv file to any agent, check here first to avoid a
-# name collision with a table another agent already owns.
+# `tables:` below lists each agent's LOGICAL table names (== its data/*.csv file stems, unprefixed).
+# The actual BigQuery table name is always `<agent_id>_<logical_name>` — that's what belongs in a
+# data_insights.yaml's authorized-table list, not the bare logical name.
+#
+# Update this file in the same change that scaffolds a new agent's data/ folder, or adds/renames/
+# drops one of its tables. `agent_id` must stay short (2-4 lowercase letters) and, once assigned,
+# must never change — table names loaded under the old id would silently orphan.
 
 dataset: retail_ent_agents
 project: REDACTED_GCP_PROJECT_ID
 
-tables:
-  product_catalog:
+agents:
+  assortment_planning:
     domain: merchandising
-    agent: assortment_planning
-    description: One row per SKU — category, department, brand, launch date, status, planned_assortment.
-  sales_by_sku:
-    domain: merchandising
-    agent: assortment_planning
-    description: Daily units sold and revenue per (store, SKU) — sales history and forecasting input.
-  planogram_space_allocation:
-    domain: merchandising
-    agent: assortment_planning
-    description: Shelf location, facings, and allocated space per (store, SKU).
+    agent_id: ap
+    tables:
+      - product_catalog        # -> ap_product_catalog
+      - sales_by_sku            # -> ap_sales_by_sku
+      - planogram_space_allocation  # -> ap_planogram_space_allocation

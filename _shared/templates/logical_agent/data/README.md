@@ -4,9 +4,13 @@ Add one CSV file per BigQuery table this agent's `data_insights` sub-agent needs
 Each file must have a header row; sample rows should be representative enough to answer
 realistic questions, not production-scale.
 
-**Before adding a table, check `_shared/table_registry.yaml`** — all domain agents share one
-BigQuery dataset (`retail_ent_agents`), so table names must be unique across every agent. Add an
-entry to that file in the same change that adds a table here.
+**Before adding a table, register this agent (and this table) in `_shared/table_registry.yaml`.**
+All domain agents share one BigQuery dataset (`retail_ent_agents`). Collisions are prevented
+structurally: every agent gets a short, unique `agent_id` (2-4 lowercase letters, e.g. `ap`), and
+the loader physically names each table `<agent_id>_<this_csv's_file_stem>` — so it's fine for two
+agents to each use the same logical CSV name (e.g. both calling something `sales_by_sku`). List
+your agent's logical (unprefixed) table names under its entry in the registry; the loader refuses
+to load a table that isn't listed there.
 
 Load these into the shared dev BigQuery dataset with:
 
