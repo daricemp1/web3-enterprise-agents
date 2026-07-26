@@ -71,15 +71,29 @@ def test_data_insights_yaml_references_bigquery_ca_tool():
         (TEMPLATE_DIR / "sub_agents" / "data_insights.yaml").read_text()
     )
     tool_names = [t["name"] for t in raw["tools"]]
-    assert tool_names == ["__LOGICAL_AGENT__.tools.bigquery_ca.create_toolset"]
-    tool_filter = raw["tools"][0]["args"]["tool_filter"]
+    assert "__LOGICAL_AGENT__.tools.bigquery_ca.create_toolset" in tool_names
+    bigquery_tool = next(
+        t for t in raw["tools"] if t["name"] == "__LOGICAL_AGENT__.tools.bigquery_ca.create_toolset"
+    )
+    tool_filter = bigquery_tool["args"]["tool_filter"]
     assert tool_filter == [
         "ask_data_insights",
         "forecast",
         "analyze_contribution",
         "detect_anomalies",
     ]
-    assert raw["tools"][0]["args"]["write_mode"] == "blocked"
+    assert bigquery_tool["args"]["write_mode"] == "blocked"
+
+
+def test_data_insights_yaml_references_chart_generator_tool():
+    # ADK's built-in ask_data_insights can never produce a chart (hardcoded off in ADK itself,
+    # see docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md section 5d,
+    # local-only doc, gitignored) -- render_chart is a custom tool that works around this by
+    # querying BigQuery directly and rendering with matplotlib, confirmed rendering correctly in
+    # Gemini Enterprise via a real deployed-agent smoke test (Assortment Planning).
+    raw = yaml.safe_load((TEMPLATE_DIR / "sub_agents" / "data_insights.yaml").read_text())
+    tool_names = [t["name"] for t in raw["tools"]]
+    assert "__LOGICAL_AGENT__.tools.chart_generator.render_chart" in tool_names
 
 
 def test_market_context_yaml_uses_google_search_builtin():
@@ -124,6 +138,15 @@ def test_requirements_txt_pins_bigquery_and_dataplex():
     text = (TEMPLATE_DIR / "requirements.txt").read_text()
     assert "google-cloud-bigquery" in text
     assert "google-cloud-dataplex" in text
+
+
+def test_requirements_txt_pins_matplotlib():
+    # tools/chart_generator.py renders charts with matplotlib -- not part of the base
+    # google-adk install, so it must be listed here for `adk deploy agent_engine` to package it
+    # (see test_requirements_txt_pins_bigquery_and_dataplex above for why this file exists at
+    # all).
+    text = (TEMPLATE_DIR / "requirements.txt").read_text()
+    assert "matplotlib" in text
 
 
 def test_eval_set_matches_adk_schema():

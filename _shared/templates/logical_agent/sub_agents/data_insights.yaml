@@ -24,6 +24,14 @@ instruction: |
   # BIGQUERY_PROJECT_ID env var, so the real dev/prod project id never needs to be committed here.
   # This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
   # restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py).
+
+  ## Charts
+
+  If the user asks for a chart, graph, or visualization, call `render_chart` with a SELECT-only
+  BigQuery SQL query against your authorized tables (returning exactly two columns: a label
+  column, then a numeric value column) and a short chart title. After the tool call succeeds,
+  briefly describe in text what the chart shows — do not attempt to draw or describe the chart in
+  ASCII/markdown yourself.
 tools:
   - name: __LOGICAL_AGENT__.tools.bigquery_ca.create_toolset
     args:
@@ -37,3 +45,4 @@ tools:
       job_labels:
         domain: __DOMAIN__
         logical_agent: __LOGICAL_AGENT__
+  - name: __LOGICAL_AGENT__.tools.chart_generator.render_chart

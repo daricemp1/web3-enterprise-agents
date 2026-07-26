@@ -16,3 +16,7 @@
 # and `google-adk[a2a]==<version>` to this file automatically at deploy time.
 google-cloud-bigquery>=3.0.0
 google-cloud-dataplex>=1.0.0
+
+# tools/chart_generator.py renders charts with matplotlib (spike, 2026-07-26 -- see
+# docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md, local-only doc).
+matplotlib>=3.8.0

@@ -6,6 +6,7 @@ dependencies = [
     "google-adk>=2.5.0",
     "google-cloud-bigquery>=3.0.0",
     "google-cloud-dataplex>=1.0.0",
+    "matplotlib>=3.8.0",
     "pyyaml>=6.0",
 ]
 
@@ -13,6 +14,13 @@ dependencies = [
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.24.0",
+    # Not needed by any deployed agent -- only for local deploy/redeploy and post-deploy
+    # smoke-test scripts (vertexai.agent_engines.get/update/create_session/stream_query), run
+    # directly by a developer via `uv run python3 -c "..."`. Previously installed ad hoc with
+    # `uv pip install` and not tracked here, so a later `uv sync` (e.g. for an unrelated
+    # dependency change) silently removed it and broke every deploy/smoke-test command until
+    # reinstalled.
+    "google-cloud-aiplatform[agent_engines]>=1.150.0",
 ]
 
 [tool.pytest.ini_options]

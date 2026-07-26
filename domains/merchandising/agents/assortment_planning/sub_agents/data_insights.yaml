@@ -61,6 +61,14 @@ instruction: |
   agent_id, and these three tables are the only ones this agent is authorized to reference or has
   IAM access to). The project id is resolved at runtime from the BIGQUERY_PROJECT_ID environment
   variable (see tools/callbacks.py::set_bigquery_project), not hardcoded here.
+
+  ## Charts
+
+  If the user asks for a chart, graph, or visualization, call `render_chart` with a SELECT-only
+  BigQuery SQL query against your authorized tables (returning exactly two columns: a label
+  column, then a numeric value column) and a short chart title. After the tool call succeeds,
+  briefly describe in text what the chart shows — do not attempt to draw or describe the chart in
+  ASCII/markdown yourself.
 tools:
   - name: assortment_planning.tools.bigquery_ca.create_toolset
     args:
@@ -74,3 +82,4 @@ tools:
       job_labels:
         domain: merchandising
         logical_agent: assortment_planning
+  - name: assortment_planning.tools.chart_generator.render_chart
