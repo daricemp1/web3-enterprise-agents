@@ -67,6 +67,18 @@ def test_all_domain_ids_are_unique():
     )
 
 
+def test_every_domain_has_a_nonempty_display_name():
+    # Source of truth for the "<domain display_name>: <agent display name>" naming convention
+    # applied to Agent Engine/Gemini Enterprise display names at deploy time -- see this file's
+    # header comment.
+    registry = yaml.safe_load(REGISTRY_PATH.read_text())
+
+    for domain_name, entry in registry["domains"].items():
+        assert entry.get("display_name"), (
+            f"Domain '{domain_name}' is missing a display_name in {REGISTRY_PATH}"
+        )
+
+
 def test_every_agent_domain_field_resolves_to_a_registered_domain():
     registry = yaml.safe_load(REGISTRY_PATH.read_text())
     registered_domains = set(registry["domains"].keys())

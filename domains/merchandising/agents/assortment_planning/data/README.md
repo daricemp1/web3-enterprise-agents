@@ -13,6 +13,13 @@ physically names each table `<domain_id>_<agent_id>_<this_csv's_file_stem>` (e.g
 (e.g. both calling something `sales_by_sku`). List your agent's logical (unprefixed) table names
 under its entry in the registry; the loader refuses to load a table that isn't listed there.
 
+**It's fine — often the right call — to duplicate another agent's data content into your own
+table.** E.g. if your agent also needs a product catalog, don't try to read another agent's
+`product_catalog` table cross-agent (no agent's service account has IAM on another agent's
+tables); instead add your own `data/product_catalog.csv` with the same/similar rows, as your own
+independent, physically separate table. Each agent's data stays self-contained and decoupled from
+every other agent's data lifecycle and IAM scope, even when the real-world content overlaps.
+
 Load these into the shared dev BigQuery dataset with:
 
     uv run python _shared/scripts/load_agent_data.py --domain <domain> --name <logical_agent> --project <dev_project_id> --dataset retail_ent_agents

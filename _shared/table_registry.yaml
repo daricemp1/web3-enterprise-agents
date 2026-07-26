@@ -19,11 +19,26 @@
 # The actual BigQuery table name is always `<domain_id>_<agent_id>_<logical_name>` — that's what
 # belongs in a data_insights.yaml's authorized-table list, not the bare logical name.
 #
+# Each agent's data is self-contained, even when its real-world content overlaps with another
+# agent's (e.g. `pricing_promotions`'s `product_catalog` holds the same 6 products as
+# `assortment_planning`'s `product_catalog`) — this is deliberate duplication, not an oversight.
+# An agent's `tables:` entries are always its own independent physical tables, loaded from its own
+# `data/*.csv` files; never design an agent to read another agent's tables cross-agent (each
+# agent's service account only ever gets table-level IAM on its own tables).
+#
 # Update this file in the same change that scaffolds a new agent's data/ folder, or adds/renames/
 # drops one of its tables. Both `domain_id` and `agent_id` must be exactly 4 lowercase letters
 # and, once assigned, must never change — table names loaded under the old id would silently
 # orphan. `agent_id` is also still required to be unique across the *entire* registry, not just
 # within its own domain — a stronger, cheap-to-keep invariant on top of the domain_id prefix.
+#
+# A domain's `display_name` here is also the source of truth for the "<domain display_name>:
+# <agent display name>" naming convention applied to both the Agent Engine resource's
+# `display_name` and the Gemini Enterprise registration's `--display-name` at deploy time (e.g.
+# "Merchandising: Assortment Planning") -- added 2026-07-26 so agents are grouped/recognizable by
+# domain in the Agent Engine console and Gemini Enterprise UI as more agents/domains are added.
+# This isn't read by any script (deploys are manual, confirmed-before-execution, per this repo's
+# established convention) -- it's the documented value a human copies at deploy/redeploy time.
 
 dataset: retail_ent_agents
 # Deliberately no `project:` field here: no script reads it (load_agent_data.py and
@@ -34,6 +49,7 @@ dataset: retail_ent_agents
 domains:
   merchandising:
     domain_id: merc
+    display_name: Merchandising
 
 agents:
   assortment_planning:
@@ -43,3 +59,11 @@ agents:
       - product_catalog             # -> merc_aspl_product_catalog
       - sales_by_sku                 # -> merc_aspl_sales_by_sku
       - planogram_space_allocation   # -> merc_aspl_planogram_space_allocation
+  pricing_promotions:
+    domain: merchandising
+    agent_id: prpm
+    tables:
+      - product_catalog     # -> merc_prpm_product_catalog
+      - price_history         # -> merc_prpm_price_history
+      - promo_calendar         # -> merc_prpm_promo_calendar
+      - promo_sales_lift        # -> merc_prpm_promo_sales_lift
