@@ -61,3 +61,25 @@ def test_create_toolset_passes_through_job_labels_and_application_name(
         "domain": "merchandising",
         "logical_agent": "assortment_planning",
     }
+
+
+@patch("tools.bigquery_ca.google.auth.default")
+@patch("tools.bigquery_ca.BigQueryToolset")
+@patch("tools.bigquery_ca.BigQueryCredentialsConfig")
+def test_create_toolset_requests_cloud_platform_scope_not_bare_bigquery(
+    mock_credentials_config, mock_toolset, mock_auth_default
+):
+    # ask_data_insights calls the Conversational Analytics API
+    # (geminidataanalytics.googleapis.com's :chat endpoint), which requires the
+    # cloud-platform scope -- the narrower bigquery scope gets silently rejected with
+    # no audit trail (confirmed against a real deployed agent, Task 12). This only
+    # matters for service-account credentials (google.auth.default(scopes=...) is a
+    # no-op for user ADC), so it's invisible in `adk run`/tests/integration and only
+    # bites once a real service account is attached.
+    mock_auth_default.return_value = (MagicMock(), "fake-project")
+    mock_credentials_config.return_value = "fake-credentials-config"
+
+    create_toolset(_make_args())
+
+    _, kwargs = mock_auth_default.call_args
+    assert kwargs["scopes"] == ["https://www.googleapis.com/auth/cloud-platform"]

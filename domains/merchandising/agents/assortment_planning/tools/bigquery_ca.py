@@ -27,9 +27,22 @@ def _resolve_credentials_config() -> BigQueryCredentialsConfig:
   account attached to that deployment. Same code path either way — this is
   intentional, see the design spec's Global Constraints on credential
   resolution.
+
+  Scope must be `cloud-platform`, not the narrower `bigquery` scope: the
+  `ask_data_insights` tool calls the Conversational Analytics API
+  (`geminidataanalytics.googleapis.com`'s `:chat` endpoint), which requires
+  `https://www.googleapis.com/auth/cloud-platform` (confirmed against Google's
+  own API reference — discovered 2026-07-26 when the deployed agent failed
+  every `ask_data_insights` call with no BigQuery/GDA audit log trail at all,
+  meaning the request was rejected for insufficient token scope before it
+  ever reached either service's authorization layer). This was invisible in
+  local testing because `google.auth.default(scopes=...)` only re-scopes
+  service account credentials — the developer's own user ADC used in
+  `adk run`/`tests/integration` ignores this parameter entirely, so the bug
+  only surfaced once a real service account was actually attached (Task 12).
   """
   credentials, _ = google.auth.default(
-      scopes=["https://www.googleapis.com/auth/bigquery"]
+      scopes=["https://www.googleapis.com/auth/cloud-platform"]
   )
   return BigQueryCredentialsConfig(credentials=credentials)
 
