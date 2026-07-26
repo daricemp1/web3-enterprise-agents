@@ -56,6 +56,21 @@ def test_market_context_yaml_uses_google_search_builtin():
     assert raw["tools"] == [{"name": "google_search"}]
 
 
+def test_market_context_yaml_disallows_agent_transfer():
+    # Without this, ADK auto-injects a transfer_to_agent function-declaration tool into this
+    # sub-agent's own LLM call (it has a parent and a sibling sub-agent). Gemini rejects any
+    # request combining a built-in tool like google_search with a function-declaration tool
+    # ("Multiple tools are supported only when they are all search tools") — confirmed: Assortment
+    # Planning's market_context sub-agent hard-errored with a 400 on every real question until
+    # this was added. Every future agent's market_context sub-agent has the same shape (built-in
+    # search tool + parent + sibling), so this must be set here, not per-agent.
+    raw = yaml.safe_load(
+        (TEMPLATE_DIR / "sub_agents" / "market_context.yaml").read_text()
+    )
+    assert raw.get("disallow_transfer_to_parent") is True
+    assert raw.get("disallow_transfer_to_peers") is True
+
+
 def test_deployment_manifests_are_valid_yaml():
     for env_name, env_file in [("dev", "dev.yaml"), ("prod", "prod.yaml")]:
         raw = yaml.safe_load((TEMPLATE_DIR / "deployment" / env_file).read_text())

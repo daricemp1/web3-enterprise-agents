@@ -12,5 +12,7 @@ instruction: |
   relevant to __DISPLAY_NAME__, using web search. You cannot see internal BigQuery data — if a
   question needs internal sales, inventory, or pricing data, say that it's outside your scope
   rather than guessing.
+disallow_transfer_to_parent: true
+disallow_transfer_to_peers: true
 tools:
   - name: google_search
