@@ -36,10 +36,15 @@ instruction: |
 
   You are authorized to reference only the following BigQuery tables:
 
-  # TODO(scaffold): list this agent's authorized BigQuery table references here, e.g.:
-  #   - project.dataset.table_name
-  # This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
-  # restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py).
+  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.ap_product_catalog
+  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.ap_sales_by_sku
+  - REDACTED_GCP_PROJECT_ID.retail_ent_agents.ap_planogram_space_allocation
+
+  This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
+  restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py and
+  _shared/table_registry.yaml — note the dataset is shared across all domain agents; the `ap_`
+  prefix is this agent's registered agent_id, and these three tables are the only ones this agent
+  is authorized to reference or has IAM access to).
 tools:
   - name: assortment_planning.tools.bigquery_ca.create_toolset
     args:
