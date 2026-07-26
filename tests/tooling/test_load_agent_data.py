@@ -74,6 +74,33 @@ def test_load_csvs_to_bigquery_raises_if_agent_not_in_registry(fake_agent_data_d
         )
 
 
+def test_load_csvs_to_bigquery_raises_a_clear_error_if_agent_id_missing(
+    fake_agent_data_dir, tmp_path
+):
+    no_agent_id_registry = tmp_path / "no_agent_id_registry.yaml"
+    no_agent_id_registry.write_text(
+        "dataset: fake_dataset\n"
+        "project: fake-project\n"
+        "agents:\n"
+        "  widget_analytics:\n"
+        "    domain: test_domain\n"
+        "    tables:\n"
+        "      - product_catalog\n"
+        "      - sales_by_sku\n"
+    )
+
+    with pytest.raises(KeyError, match="agent_id"):
+        load_csvs_to_bigquery(
+            domain="test_domain",
+            name="widget_analytics",
+            project="fake-project",
+            dataset="fake_dataset",
+            domains_root=fake_agent_data_dir,
+            client=MagicMock(),
+            registry_path=no_agent_id_registry,
+        )
+
+
 def test_load_csvs_to_bigquery_raises_if_table_not_registered(fake_agent_data_dir, tmp_path):
     partial_registry = tmp_path / "partial_registry.yaml"
     partial_registry.write_text(

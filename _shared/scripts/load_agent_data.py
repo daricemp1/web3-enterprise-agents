@@ -53,7 +53,12 @@ def load_csvs_to_bigquery(
         f"Agent '{name}' has no entry under 'agents:' in {registry_path} — add one with an "
         "agent_id before loading its data."
     )
-  agent_id = agent_entry["agent_id"]
+  agent_id = agent_entry.get("agent_id")
+  if not agent_id:
+    raise KeyError(
+        f"Agent '{name}' has no agent_id under 'agents:' in {registry_path} — add a short, "
+        "unique agent_id before loading its data."
+    )
   registered_tables = set(agent_entry.get("tables", []))
 
   client = client or bigquery.Client(project=project)
