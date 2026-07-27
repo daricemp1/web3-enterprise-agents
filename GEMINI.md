@@ -20,7 +20,7 @@ assume it exists elsewhere, and don't rely on git to distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Five agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Six agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
@@ -44,6 +44,10 @@ registered with Gemini Enterprise:
   "Supply Chain: Logistics Operations") — third Supply Chain agent (added 2026-07-27). Tracks
   carrier performance (on-time delivery rates, delay frequency), transit lane performance,
   shipment tracking, and active logistics exceptions across the supply chain network.
+- **Labor Productivity** (`domains/store_operations/agents/labor_productivity/`, display name
+  "Store Operations: Labor Productivity") — the first agent in a new **Store Operations** domain
+  (added 2026-07-27). Tracks store staffing presence vs. hourly customer foot traffic alignment,
+  department overtime variance, and store labor budget metrics.
 
 ## Repo layout
 

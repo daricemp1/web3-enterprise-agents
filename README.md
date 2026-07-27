@@ -20,10 +20,11 @@ local-only design spec — see [Architecture](#architecture).
 | 3 | Supply Chain | `vendor_performance` | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
 | 4 | Supply Chain | `inventory_planning` | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
 | 5 | Supply Chain | `logistics_operations` | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
+| 6 | Store Operations | `labor_productivity` | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
 
-All five are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
-scaffolding infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
-adding a sixth agent, or a third domain, is a generator invocation, not new plumbing.
+All six are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
+scaffold infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
+adding a seventh agent, or a fourth domain, is a generator invocation, not new plumbing.
 
 ---
 

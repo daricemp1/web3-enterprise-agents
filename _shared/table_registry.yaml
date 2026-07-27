@@ -68,6 +68,9 @@ domains:
   supply_chain:
     domain_id: spch
     display_name: Supply Chain
+  store_operations:
+    domain_id: stop
+    display_name: Store Operations
 
 agents:
   assortment_planning:
@@ -108,4 +111,13 @@ agents:
       - carriers            # -> spch_logi_carriers
       - transit_lanes       # -> spch_logi_transit_lanes
       - shipments           # -> spch_logi_shipments
+  labor_productivity:
+    domain: store_operations
+    agent_id: lprd
+    tables:
+      - stores                # -> stop_lprd_stores
+      - hourly_foot_traffic   # -> stop_lprd_hourly_foot_traffic
+      - hourly_staff_shifts   # -> stop_lprd_hourly_staff_shifts
+      - store_labor_budgets   # -> stop_lprd_store_labor_budgets
+
 
