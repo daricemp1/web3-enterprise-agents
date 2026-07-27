@@ -156,5 +156,17 @@ def test_eval_set_matches_adk_schema():
     EvalSet.model_validate(raw)
 
 
-def test_no_template_meta_readme_inside_the_copied_tree():
-    assert not (TEMPLATE_DIR / "README.md").exists()
+def test_readme_is_a_real_per_agent_readme_not_template_meta_doc():
+    # A README.md now belongs inside the copied tree (added 2026-07-27) -- every scaffolded agent
+    # gets its own, unlike the earlier mistake of putting template-meta documentation ("this
+    # directory is a scaffold template, do not run adk run directly against it") in this exact
+    # location, which would have shipped into every real agent. That meta-doc still correctly
+    # lives one level up at _shared/templates/README.md, outside the copied tree. Guard against
+    # the old mistake reappearing here by checking this file is genuinely the per-agent kind (has
+    # scaffold tokens and TODO(scaffold) placeholders) rather than static "this is a template"
+    # text.
+    text = (TEMPLATE_DIR / "README.md").read_text()
+    assert "__DISPLAY_NAME__" in text
+    assert "TODO(scaffold)" in text
+    assert "do not run" not in text.lower()
+    assert "not a runnable agent" not in text.lower()

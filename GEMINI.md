@@ -62,6 +62,7 @@ Once agents are scaffolded, each logical agent under `domains/<domain>/agents/<n
 this shape (see the architecture spec §3/§5 for full rationale):
 
 ```
+README.md                   # agent-specific overview: what it answers, its data, example questions
 root_agent.yaml            # orchestrator LlmAgent — the deployed/registered unit
 sub_agents/
   data_insights.yaml        # BigQuery Conversational Analytics sub-agent
@@ -88,10 +89,21 @@ uv run python _shared/scripts/scaffold_logical_agent.py \
 
 After scaffolding a new agent, fill in the `# TODO(scaffold):` markers in `root_agent.yaml` and
 `sub_agents/data_insights.yaml` (routing guidance and authorized BigQuery tables), then add seed
-data under the new agent's `data/` folder.
+data under the new agent's `data/` folder. Also fill in the scaffolded `README.md`'s
+placeholders — routing summary, authorized-table list, and its tools/run-locally sections update
+mechanically from the same information, but **Example Questions must be copied verbatim from the
+agent's own `eval/agent.evalset.json` once that's written, never invented** — see the four
+existing agents' `README.md` files for the pattern.
 
 ## Key conventions and constraints
 
+- **Every logical agent ships its own `README.md`, templated into the scaffold** (added
+  2026-07-27) — covers what the agent answers and how it routes between its two sub-agents, its
+  authorized BigQuery tables, real example questions, its tools, and how to run it locally.
+  Retrofitted onto the four already-built agents before being added to
+  `_shared/templates/logical_agent/`, so every agent scaffolded from now on gets one
+  automatically (with `# TODO(scaffold):`-style placeholders, same pattern as `root_agent.yaml`)
+  instead of it being a manual step someone could forget.
 - **Use `uv` for everything** — `uv sync`, `uv run ...`. Never bare `pip`/`python`.
 - Python >=3.10 (required by `google-adk`).
 - **Scaffold-time composition, not runtime includes.** `_shared/instructions/*.md` are

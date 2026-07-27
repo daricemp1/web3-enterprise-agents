@@ -29,6 +29,7 @@ def test_scaffolded_agent_has_all_expected_files(scaffolded_agent):
     expected = [
         "__init__.py",
         "conftest.py",
+        "README.md",
         "root_agent.yaml",
         "sub_agents/data_insights.yaml",
         "sub_agents/market_context.yaml",
