@@ -7,7 +7,7 @@ in YAML rather than as hand-written orchestration code.
 
 This README covers what the repo is, why it's built the way it is, and how to work in it. The
 full architecture rationale (including the decisions this document only summarizes) lives in a
-local-only design spec — see [Further Reading](#further-reading).
+local-only design spec — see [Architecture](#architecture).
 
 ---
 
