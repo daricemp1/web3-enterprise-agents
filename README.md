@@ -9,6 +9,59 @@ This README covers what the repo is, why it's built the way it is, and how to wo
 full architecture rationale (including the decisions this document only summarizes) lives in a
 local-only design spec — see [Further Reading](#further-reading).
 
+## Getting started (new contributors)
+
+One-time machine setup, in the order it actually needs to happen:
+
+1. **Install prerequisites**, if you don't already have them:
+   - Git
+   - Python 3.10+
+   - [`uv`](https://docs.astral.sh/uv/getting-started/installation/) — the Python package/env
+     manager this repo standardizes on
+   - Node.js 18+ and `npm` (only needed for step 4, restoring this repo's agent skills)
+   - [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) (`gcloud`, which bundles `bq`)
+
+2. **Clone the repo and `cd` into it.**
+
+3. **Sync Python dependencies.** This also installs the `adk` CLI, since `google-adk` is a
+   declared project dependency — no separate ADK install step exists or is needed.
+
+   ```bash
+   uv sync
+   uv run adk --help   # verify: should print ADK's subcommands (run, web, eval, deploy, ...)
+   ```
+
+4. **Restore this repo's agent skills.** `.agents/skills/` is gitignored (machine-local), but
+   the exact skill set is pinned in the committed `skills-lock.json` and reproducible from it:
+
+   ```bash
+   npx skills experimental_install
+   ```
+
+5. **Install the `agents-cli` tool** — used for `agents-cli publish gemini-enterprise`
+   (registering a deployed agent with Gemini Enterprise) and the `.agents/skills/google-agents-cli-*`
+   skill set:
+
+   ```bash
+   uv tool install google-agents-cli
+   agents-cli --version   # verify
+   ```
+
+6. **Authenticate with Google Cloud** — two separate credentials for two separate purposes, both
+   needed:
+
+   ```bash
+   gcloud auth login                            # your own identity, for gcloud/bq CLI commands
+   gcloud auth application-default login        # Application Default Credentials -- what the
+                                                 # agents' own code (google.auth.default()),
+                                                 # `uv run adk run`, and tests/integration use
+   gcloud config set project <YOUR_DEV_PROJECT_ID>   # ask a maintainer for the dev project id
+   ```
+
+After these six steps, `uv run pytest tests/tooling -v` and `uv run adk run
+domains/<domain>/agents/<agent>` both work locally. See [Setup and
+commands](#setup-and-commands) below for the day-to-day command reference once you're set up.
+
 ## What's built
 
 | Domain | Agent | Gemini Enterprise display name | Focus |
@@ -159,3 +212,7 @@ its history, and the call was to keep this class of content local rather than ca
 git history, the same treatment given to `CLAUDE.md`/`GEMINI.md`'s *content* even though those
 files are themselves tracked. It won't exist on a fresh clone — ask whoever owns this repo's
 design docs for a copy if you need the full detail behind a decision summarized above.
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE).
