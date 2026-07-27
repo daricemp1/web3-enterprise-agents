@@ -71,6 +71,9 @@ domains:
   store_operations:
     domain_id: stop
     display_name: Store Operations
+  finance:
+    domain_id: finc
+    display_name: Finance
 
 agents:
   assortment_planning:
@@ -119,5 +122,14 @@ agents:
       - hourly_foot_traffic   # -> stop_lprd_hourly_foot_traffic
       - hourly_staff_shifts   # -> stop_lprd_hourly_staff_shifts
       - store_labor_budgets   # -> stop_lprd_store_labor_budgets
+  gross_margin_profitability:
+    domain: finance
+    agent_id: gmpr
+    tables:
+      - stores                    # -> finc_gmpr_stores
+      - product_cost_master       # -> finc_gmpr_product_cost_master
+      - sales_profitability       # -> finc_gmpr_sales_profitability
+      - category_margin_targets   # -> finc_gmpr_category_margin_targets
+
 
 

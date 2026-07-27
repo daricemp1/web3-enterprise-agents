@@ -20,7 +20,7 @@ assume it exists elsewhere, and don't rely on git to distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Six agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Seven agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
@@ -48,6 +48,10 @@ registered with Gemini Enterprise:
   "Store Operations: Labor Productivity") — the first agent in a new **Store Operations** domain
   (added 2026-07-27). Tracks store staffing presence vs. hourly customer foot traffic alignment,
   department overtime variance, and store labor budget metrics.
+- **Gross Margin & Profitability** (`domains/finance/agents/gross_margin_profitability/`, display name
+  "Finance: Gross Margin & Profitability") — the first agent in a new **Finance** domain
+  (added 2026-07-27). Tracks gross margin rates (%), dollar margins by SKU, category, and store,
+  COGS variance, markdown discount erosion, and category margin targets.
 
 ## Repo layout
 
