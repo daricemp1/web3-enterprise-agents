@@ -13,12 +13,12 @@ local-only design spec — see [Further Reading](#further-reading).
 
 ## What's Built
 
-| Domain | Agent | Gemini Enterprise display name | Focus |
-| :--- | :--- | :--- | :--- |
-| Merchandising | `assortment_planning` | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
-| Merchandising | `pricing_promotions` | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
-| Supply Chain | `vendor_performance` | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
-| Supply Chain | `inventory_planning` | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
+| No. | Domain | Agent | Gemini Enterprise Display Name | Focus |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Merchandising | `assortment_planning` | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
+| 2 | Merchandising | `pricing_promotions` | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
+| 3 | Supply Chain | `vendor_performance` | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
+| 4 | Supply Chain | `inventory_planning` | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
 
 All four are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
 scaffolding infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
