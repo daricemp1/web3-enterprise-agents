@@ -92,6 +92,19 @@ Every logical agent is generated from the same template (`_shared/templates/logi
 `_shared/scripts/scaffold_logical_agent.py`, so structure and conventions stay identical across
 agents even as the business content differs.
 
+### Models, Agents, Runtimes and Apps
+
+This repo distinguishes between the models and infrastructure used to *build* the agents and the
+models and infrastructure the agents actually *run* on — these are deliberately not the same:
+
+| Layer | Technology | Role |
+| :--- | :--- | :--- |
+| Design and implementation | Claude Sonnet 5, Gemini 3.5 | AI coding assistants used to design this architecture and implement the agents, scaffolding, and supporting tooling — development-time only, not part of the running system |
+| Agent inference | Gemini 2.5 Flash | The model each deployed agent calls at runtime to reason, route between sub-agents, and generate responses |
+| Agent framework | Google Agent Development Kit (ADK) | Materializes each logical agent's YAML configuration into a running multi-agent program |
+| Agent runtime | Vertex AI Agent Engine (GCP Agent Runtime) | Hosts each deployed agent as a managed, independently scalable service |
+| Business-facing UI | Gemini Enterprise | Where end users discover and converse with a registered agent |
+
 ## Why YAML, and what ADK gives you for free
 
 ADK's declarative **YAML Agent Config** is the core bet this repo makes: an agent — its model,
