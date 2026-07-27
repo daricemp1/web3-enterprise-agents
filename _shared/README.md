@@ -43,11 +43,58 @@ the user has reviewed all of them, then they're merged one at a time in the user
 order — never batch-merged. Delete the branch after merging. This only applies to a new agent's
 initial build; routine fixes to an already-merged agent go directly to `master` as before.
 
-## Deploying: display name convention
+## Deploying: IAM setup & display name convention
 
-When running `adk deploy agent_engine --display_name=...` or `agents-cli publish
-gemini-enterprise --display-name=...`, prefix the agent's display name with its domain's
-`display_name` from `_shared/table_registry.yaml` — e.g. `"Merchandising: Assortment Planning"`
-— so agents are grouped/recognizable by domain in the Agent Engine console and Gemini Enterprise
-UI. This isn't automated (deploys are manual, confirmed-before-execution); look up the domain's
-`display_name` in the registry each time.
+### IAM Requirements
+When creating a dedicated service account for a new agent (e.g., `<agent_name>-dev@<project_id>.iam.gserviceaccount.com`):
+1. **Table Access**: Run `_shared/scripts/grant_table_access.py` to grant table-level `roles/bigquery.dataViewer` permissions.
+2. **Dataset Reader Access**: Grant dataset-level `READER` (`roles/bigquery.dataViewer`) permission on `retail_ent_agents` to both the agent service account AND the Reasoning Engine Execution Service Agent (`service-<project_number>@gcp-sa-aiplatform-re.iam.gserviceaccount.com`).
+3. **Project IAM Roles**: Grant the following project-level IAM roles to both service accounts:
+   - `roles/geminidataanalytics.dataAgentStatelessUser` (or `roles/geminidataanalytics.dataAgentUser`)
+   - `roles/bigquery.jobUser`
+   - `roles/aiplatform.user`
+
+### Deployment & Registration Commands
+Prefix display names with the domain's `display_name` from `_shared/table_registry.yaml` (e.g., `"Supply Chain: Logistics Operations"`):
+
+```bash
+# 1. Deploy to Agent Engine
+uv run --frozen adk deploy agent_engine \
+    domains/<domain>/agents/<agent_name> \
+    --project <project_id> \
+    --region <region> \
+    --agent_engine_id <optional_existing_id> \
+    --display_name "<Domain Display Name>: <Agent Display Name>" \
+    --description "<Full Agent Description>"
+
+# 2. Register to Gemini Enterprise
+export PATH=$PATH:/usr/local/google/home/rajanvasagam/Dev/google-cloud-sdk/bin
+uv run --frozen agents-cli publish gemini-enterprise \
+    --registration-type adk \
+    --agent-runtime-id projects/<project_number>/locations/<region>/reasoningEngines/<agent_engine_id> \
+    --gemini-enterprise-app-id projects/<project_number>/locations/global/collections/default_collection/engines/<app_id> \
+    --display-name "<Domain Display Name>: <Agent Display Name>" \
+    --description "<Full Agent Description>" \
+    --tool-description "<Full Agent Description>"
+```
+
+### Post-Deploy Testing
+Test deployed Agent Engine instances using the Python SDK (`vertexai.agent_engines`):
+
+```python
+import vertexai
+from vertexai.agent_engines import get
+
+vertexai.init(project='<project_id>', location='<region>')
+agent = get('projects/<project_number>/locations/<region>/reasoningEngines/<agent_engine_id>')
+session = agent.create_session(user_id='test_user')
+session_id = session.get('id') if isinstance(session, dict) else session.session_id
+
+for response in agent.stream_query(
+    session_id=session_id,
+    message='<your_test_question>',
+    user_id='test_user'
+):
+    print(response)
+```
+

@@ -76,17 +76,33 @@ deployment/{dev,prod}-example.yaml  # committed placeholders
 deployment/{dev,prod}.yaml           # real values, gitignored like .env — copy from -example
 ```
 
-## Commands
+## Commands & One-Time Prerequisites
 
+### One-Time Prerequisites & Setup
+1. **Python & `uv`**: Python >=3.10. Run `uv sync`. Always execute commands with `uv run --frozen` (e.g. `uv run --frozen pytest tests/tooling -v`) to avoid corporate package index proxy re-resolution errors.
+2. **`google-agents-cli` >= 1.2.1**: Pinned tool version required for Gemini Enterprise registration (`--registration-type adk`). Upgrade via `uv tool upgrade google-agents-cli`.
+3. **`gcloud` PATH Export**: `agents-cli` calls `gcloud` under the hood. Export `gcloud` to `PATH` before publishing:
+   `export PATH=$PATH:/usr/local/google/home/rajanvasagam/Dev/google-cloud-sdk/bin`
+4. **One-Time GCP API Enablement**:
+   ```bash
+   gcloud services enable \
+       geminidataanalytics.googleapis.com \
+       aiplatform.googleapis.com \
+       discoveryengine.googleapis.com \
+       bigquery.googleapis.com \
+       --project <project_id>
+   ```
+
+### Basic Commands
 ```bash
 uv sync                                    # install/sync dependencies
-uv run pytest tests/tooling -v             # run the tooling test suite
+uv run --frozen pytest tests/tooling -v    # run the tooling test suite
 
 # Starting a new agent's initial build: create its branch first (see "Branching for new
 # agent builds" below), then scaffold:
 git checkout master && git pull
 git checkout -b <snake_case_name>
-uv run python _shared/scripts/scaffold_logical_agent.py \
+uv run --frozen python _shared/scripts/scaffold_logical_agent.py \
     --domain <domain> --name <snake_case_name> --display-name "<Human Readable Name>"
 ```
 
@@ -190,6 +206,18 @@ on `master`:
   Each logical agent's actual data scoping comes from its dedicated service account's BigQuery
   IAM, not from anything in YAML. The authorized-table list in a `data_insights.yaml` instruction
   is a UX/accuracy aid only.
+- **Service Account & Dataset IAM Requirements for Conversational Analytics (`ask_data_insights`):**
+  Per-agent table access is granted via `_shared/scripts/grant_table_access.py`. However, BigQuery
+  Conversational Analytics (`geminidataanalytics.googleapis.com`) requires additional permissions:
+  1. **Dataset READER access**: Every agent service account AND the Reasoning Engine Execution Service
+     Agent (`service-<project_number>@gcp-sa-aiplatform-re.iam.gserviceaccount.com`) must have dataset-level
+     `READER` (`roles/bigquery.dataViewer`) permission on `retail_ent_agents` to inspect table metadata.
+  2. **Project IAM Roles**: Every agent service account AND the Reasoning Engine Service Agent must have:
+     - `roles/geminidataanalytics.dataAgentStatelessUser` (or `roles/geminidataanalytics.dataAgentUser`)
+     - `roles/bigquery.jobUser`
+     - `roles/aiplatform.user`
+- **Use `uv run --frozen` uniformly**: Running bare `uv run` attempts dependency re-resolution against
+  the corporate package index proxy, which fails. Always use `uv run --frozen` for all `pytest`, `adk`, and python script execution.
 - **Credentials:** resolve via `google.auth.default()` uniformly in tool code (e.g.
   `tools/bigquery_ca.py`) — this is Application Default Credentials locally and the deployed Agent
   Engine service account in production. Don't branch this logic by environment name.
@@ -255,8 +283,7 @@ on `master`:
   this fixed domain_id+agent_id form for readability/organization as more domains and agents are
   added to the shared dataset. `agent_id` must still be unique across the *entire* registry, and
   `domain_id` unique across all domains (both enforced by `tests/tooling/test_table_registry.py`);
-  register a new agent/table there before adding its `data/*.csv` file. Per-agent IAM scoping is
-  table-level (`_shared/scripts/grant_table_access.py`), not dataset-level.
+  register a new agent/table there before adding its `data/*.csv` file.
 - **Dev-only scope for now (confirmed 2026-07-26).** Only the `dev` environment is being
   implemented. Don't build `prod` deployment, a prod BigQuery dataset, or prod-specific agent
   instructions until this is explicitly revisited — see architecture spec §10. Templates still
@@ -269,19 +296,17 @@ on `master`:
   it) — don't adopt the rest of the `agents-cli` toolchain, which would conflict with this repo's
   own scaffold/eval/deploy tooling. IAM/service-account creation and the deploy/publish commands
   themselves need explicit human confirmation before execution, never run autonomously.
-- **Agent Engine and Gemini Enterprise display names are prefixed with the agent's domain**
-  (added 2026-07-26): `"<domain display_name>: <agent display name>"`, e.g. `"Merchandising:
-  Assortment Planning"`, `"Merchandising: Pricing & Promotions"` — so agents are grouped/
-  recognizable by domain in the Agent Engine console and Gemini Enterprise UI as more
-  agents/domains are added. The domain's `display_name` is recorded in
-  `_shared/table_registry.yaml`'s `domains:` section (source of truth, enforced non-empty by
-  `tests/tooling/test_table_registry.py`) — not consumed automatically by any script, since
-  deploys are manual and confirmed-before-execution; a human copies it into the `--display_name`
-  (`adk deploy agent_engine`) / `--display-name` (`agents-cli publish gemini-enterprise`) flags at
-  deploy/redeploy time. Re-running `agents-cli publish gemini-enterprise` with a new
-  `--display-name` for an already-registered agent updates that registration in place
-  (idempotent) rather than creating a duplicate — used to rename both existing agents without a
-  redeploy.
+- **Agent Engine and Gemini Enterprise display names & descriptions** (added 2026-07-26, expanded 2026-07-27):
+  Prefix display names with domain: `"<domain display_name>: <agent display name>"`, e.g. `"Merchandising:
+  Assortment Planning"`, `"Supply Chain: Logistics Operations"`. Always pass `--display_name` and `--description`
+  to `adk deploy agent_engine`, and `--display-name`, `--description`, and `--tool-description` to
+  `agents-cli publish gemini-enterprise`. Export `gcloud` to `PATH` prior to `agents-cli` calls
+  (`export PATH=$PATH:/usr/local/google/home/rajanvasagam/Dev/google-cloud-sdk/bin`). Re-running deployment
+  with `--agent_engine_id` / publishing with `--agent-runtime-id` updates existing resources in place.
+- **Post-Deploy Live Smoke Testing Signature (google-adk 2.5.0):**
+  When testing deployed Agent Engine instances via Python SDK `vertexai.agent_engines`:
+  `create_session(user_id='...')` requires a mandatory `user_id` and returns a dict (`session['id']`),
+  and `stream_query` requires `message='...'` (not `query='...'`) and `user_id='...'`.
 - **v1 merchandising agents: originally 4, not 5 (confirmed 2026-07-26).** The proposed 5th
   "Merchandise Financial Performance" agent is not being built — see architecture spec §9/§10.
   **Decision revised 2026-07-26 (again): "Vendor & Supplier Performance" moved out of

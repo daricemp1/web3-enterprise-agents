@@ -100,3 +100,12 @@ agents:
       - product_catalog     # -> spch_inpl_product_catalog
       - inventory_position    # -> spch_inpl_inventory_position
       - demand_history          # -> spch_inpl_demand_history
+  logistics_operations:
+    domain: supply_chain
+    agent_id: logi
+    tables:
+      - product_catalog     # -> spch_logi_product_catalog
+      - carriers            # -> spch_logi_carriers
+      - transit_lanes       # -> spch_logi_transit_lanes
+      - shipments           # -> spch_logi_shipments
+
