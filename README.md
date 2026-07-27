@@ -19,10 +19,11 @@ local-only design spec — see [Further Reading](#further-reading).
 | 2 | Merchandising | `pricing_promotions` | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
 | 3 | Supply Chain | `vendor_performance` | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
 | 4 | Supply Chain | `inventory_planning` | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
+| 5 | Supply Chain | `logistics_operations` | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
 
-All four are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
+All five are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
 scaffolding infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
-adding a fifth agent, or a third domain, is a generator invocation, not new plumbing.
+adding a sixth agent, or a third domain, is a generator invocation, not new plumbing.
 
 ---
 
@@ -105,8 +106,7 @@ is scoped, and how many agents share one BigQuery dataset without colliding.
 **What this approach buys you:**
 
 - A new agent is a generator invocation plus filling in a handful of `# TODO(scaffold):`
-  markers, not a bespoke build — the fourth agent (Inventory Planning) took a fraction of the
-  first's effort.
+  markers, not a bespoke build — subsequent agents take a fraction of the first's effort.
 - Business logic (instructions, routing, authorized tables) is readable YAML a non-engineer can
   review, separate from the Python that only exists where YAML genuinely can't reach (tool
   factories, callbacks).
