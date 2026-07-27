@@ -82,7 +82,10 @@ deployment/{dev,prod}.yaml           # real values, gitignored like .env — cop
 uv sync                                    # install/sync dependencies
 uv run pytest tests/tooling -v             # run the tooling test suite
 
-# Generate a new logical agent from the template:
+# Starting a new agent's initial build: create its branch first (see "Branching for new
+# agent builds" below), then scaffold:
+git checkout master && git pull
+git checkout -b <snake_case_name>
 uv run python _shared/scripts/scaffold_logical_agent.py \
     --domain <domain> --name <snake_case_name> --display-name "<Human Readable Name>"
 ```
@@ -94,6 +97,43 @@ placeholders — routing summary, authorized-table list, and its tools/run-local
 mechanically from the same information, but **Example Questions must be copied verbatim from the
 agent's own `eval/agent.evalset.json` once that's written, never invented** — see the four
 existing agents' `README.md` files for the pattern.
+
+## Branching for new agent builds
+
+(Added 2026-07-27.) Building a **new** agent from scratch starts on its own branch, not directly
+on `master`:
+
+1. Branch from an up-to-date `master`, named exactly after the agent's snake_case name (matches
+   its folder name and the scaffold's `--name` argument) — e.g. `git checkout -b
+   sell_through_inventory_health`.
+2. Do all build work (scaffold, fill in TODOs, seed data, tests, eval, README) as commits on that
+   branch — same granular commit style already used throughout this repo's history.
+3. Before merging, the branch must satisfy:
+   - The repo's existing test bar: `uv run pytest tests/tooling -v` passes, the new agent's
+     `tests/unit` passes, `eval/agent.evalset.json` has real cases (not the scaffold
+     placeholder), `README.md`'s TODOs are filled in with Example Questions copied verbatim from
+     the eval set, and the agent is registered in `_shared/table_registry.yaml`.
+   - A fingerprint/secret scan: no real GCP project ids, service account emails, resource names,
+     keys, or credentials anywhere in the branch's commit content *or* commit messages — same
+     scan discipline used before this repo's first GitHub push. Scan before any feature branch
+     commit, not after.
+4. Merge locally into `master`, then push: `git checkout master && git merge <branch>` followed
+   by `git push origin master`. No GitHub PR for this.
+5. **The merge into local `master` always requires explicit user review and approval first —
+   stated explicitly here so it is never skipped, even if the rest of the agent-build process is
+   run in a fully autonomous/auto mode.** This is a permanent manual checkpoint, the same way
+   IAM/service-account creation and deploy/publish commands are already permanent manual
+   checkpoints in this repo's conventions — automation may do everything up to this point, but
+   never the merge itself.
+6. Multiple new agents built in parallel (e.g. via a subagent/workflow pattern, one feature
+   branch per agent): do not merge *any* of the branches until the user has reviewed *all* of
+   them. Once reviewed, merge one at a time, in whichever order the user prefers — never merge
+   one branch while another is still pending review, and never batch-merge without a per-branch
+   review.
+7. Delete the branch (local, and remote if it was pushed) after merge.
+8. **Scope:** initial build of a *new* agent only. Routine fixes/doc edits to an already-merged
+   agent don't need a branch — direct commits to `master` remain fine, as done throughout this
+   repo's history so far.
 
 ## Key conventions and constraints
 
