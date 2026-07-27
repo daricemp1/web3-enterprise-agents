@@ -233,19 +233,142 @@ new agent in `_shared/table_registry.yaml`, and add its seed data under `data/`.
 
 ---
 
-## Further Reading
+## Further Reading & Installed Agent Skills
 
-The full architecture spec — YAML composition strategy, BigQuery Conversational Analytics
-integration details, deployment/telemetry design, and every decision's complete rationale — lives
-in `docs/superpowers/specs/`. That directory is intentionally **local-only** (gitignored, not in
-git history): an earlier version of it contained real GCP project/resource identifiers throughout
-its history, and the call was to keep this class of content local rather than carry it in shared
-git history, the same treatment given to `CLAUDE.md`/`GEMINI.md`'s *content* even though those
-files are themselves tracked. It won't exist on a fresh clone — ask whoever owns this repo's
-design docs for a copy if you need the full detail behind a decision summarized above.
+This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-lock.json) and reproducible via `npx skills experimental_install`:
+
+### Source: `derailed-dash/dazbo-agent-skills` (6 skills)
+
+| Skill Name | Path |
+| :--- | :--- |
+| `convert-to-devto` | `skills/convert-to-devto/SKILL.md` |
+| `create-md-from-browsermcp-snapshot` | `skills/create-md-from-browsermcp-snapshot/SKILL.md` |
+| `deploy-skills-in-antigravity` | `skills/deploy-skills-in-antigravity/SKILL.md` |
+| `install-gemini-code-review-action` | `skills/install-gemini-code-review-action/SKILL.md` |
+| `maintaining-core-documentation` | `skills/maintaining-core-documentation/SKILL.md` |
+| `secrets-with-git-crypt` | `skills/secrets-with-git-crypt/SKILL.md` |
+
+### Source: `google/skills` (90 skills)
+
+| Skill Name | Path |
+| :--- | :--- |
+| `agent-platform-alert-configuration` | `skills/cloud/agent-platform-alert-configuration/SKILL.md` |
+| `agent-platform-deploy` | `skills/cloud/agent-platform-deploy/SKILL.md` |
+| `agent-platform-endpoint-management` | `skills/cloud/agent-platform-endpoint-management/SKILL.md` |
+| `agent-platform-eval-flywheel` | `skills/cloud/agent-platform-eval-flywheel/SKILL.md` |
+| `agent-platform-inference` | `skills/cloud/agent-platform-inference/SKILL.md` |
+| `agent-platform-migrate-from-ai-studio` | `skills/cloud/agent-platform-migrate-from-ai-studio/SKILL.md` |
+| `agent-platform-model-registry` | `skills/cloud/agent-platform-model-registry/SKILL.md` |
+| `agent-platform-prompt-management` | `skills/cloud/agent-platform-prompt-management/SKILL.md` |
+| `agent-platform-rag-engine-management` | `skills/cloud/agent-platform-rag-engine-management/SKILL.md` |
+| `agent-platform-skill-registry` | `skills/cloud/agent-platform-skill-registry/SKILL.md` |
+| `agent-platform-tuning` | `skills/cloud/agent-platform-tuning/SKILL.md` |
+| `agent-platform-tuning-management` | `skills/cloud/agent-platform-tuning-management/SKILL.md` |
+| `alloydb-basics` | `skills/cloud/alloydb-basics/SKILL.md` |
+| `bigquery-ai-ml` | `skills/cloud/bigquery-ai-ml/SKILL.md` |
+| `bigquery-basics` | `skills/cloud/bigquery-basics/SKILL.md` |
+| `bigquery-bigframes` | `skills/cloud/bigquery-bigframes/SKILL.md` |
+| `bigtable-basics` | `skills/cloud/bigtable-basics/SKILL.md` |
+| `cloud-logging-query-generation` | `skills/cloud/cloud-logging-query-generation/SKILL.md` |
+| `cloud-monitoring-metric-selection` | `skills/cloud/cloud-monitoring-metric-selection/SKILL.md` |
+| `cloud-run-basics` | `skills/cloud/cloud-run-basics/SKILL.md` |
+| `cloud-sql-basics` | `skills/cloud/cloud-sql-basics/SKILL.md` |
+| `data-manager-api-audience-ingestion` | `skills/ads/data-manager-api-audience-ingestion/SKILL.md` |
+| `data-manager-api-event-ingestion` | `skills/ads/data-manager-api-event-ingestion/SKILL.md` |
+| `data-manager-api-setup` | `skills/ads/data-manager-api-setup/SKILL.md` |
+| `datalineage-bigquery-asset-impact-analysis` | `skills/cloud/datalineage-bigquery-asset-impact-analysis/SKILL.md` |
+| `datalineage-summary` | `skills/cloud/datalineage-summary/SKILL.md` |
+| `detection-engineering-coverage-evaluation` | `skills/cloud/detection-engineering-coverage-evaluation/SKILL.md` |
+| `firebase-basics` | `skills/cloud/firebase-basics/SKILL.md` |
+| `gcloud` | `skills/cloud/gcloud/SKILL.md` |
+| `gemini-agents-api` | `skills/cloud/gemini-agents-api/SKILL.md` |
+| `gemini-api` | `skills/cloud/gemini-api/SKILL.md` |
+| `gemini-interactions-api` | `skills/cloud/gemini-interactions-api/SKILL.md` |
+| `gemini-live-api` | `skills/cloud/gemini-live-api/SKILL.md` |
+| `gke-ai-troubleshooting-handle-disruption-gpu-tpu` | `skills/cloud/gke-ai-troubleshooting-handle-disruption-gpu-tpu/SKILL.md` |
+| `gke-app-onboarding` | `skills/cloud/gke-app-onboarding/SKILL.md` |
+| `gke-backup-dr` | `skills/cloud/gke-backup-dr/SKILL.md` |
+| `gke-basics` | `skills/cloud/gke-basics/SKILL.md` |
+| `gke-batch-hpc` | `skills/cloud/gke-batch-hpc/SKILL.md` |
+| `gke-cluster-autoscaler` | `skills/cloud/gke-cluster-autoscaler/SKILL.md` |
+| `gke-cluster-creation` | `skills/cloud/gke-cluster-creation/SKILL.md` |
+| `gke-compute-classes` | `skills/cloud/gke-compute-classes/SKILL.md` |
+| `gke-cost-analysis` | `skills/cloud/gke-cost-analysis/SKILL.md` |
+| `gke-cost-optimization` | `skills/cloud/gke-cost-optimization/SKILL.md` |
+| `gke-golden-path` | `skills/cloud/gke-golden-path/SKILL.md` |
+| `gke-inference` | `skills/cloud/gke-inference/SKILL.md` |
+| `gke-multitenancy` | `skills/cloud/gke-multitenancy/SKILL.md` |
+| `gke-networking` | `skills/cloud/gke-networking/SKILL.md` |
+| `gke-observability` | `skills/cloud/gke-observability/SKILL.md` |
+| `gke-platform-security` | `skills/cloud/gke-platform-security/SKILL.md` |
+| `gke-productionize` | `skills/cloud/gke-productionize/SKILL.md` |
+| `gke-reliability` | `skills/cloud/gke-reliability/SKILL.md` |
+| `gke-service-networking` | `skills/cloud/gke-service-networking/SKILL.md` |
+| `gke-storage` | `skills/cloud/gke-storage/SKILL.md` |
+| `gke-upgrades` | `skills/cloud/gke-upgrades/SKILL.md` |
+| `gke-workload-scaling` | `skills/cloud/gke-workload-scaling/SKILL.md` |
+| `gke-workload-security` | `skills/cloud/gke-workload-security/SKILL.md` |
+| `google-ads-api-account-diagnostics` | `skills/ads/google-ads-api-account-diagnostics/SKILL.md` |
+| `google-ads-api-mcp-setup` | `skills/ads/google-ads-api-mcp-setup/SKILL.md` |
+| `google-ads-api-quickstart` | `skills/ads/google-ads-api-quickstart/SKILL.md` |
+| `google-agents-cli-onboarding` | `skills/cloud/google-agents-cli-onboarding/SKILL.md` |
+| `google-analytics-admin-api-basics` | `skills/analytics/google-analytics-admin-api-basics/SKILL.md` |
+| `google-analytics-data-api-basics` | `skills/analytics/google-analytics-data-api-basics/SKILL.md` |
+| `google-cloud-global-frontend-configuration` | `skills/cloud/google-cloud-global-frontend-configuration/SKILL.md` |
+| `google-cloud-networking-observability` | `skills/cloud/google-cloud-networking-observability/SKILL.md` |
+| `google-cloud-recipe-auth` | `skills/cloud/google-cloud-recipe-auth/SKILL.md` |
+| `google-cloud-recipe-foundation-builder` | `skills/cloud/google-cloud-recipe-foundation-builder/SKILL.md` |
+| `google-cloud-recipe-onboarding` | `skills/cloud/google-cloud-recipe-onboarding/SKILL.md` |
+| `google-cloud-solution-agentic-ai-bidirectional-streaming` | `skills/cloud/google-cloud-solution-agentic-ai-bidirectional-streaming/SKILL.md` |
+| `google-cloud-solution-agentic-ai-borderless-data-lakehouse` | `skills/cloud/google-cloud-solution-agentic-ai-borderless-data-lakehouse/SKILL.md` |
+| `google-cloud-solution-agentic-ai-data-science-workflow` | `skills/cloud/google-cloud-solution-agentic-ai-data-science-workflow/SKILL.md` |
+| `google-cloud-solution-agentic-analytics-spark-knowledge-catalog` | `skills/cloud/google-cloud-solution-agentic-analytics-spark-knowledge-catalog/SKILL.md` |
+| `google-cloud-solution-architecture` | `skills/cloud/google-cloud-solution-architecture/SKILL.md` |
+| `google-cloud-solution-build-deploy-agents` | `skills/cloud/google-cloud-solution-build-deploy-agents/SKILL.md` |
+| `google-cloud-solution-guided-gke-ai-migration` | `skills/cloud/google-cloud-solution-guided-gke-ai-migration/SKILL.md` |
+| `google-cloud-solution-n-tier-serverless-web-app` | `skills/cloud/google-cloud-solution-n-tier-serverless-web-app/SKILL.md` |
+| `google-cloud-solution-rag-enterprise-search-gke-sqldb` | `skills/cloud/google-cloud-solution-rag-enterprise-search-gke-sqldb/SKILL.md` |
+| `google-cloud-storage-basics` | `skills/cloud/google-cloud-storage-basics/SKILL.md` |
+| `google-cloud-waf-cost-optimization` | `skills/cloud/google-cloud-waf-cost-optimization/SKILL.md` |
+| `google-cloud-waf-operational-excellence` | `skills/cloud/google-cloud-waf-operational-excellence/SKILL.md` |
+| `google-cloud-waf-performance-optimization` | `skills/cloud/google-cloud-waf-performance-optimization/SKILL.md` |
+| `google-cloud-waf-reliability` | `skills/cloud/google-cloud-waf-reliability/SKILL.md` |
+| `google-cloud-waf-security` | `skills/cloud/google-cloud-waf-security/SKILL.md` |
+| `google-cloud-waf-sustainability` | `skills/cloud/google-cloud-waf-sustainability/SKILL.md` |
+| `google-mobile-ads-android-migrate-to-next-gen` | `skills/ads/google-mobile-ads-android-migrate-to-next-gen/SKILL.md` |
+| `google-mobile-ads-banner` | `skills/ads/google-mobile-ads-banner/SKILL.md` |
+| `google-mobile-ads-get-started` | `skills/ads/google-mobile-ads-get-started/SKILL.md` |
+| `google-mobile-ads-interstitial` | `skills/ads/google-mobile-ads-interstitial/SKILL.md` |
+| `google-mobile-ads-rewarded` | `skills/ads/google-mobile-ads-rewarded/SKILL.md` |
+| `ima-sdk-basics` | `skills/ads/ima-sdk-basics/SKILL.md` |
+| `workload-manager-basics` | `skills/cloud/workload-manager-basics/SKILL.md` |
+
+### Source: `obra/superpowers` (14 skills)
+
+| Skill Name | Path |
+| :--- | :--- |
+| `brainstorming` | `skills/brainstorming/SKILL.md` |
+| `dispatching-parallel-agents` | `skills/dispatching-parallel-agents/SKILL.md` |
+| `executing-plans` | `skills/executing-plans/SKILL.md` |
+| `finishing-a-development-branch` | `skills/finishing-a-development-branch/SKILL.md` |
+| `receiving-code-review` | `skills/receiving-code-review/SKILL.md` |
+| `requesting-code-review` | `skills/requesting-code-review/SKILL.md` |
+| `subagent-driven-development` | `skills/subagent-driven-development/SKILL.md` |
+| `systematic-debugging` | `skills/systematic-debugging/SKILL.md` |
+| `test-driven-development` | `skills/test-driven-development/SKILL.md` |
+| `using-git-worktrees` | `skills/using-git-worktrees/SKILL.md` |
+| `using-superpowers` | `skills/using-superpowers/SKILL.md` |
+| `verification-before-completion` | `skills/verification-before-completion/SKILL.md` |
+| `writing-plans` | `skills/writing-plans/SKILL.md` |
+| `writing-skills` | `skills/writing-skills/SKILL.md` |
+
+### Source: `vercel-labs/skills` (1 skills)
+
+| Skill Name | Path |
+| :--- | :--- |
+| `find-skills` | `skills/find-skills/SKILL.md` |
 
 ---
-
 ## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE).
