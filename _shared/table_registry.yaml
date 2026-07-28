@@ -94,6 +94,14 @@ agents:
       - price_history         # -> merc_prpm_price_history
       - promo_calendar         # -> merc_prpm_promo_calendar
       - promo_sales_lift        # -> merc_prpm_promo_sales_lift
+  sell_through_inventory_health:
+    domain: merchandising
+    agent_id: stih
+    tables:
+      - product_catalog             # -> merc_stih_product_catalog
+      - store_inventory             # -> merc_stih_store_inventory
+      - sell_through_weekly         # -> merc_stih_sell_through_weekly
+      - aging_inventory_summary     # -> merc_stih_aging_inventory_summary
   vendor_performance:
     domain: supply_chain
     agent_id: vepe
@@ -125,6 +133,14 @@ agents:
       - hourly_foot_traffic   # -> stop_lprd_hourly_foot_traffic
       - hourly_staff_shifts   # -> stop_lprd_hourly_staff_shifts
       - store_labor_budgets   # -> stop_lprd_store_labor_budgets
+  store_fulfillment_execution:
+    domain: store_operations
+    agent_id: sfex
+    tables:
+      - stores                    # -> stop_sfex_stores
+      - bopis_orders              # -> stop_sfex_bopis_orders
+      - fulfillment_slas          # -> stop_sfex_fulfillment_slas
+      - pick_accuracy_summary     # -> stop_sfex_pick_accuracy_summary
   gross_margin_profitability:
     domain: finance
     agent_id: gmpr
@@ -149,6 +165,7 @@ agents:
       - rfm_segments              # -> mktg_cloy_rfm_segments
       - loyalty_tiers             # -> mktg_cloy_loyalty_tiers
       - clv_history               # -> mktg_cloy_clv_history
+
 
 
 
