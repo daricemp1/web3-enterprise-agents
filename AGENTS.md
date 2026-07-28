@@ -22,45 +22,40 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Nine agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Eleven agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
 - **Pricing & Promotions** (`domains/merchandising/agents/pricing_promotions/`, display name
   "Merchandising: Pricing & Promotions")
+- **Sell-Through & Inventory Health** (`domains/merchandising/agents/sell_through_inventory_health/`, display name
+  "Merchandising: Sell-Through & Inventory Health") — third Merchandising agent (added 2026-07-28). Tracks
+  store-level sell-through rates, stock turn, aging inventory breakdown (0-30, 31-60, 61-90, 90+ days),
+  weeks of supply, and sell-through % markdown triggers.
 - **Vendor Performance** (`domains/supply_chain/agents/vendor_performance/`, display name
-  "Supply Chain: Vendor Performance") — the first agent in a new **Supply Chain** domain (added
-  2026-07-26). This absorbs what was originally scoped as merchandising's unbuilt "Vendor &
-  Supplier Performance" agent, moved into its own domain as a narrower MVP (OTIF delivery +
-  vendor scorecards only; cost/margin and chargebacks deferred). Merchandising's remaining
-  roadmap item is now just **Sell-Through & Inventory Health**, not yet scaffolded.
+  "Supply Chain: Vendor Performance") — first Supply Chain agent (added 2026-07-26). Tracks OTIF delivery
+  rates and vendor scorecards.
 - **Inventory Planning** (`domains/supply_chain/agents/inventory_planning/`, display name
-  "Supply Chain: Inventory Planning") — second Supply Chain agent (added 2026-07-26). Tracks
-  network-wide inventory position across stores AND warehouses (the first agent to introduce a
-  warehouse location dimension), and uses ADK's built-in `forecast` tool (BigQuery `AI.FORECAST`)
-  live against a real historical demand time series to assess stockout/overstock risk — no
-  precomputed forecast table. Deliberately kept distinct from Sell-Through & Inventory Health
-  (that remains a separate, still-unbuilt merchandising agent focused on store-level sell-through
-  diagnostics, not network inventory position/forecasting).
+  "Supply Chain: Inventory Planning") — second Supply Chain agent (added 2026-07-26). Tracks network-wide
+  inventory position across stores and warehouses with live demand forecasting (`AI.FORECAST`).
 - **Logistics Operations** (`domains/supply_chain/agents/logistics_operations/`, display name
-  "Supply Chain: Logistics Operations") — third Supply Chain agent (added 2026-07-27). Tracks
-  carrier performance (on-time delivery rates, delay frequency), transit lane performance,
-  shipment tracking, and active logistics exceptions across the supply chain network.
+  "Supply Chain: Logistics Operations") — third Supply Chain agent (added 2026-07-27). Tracks carrier
+  performance, transit lane performance, shipment tracking, and logistics exceptions.
 - **Labor Productivity** (`domains/store_operations/agents/labor_productivity/`, display name
-  "Store Operations: Labor Productivity") — the first agent in a new **Store Operations** domain
-  (added 2026-07-27). Tracks store staffing presence vs. hourly customer foot traffic alignment,
-  department overtime variance, and store labor budget metrics.
+  "Store Operations: Labor Productivity") — first Store Operations agent (added 2026-07-27). Tracks store
+  staffing presence vs. hourly customer foot traffic alignment, department overtime variance, and labor budgets.
+- **Store Fulfillment & Execution** (`domains/store_operations/agents/store_fulfillment_execution/`, display name
+  "Store Operations: Store Fulfillment & Execution") — second Store Operations agent (added 2026-07-28). Tracks
+  Buy-Online-Pick-Up-In-Store (BOPIS) fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, and store queue bottlenecks.
 - **Gross Margin & Profitability** (`domains/finance/agents/gross_margin_profitability/`, display name
-  "Finance: Gross Margin & Profitability") — the first agent in a new **Finance** domain
-  (added 2026-07-27). Tracks gross margin rates (%), dollar margins by SKU, category, and store,
-  COGS variance, markdown discount erosion, and category margin targets.
+  "Finance: Gross Margin & Profitability") — first Finance agent (added 2026-07-27). Tracks gross margin rates (%),
+  dollar margins, COGS variance, markdown discount erosion, and category margin targets.
 - **Campaign Performance & ROI** (`domains/marketing/agents/campaign_performance_roi/`, display name
-  "Marketing: Campaign Performance & ROI") — the first agent in a new **Marketing** domain
-  (added 2026-07-28). Tracks campaign ROAS, channel ad spend attribution, CAC targets vs. actuals,
-  and conversion lift metrics.
+  "Marketing: Campaign Performance & ROI") — first Marketing agent (added 2026-07-28). Tracks campaign ROAS,
+  channel attribution, CAC targets vs. actuals, and conversion lift metrics.
 - **Customer Lifecycle & Loyalty** (`domains/marketing/agents/customer_lifecycle_loyalty/`, display name
-  "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks
-  Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
+  "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks Customer Lifetime
+  Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
 
 ## Repo layout
 

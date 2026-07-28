@@ -17,15 +17,17 @@ local-only design spec — see [Architecture](#architecture).
 | :--- | :--- | :--- | :--- | :--- |
 | 1 | Merchandising | [`assortment_planning`](domains/merchandising/agents/assortment_planning/README.md) | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
 | 2 | Merchandising | [`pricing_promotions`](domains/merchandising/agents/pricing_promotions/README.md) | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
-| 3 | Supply Chain | [`vendor_performance`](domains/supply_chain/agents/vendor_performance/README.md) | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
-| 4 | Supply Chain | [`inventory_planning`](domains/supply_chain/agents/inventory_planning/README.md) | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
-| 5 | Supply Chain | [`logistics_operations`](domains/supply_chain/agents/logistics_operations/README.md) | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
-| 6 | Store Operations | [`labor_productivity`](domains/store_operations/agents/labor_productivity/README.md) | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
-| 7 | Finance | [`gross_margin_profitability`](domains/finance/agents/gross_margin_profitability/README.md) | Finance: Gross Margin & Profitability | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
-| 8 | Marketing | [`campaign_performance_roi`](domains/marketing/agents/campaign_performance_roi/README.md) | Marketing: Campaign Performance & ROI | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
-| 9 | Marketing | [`customer_lifecycle_loyalty`](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | Marketing: Customer Lifecycle & Loyalty | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
+| 3 | Merchandising | [`sell_through_inventory_health`](domains/merchandising/agents/sell_through_inventory_health/README.md) | Merchandising: Sell-Through & Inventory Health | Store-level sell-through rates, stock turn, aging inventory breakdown, weeks of supply, markdown triggers |
+| 4 | Supply Chain | [`vendor_performance`](domains/supply_chain/agents/vendor_performance/README.md) | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
+| 5 | Supply Chain | [`inventory_planning`](domains/supply_chain/agents/inventory_planning/README.md) | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
+| 6 | Supply Chain | [`logistics_operations`](domains/supply_chain/agents/logistics_operations/README.md) | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
+| 7 | Store Operations | [`labor_productivity`](domains/store_operations/agents/labor_productivity/README.md) | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
+| 8 | Store Operations | [`store_fulfillment_execution`](domains/store_operations/agents/store_fulfillment_execution/README.md) | Store Operations: Store Fulfillment & Execution | BOPIS fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, fulfillment queue bottlenecks |
+| 9 | Finance | [`gross_margin_profitability`](domains/finance/agents/gross_margin_profitability/README.md) | Finance: Gross Margin & Profitability | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
+| 10 | Marketing | [`campaign_performance_roi`](domains/marketing/agents/campaign_performance_roi/README.md) | Marketing: Campaign Performance & ROI | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
+| 11 | Marketing | [`customer_lifecycle_loyalty`](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | Marketing: Customer Lifecycle & Loyalty | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
 
-All nine are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
+All eleven are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
 scaffold infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
 adding a tenth agent, or a sixth domain, is a generator invocation, not new plumbing.
 
