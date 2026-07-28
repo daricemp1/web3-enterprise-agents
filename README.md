@@ -22,10 +22,12 @@ local-only design spec — see [Architecture](#architecture).
 | 5 | Supply Chain | `logistics_operations` | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
 | 6 | Store Operations | `labor_productivity` | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
 | 7 | Finance | `gross_margin_profitability` | Finance: Gross Margin & Profitability | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
+| 8 | Marketing | `campaign_performance_roi` | Marketing: Campaign Performance & ROI | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
+| 9 | Marketing | `customer_lifecycle_loyalty` | Marketing: Customer Lifecycle & Loyalty | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
 
-All seven are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
+All nine are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
 scaffold infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
-adding an eighth agent, or a fifth domain, is a generator invocation, not new plumbing.
+adding a tenth agent, or a sixth domain, is a generator invocation, not new plumbing.
 
 ---
 

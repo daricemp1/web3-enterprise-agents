@@ -20,7 +20,7 @@ assume it exists elsewhere, and don't rely on git to distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Seven agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Nine agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
@@ -52,6 +52,13 @@ registered with Gemini Enterprise:
   "Finance: Gross Margin & Profitability") — the first agent in a new **Finance** domain
   (added 2026-07-27). Tracks gross margin rates (%), dollar margins by SKU, category, and store,
   COGS variance, markdown discount erosion, and category margin targets.
+- **Campaign Performance & ROI** (`domains/marketing/agents/campaign_performance_roi/`, display name
+  "Marketing: Campaign Performance & ROI") — the first agent in a new **Marketing** domain
+  (added 2026-07-28). Tracks campaign ROAS, channel ad spend attribution, CAC targets vs. actuals,
+  and conversion lift metrics.
+- **Customer Lifecycle & Loyalty** (`domains/marketing/agents/customer_lifecycle_loyalty/`, display name
+  "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks
+  Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
 
 ## Repo layout
 
