@@ -151,7 +151,13 @@ Building a **new** agent from scratch starts on its own branch, not directly on 
 4. Merge locally into `master`, then push: `git checkout master && git merge <branch>` followed
    by `git push origin master`.
 5. **The merge into local `master` always requires explicit user review and approval first.** This is a permanent manual checkpoint, the same way IAM/service-account creation and deploy/publish commands are permanent manual checkpoints.
-6. **Parallel Agent Builds:** Multiple new agents can be built concurrently in parallel on isolated feature branches (one branch per agent). Do not merge *any* branch until all parallel agents have been tested, deployed, verified live, and reviewed by the user. Once reviewed, merge branches sequentially, one at a time. Feature branches may be deleted or retained per user preference.
+6. **Parallel Agent Builds:** Multiple new agents can be built concurrently in parallel on isolated feature branches (one branch per agent):
+   - Register all domain IDs and agent IDs in `_shared/table_registry.yaml` first.
+   - Dispatch parallel background subagents (one subagent per agent branch) to generate synthetic seed data, fill YAML routing/tables, write evals, and run unit tests.
+   - Load seed data for all parallel agents into dev BigQuery and configure IAM permissions for each dedicated service account (`<agent-name>-dev`).
+   - Deploy each agent to Vertex AI Agent Engine, register with Gemini Enterprise, and run live post-deploy smoke tests.
+   - Present diffs and live smoke test results for all parallel agents together to the user for review.
+   - Once reviewed and approved by the user, merge branches sequentially into `master` one at a time, and push to `origin/master`. Feature branches may be deleted or retained per user preference.
 
 ## Key conventions and constraints
 
