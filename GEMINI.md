@@ -9,12 +9,14 @@ Full architecture rationale lives in
 `docs/superpowers/specs/2026-07-25-retail-merchandising-adk-agents-design.md` — read it before
 making structural changes; this file is a quick-reference, not a replacement.
 
+**`CLAUDE.md`, `GEMINI.md`, and `AGENTS.md` must be kept 100% byte-identical** at all times via `cp CLAUDE.md GEMINI.md && cp CLAUDE.md AGENTS.md && cmp CLAUDE.md GEMINI.md && cmp CLAUDE.md AGENTS.md`. Always update all three in sync whenever project state, conventions, or instructions change.
+
 **`docs/` is local-only, gitignored (`docs/**`), not shared via git** (decision made 2026-07-26,
 final — reversed an earlier decision to track it). Its history contained GCP project/resource
 identifiers throughout, and the call was to keep this content local rather than in shared git
-history — same treatment as `CLAUDE.md`/`GEMINI.md` themselves. This means `docs/superpowers/`
-exists on this machine but will **not** be present on a fresh clone or for anyone else — don't
-assume it exists elsewhere, and don't rely on git to distribute it.
+history. This means `docs/superpowers/` exists on this machine but will **not** be present on a
+fresh clone or for anyone else — don't assume it exists elsewhere, and don't rely on git to
+distribute it.
 
 ## Current state
 
