@@ -89,3 +89,28 @@ def test_every_agent_domain_field_resolves_to_a_registered_domain():
             f"Agent '{agent_name}' has domain '{domain}' in {REGISTRY_PATH}, which has no "
             "matching entry under 'domains:' — the loader's domain_id lookup would fail"
         )
+
+
+def test_all_fifteen_agents_are_registered():
+    registry = yaml.safe_load(REGISTRY_PATH.read_text())
+    expected_agents = {
+        "assortment_planning",
+        "pricing_promotions",
+        "sell_through_inventory_health",
+        "vendor_performance",
+        "inventory_planning",
+        "logistics_operations",
+        "labor_productivity",
+        "store_fulfillment_execution",
+        "gross_margin_profitability",
+        "campaign_performance_roi",
+        "customer_lifecycle_loyalty",
+        "store_pnl_operating_costs",
+        "loss_prevention_shrinkage",
+        "warehouse_dc_operations",
+        "vendor_negotiation_rebates",
+    }
+    registered = set(registry["agents"].keys())
+    missing = expected_agents - registered
+    assert not missing, f"Missing agents in {REGISTRY_PATH}: {missing}"
+

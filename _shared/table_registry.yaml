@@ -165,6 +165,39 @@ agents:
       - rfm_segments              # -> mktg_cloy_rfm_segments
       - loyalty_tiers             # -> mktg_cloy_loyalty_tiers
       - clv_history               # -> mktg_cloy_clv_history
+  store_pnl_operating_costs:
+    domain: finance
+    agent_id: spnl
+    tables:
+      - stores                    # -> finc_spnl_stores
+      - monthly_pnl               # -> finc_spnl_monthly_pnl
+      - opex_categories          # -> finc_spnl_opex_categories
+      - profitability_targets     # -> finc_spnl_profitability_targets
+  loss_prevention_shrinkage:
+    domain: store_operations
+    agent_id: lpsh
+    tables:
+      - stores                    # -> stop_lpsh_stores
+      - shrinkage_monthly         # -> stop_lpsh_shrinkage_monthly
+      - category_shrink           # -> stop_lpsh_category_shrink
+      - audit_exceptions          # -> stop_lpsh_audit_exceptions
+  warehouse_dc_operations:
+    domain: supply_chain
+    agent_id: wdco
+    tables:
+      - facilities                # -> spch_wdco_facilities
+      - daily_throughput          # -> spch_wdco_daily_throughput
+      - pick_pack_performance     # -> spch_wdco_pick_pack_performance
+      - capacity_utilization      # -> spch_wdco_capacity_utilization
+  vendor_negotiation_rebates:
+    domain: merchandising
+    agent_id: vreb
+    tables:
+      - vendors                   # -> merc_vreb_vendors
+      - rebate_agreements         # -> merc_vreb_rebate_agreements
+      - coop_marketing_funds      # -> merc_vreb_coop_marketing_funds
+      - vendor_settlements        # -> merc_vreb_vendor_settlements
+
 
 
 

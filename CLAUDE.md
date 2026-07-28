@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Eleven agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Fifteen agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
@@ -32,6 +32,10 @@ registered with Gemini Enterprise:
   "Merchandising: Sell-Through & Inventory Health") — third Merchandising agent (added 2026-07-28). Tracks
   store-level sell-through rates, stock turn, aging inventory breakdown (0-30, 31-60, 61-90, 90+ days),
   weeks of supply, and sell-through % markdown triggers.
+- **Vendor Negotiation & Rebates** (`domains/merchandising/agents/vendor_negotiation_rebates/`, display name
+  "Merchandising: Vendor Negotiation & Rebates") — fourth Merchandising agent (added 2026-07-28). Tracks
+  volume rebate agreement thresholds, YTD spend rebate tier progress, co-op marketing fund commitments/claims,
+  vendor payment terms, and net rebate realization %.
 - **Vendor Performance** (`domains/supply_chain/agents/vendor_performance/`, display name
   "Supply Chain: Vendor Performance") — first Supply Chain agent (added 2026-07-26). Tracks OTIF delivery
   rates and vendor scorecards.
@@ -41,21 +45,33 @@ registered with Gemini Enterprise:
 - **Logistics Operations** (`domains/supply_chain/agents/logistics_operations/`, display name
   "Supply Chain: Logistics Operations") — third Supply Chain agent (added 2026-07-27). Tracks carrier
   performance, transit lane performance, shipment tracking, and logistics exceptions.
+- **Warehouse & DC Operations** (`domains/supply_chain/agents/warehouse_dc_operations/`, display name
+  "Supply Chain: Warehouse & DC Operations") — fourth Supply Chain agent (added 2026-07-28). Tracks
+  daily DC inbound/outbound shipment throughput, dock turn times, dock-to-stock hours, pick/pack accuracy %,
+  and storage pallet capacity utilization.
 - **Labor Productivity** (`domains/store_operations/agents/labor_productivity/`, display name
   "Store Operations: Labor Productivity") — first Store Operations agent (added 2026-07-27). Tracks store
   staffing presence vs. hourly customer foot traffic alignment, department overtime variance, and labor budgets.
 - **Store Fulfillment & Execution** (`domains/store_operations/agents/store_fulfillment_execution/`, display name
   "Store Operations: Store Fulfillment & Execution") — second Store Operations agent (added 2026-07-28). Tracks
   Buy-Online-Pick-Up-In-Store (BOPIS) fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, and store queue bottlenecks.
+- **Loss Prevention & Shrinkage** (`domains/store_operations/agents/loss_prevention_shrinkage/`, display name
+  "Store Operations: Loss Prevention & Shrinkage") — third Store Operations agent (added 2026-07-28). Tracks
+  monthly store shrinkage rates (%), shrink dollars by cause (theft, damage, admin error, unknown loss),
+  high-risk category losses, and register audit exception alerts.
 - **Gross Margin & Profitability** (`domains/finance/agents/gross_margin_profitability/`, display name
   "Finance: Gross Margin & Profitability") — first Finance agent (added 2026-07-27). Tracks gross margin rates (%),
   dollar margins, COGS variance, markdown discount erosion, and category margin targets.
+- **Store P&L & Operating Costs** (`domains/finance/agents/store_pnl_operating_costs/`, display name
+  "Finance: Store P&L & Operating Costs") — second Finance agent (added 2026-07-28). Tracks store-level
+  P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, and profitability targets.
 - **Campaign Performance & ROI** (`domains/marketing/agents/campaign_performance_roi/`, display name
   "Marketing: Campaign Performance & ROI") — first Marketing agent (added 2026-07-28). Tracks campaign ROAS,
   channel attribution, CAC targets vs. actuals, and conversion lift metrics.
 - **Customer Lifecycle & Loyalty** (`domains/marketing/agents/customer_lifecycle_loyalty/`, display name
   "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks Customer Lifetime
   Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
+
 
 ## Repo layout
 
