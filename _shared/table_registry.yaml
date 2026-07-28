@@ -74,6 +74,9 @@ domains:
   finance:
     domain_id: finc
     display_name: Finance
+  marketing:
+    domain_id: mktg
+    display_name: Marketing
 
 agents:
   assortment_planning:
@@ -130,6 +133,23 @@ agents:
       - product_cost_master       # -> finc_gmpr_product_cost_master
       - sales_profitability       # -> finc_gmpr_sales_profitability
       - category_margin_targets   # -> finc_gmpr_category_margin_targets
+  campaign_performance_roi:
+    domain: marketing
+    agent_id: cpro
+    tables:
+      - campaigns                 # -> mktg_cpro_campaigns
+      - ad_spend_channels         # -> mktg_cpro_ad_spend_channels
+      - campaign_conversions      # -> mktg_cpro_campaign_conversions
+      - channel_roas_targets      # -> mktg_cpro_channel_roas_targets
+  customer_lifecycle_loyalty:
+    domain: marketing
+    agent_id: cloy
+    tables:
+      - customers                 # -> mktg_cloy_customers
+      - rfm_segments              # -> mktg_cloy_rfm_segments
+      - loyalty_tiers             # -> mktg_cloy_loyalty_tiers
+      - clv_history               # -> mktg_cloy_clv_history
+
 
 
 
