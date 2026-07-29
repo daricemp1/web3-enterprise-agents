@@ -71,7 +71,7 @@ def render_logical_agent(
   }
 
   for path in target.rglob("*"):
-    if not path.is_file():
+    if not path.is_file() or path.suffix.lower() in (".png", ".jpg", ".jpeg", ".ico", ".pyc"):
       continue
     text = path.read_text()
     text = _substitute_shared_instructions(text, shared_instructions)
