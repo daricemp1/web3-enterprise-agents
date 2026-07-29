@@ -47,7 +47,13 @@ initial build; routine fixes to an already-merged agent go directly to `master` 
 
 ### IAM Requirements
 When creating a dedicated service account for a new agent (e.g., `<agent_name>-dev@<project_id>.iam.gserviceaccount.com`):
-1. **Table Access**: Run `_shared/scripts/grant_table_access.py` to grant table-level `roles/bigquery.dataViewer` permissions.
+1. **Table Access**: Run `_shared/scripts/grant_table_access.py` (repeating `--table` per table) to grant table-level `roles/bigquery.dataViewer` permissions:
+   ```bash
+   uv run --frozen python _shared/scripts/grant_table_access.py \
+       --project <project_id> --dataset retail_ent_agents \
+       --service-account <service_account_email> \
+       --table <table_1> --table <table_2>
+   ```
 2. **Dataset Reader Access**: Grant dataset-level `READER` (`roles/bigquery.dataViewer`) permission on `retail_ent_agents` to both the agent service account AND the Reasoning Engine Execution Service Agent (`service-<project_number>@gcp-sa-aiplatform-re.iam.gserviceaccount.com`).
 3. **Project IAM Roles**: Grant the following project-level IAM roles to both service accounts:
    - `roles/geminidataanalytics.dataAgentStatelessUser` (or `roles/geminidataanalytics.dataAgentUser`)
@@ -59,23 +65,25 @@ Prefix display names with the domain's `display_name` from `_shared/table_regist
 
 ```bash
 # 1. Deploy to Agent Engine
+export PATH=$PATH:$HOME/Dev/google-cloud-sdk/bin
 uv run --frozen adk deploy agent_engine \
-    domains/<domain>/agents/<agent_name> \
     --project <project_id> \
     --region <region> \
-    --agent_engine_id <optional_existing_id> \
     --display_name "<Domain Display Name>: <Agent Display Name>" \
-    --description "<Full Agent Description>"
+    --description "<Full Agent Description>" \
+    domains/<domain>/agents/<agent_name>
 
-# 2. Register to Gemini Enterprise
-export PATH=$PATH:/usr/local/google/home/rajanvasagam/Dev/google-cloud-sdk/bin
+# 2. Discover active Gemini Enterprise Apps in Project
+uv run --frozen agents-cli publish gemini-enterprise --list --project <project_id>
+
+# 3. Register to Gemini Enterprise
 uv run --frozen agents-cli publish gemini-enterprise \
     --registration-type adk \
     --agent-runtime-id projects/<project_number>/locations/<region>/reasoningEngines/<agent_engine_id> \
     --gemini-enterprise-app-id projects/<project_number>/locations/global/collections/default_collection/engines/<app_id> \
     --display-name "<Domain Display Name>: <Agent Display Name>" \
     --description "<Full Agent Description>" \
-    --tool-description "<Full Agent Description>"
+    --project <project_id>
 ```
 
 ### Post-Deploy Testing

@@ -183,6 +183,12 @@ Building a **new** agent from scratch starts on its own branch, not directly on 
 
 - **Every logical agent ships its own `README.md`, templated into the scaffold** (added
   2026-07-27, enhanced 2026-07-29) — covers **Why This Agent Matters** (business problem & target personas), **Key Metrics Tracked** (KPI table), what it answers & sub-agent routing, **Sample Q&A Showcase** (3 live post-deploy smoke test responses for BigQuery data, Google Search market grounding, and a generated `sample_chart.png` visual artifact), authorized BigQuery tables, real example questions, tools, and local execution flags. Every scaffolded agent includes these sections via `# TODO(scaffold):` placeholders.
+- **CLI Command Conventions & Flag Formats** (added 2026-07-29):
+  - **PATH Export**: Ensure `gcloud` is in `PATH` via `export PATH=$PATH:$HOME/Dev/google-cloud-sdk/bin`.
+  - **`adk deploy agent_engine`**: Deployment flags are passed directly via CLI flags (`--project <project_id> --region <region> --display_name "<Name>" --description "<Description>"`), not via `--config`.
+  - **`agents-cli publish gemini-enterprise`**: Use `agents-cli publish gemini-enterprise` (not `agents-cli register`). Discover active Gemini Enterprise app IDs in the project via `agents-cli publish gemini-enterprise --list --project <project_id>`.
+  - **`grant_table_access.py`**: The `--table` argument uses `action="append"`, requiring repeating `--table <table_1> --table <table_2>` per table.
+  - **`load_agent_data.py`**: Requires `--domain <domain> --name <agent_name> --project <project_id> --dataset retail_ent_agents`.
 - **Use `uv` for everything** — `uv sync`, `uv run ...`. Never bare `pip`/`python`.
 - Python >=3.10 (required by `google-adk`).
 - **Scaffold-time composition, not runtime includes.** `_shared/instructions/*.md` are
