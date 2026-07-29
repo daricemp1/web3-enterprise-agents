@@ -2,35 +2,99 @@
 
 **Domain:** Merchandising · **Gemini Enterprise display name:** Merchandising: Pricing & Promotions
 
-Answers questions about price elasticity, markdown cadence, and promotion effectiveness.
-Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational
-Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and
-**Market Context**, which answers external questions via Google Search grounding.
+Answers questions about price elasticity, markdown cadence, and promotion effectiveness. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
+
+---
+
+## Why This Agent Matters
+
+### Business Problem
+Misaligned price reductions and promotional discounts erode gross margins without delivering meaningful volume lift. This agent analyzes promotional lift and price elasticity to help merchants design high-ROI campaigns and optimize markdown timing.
+
+### Target Personas
+- **Pricing Strategy Directors**: Evaluate promotional lift and price elasticity trends.
+- **Promotional Planners**: Measure campaign performance vs. pre-promo baselines.
+- **Category Managers**: Determine optimal markdown cadence for aging or seasonal inventory.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Sales Lift %** | `(promo_period_daily_units - baseline_daily_units) / baseline_daily_units * 100` | Target >20% lift on promoted categories |
+| **Incremental Revenue** | `incremental_units * sale_price` | Ensures promo gains offset discount costs |
+| **Price Elasticity** | `% change in volume / % change in price` | Guides pricing tolerance per category |
+| **Markdown Depth** | `(list_price - sale_price) / list_price` | Prevents unnecessary margin dilution |
 
 ---
 
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - Current price, price-change history, price elasticity, markdown cadence/depth
 - Promotion effectiveness — which promotions had the strongest/weakest sales lift
 
 Routed to **Market Context**:
-
 - Competitor pricing, or market-wide pricing/promotion trend questions
 
-Mixed questions (e.g. "is our markdown cadence more aggressive than what's trending in the
-market") go to both, with the answer clearly attributing which part came from internal data
-versus external search.
+Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "Which of our recent promotions delivered the strongest sales lift?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `merc_prpm_promo_sales_lift`
+
+**Agent Response:**
+> Based on BigQuery promotional analytics, the top promotions ordered by sales lift % are:
+> 1. **Holiday Clear (-35%)**: +65.3% sales lift (210 incremental units sold)
+> 2. **Black Friday (-25%)**: +42.1% sales lift (185 incremental units sold)
+> 3. **Fall Launch (-10%)**: +18.5% sales lift (75 incremental units sold)
+>
+> The Holiday Clear campaign achieved the highest incremental volume lift per discount percentage point.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are major competitors doing for early Fall promotional discount strategies in apparel?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Market research indicates the following competitor promotion trends for early Fall apparel:
+> - **Tiered Spending Discounts**: Retailers are favoring "$25 off $100" spent rather than flat percentage site-wide discounts to protect margin dollars.
+> - **Loyalty Early Access**: 68% of apparel retailers are offering 48-hour exclusive early promotional access to rewards members before public release.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Can you render a bar chart comparing promotional sales lift % across recent campaigns?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the promotional sales lift comparison chart. The Holiday Clear promotion generated the highest percentage lift above baseline daily sales.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
 ## Data
 
-All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `merc_prpm_` (this
-agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is
-synthetic, generated by `data/generate_seed_data.py`.
+All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `merc_prpm_` (this agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is synthetic, generated by `data/generate_seed_data.py`.
 
 | Table | Columns | Holds |
 | :--- | :--- | :--- |
@@ -38,9 +102,6 @@ synthetic, generated by `data/generate_seed_data.py`.
 | `merc_prpm_price_history` | `product_id, effective_date, list_price, sale_price, discount_reason, avg_daily_units_at_price` | Standing/structural pricing, one row per price change, with a precomputed elasticity signal |
 | `merc_prpm_promo_calendar` | `promo_id, promo_name, start_date, end_date, discount_pct, scope_type, scope_value, promo_type` | Short-term promotional campaigns layered on top of standing prices |
 | `merc_prpm_promo_sales_lift` | `promo_id, product_id, baseline_daily_units, baseline_window_start, baseline_window_end, promo_period_daily_units, lift_pct, incremental_units, incremental_revenue, promo_window_days` | Precomputed baseline-vs-promo lift per promotion/product |
-
-`avg_daily_units_at_price` and `lift_pct`/`incremental_units` are precomputed specifically so the
-agent uses them directly rather than deriving elasticity or lift itself from raw rows.
 
 ---
 
@@ -57,11 +118,8 @@ Verified against this agent's `eval/agent.evalset.json`:
 
 ## Tools
 
-- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's
-  `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the four tables above; access is
-  enforced by this agent's service account IAM, not by tool configuration.
-- **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests,
-  since ADK's Conversational Analytics integration cannot generate charts itself.
+- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the four tables above; access is enforced by this agent's service account IAM, not by tool configuration.
+- **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests, since ADK's Conversational Analytics integration cannot generate charts itself.
 - **`google_search`** — used only by the Market Context sub-agent.
 
 ---
@@ -72,8 +130,7 @@ Verified against this agent's `eval/agent.evalset.json`:
 uv run adk run domains/merchandising/agents/pricing_promotions
 ```
 
-Requires `BIGQUERY_PROJECT_ID` set and Application Default Credentials with access to the
-`retail_ent_agents` dataset — see the repo root [README](../../../../README.md#getting-started).
+Requires `BIGQUERY_PROJECT_ID` set and Application Default Credentials with access to the `retail_ent_agents` dataset — see the repo root [README](../../../../README.md#getting-started).
 
 ---
 
@@ -92,4 +149,5 @@ pricing_promotions/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```

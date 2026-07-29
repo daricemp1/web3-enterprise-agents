@@ -2,35 +2,101 @@
 
 **Domain:** Merchandising · **Gemini Enterprise display name:** Merchandising: Assortment Planning
 
-Answers questions about product mix, category and SKU performance, and assortment width versus
-plan. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the
-Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection
-tools, and **Market Context**, which answers external questions via Google Search grounding.
+Answers questions about product mix, category and SKU performance, and assortment width versus plan. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
+
+---
+
+## Why This Agent Matters
+
+### Business Problem
+Retailers struggle to optimize product breadth and depth across stores, risking high inventory holding costs on slow movers or lost revenue from stockouts on core items. This agent balances sales performance against shelf-space allocation to maximize sales density ($/sq ft).
+
+### Target Personas
+- **Category Managers**: Evaluate SKU performance, optimize planograms, and identify rationalization candidates.
+- **Merchandise Planners**: Monitor actual vs. planned assortment width and depth across regions.
+- **Buyers & Sourcing Leads**: Track top-performing products to inform reordering decisions.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Sales Density** | Revenue / Allocated Space (`space_allocated_sq_ft`) | Maximizes gross margin return on space (GMROS) |
+| **Planogram Compliance** | Actual facings / Planned facings | Ensures core SKUs receive contractually agreed shelf presence |
+| **Assortment Width** | Distinct active SKU count per category | Prevents over-assortment and cannibalization |
+| **SKU Velocity** | Units sold per store per day | Identifies underperforming SKUs for markdown or exit |
 
 ---
 
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - "How is [category/SKU] selling," top/bottom performers, plan vs. actual assortment width/depth
 - SKU rationalization candidates
 - Forecast, trend, or anomaly questions (e.g. "how has [SKU] been trending")
 
 Routed to **Market Context**:
-
 - Competitor assortment or general market/trend questions
 
-Mixed questions (e.g. "how does our assortment compare to what's trending") go to both, with the
-answer clearly attributing which part came from internal data versus external search.
+Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What are the top performing SKUs in Men's Outerwear?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `merc_aspl_sales_by_sku`
+
+**Agent Response:**
+> Based on BigQuery sales analytics for Men's Outerwear, the top-performing SKUs by total revenue are:
+> 1. **Down Parka (SKU-001)**: $48,250 revenue (510 units sold)
+> 2. **Insulated Vest (SKU-003)**: $32,100 revenue (415 units sold)
+> 3. **Thermal Base Layer (SKU-002)**: $19,400 revenue (388 units sold)
+>
+> Down Parka accounts for 48.3% of total category revenue over the last 30 days.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are current market trends for men's winter outerwear for Fall/Winter 2026?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> According to current retail market industry reports for Fall/Winter 2026:
+> - **Lightweight Insulation**: Consumer preference is shifting toward high-loft, packable synthetic insulation over heavy down.
+> - **Earth Tones & Utility**: Olive drab, terracotta, and multi-pocket technical shells are outperforming traditional black outerwear.
+> - **Recycled Materials**: Retailers highlighting 100% recycled polyester shells report a 14% higher conversion rate online.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Can you plot the 30-day sales trend for Down Parka and Insulated Vest?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have executed the chart rendering query for SKU sales history and saved the visual artifact. Down Parka shows steady upward volume growth peaking mid-month, while Insulated Vest maintains constant baseline demand.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
 ## Data
 
-All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `merc_aspl_` (this
-agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is
-synthetic, generated by `data/generate_seed_data.py`.
+All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `merc_aspl_` (this agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is synthetic, generated by `data/generate_seed_data.py`.
 
 | Table | Columns | Holds |
 | :--- | :--- | :--- |
@@ -52,11 +118,8 @@ Verified against this agent's `eval/agent.evalset.json`:
 
 ## Tools
 
-- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's
-  `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the three tables above; access is
-  enforced by this agent's service account IAM, not by tool configuration.
-- **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests,
-  since ADK's Conversational Analytics integration cannot generate charts itself.
+- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the three tables above; access is enforced by this agent's service account IAM, not by tool configuration.
+- **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests, since ADK's Conversational Analytics integration cannot generate charts itself.
 - **`google_search`** — used only by the Market Context sub-agent.
 
 ---
@@ -67,8 +130,7 @@ Verified against this agent's `eval/agent.evalset.json`:
 uv run adk run domains/merchandising/agents/assortment_planning
 ```
 
-Requires `BIGQUERY_PROJECT_ID` set and Application Default Credentials with access to the
-`retail_ent_agents` dataset — see the repo root [README](../../../../README.md#getting-started).
+Requires `BIGQUERY_PROJECT_ID` set and Application Default Credentials with access to the `retail_ent_agents` dataset — see the repo root [README](../../../../README.md#getting-started).
 
 ---
 
@@ -87,4 +149,5 @@ assortment_planning/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```
