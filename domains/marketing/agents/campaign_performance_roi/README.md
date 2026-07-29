@@ -6,20 +6,93 @@ Answers questions about campaign performance, channel return on ad spend (ROAS),
 
 ---
 
+## Why This Agent Matters
+
+### Business Problem
+Marketing departments struggle to allocate digital ad budgets effectively without real-time visibility into channel Return on Ad Spend (ROAS) and Customer Acquisition Cost (CAC). This agent evaluates campaign performance across paid channels to reallocate spend toward high-converting media.
+
+### Target Personas
+- **Chief Marketing Officer & VP of Performance Marketing**: Optimize channel media allocation and track blended marketing ROAS.
+- **Digital Campaign Managers**: Evaluate conversion lift, click-through rates (CTR), and CAC target compliance per channel.
+- **Growth Strategy Analysts**: Benchmark acquisition performance across Paid Search, Social Ads, Display, and CTV.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Return on Ad Spend (ROAS)** | `attributed_revenue / ad_spend_amount` | Target >3.0x ROAS across paid channels |
+| **Customer Acquisition Cost (CAC)** | `ad_spend_amount / new_customers_acquired` | Ensures acquisition cost stays below target thresholds |
+| **Conversion Rate %** | `(conversions_count / clicks) * 100` | Measures landing page conversion efficiency |
+| **Cost per Click (CPC)** | `ad_spend_amount / clicks` | Controls digital media bidding expense |
+
+---
+
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - Channel ROAS and efficiency — return on ad spend by channel (Paid Search, Social Media, Email, Connected TV)
 - Campaign conversion lift — conversion volume, attributed revenue, and new customer acquisition by campaign
 - Target vs. actual CAC variance — channel customer acquisition cost against Q3 financial targets
 - Budget variance — actual campaign ad spend vs. allocated campaign budgets
 
 Routed to **Market Context**:
-
 - Digital media industry benchmarks, advertising market trends, competitor marketing campaign news
 
 Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What is our Return on Ad Spend (ROAS) across Paid Search, Social Media, Display, and Video Ads for Q3?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `mktg_cpro_ad_spend_channels`, `mktg_cpro_channel_roas_targets`
+
+**Agent Response:**
+> Channel ROAS performance for 2026-Q3 vs. 3.0x target:
+> 1. **Paid Search**: 4.2x ROAS ($126,000 revenue / $30,000 spend) — **Exceeds Target**
+> 2. **Social Ads**: 3.5x ROAS ($157,500 revenue / $45,000 spend) — **Exceeds Target**
+> 3. **Video Ads (CTV)**: 2.9x ROAS ($58,000 revenue / $20,000 spend) — Nearing Target
+> 4. **Display**: 1.8x ROAS ($27,000 revenue / $15,000 spend) — **Below 3.0x Target**
+>
+> Reallocating $5,000 from Display to Paid Search will maximize Q3 customer acquisition.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are current digital advertising ROAS benchmarks for retail e-commerce campaigns?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Industry benchmarks for digital performance marketing:
+> - **Paid Search (Google Shopping/Text)**: Retail benchmark averages **3.8x – 4.5x ROAS**.
+> - **Social Commerce (Meta/TikTok)**: E-commerce benchmark ranges between **2.8x – 3.4x ROAS**.
+> - **Programmatic Display**: Retargeting benchmarks average **1.5x – 2.2x ROAS**.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a bar chart comparing actual ROAS vs our 3.0x target across all ad channels."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the channel ROAS comparison chart. Paid Search and Social Ads exceed target benchmarks, while Display trails the 3.0x threshold.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
@@ -80,4 +153,5 @@ campaign_performance_roi/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```
