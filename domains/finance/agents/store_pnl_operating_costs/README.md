@@ -1,4 +1,4 @@
-# Finance: Store P&L & Operating Costs Agent
+# Store P&L & Operating Costs Agent
 
 **Domain:** Finance · **Gemini Enterprise display name:** Finance: Store P&L & Operating Costs
 
@@ -6,20 +6,92 @@ Answers questions about store-level P&L performance, operating cost category var
 
 ---
 
+## Why This Agent Matters
+
+### Business Problem
+Store-level operating expense (OpEx) overruns in labor, rent, utilities, and maintenance erode store EBITDA margins. This agent delivers four-wall store P&L transparency to hold store managers accountable to profitability targets and control regional OpEx variances.
+
+### Target Personas
+- **Retail CFOs & Controllers**: Evaluate store-level EBITDA, net sales, and four-wall profitability targets.
+- **Regional Vice Presidents**: Identify high-OpEx store locations and manage regional store cost structures.
+- **Store Operations Managers**: Control monthly controllable line-item expenses (Labor, Utilities, Maintenance).
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Store EBITDA ($)** | `gross_profit - (store_labor + store_rent + utilities + maintenance + marketing)` | Primary four-wall store profit metric |
+| **Store EBITDA %** | `(store_ebitda / net_sales) * 100` | Target >15% store-level EBITDA margin |
+| **OpEx-to-Sales Ratio** | `(total_opex / net_sales) * 100` | Limits store operating overhead |
+| **Rent & Utilities per Sq Ft** | `(store_rent_cost + utilities_cost) / store_square_feet` | Evaluates real estate occupancy efficiency |
+
+---
+
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - Store P&L performance — gross sales, net sales, COGS, gross profit, and store EBITDA by store location and region
 - Operating cost category breakdown — store labor cost, store rent cost, utilities, maintenance, and marketing allocations
 - OpEx variance analysis — budget vs. actual operating expense variance by category (Rent, Utilities, Labor, Maintenance, Supplies)
 - Store profitability targets — store EBITDA % targets and OpEx-to-sales ratios vs. actual performance
 
 Routed to **Market Context**:
-
 - Retail store P&L industry benchmarks, competitor operating cost structures, store labor/rent cost industry trends, and macro financial news
 
 Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What is our total store EBITDA performance by store location for the past month?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `finc_spnl_monthly_pnl`
+
+**Agent Response:**
+> Monthly four-wall store EBITDA summary:
+> 1. **STORE-103**: $185,000 EBITDA (EBITDA Margin: 19.5%) — **Top Performer**
+> 2. **STORE-101**: $142,000 EBITDA (EBITDA Margin: 16.2%) — Meets >15% Target
+> 3. **STORE-102**: $98,000 EBITDA (EBITDA Margin: 12.4%) — Below target
+> 4. **STORE-104**: $64,000 EBITDA (EBITDA Margin: 8.8%) — **Unfavorable OpEx Overrun**
+>
+> STORE-104 EBITDA was impacted by higher utility costs and unbudgeted maintenance repairs.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are retail industry benchmarks for store-level four-wall EBITDA margins?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Financial market benchmarks for store-level four-wall EBITDA:
+> - **Specialty Retail Average**: Enterprise four-wall store EBITDA margins average **14% to 18%**.
+> - **Occupancy Expense Ratio**: Store rent and occupancy costs typically account for **6% to 9% of net sales**.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a bar chart comparing monthly store EBITDA dollars across all store locations."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the store EBITDA performance comparison chart. STORE-103 generates the highest dollar EBITDA, while STORE-104 trails regional targets.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
@@ -80,4 +152,5 @@ store_pnl_operating_costs/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```

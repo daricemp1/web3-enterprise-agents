@@ -6,19 +6,91 @@ Answers questions about product/SKU gross margins, promotional markdown impact o
 
 ---
 
+## Why This Agent Matters
+
+### Business Problem
+Unplanned promotional markdowns and vendor cost inflation dilute retail gross margins without category leadership realizing until quarterly close. This agent tracks category margin rates, cost of goods sold (COGS) variance, and markdown erosion to protect profitability targets.
+
+### Target Personas
+- **Chief Financial Officer & VP of Finance**: Track enterprise gross profit dollars and margin rate target compliance.
+- **Merchandise Financial Controllers**: Analyze markdown discount erosion across categories and departments.
+- **Pricing & Margin Directors**: Monitor cost of goods sold (COGS) inflation vs. retail pricing adjustments.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Gross Margin %** | `((net_revenue - cogs) / net_revenue) * 100` | Target >50% blended gross margin |
+| **Markdown Margin Erosion** | `markdown_discount_amount / gross_revenue * 100` | Limits promotional discount dilution |
+| **COGS Variance** | `actual_unit_cost - budgeted_unit_cost` | Tracks wholesale cost inflation |
+| **Category Target Variance** | `actual_gross_margin_pct - target_gross_margin_pct` | Flags underperforming merchandise categories |
+
+---
+
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - Product and SKU margin performance — gross profit dollars and margin percentages by SKU, brand, and category
 - Markdown and discount impact — promotional markdown volume, discount depth impact on net margin
 - Target vs. actual margin variance — category target margin vs. realized margin performance and driver analysis
 
 Routed to **Market Context**:
-
 - External profitability trends, retail industry gross margin benchmarks, sector margin performance comparisons, macro cost inflation context
 
 Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What is our gross margin percentage by product category for the current quarter?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `finc_gmpr_sales_profitability`, `finc_gmpr_category_margin_targets`
+
+**Agent Response:**
+> Gross margin performance by category vs. financial targets:
+> 1. **Accessories**: 61.0% actual (Target: 58.0%) — **+3.0% Favorable**
+> 2. **Apparel**: 55.3% actual (Target: 50.0%) — **+5.3% Favorable**
+> 3. **Outerwear**: 48.5% actual (Target: 45.0%) — **+3.5% Favorable**
+> 4. **Footwear**: 42.1% actual (Target: 45.0%) — **-2.9% Unfavorable**
+>
+> Footwear missed its gross margin target due to unbudgeted clearance markdowns on seasonal sandals.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are current retail industry gross margin benchmarks for footwear and specialty apparel?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Financial market benchmarks for retail gross margins:
+> - **Specialty Apparel**: Industry average gross margin ranges between **52% and 56%**.
+> - **Footwear Retail**: Footwear gross margins average **42% to 46%**, reflecting higher wholesale land costs and box freight expenses.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a bar chart comparing actual gross margin % vs target gross margin % across categories."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the gross margin target comparison chart. Accessories and Apparel exceed quarterly margin targets, while Footwear lags target thresholds.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
@@ -79,4 +151,5 @@ gross_margin_profitability/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```
