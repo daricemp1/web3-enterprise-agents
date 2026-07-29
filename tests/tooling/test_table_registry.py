@@ -91,7 +91,7 @@ def test_every_agent_domain_field_resolves_to_a_registered_domain():
         )
 
 
-def test_all_fifteen_agents_are_registered():
+def test_all_eighteen_agents_are_registered():
     registry = yaml.safe_load(REGISTRY_PATH.read_text())
     expected_agents = {
         "assortment_planning",
@@ -109,6 +109,9 @@ def test_all_fifteen_agents_are_registered():
         "loss_prevention_shrinkage",
         "warehouse_dc_operations",
         "vendor_negotiation_rebates",
+        "returns_reverse_logistics",
+        "cart_checkout_analytics",
+        "working_capital_cashflow",
     }
     registered = set(registry["agents"].keys())
     missing = expected_agents - registered

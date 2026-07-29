@@ -77,6 +77,9 @@ domains:
   marketing:
     domain_id: mktg
     display_name: Marketing
+  e_commerce:
+    domain_id: ecom
+    display_name: E-Commerce
 
 agents:
   assortment_planning:
@@ -197,6 +200,31 @@ agents:
       - rebate_agreements         # -> merc_vreb_rebate_agreements
       - coop_marketing_funds      # -> merc_vreb_coop_marketing_funds
       - vendor_settlements        # -> merc_vreb_vendor_settlements
+  returns_reverse_logistics:
+    domain: supply_chain
+    agent_id: rlog
+    tables:
+      - stores_channels           # -> spch_rlog_stores_channels
+      - returns_monthly           # -> spch_rlog_returns_monthly
+      - return_reasons            # -> spch_rlog_return_reasons
+      - reverse_disposition       # -> spch_rlog_reverse_disposition
+  cart_checkout_analytics:
+    domain: e_commerce
+    agent_id: ccan
+    tables:
+      - digital_funnel            # -> ecom_ccan_digital_funnel
+      - cart_abandonment          # -> ecom_ccan_cart_abandonment
+      - payment_exceptions        # -> ecom_ccan_payment_exceptions
+      - promo_code_validation     # -> ecom_ccan_promo_code_validation
+  working_capital_cashflow:
+    domain: finance
+    agent_id: wcap
+    tables:
+      - cash_conversion_cycle     # -> finc_wcap_cash_conversion_cycle
+      - accounts_receivable_aging # -> finc_wcap_accounts_receivable_aging
+      - accounts_payable_aging    # -> finc_wcap_accounts_payable_aging
+      - liquidity_forecast        # -> finc_wcap_liquidity_forecast
+
 
 
 
