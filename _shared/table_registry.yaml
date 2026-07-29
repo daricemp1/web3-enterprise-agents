@@ -224,6 +224,56 @@ agents:
       - accounts_receivable_aging # -> finc_wcap_accounts_receivable_aging
       - accounts_payable_aging    # -> finc_wcap_accounts_payable_aging
       - liquidity_forecast        # -> finc_wcap_liquidity_forecast
+  markdown_clearance_optimization:
+    domain: merchandising
+    agent_id: mcle
+    tables:
+      - clearance_catalog           # -> merc_mcle_clearance_catalog
+      - markdown_ladders            # -> merc_mcle_markdown_ladders
+      - clearance_velocity_weekly   # -> merc_mcle_clearance_velocity_weekly
+      - salvage_liquidation_recovery # -> merc_mcle_salvage_liquidation_recovery
+  price_matching_competitor_intel:
+    domain: merchandising
+    agent_id: pmci
+    tables:
+      - competitor_price_feed       # -> merc_pmci_competitor_price_feed
+      - price_index_summary         # -> merc_pmci_price_index_summary
+      - pos_price_match_claims      # -> merc_pmci_pos_price_match_claims
+      - competitor_stock_alerts     # -> merc_pmci_competitor_stock_alerts
+  search_merchandising_personalization:
+    domain: e_commerce
+    agent_id: smep
+    tables:
+      - search_queries_monthly      # -> ecom_smep_search_queries_monthly
+      - zero_results_terms          # -> ecom_smep_zero_results_terms
+      - recommendations_perf        # -> ecom_smep_recommendations_perf
+      - personalization_lift        # -> ecom_smep_personalization_lift
+
+  markdown_clearance_optimization:
+    domain: merchandising
+    agent_id: mcle
+    tables:
+      - clearance_catalog           # -> merc_mcle_clearance_catalog
+      - markdown_ladders            # -> merc_mcle_markdown_ladders
+      - clearance_velocity_weekly   # -> merc_mcle_clearance_velocity_weekly
+      - salvage_liquidation_recovery # -> merc_mcle_salvage_liquidation_recovery
+  price_matching_competitor_intel:
+    domain: merchandising
+    agent_id: pmci
+    tables:
+      - competitor_price_feed       # -> merc_pmci_competitor_price_feed
+      - price_index_summary         # -> merc_pmci_price_index_summary
+      - pos_price_match_claims      # -> merc_pmci_pos_price_match_claims
+      - competitor_stock_alerts     # -> merc_pmci_competitor_stock_alerts
+  search_merchandising_personalization:
+    domain: e_commerce
+    agent_id: smep
+    tables:
+      - search_queries_monthly      # -> ecom_smep_search_queries_monthly
+      - zero_results_terms          # -> ecom_smep_zero_results_terms
+      - recommendations_perf        # -> ecom_smep_recommendations_perf
+      - personalization_lift        # -> ecom_smep_personalization_lift
+
 
 
 
