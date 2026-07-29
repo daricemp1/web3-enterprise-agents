@@ -85,7 +85,7 @@ def test_scaffolded_chart_generator_module_compiles(scaffolded_agent):
 def test_scaffolded_agent_no_leftover_tokens(scaffolded_agent):
     tokens = ["__DOMAIN__", "__LOGICAL_AGENT__", "__DISPLAY_NAME__", "__SHARED_INSTRUCTIONS__"]
     for path in scaffolded_agent.rglob("*"):
-        if not path.is_file():
+        if not path.is_file() or path.suffix.lower() in (".png", ".jpg", ".jpeg", ".ico", ".pyc"):
             continue
         text = path.read_text()
         for token in tokens:
