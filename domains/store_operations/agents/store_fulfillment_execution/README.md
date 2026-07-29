@@ -1,39 +1,113 @@
 # Store Fulfillment & Execution Agent
 
-**Domain:** store_operations · **Gemini Enterprise display name:** "Store Operations: Store Fulfillment & Execution"
+**Domain:** Store Operations · **Gemini Enterprise display name:** Store Operations: Store Fulfillment & Execution
 
-The Store Fulfillment & Execution agent orchestrates store-level Buy Online Pick Up In Store (BOPIS) order processing, curbside wait time analytics, pick accuracy tracking, and omnichannel fulfillment performance. It routes questions between **Data Insights** (internal BigQuery data analysis via Conversational Analytics and forecasting tools) and **Market Context** (Google Search grounding for industry omnichannel fulfillment benchmarks).
+Answers questions about Buy Online Pick Up In Store (BOPIS) order processing, curbside wait time analytics, pick accuracy tracking, and omnichannel fulfillment performance. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
+
+---
+
+## Why This Agent Matters
+
+### Business Problem
+Long curbside pickup wait times and item mispicks during store order assembly erode customer trust in omnichannel store fulfillment. This agent tracks store-level BOPIS SLA compliance, picking speed, and customer wait times to eliminate fulfillment bottlenecks.
+
+### Target Personas
+- **Omnichannel Operations Managers**: Oversee store BOPIS order volume, SLA compliance, and curbside handoff speed.
+- **Store Managers**: Identify store packing bottlenecks and department item mispick rates.
+- **Customer Experience (CX) Leads**: Monitor curbside wait times to reduce order cancellation rates.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **BOPIS SLA Compliance %** | `(orders_met_sla_count / total_bopis_orders) * 100` | Target >95% orders ready in <2 hours |
+| **Curbside Wait Time** | Minutes from customer arrival check-in to trunk load | Target <5 minutes average curbside wait |
+| **Store Pick Accuracy %** | `(correct_items_picked / total_items_picked) * 100` | Target >99.0% pick accuracy |
+| **OOS Cancellation Rate** | `(out_of_stock_cancellations / total_orders) * 100` | Minimizes inventory phantom stock impact |
 
 ---
 
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - BOPIS fulfillment SLAs, curbside wait times, pick accuracy %, order fulfillment status, or fulfillment queue bottlenecks.
 
 Routed to **Market Context**:
-
 - Omnichannel fulfillment benchmarks, retail industry BOPIS standards, or curbside pickup market trends.
 
 Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
 
 ---
 
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What are the average curbside pickup wait time trends across stores over the last two weeks?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `stop_sfex_fulfillment_slas`
+
+**Agent Response:**
+> Average curbside pickup wait times across stores over the last two weeks:
+> 1. **STORE-101**: 8.5 minutes (SLA Compliant)
+> 2. **STORE-103**: 9.1 minutes (SLA Compliant)
+> 3. **STORE-102**: 14.2 minutes (Nearing SLA limit)
+> 4. **STORE-104**: 18.6 minutes — **Exceeds 15-Minute SLA Maximum**
+>
+> STORE-104 suffers from dedicated parking stall staging delays during evening peak hours.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are current retail industry benchmarks for BOPIS order readiness lead times?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Enterprise retail benchmarks for BOPIS and curbside fulfillment:
+> - **Order Ready Time**: Leading omnichannel retailers target **<2 hours** from online order placement to customer ready notification.
+> - **Curbside Wait Time**: Best-in-class curbside benchmark is **<3 minutes** from customer GPS/app check-in.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a bar chart comparing store curbside pickup wait times against our 15-minute maximum SLA limit."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the BOPIS curbside wait time chart. STORE-104 is highlighted in red for exceeding the 15-minute SLA threshold.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
+
+---
+
 ## Data
 
-All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `stop_sfex_`. Seed data is synthetic, generated by `data/generate_seed_data.py`.
+All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `stop_sfex_` (this agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is synthetic, generated by `data/generate_seed_data.py`.
 
 | Table | Columns | Holds |
 | :--- | :--- | :--- |
-| `stop_sfex_stores` | `store_id`, `store_name`, `region`, `district_manager`, `bopis_enabled_flag` | Store locations, district managers, and BOPIS service enablement status |
-| `stop_sfex_bopis_orders` | `order_id`, `store_id`, `order_timestamp`, `fulfillment_status`, `pick_ready_timestamp`, `customer_pickup_timestamp`, `fulfillment_time_minutes` | Individual BOPIS order status, timestamps, and total fulfillment cycle times |
-| `stop_sfex_fulfillment_slas` | `store_id`, `date`, `total_bopis_orders`, `orders_met_sla_count`, `sla_compliance_pct`, `avg_pick_time_minutes`, `avg_curbside_wait_minutes` | Daily store fulfillment SLA metrics, compliance percentages, pick and wait times |
-| `stop_sfex_pick_accuracy_summary` | `store_id`, `department`, `date`, `total_items_picked`, `mispicked_items_count`, `out_of_stock_cancellations`, `pick_accuracy_pct` | Daily department pick accuracy, item mispicks, OOS cancellations, and accuracy rates |
+| `stop_sfex_stores` | `store_id, store_name, region, district_manager, bopis_enabled_flag` | Store locations, district managers, and BOPIS service enablement status |
+| `stop_sfex_bopis_orders` | `order_id, store_id, order_timestamp, fulfillment_status, pick_ready_timestamp, customer_pickup_timestamp, fulfillment_time_minutes` | Individual BOPIS order status, timestamps, and total fulfillment cycle times |
+| `stop_sfex_fulfillment_slas` | `store_id, date, total_bopis_orders, orders_met_sla_count, sla_compliance_pct, avg_pick_time_minutes, avg_curbside_wait_minutes` | Daily store fulfillment SLA metrics, compliance percentages, pick and wait times |
+| `stop_sfex_pick_accuracy_summary` | `store_id, department, date, total_items_picked, mispicked_items_count, out_of_stock_cancellations, pick_accuracy_pct` | Daily department pick accuracy, item mispicks, OOS cancellations, and accuracy rates |
 
 ---
 
 ## Example Questions
+
+Verified against this agent's `eval/agent.evalset.json`:
 
 - "What is our BOPIS SLA compliance percentage across stores for the past two weeks?"
 - "What are the average curbside pickup wait time trends across stores over the last two weeks?"
@@ -44,7 +118,7 @@ All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `st
 
 ## Tools
 
-- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the tables above; access is enforced by this agent's service account IAM, not by tool configuration.
+- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the four tables above; access is enforced by this agent's service account IAM, not by tool configuration.
 - **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests, since ADK's Conversational Analytics integration cannot generate charts itself.
 - **`google_search`** — used only by the Market Context sub-agent.
 
@@ -75,4 +149,5 @@ store_fulfillment_execution/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```

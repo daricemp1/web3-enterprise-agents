@@ -6,19 +6,90 @@ Answers questions about store foot traffic alignment with shift scheduling, depa
 
 ---
 
+## Why This Agent Matters
+
+### Business Problem
+Retail stores frequently misalign hourly employee shift schedules with customer foot traffic patterns, causing understaffed customer queues during peak shopping hours and overstaffed downtime during lulls. This agent aligns staffing with hourly traffic and controls department overtime.
+
+### Target Personas
+- **Store Operations Vice Presidents**: Audit labor cost % of sales and district labor budget variances.
+- **Store Managers**: Optimize hourly shift schedules to match customer traffic spikes and eliminate unnecessary overtime.
+- **Labor Planning Analysts**: Benchmark sales per labor hour (SPLH) across store formats and regions.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Labor Cost % of Sales** | `(actual_labor_cost / net_sales) * 100` | Target <12% to maintain store operating margins |
+| **Sales per Labor Hour (SPLH)** | `total_sales / total_actual_labor_hours` | Maximizes labor revenue productivity |
+| **Traffic Alignment Score** | Correlation between `customer_count` and `actual_staff_count` | Ensures staff availability during peak foot traffic |
+| **Overtime Variance** | `SUM(overtime_hours)` by department | Prevents unbudgeted premium overtime pay |
+
+---
+
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - Foot traffic vs staffing alignment — hourly customer traffic vs scheduled shift hours, peak hour staffing gaps
 - Department labor utilization — overtime hours by department, labor hours by shift/role
 - Store labor financial variance — store labor budget vs actual expenditure, labor cost percentage of sales
 
 Routed to **Market Context**:
-
 - External labor market trends, retail industry labor benchmarks, regional minimum wage changes, macro labor availability context
 
 Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "How well does our store staffing align with peak hourly foot traffic at Store 101?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `stop_lprd_hourly_foot_traffic`, `stop_lprd_hourly_staff_shifts`
+
+**Agent Response:**
+> Hourly foot traffic vs. staffing alignment for STORE-101:
+> - **Peak Hour 1 (14:00 - 15:00)**: 720 customers vs 22 scheduled staff — **Understaffed (Gap: 4 staff)**
+> - **Peak Hour 2 (18:00 - 19:00)**: 810 customers vs 24 scheduled staff — **Optimal alignment**
+> - **Low Traffic (08:00 - 09:00)**: 120 customers vs 6 scheduled staff — Balanced baseline
+>
+> Moving 4 shift hours from the 10:00 lull to 14:00 will resolve peak queue wait times.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are typical retail industry benchmarks for labor cost percentage of sales in apparel stores?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Retail industry labor cost benchmarks for specialty apparel stores:
+> - **Labor Cost Target**: Specialty retail benchmarks range between **10% and 14% of net sales**.
+> - **Sales per Labor Hour (SPLH)**: Average apparel benchmark is **$180 – $220 SPLH** during non-holiday periods.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a dual-axis chart showing hourly foot traffic overlaid with scheduled staff counts for Store 101."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the foot traffic vs. staffing alignment chart. The overlay highlights a 2-hour afternoon window where foot traffic peaks faster than scheduled staff scaling.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
@@ -79,4 +150,5 @@ labor_productivity/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```
