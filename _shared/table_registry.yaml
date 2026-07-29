@@ -267,6 +267,7 @@ agents:
       - competitor_stock_alerts     # -> merc_pmci_competitor_stock_alerts
   search_merchandising_personalization:
     domain: e_commerce
+    display_name: "E-Commerce: Product Discovery & Analytics"
     agent_id: smep
     tables:
       - search_queries_monthly      # -> ecom_smep_search_queries_monthly

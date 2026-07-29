@@ -33,8 +33,11 @@ local-only design spec — see [Architecture](#architecture).
 | 16 | Finance | [`working_capital_cashflow`](domains/finance/agents/working_capital_cashflow/README.md) | Finance: Working Capital & Cash Flow | Cash Conversion Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, liquidity forecasts |
 | 17 | Marketing | [`campaign_performance_roi`](domains/marketing/agents/campaign_performance_roi/README.md) | Marketing: Campaign Performance & ROI | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
 | 18 | Marketing | [`customer_lifecycle_loyalty`](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | Marketing: Customer Lifecycle & Loyalty | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
+| 19 | Merchandising | [`markdown_clearance_optimization`](domains/merchandising/agents/markdown_clearance_optimization/README.md) | Merchandising: Markdown & Clearance Optimization | End-of-season clearance discount depth, clearance sell-through %, markdown budget spend, salvage recovery |
+| 20 | Merchandising | [`price_matching_competitor_intel`](domains/merchandising/agents/price_matching_competitor_intel/README.md) | Merchandising: Price Matching & Competitor Intel | Competitor price gap %, market price index parity (100 baseline), POS price match claims, competitor stock alerts |
+| 21 | E-Commerce | [`search_merchandising_personalization`](domains/e_commerce/agents/search_merchandising_personalization/README.md) | E-Commerce: Product Discovery & Analytics | Digital funnel site search conversion %, zero-result query rates, recommendation carousel CTR %, personalized revenue lift |
 
-All eighteen are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
+All twenty-one are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
 
 scaffold infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
 adding a tenth agent, or a sixth domain, is a generator invocation, not new plumbing.

@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Eighteen agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Twenty-one agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
@@ -36,6 +36,12 @@ registered with Gemini Enterprise:
   "Merchandising: Vendor Negotiation & Rebates") — fourth Merchandising agent (added 2026-07-28). Tracks
   volume rebate agreement thresholds, YTD spend rebate tier progress, co-op marketing fund commitments/claims,
   vendor payment terms, and net rebate realization %.
+- **Markdown & Clearance Optimization** (`domains/merchandising/agents/markdown_clearance_optimization/`, display name
+  "Merchandising: Markdown & Clearance Optimization") — fifth Merchandising agent (added 2026-07-29). Tracks
+  end-of-season clearance discount depth ladders, weekly sell-through velocity, markdown budget spend, and salvage recovery.
+- **Price Matching & Competitor Intel** (`domains/merchandising/agents/price_matching_competitor_intel/`, display name
+  "Merchandising: Price Matching & Competitor Intel") — sixth Merchandising agent (added 2026-07-29). Tracks
+  competitor price gap %, category price index parity, POS price match claims $, and competitor out-of-stock holding margin alerts.
 - **Vendor Performance** (`domains/supply_chain/agents/vendor_performance/`, display name
   "Supply Chain: Vendor Performance") — first Supply Chain agent (added 2026-07-26). Tracks OTIF delivery
   rates and vendor scorecards.
@@ -55,6 +61,9 @@ registered with Gemini Enterprise:
 - **Cart & Checkout Analytics** (`domains/e_commerce/agents/cart_checkout_analytics/`, display name
   "E-Commerce: Cart & Checkout Analytics") — first E-Commerce agent (added 2026-07-29). Tracks digital funnel
   conversion rates, checkout stage cart abandonment %, payment gateway decline rates, and promo validation errors.
+- **Product Discovery & Analytics** (`domains/e_commerce/agents/search_merchandising_personalization/`, display name
+  "E-Commerce: Product Discovery & Analytics") — second E-Commerce agent (added 2026-07-29). Tracks
+  digital site search conversion rates, zero-result search query rates, recommendation carousel CTR %, and personalized revenue lift.
 - **Labor Productivity** (`domains/store_operations/agents/labor_productivity/`, display name
   "Store Operations: Labor Productivity") — first Store Operations agent (added 2026-07-27). Tracks store
   staffing presence vs. hourly customer foot traffic alignment, department overtime variance, and labor budgets.
