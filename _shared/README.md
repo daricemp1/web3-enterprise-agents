@@ -16,9 +16,9 @@ This copies `_shared/templates/logical_agent/` into
 the `# TODO(scaffold):` markers left in `root_agent.yaml` and `sub_agents/data_insights.yaml`
 with agent-specific routing guidance and authorized BigQuery table references, then add seed data
 under `data/` (see that folder's README). Also fill in the scaffolded `README.md`'s own
-placeholders — its routing/data/tools sections mirror the same information, but its **Example
-Questions must be copied verbatim from `eval/agent.evalset.json` once that's written**, not
-invented ahead of time; see any of the four existing agents' `README.md` for the pattern.
+placeholders — including its **Why This Agent Matters** business problem and personas, **Key Metrics Tracked** table,
+and **Sample Q&A Showcase** capturing 3 live post-deploy smoke test responses (BigQuery data, Google Search market grounding, and a generated `sample_chart.png` visual artifact). Its **Example Questions must be copied verbatim from `eval/agent.evalset.json` once that's written**, not
+invented ahead of time; see any of the existing agents' `README.md` for the pattern.
 
 Shared persona/safety/formatting instructions live in `_shared/instructions/*.md` and are
 concatenated into every scaffolded agent's instruction text at scaffold time — not at runtime.
