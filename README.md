@@ -14,7 +14,7 @@ local-only design spec — see [Architecture](#architecture).
 ## What's Built
 
 | No. | Domain | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- | :--- |
+| :---: | :---: | :---: | :---: | :---: |
 | 1 | Merchandising | [`assortment_planning`](domains/merchandising/agents/assortment_planning/README.md) | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
 | 2 | Merchandising | [`pricing_promotions`](domains/merchandising/agents/pricing_promotions/README.md) | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
 | 3 | Merchandising | [`sell_through_inventory_health`](domains/merchandising/agents/sell_through_inventory_health/README.md) | Merchandising: Sell-Through & Inventory Health | Store-level sell-through rates, stock turn, aging inventory breakdown, weeks of supply, markdown triggers |
