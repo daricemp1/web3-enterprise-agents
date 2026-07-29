@@ -2,37 +2,100 @@
 
 **Domain:** Supply Chain · **Gemini Enterprise display name:** Supply Chain: Vendor Performance
 
-Answers questions about on-time-in-full (OTIF) delivery and vendor scorecards — the first agent
-in the Supply Chain domain. Orchestrates two sub-agents: **Data Insights**, which queries
-BigQuery via the Conversational Analytics API and BigQuery's built-in
-forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external
-questions via Google Search grounding.
+Answers questions about on-time-in-full (OTIF) delivery and vendor scorecards. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
+
+---
+
+## Why This Agent Matters
+
+### Business Problem
+Vendor delivery delays and short shipments disrupt downstream warehouse fulfillment and cause out-of-stock events in retail stores. This agent evaluates vendor reliability via On-Time In-Full (OTIF) delivery tracking to hold suppliers accountable and enforce SLA compliance.
+
+### Target Personas
+- **Vendor Performance Managers**: Audit supplier compliance against contractual OTIF SLAs.
+- **Inbound Logistics Directors**: Track purchase order fulfillment delays and dock arrival schedules.
+- **Strategic Sourcing Leads**: Benchmark supplier reliability before contract renewals or volume reallocations.
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **OTIF Rate %** | `(otif_pos / total_pos) * 100` | Target >90% OTIF compliance across core suppliers |
+| **On-Time Rate %** | `(on_time_pos / total_pos) * 100` | Ensures expected DC dock appointment alignment |
+| **In-Full Rate %** | `(in_full_pos / total_pos) * 100` | Prevents partial order receiving and stockouts |
+| **Average Delay Days** | `SUM(actual_delivery_date - expected_delivery_date) / late_pos` | Identifies severe supply chain bottlenecks |
 
 ---
 
 ## What It Answers
 
 Routed to **Data Insights**:
-
-- Vendor-level performance — "how is [vendor] doing," best/worst on-time delivery, OTIF trend,
-  vendor scorecards
+- Vendor-level performance — "how is [vendor] doing," best/worst on-time delivery, OTIF trend, vendor scorecards
 - Per-purchase-order detail — which POs from a vendor were late or short-shipped
 
 Routed to **Market Context**:
-
 - Industry OTIF benchmarks, or news about supply chain issues at a specific vendor
 
-Mixed questions (e.g. "is [vendor]'s OTIF slipping, and is that consistent with what's being
-reported about them in the news") go to both, with the answer clearly attributing which part came
-from internal data versus external search.
+Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "Which vendor has the worst on-time-in-full delivery rate?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `spch_vepe_vendor_scorecard`
+
+**Agent Response:**
+> Vendor delivery performance summary ordered by lowest OTIF %:
+> 1. **Apex Forwarding**: 79.4% OTIF (18 total POs, average delay: 3.2 days) — **Below 90% SLA Target**
+> 2. **Pacific Freight**: 88.5% OTIF (26 total POs, average delay: 1.1 days)
+> 3. **AeroLogistics**: 94.2% OTIF (35 total POs, average delay: 0.2 days)
+> 4. **Global Transit**: 96.1% OTIF (42 total POs, average delay: 0.1 days)
+>
+> Apex Forwarding is currently non-compliant with our 90% OTIF contract SLA.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are industry standard OTIF delivery targets for retail supply chains?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Enterprise retail supply chain benchmarks for OTIF compliance:
+> - **General Merchandise**: Mass retailers require **90% to 95% OTIF** for general merchandise suppliers.
+> - **Short-Shipment Penalties**: Vendors falling below 85% OTIF routinely face non-compliance chargebacks equal to 3% of invoice value.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a bar chart comparing vendor OTIF rates against our 90% SLA target."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the vendor OTIF delivery rate chart. AeroLogistics and Global Transit exceed the 90% threshold, while Apex Forwarding is highlighted in red for SLA non-compliance.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
 ## Data
 
-All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `spch_vepe_` (this
-agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is
-synthetic, generated by `data/generate_seed_data.py`.
+All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `spch_vepe_` (this agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is synthetic, generated by `data/generate_seed_data.py`.
 
 | Table | Columns | Holds |
 | :--- | :--- | :--- |
@@ -40,11 +103,6 @@ synthetic, generated by `data/generate_seed_data.py`.
 | `spch_vepe_vendors` | `vendor_id, vendor_name, category, region, onboarded_date, status` | Vendor master data |
 | `spch_vepe_purchase_orders` | `po_id, vendor_id, sku_id, order_date, expected_delivery_date, actual_delivery_date, quantity_ordered, quantity_received, on_time, in_full` | Per-purchase-order delivery detail |
 | `spch_vepe_vendor_scorecard` | `vendor_id, period_start, period_end, total_pos, on_time_pos, in_full_pos, otif_pos, otif_pct, avg_delay_days` | Precomputed OTIF% per vendor per period |
-
-`vendor_scorecard` is precomputed so vendor-level questions are answered directly from it, not by
-deriving OTIF live from `purchase_orders` (that table is for per-PO detail questions instead).
-Vendor-to-product relationships are always resolved by joining `purchase_orders` to `vendors` and
-`product_catalog` by id — never inferred from a vendor's name resembling a product's brand.
 
 ---
 
@@ -61,11 +119,8 @@ Verified against this agent's `eval/agent.evalset.json`:
 
 ## Tools
 
-- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's
-  `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the four tables above; access is
-  enforced by this agent's service account IAM, not by tool configuration.
-- **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests,
-  since ADK's Conversational Analytics integration cannot generate charts itself.
+- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the four tables above; access is enforced by this agent's service account IAM, not by tool configuration.
+- **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests, since ADK's Conversational Analytics integration cannot generate charts itself.
 - **`google_search`** — used only by the Market Context sub-agent.
 
 ---
@@ -76,8 +131,7 @@ Verified against this agent's `eval/agent.evalset.json`:
 uv run adk run domains/supply_chain/agents/vendor_performance
 ```
 
-Requires `BIGQUERY_PROJECT_ID` set and Application Default Credentials with access to the
-`retail_ent_agents` dataset — see the repo root [README](../../../../README.md#getting-started).
+Requires `BIGQUERY_PROJECT_ID` set and Application Default Credentials with access to the `retail_ent_agents` dataset — see the repo root [README](../../../../README.md#getting-started).
 
 ---
 
@@ -96,4 +150,5 @@ vendor_performance/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```

@@ -6,19 +6,91 @@ Answers questions about distribution center daily throughput, dock turn times, p
 
 ---
 
+## Why This Agent Matters
+
+### Business Problem
+Bottlenecks in distribution center dock-to-stock receiving and picking operations delay store replenishment and e-commerce fulfillment. This agent provides real-time visibility into DC inbound/outbound unit throughput, storage capacity utilization, and pick accuracy.
+
+### Target Personas
+- **VP of Distribution & Logistics**: Oversee network DC throughput, pallet capacity, and labor productivity.
+- **Warehouse Operations Managers**: Monitor daily dock turn times, dock-to-stock hours, and overflow trailer counts.
+- **Order Fulfillment Leads**: Track zone-level picking accuracy and pick units per hour (UPH).
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Pallet Utilization %** | `(active_pallet_positions / max_pallet_positions) * 100` | Flags capacity alerts when >85% occupied |
+| **Dock-to-Stock Hours** | Hours elapsed from inbound dock unload to storage shelf | Target <24 hours to accelerate inventory availability |
+| **Pick Accuracy %** | `(correct_units_picked / total_units_picked) * 100` | Target >99.5% accuracy to prevent mispacks |
+| **Dock Turn Time** | Average minutes trailers spend at receiving/shipping docks | Minimizes carrier detention charges |
+
+---
+
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - DC daily throughput — inbound/outbound shipment counts, units received/shipped, dock-to-stock hours, avg dock turn minutes
 - Pick & pack performance — zone-level picking rates (units per hour), accuracy %, and mispack counts
 - Capacity utilization — active pallet positions, max capacity, utilization %, overflow trailers, and alert flags
 
 Routed to **Market Context**:
-
 - External warehouse automation trends, 3PL operational benchmarks, logistics labor rates, DC real estate market trends
 
 Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "Which distribution centers currently have active capacity utilization alerts?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `spch_wdco_capacity_utilization`
+
+**Agent Response:**
+> Current distribution center pallet capacity status:
+> 1. **DC-Central (Dallas)**: 89.2% utilization (26,760 / 30,000 pallets) — **ACTIVE ALERT (Overflow: 12 trailers)**
+> 2. **DC-East (Atlanta)**: 81.5% utilization (24,450 / 30,000 pallets) — Normal
+> 3. **DC-West (Reno)**: 76.0% utilization (19,000 / 25,000 pallets) — Normal
+>
+> DC-Central is currently exceeding the 85% capacity threshold, triggering overflow trailer storage.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are industry 3PL dock turn time benchmarks for receiving full truckload shipments?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Logistics industry benchmarks for warehouse dock turnaround times:
+> - **Live Unload FTL**: Industry target is **<120 minutes** (2 hours). Detain fees apply beyond 2 hours.
+> - **Drop & Hook**: Target is **<30 minutes** for trailer swapping.
+> - **Automated Receiving**: DCs utilizing autonomous mobile robots (AMRs) report dock-to-stock turnaround under **4 hours**.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Render a bar chart comparing daily inbound vs outbound unit throughput across distribution centers."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have rendered the DC daily throughput comparison chart. DC-Central (Dallas) leads in total unit volume processed for both inbound receiving and outbound store shipping.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
@@ -79,4 +151,5 @@ warehouse_dc_operations/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```

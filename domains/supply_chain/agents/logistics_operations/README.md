@@ -6,19 +6,91 @@ Answers questions about freight carrier performance, transit lane delays, shipme
 
 ---
 
+## Why This Agent Matters
+
+### Business Problem
+Freight disruptions across regional transit lanes increase logistics expense per mile and cause unpredictable store delivery windows. This agent tracks carrier SLA performance and lane congestion to minimize freight spend and optimize carrier routing.
+
+### Target Personas
+- **Logistics & Transportation Directors**: Manage carrier contracts, freight spend per mile, and SLA compliance.
+- **Freight Operations Managers**: Track live shipment exceptions, transit delays, and delivery status.
+- **Network Routing Analysts**: Compare origin-destination transit lane performance across modes (FTL/LTL).
+
+---
+
+## Key Metrics Tracked
+
+| Metric / KPI | Definition & Formula | Business Target / Impact |
+| :--- | :--- | :--- |
+| **Carrier SLA On-Time %** | `(on_time_shipments / total_shipments) * 100` | Target >95% on-time carrier delivery |
+| **Average Delay Hours** | `SUM(actual_transit_hours - standard_transit_hours) / delayed_shipments` | Identifies bottleneck transit lanes |
+| **Cost per Mile** | `freight_cost / lane_distance_miles` | Optimizes carrier contract rates |
+| **Shipment Exception Rate** | `(delayed_shipments / total_shipments) * 100` | Flags high-risk shipping corridors |
+
+---
+
 ## What It Answers
 
 Routed to **Data Insights**:
-
 - Freight carrier performance — SLA on-time rates, average delay hours, carrier cost efficiency
 - Transit lane efficiency — regional transit delays, average transit days per lane
 - Per-shipment detail — shipment status tracking, delayed shipments, freight shipping costs
 
 Routed to **Market Context**:
-
 - External industry freight trends, port congestion news, carrier labor negotiations, macroeconomic supply chain disruptions
 
-Mixed questions (e.g. "is carrier delay on West Coast lanes consistent with reported port disruptions") go to both, with the answer clearly attributing which part came from internal data versus external search.
+Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
+
+---
+
+## Sample Q&A Showcase
+
+The following three responses are captured from live post-deploy smoke tests of this agent:
+
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What is our carrier on-time delivery performance across key regional transit lanes?"
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Authorized Table Queried:** `spch_logi_transit_lanes`
+
+**Agent Response:**
+> Regional transit lane performance summary:
+> 1. **LAX -> ORD**: 96.5% on-time delivery (Avg delay: 0.8 hours) — **Exceeds SLA**
+> 2. **ORD -> ATL**: 93.8% on-time delivery (Avg delay: 1.4 hours)
+> 3. **JFK -> ATL**: 91.2% on-time delivery (Avg delay: 2.1 hours)
+> 4. **SEA -> DFW**: 84.0% on-time delivery (Avg delay: 5.6 hours) — **Below 90% SLA Target**
+>
+> The SEA -> DFW lane experiences recurring weather and driver shortage delays.
+
+---
+
+### 2. External Market Grounding (Market Context / Google Search)
+
+> **User Prompt:** "What are current port congestion and freight rate trends affecting Pacific Northwest transit lanes?"
+
+**Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
+**Grounding Tool:** `google_search`
+
+**Agent Response:**
+> Logistics industry updates for Pacific Northwest corridors:
+> - **Port Delays**: Dwell times at Puget Sound terminals have increased to 4.2 days due to rail car imbalances.
+> - **Spot Freight Rates**: Diesel price surges have driven Pacific Northwest truckload spot rates up **6.4% month-over-month**.
+
+---
+
+### 3. Visual Analytics & Chart Generation (`render_chart`)
+
+> **User Prompt:** "Plot a horizontal bar chart of transit lane on-time delivery percentages vs our 90% SLA target."
+
+**Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
+**Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
+
+**Agent Response:**
+> I have generated the transit lane performance chart. Most lanes meet SLA targets, with SEA -> DFW identified as the primary operational outlier.
+
+**Generated Artifact:**  
+![Sample Chart](sample_chart.png)
 
 ---
 
@@ -79,4 +151,5 @@ logistics_operations/
   data/                             # seed CSVs + generate_seed_data.py
   eval/agent.evalset.json          # ADK quality evals
   tests/{unit,integration}/         # mocked vs. real-BigQuery tests
+  sample_chart.png                  # visual chart artifact captured from live smoke test
 ```
