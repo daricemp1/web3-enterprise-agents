@@ -14,7 +14,7 @@ local-only design spec — see [Architecture](#architecture).
 ## What's Built
 
 | No. | Domain | Agent | Gemini Enterprise Display Name | Focus |
-| :---: | :---: | :---: | :---: | :---: |
+| :--- | :--- | :--- | :--- | :--- |
 | 1 | Merchandising | [`assortment_planning`](domains/merchandising/agents/assortment_planning/README.md) | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
 | 2 | Merchandising | [`pricing_promotions`](domains/merchandising/agents/pricing_promotions/README.md) | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
 | 3 | Merchandising | [`sell_through_inventory_health`](domains/merchandising/agents/sell_through_inventory_health/README.md) | Merchandising: Sell-Through & Inventory Health | Store-level sell-through rates, stock turn, aging inventory breakdown, weeks of supply, markdown triggers |
@@ -67,7 +67,7 @@ This repo distinguishes between the models and infrastructure used to *build* th
 models and infrastructure the agents actually *run* on — these are deliberately not the same:
 
 | Layer | Technology | Role |
-| :---: | :---: | :---: |
+| :--- | :--- | :--- |
 | Design and implementation | Claude Sonnet 5, Gemini 3.5 | AI coding assistants used to design this architecture and implement the agents, scaffolding, and supporting tooling — development-time only, not part of the running system |
 | Agent inference | Gemini 2.5 Flash | The model each deployed agent calls at runtime to reason, route between sub-agents, and generate responses |
 | Agent framework | Google Agent Development Kit (ADK) | Materializes each logical agent's YAML configuration into a running multi-agent program |
@@ -107,7 +107,7 @@ is scoped, and how many agents share one BigQuery dataset without colliding.
 ## Design Decisions
 
 | Decision | Rationale |
-| :---: | :---: |
+| :--- | :--- |
 | Shared instructions composed at **scaffold time**, not runtime | ADK's YAML has no cross-file include. A runtime loader would work but couples every agent's behavior to one shared file at request time. Baking shared persona/safety text into each agent when it's generated keeps agents self-contained; updating the shared text only affects agents scaffolded afterward — a deliberate trade-off over silent behavior drift in already-deployed agents. |
 | **IAM is the real access boundary**, not tool configuration | `ask_data_insights` takes `table_references` from the model at call time — there's no static allowlist in the tool itself. Each agent's actual data scoping comes from its own service account's table-level BigQuery IAM (`_shared/scripts/grant_table_access.py`), not from anything in YAML. |
 | **One shared BigQuery dataset** (`retail_ent_agents`), not one per agent | Collisions are prevented structurally: every domain and agent has a fixed 4-letter id (`_shared/table_registry.yaml`), and every table is physically named `<domain_id>_<agent_id>_<table>`. Two agents can use the same logical table name without colliding, and a shared dataset is simpler to operate than N datasets. |
@@ -234,7 +234,7 @@ Reference](#commands-reference) below for the day-to-day command reference once 
 ## Commands Reference
 
 | Task | Command |
-| :---: | :---: |
+| :--- | :--- |
 | Install/sync dependencies | `uv sync` |
 | Run the tooling test suite | `uv run pytest tests/tooling -v` |
 | Run a local agent | `uv run adk run domains/<domain>/agents/<agent>` |
@@ -257,7 +257,7 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 ### Source: `derailed-dash/dazbo-agent-skills` (6 skills)
 
 | Skill Name | Path |
-| :---: | :---: |
+| :--- | :--- |
 | `convert-to-devto` | `skills/convert-to-devto/SKILL.md` |
 | `create-md-from-browsermcp-snapshot` | `skills/create-md-from-browsermcp-snapshot/SKILL.md` |
 | `deploy-skills-in-antigravity` | `skills/deploy-skills-in-antigravity/SKILL.md` |
@@ -268,7 +268,7 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 ### Source: `google/skills` (90 skills)
 
 | Skill Name | Path |
-| :---: | :---: |
+| :--- | :--- |
 | `agent-platform-alert-configuration` | `skills/cloud/agent-platform-alert-configuration/SKILL.md` |
 | `agent-platform-deploy` | `skills/cloud/agent-platform-deploy/SKILL.md` |
 | `agent-platform-endpoint-management` | `skills/cloud/agent-platform-endpoint-management/SKILL.md` |
@@ -363,7 +363,7 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 ### Source: `obra/superpowers` (14 skills)
 
 | Skill Name | Path |
-| :---: | :---: |
+| :--- | :--- |
 | `brainstorming` | `skills/brainstorming/SKILL.md` |
 | `dispatching-parallel-agents` | `skills/dispatching-parallel-agents/SKILL.md` |
 | `executing-plans` | `skills/executing-plans/SKILL.md` |
@@ -382,7 +382,7 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 ### Source: `vercel-labs/skills` (1 skills)
 
 | Skill Name | Path |
-| :---: | :---: |
+| :--- | :--- |
 | `find-skills` | `skills/find-skills/SKILL.md` |
 
 ---
