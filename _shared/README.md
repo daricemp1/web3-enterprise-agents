@@ -61,14 +61,14 @@ When creating a dedicated service account for a new agent (e.g., `<agent_name>-d
    - `roles/aiplatform.user`
 
 ### Deployment & Registration Commands
-Prefix display names with the domain's `display_name` from `_shared/table_registry.yaml` (e.g., `"Supply Chain: Logistics Operations"`):
+All ADK Agent Engine deployments must target **only `us-central1`** (`--region us-central1`), while model inference uses `gemini-3.5-flash` via the `global` Vertex AI endpoint (`GOOGLE_CLOUD_LOCATION=global` in the agent's `.env`). Prefix display names with the domain's `display_name` from `_shared/table_registry.yaml` (e.g., `"Supply Chain: Logistics Operations"`):
 
 ```bash
-# 1. Deploy to Agent Engine
+# 1. Deploy to Agent Engine (us-central1 only)
 export PATH=$PATH:$HOME/Dev/google-cloud-sdk/bin
 uv run --frozen adk deploy agent_engine \
     --project <project_id> \
-    --region <region> \
+    --region us-central1 \
     --display_name "<Domain Display Name>: <Agent Display Name>" \
     --description "<Full Agent Description>" \
     domains/<domain>/agents/<agent_name>
@@ -76,10 +76,10 @@ uv run --frozen adk deploy agent_engine \
 # 2. Discover active Gemini Enterprise Apps in Project
 uv run --frozen agents-cli publish gemini-enterprise --list --project <project_id>
 
-# 3. Register to Gemini Enterprise
+# 3. Register to Gemini Enterprise (us-central1 runtime)
 uv run --frozen agents-cli publish gemini-enterprise \
     --registration-type adk \
-    --agent-runtime-id projects/<project_number>/locations/<region>/reasoningEngines/<agent_engine_id> \
+    --agent-runtime-id projects/<project_number>/locations/us-central1/reasoningEngines/<agent_engine_id> \
     --gemini-enterprise-app-id projects/<project_number>/locations/global/collections/default_collection/engines/<app_id> \
     --display-name "<Domain Display Name>: <Agent Display Name>" \
     --description "<Full Agent Description>" \
