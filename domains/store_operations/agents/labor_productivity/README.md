@@ -49,32 +49,32 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "How well does our store staffing align with peak hourly foot traffic at Store 101?"
+> **User Prompt:** "What is the labor productivity variance and foot traffic alignment for Store 101 last week?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `stop_lprd_hourly_foot_traffic`, `stop_lprd_hourly_staff_shifts`
+**Authorized Table Queried:** `stop_lprd_hourly_foot_traffic`, `stop_lprd_hourly_staff_shifts`, `stop_lprd_labor_budgets`
 
 **Agent Response:**
-> Hourly foot traffic vs. staffing alignment for STORE-101:
-> - **Peak Hour 1 (14:00 - 15:00)**: 720 customers vs 22 scheduled staff — **Understaffed (Gap: 4 staff)**
-> - **Peak Hour 2 (18:00 - 19:00)**: 810 customers vs 24 scheduled staff — **Optimal alignment**
-> - **Low Traffic (08:00 - 09:00)**: 120 customers vs 6 scheduled staff — Balanced baseline
+> For **Store 101 (Austin Flagship)** over the past week:
 >
-> Moving 4 shift hours from the 10:00 lull to 14:00 will resolve peak queue wait times.
+> - **Foot Traffic vs. Staffing Alignment:** Hourly foot traffic averaged 410 visitors/hour during peak weekend hours (12 PM - 5 PM), aligned with 14 scheduled sales associates.
+> - **Sales per Labor Hour (SPLH):** **$342.50 / hour** (Target: $320.00 / hour, representing a **+7.0% positive productivity variance**).
+> - **Overtime Hours Variance:** Total store overtime was 12.5 hours against a budgeted ceiling of 20.0 hours (-37.5% favorable).
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are typical retail industry benchmarks for labor cost percentage of sales in apparel stores?"
+> **User Prompt:** "What are retail store labor scheduling optimization and productivity benchmarks in 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Retail industry labor cost benchmarks for specialty apparel stores:
-> - **Labor Cost Target**: Specialty retail benchmarks range between **10% and 14% of net sales**.
-> - **Sales per Labor Hour (SPLH)**: Average apparel benchmark is **$180 – $220 SPLH** during non-holiday periods.
+> Retail industry benchmarks for store labor optimization and workforce management in 2026 highlight:
+> - **Traffic-to-Labor Alignment:** Leading enterprise retailers target a **>88% hourly schedule alignment** between forecasted customer traffic surges and frontline staffing levels.
+> - **Sales per Labor Hour (SPLH):** Specialty apparel benchmarks range between **$280 and $380 SPLH**, while big-box mass retail averages $350 to $450 SPLH depending on merchandise margin profile.
+> - **Flexible Scheduling & Shift Swapping:** AI-assisted self-service scheduling reduces unplanned employee absenteeism by 18% to 25% across multi-unit retail footprints.
 
 ---
 

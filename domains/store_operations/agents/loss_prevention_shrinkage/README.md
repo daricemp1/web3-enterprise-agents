@@ -52,33 +52,39 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What are the primary causes of shrink dollars across our stores?"
+> **User Prompt:** "What are our monthly store shrinkage rates and top high-risk shrink categories across regions?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `stop_lpsh_shrinkage_monthly`
+**Authorized Table Queried:** `stop_lpsh_shrinkage_monthly`, `stop_lpsh_high_risk_categories`
 
 **Agent Response:**
-> Shrink dollars breakdown across stores by primary root cause for the latest fiscal month:
-> 1. **Shoplifting / External Theft**: $42,000 (51.3% of total shrink loss) — **Primary Driver**
-> 2. **Vendor Fraud / Receiving Discrepancy**: $18,500 (22.6%)
-> 3. **Admin & Cashier Error**: $12,400 (15.2%)
-> 4. **Damaged Goods / Spoilage**: $8,900 (10.9%)
+> Based on monthly loss prevention and shrinkage analytics:
 >
-> External shoplifting remains the single largest loss factor, concentrated in Electronics and Designer Apparel.
+> - **Overall Network Shrinkage Rate:** **1.38% of retail sales** (Target: <1.45% of sales).
+> - **Regional Shrinkage Breakdown:**
+>   - **Southwest Region:** 1.54% shrink rate ($124,500 total shrink loss).
+>   - **Pacific Northwest Region:** 1.28% shrink rate ($88,200 total shrink loss).
+>   - **Southeast Region:** 1.32% shrink rate ($94,100 total shrink loss).
+> - **Top High-Risk Shrink Categories:**
+>   1. **Designer Outerwear & Down Parkas:** 2.85% shrink rate (External theft / shoplifting).
+>   2. **Premium Footwear:** 2.10% shrink rate (Mismatched pairs / sweep theft).
+>   3. **Small Electronics & Accessories:** 1.95% shrink rate (Concealment).
+> - **Shrink Cause Attribution:** 42% External Shoplifting, 28% Internal/Employee Theft, 18% Process/Admin Error, 12% Unknown/Damages.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are current national retail shrinkage benchmarks according to the NRF (National Retail Federation)?"
+> **User Prompt:** "What are current National Retail Federation (NRF) store inventory shrinkage and retail theft benchmarks?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> According to the latest National Retail Security Survey (NRF):
-> - **National Average Shrink Rate**: The average retail shrink rate stands at **1.57% of total sales** (representing ~$112B in annual loss).
-> - **Organized Retail Crime (ORC)**: 78% of enterprise retailers report increased aggression and organized theft in high-value categories.
+> According to the National Retail Federation (NRF) National Retail Security Survey:
+> - **Average Retail Shrinkage Rate:** The national average retail inventory shrink rate is **1.4% to 1.6% of total retail sales**, representing over $100 billion in annual industry losses.
+> - **Loss Cause Allocation:** External retail theft (including organized retail crime) accounts for approximately **36% to 38%** of total shrink, employee/internal theft represents **28% to 30%**, and operational/inventory process errors contribute **25% to 27%**.
+> - **High-Risk Target Categories:** Softlines (designer apparel, denim, outerwear), beauty/cosmetics, and electronics experience the highest theft incidence rates, prompting widespread adoption of RFID tagging and smart sensor fixtures.
 
 ---
 

@@ -47,33 +47,33 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What are the average curbside pickup wait time trends across stores over the last two weeks?"
+> **User Prompt:** "What is our Buy-Online-Pick-Up-In-Store (BOPIS) SLA compliance and average curbside pickup wait time by store?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `stop_sfex_fulfillment_slas`
+**Authorized Table Queried:** `stop_sfex_fulfillment_slas`, `stop_sfex_curbside_pickups`
 
 **Agent Response:**
-> Average curbside pickup wait times across stores over the last two weeks:
-> 1. **STORE-101**: 8.5 minutes (SLA Compliant)
-> 2. **STORE-103**: 9.1 minutes (SLA Compliant)
-> 3. **STORE-102**: 14.2 minutes (Nearing SLA limit)
-> 4. **STORE-104**: 18.6 minutes — **Exceeds 15-Minute SLA Maximum**
+> Based on store fulfillment and execution performance:
 >
-> STORE-104 suffers from dedicated parking stall staging delays during evening peak hours.
+> - **Store 101 (Austin Flagship):** 96.8% BOPIS 2-hour fulfillment SLA compliance; average curbside pickup wait time of **2.8 minutes**.
+> - **Store 102 (Dallas Galleria):** 93.4% BOPIS SLA compliance; average curbside pickup wait time of **3.6 minutes**.
+> - **Store 103 (Houston Galleria):** 88.2% BOPIS SLA compliance (flagged for peak afternoon fulfillment queue bottlenecks); average curbside wait time of **5.4 minutes** (SLA target: <4.0 minutes).
+> - **Network Pick/Pack Accuracy:** Overall store fulfillment picking accuracy is tracking at **99.1%**.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are current retail industry benchmarks for BOPIS order readiness lead times?"
+> **User Prompt:** "What are industry standard BOPIS fulfillment SLA and curbside pickup wait time benchmarks for retail stores?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Enterprise retail benchmarks for BOPIS and curbside fulfillment:
-> - **Order Ready Time**: Leading omnichannel retailers target **<2 hours** from online order placement to customer ready notification.
-> - **Curbside Wait Time**: Best-in-class curbside benchmark is **<3 minutes** from customer GPS/app check-in.
+> According to omnichannel store operations research:
+> - **BOPIS Ready-for-Pickup SLA:** Top omnichannel retailers maintain a **2-hour order-ready SLA** with a 95% on-time fulfillment completion benchmark.
+> - **Curbside Pickup Dwell Times:** Leading retailers (e.g., Target, Walmart) target curbside customer wait times **under 3 minutes** from customer check-in on the mobile app.
+> - **Store Queue Escalation:** Operations standard operating procedures (SOPs) mandate dispatching secondary flex pickers whenever active store fulfillment queues exceed 15 open orders.
 
 ---
 
