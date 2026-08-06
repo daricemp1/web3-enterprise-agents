@@ -43,25 +43,33 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What is the clearance sell-through rate and markdown dollar spend for Apparel SKUs in July 2026?"
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What is our current markdown budget spend and clearance sell-through velocity?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `merc_mcle_clearance_velocity_weekly`
+**Authorized Table Queried:** `merc_mcle_clearance_velocity_weekly`, `merc_mcle_markdown_budget_spend`
 
 **Agent Response:**
-> In July 2026, Apparel SKUs achieved a 65.0% cumulative clearance sell-through rate, with 600 units sold across Stage 2 (40%) and Stage 3 (60%) markdowns. Cumulative gross margin erosion was $29,400.00 against a planned markdown budget of $85,000.00.
+> Based on current clearance tracking data:
+> - **Markdown Budget Utilization:** **$142,500** spent out of a allocated **$200,000** seasonal clearance budget (**71.25% budget utilization**).
+> - **Weekly Clearance Velocity:** Clearance SKUs are currently turning at an average velocity of **6.8% per week**.
+> - **Inventory Recovery Realization:** Clearance sales have generated **$385,200 in gross liquidation recovery**, delivering an average salvage recovery rate of **58.4% of original retail price**.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are retail industry best practices for end-of-season apparel clearance markdown timing?"
+> **User Prompt:** "What are best practices for retail end-of-season markdown discount ladders?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Industry benchmarks recommend starting softlines clearance **4 to 6 weeks before season end** with an initial 25% discount, stepping up to 40-50% after 2 weeks, and ending with 60-70% terminal markdown or jobber liquidation to achieve 85%+ sell-through before new season floor set.
+> Industry best practices for retail end-of-season markdown ladders include:
+> - **Cadenced Step-Down Schedule:** Establishing structured 2-to-3 week review cycles with defined discount steps (e.g., First Drop at 20–25% off, Second Drop at 40–50% off, Final Clearance at 60–70% off) rather than immediate deep price cuts.
+> - **Velocity-Triggered Dynamic Transitions:** Transitioning SKUs down the ladder based strictly on weekly sell-through velocity thresholds (e.g., maintaining 25% discount if weekly velocity exceeds 7%, stepping to 40% if velocity falls below 4%).
+> - **Salvage & Secondary Channel Thresholds:** Setting a firm cut-off point (typically 60–90 days on clearance) where remaining inventory transitions to factory outlets or third-party liquidators to protect brand equity and reclaim warehouse holding space.
 
 ---
 

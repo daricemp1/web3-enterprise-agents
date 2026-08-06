@@ -48,32 +48,35 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "Which of our recent promotions delivered the strongest sales lift?"
+> **User Prompt:** "Which of our recent promotions delivered the strongest promotional sales lift percentage?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
 **Authorized Table Queried:** `merc_prpm_promo_sales_lift`
 
 **Agent Response:**
-> Based on BigQuery promotional analytics, the top promotions ordered by sales lift % are:
-> 1. **Holiday Clear (-35%)**: +65.3% sales lift (210 incremental units sold)
-> 2. **Black Friday (-25%)**: +42.1% sales lift (185 incremental units sold)
-> 3. **Fall Launch (-10%)**: +18.5% sales lift (75 incremental units sold)
+> Based on recent promotional performance data, the **Winter Clearance** promotion delivered the highest sales lift percentage at **128.5%** (generating 143 incremental units sold with a promotional discount depth of 30%).
 >
-> The Holiday Clear campaign achieved the highest incremental volume lift per discount percentage point.
+> Here is the performance ranking across all tracked promotions:
+> 1. **Winter Clearance**: +128.5% sales lift (143 incremental units, 30% discount)
+> 2. **Black Friday Promo**: +92.3% sales lift (180 incremental units, 25% discount)
+> 3. **Fall Launch Special**: +45.0% sales lift (90 incremental units, 15% discount)
+> 4. **Spring Kickoff**: +33.3% sales lift (50 incremental units, 10% discount)
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are major competitors doing for early Fall promotional discount strategies in apparel?"
+> **User Prompt:** "What are major competitor promotional discount strategies in retail apparel for 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Market research indicates the following competitor promotion trends for early Fall apparel:
-> - **Tiered Spending Discounts**: Retailers are favoring "$25 off $100" spent rather than flat percentage site-wide discounts to protect margin dollars.
-> - **Loyalty Early Access**: 68% of apparel retailers are offering 48-hour exclusive early promotional access to rewards members before public release.
+> Based on current retail industry analyses for 2026, competitors in the apparel sector are adopting several targeted promotional discounting strategies:
+> - **Dynamic and Personalized Markdown Timing:** Rather than broad, calendar-based storewide sales, retailers are leveraging predictive analytics and AI to deploy personalized, inventory-specific discounts tailored to local demand elasticity and individual shopper browse history.
+> - **Tiered Threshold Offers:** Brands are heavily utilizing tiered spending incentives (e.g., "$20 off $100, $50 off $200") to protect gross margin rates and drive larger basket sizes rather than offering blanket percentage-off markdowns.
+> - **Loyalty-Gated Early Access:** Major apparel players are increasingly restricting deep promotional discounts and flash sales exclusively to enrolled loyalty program members, using promotions to drive first-party customer acquisition and data capture.
+> - **Bundling and Multi-Buy Promotions:** Retailers are utilizing "Buy More, Save More" bundles on core essentials to clear seasonal inventory while maintaining overall order value.
 
 ---
 

@@ -49,33 +49,38 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What is our store sell-through percentage across all stores for the week ending July 24, 2026?"
+> **User Prompt:** "What is the overall sell-through rate and aging inventory breakdown for SKU-001 in July 2026?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `merc_stih_sell_through_weekly`
+**Authorized Table Queried:** `merc_stih_sell_through_weekly`, `merc_stih_inventory_aging`
 
 **Agent Response:**
-> Store sell-through performance for the week ending July 24, 2026:
-> 1. **STORE-103**: 84.3% sell-through (WOS: 3.2 weeks) — High velocity
-> 2. **STORE-101**: 78.5% sell-through (WOS: 4.1 weeks) — Healthy performance
-> 3. **STORE-102**: 62.1% sell-through (WOS: 6.8 weeks) — Below 70% target
-> 4. **STORE-104**: 45.0% sell-through (WOS: 9.5 weeks) — At risk of overstocking
+> For July 2026, here is the inventory health and sell-through profile for **SKU-001 (Down Parka)**:
 >
-> STORE-104 requires inventory rebalancing or targeted promotional activation.
+> - **Overall Sell-Through Rate:** **54.81%** (416 units sold out of 759 total beginning/received inventory units across all stores).
+> - **Ending Inventory On Hand:** 343 units across the store network.
+> - **Aging Inventory Breakdown:**
+>   - **0–30 Days (Fresh):** 240 units (70.0% of total stock)
+>   - **31–60 Days:** 75 units (21.9% of total stock)
+>   - **61–90 Days:** 28 units (8.2% of total stock)
+>   - **90+ Days (Distressed):** 0 units (0.0% of total stock)
+>
+> The SKU maintains healthy stock velocity and remains well below markdown trigger thresholds.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are typical retail apparel sell-through rate benchmarks at full price?"
+> **User Prompt:** "What are industry standard inventory sell-through benchmarks for seasonal retail apparel?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> According to retail apparel industry standards:
-> - **Full-Price Sell-Through Benchmark**: Specialty apparel retailers target **65%–75% sell-through** at full price before taking first markdown.
-> - **Fast Fashion vs Seasonal**: Fast fashion operates at 80%+ full-price sell-through, while seasonal outerwear targets 60% before mid-season markdowns.
+> According to retail merchandising industry standards:
+> - **Full-Price Target Sell-Through:** Top-tier specialty apparel retailers target **65% to 75%** full-price sell-through during the primary 8-to-12 week seasonal selling window before initiating planned promotional markdowns.
+> - **Total End-of-Season Target:** Cumulative end-of-season sell-through across full-price and promotional periods is typically budgeted at **85% to 92%**, leaving 8% to 15% residual volume for final clearance or secondary channel salvage.
+> - **Weekly Velocity Benchmarks:** Healthy seasonal apparel lines typically track between **5% to 8%** weekly sell-through velocity during peak season, with rates dipping below 3.5% serving as a standard trigger for promotional intervention.
 
 ---
 

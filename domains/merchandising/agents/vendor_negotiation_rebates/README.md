@@ -50,30 +50,34 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What are our current YTD spend and earned volume rebate tiers for each vendor in 2026?"
+> **User Prompt:** "What is our current YTD spend, active tier, and earned rebate with Apex Outerwear?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
 **Authorized Table Queried:** `merc_vreb_rebate_agreements`
 
 **Agent Response:**
-> Vendor volume rebate tier tracking for FY2026:
-> 1. **Summit Gear**: $780,000 YTD spend — **Tier 2 Achieved** (5.0% rebate earned = $39,000). Passed $750k threshold.
-> 2. **Acme Apparel**: $450,000 YTD spend — **Tier 1 Achieved** (3.5% rebate earned = $15,750). Needs $50k spend to reach Tier 2 ($500k threshold / 5.0% rate).
-> 3. **Nordic Fleece**: $210,000 YTD spend — **Baseline** (2.0% rebate earned = $4,200). Needs $40k spend to reach Tier 1 ($250k threshold).
+> As of today (August 2026), here is the rebate performance status with **Apex Outerwear** under agreement **AGR-2026-001**:
+>
+> - **YTD Eligible Spend:** **$3,450,000**
+> - **Current Achieved Tier:** **Tier 2** ($3.0M threshold, earning a 4.0% rebate rate)
+> - **Earned Rebate to Date:** **$138,000**
+> - **Next Milestone:** **Tier 3** ($5.0M threshold, earning a 6.0% rebate rate) requiring **$1,550,000** in additional qualifying spend to unlock an incremental $162,000 in rebate recovery.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are typical retail industry benchmarks for vendor volume rebate structures?"
+> **User Prompt:** "What are typical vendor volume rebate agreement structures in retail apparel?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Industry benchmarks for apparel and softlines vendor rebate structures:
-> - **Volume Tiers**: Typical tier 1 triggers at $250k–$500k (3–4% rebate), and tier 2 triggers at $750k–$1M (5–7% rebate).
-> - **Co-Op Marketing Allowance**: Retailers typically negotiate an additional **2%–5% of gross invoice value** in co-op marketing subsidies.
+> In retail apparel merchandising, vendor volume rebate agreements commonly follow these structural frameworks:
+> - **Tiered Cumulative Retrospective Rebates:** Retailers negotiate progressive annual spend tiers (e.g., Tier 1 at $1M = 2%, Tier 2 at $3M = 4%, Tier 3 at $5M = 6%). Reaching a higher tier retrospectively applies the enhanced rebate percentage across all qualifying dollar volume for the contract year.
+> - **Co-op Advertising & Marketing Development Funds (MDF):** Agreements often pair baseline volume rebates with a 2% to 4% co-op allowance earmarked specifically for joint marketing campaigns, catalog placements, and digital promotional features.
+> - **Growth and Category Exclusivity Accelerators:** Vendors offer an additional 1.5% to 3.0% bonus rebate if the retailer achieves year-over-year category volume growth of 15%+ or grants prime placement within physical stores.
+> - **Markdown Support & Margin Protection Allowances:** Contracts often feature end-of-season markdown subsidies where vendors absorb 25% to 50% of the gross margin loss on agreed clearance inventory lines.
 
 ---
 

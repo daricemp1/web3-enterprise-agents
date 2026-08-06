@@ -43,25 +43,33 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "Which product categories have a price index above 105 compared to market competitors?"
+### 1. Internal Data Analytics (Data Insights / BigQuery)
+
+> **User Prompt:** "What is our category price index parity and competitor price gap for Men's Outerwear?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `merc_pmci_price_index_summary`
+**Authorized Table Queried:** `merc_pmci_price_index_summary`, `merc_pmci_competitor_price_feed`
 
 **Agent Response:**
-> Electronics Accessories (112.5) and Footwear (106.5) both have price indices above 105, placing them in the Premium / High Gap tier. Apparel is at 104.2, while Home Decor is at 98.5 (Competitive).
+> Based on internal price matching and competitor market intelligence data for **Men's Outerwear**:
+> - **Competitor Price Gap:** Market Leader prices are on average **-4.32%** lower than our retail prices across key competitive benchmark SKUs.
+> - **Category Price Index Parity:** Our Men's Outerwear category price index currently stands at **104.5** relative to the market benchmark of 100.0 (indicating our prices are 4.5% higher on average).
+> - **Price Match Claims Volume:** In-store and digital POS price match claims for Men's Outerwear totaled **$14,820** over the last 30 days, primarily concentrated on high-visibility branded jackets.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "How do major omnichannel retailers handle price-matching policies when competitors are out of stock?"
+> **User Prompt:** "How do leading retail department stores manage automated competitor price matching in 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Major retailers (including Target, Best Buy, and Home Depot) explicitly require that the competitor item be **currently in stock** at the time of match request, preventing margin erosion on items competitors cannot deliver.
+> Leading retail department stores and omnichannel merchants manage automated competitor price matching in 2026 through the following capabilities:
+> - **Real-Time Digital Shelf Scraping & Dynamic Repricing:** Automated price-monitoring engines ingest competitor pricing, promotional banners, and shipping fees every 15 to 60 minutes, feeding algorithmic repricing engines that adjust digital catalog prices within guardrailed margin floors.
+> - **Omnichannel POS Price-Match Verification:** Store associates utilize mobile point-of-sale handhelds equipped with automated barcode scanning and verified competitor lookup tools, instantly validating customer price match claims without manual manager overrides.
+> - **Stock-Availability Guardrails:** Advanced price-matching rules only match competitor pricing if the identical SKU (color, size, model) is confirmed in-stock on the competitor's local delivery zip code, preventing margin sacrifice against phantom competitor stockouts.
 
 ---
 

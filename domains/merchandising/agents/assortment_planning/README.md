@@ -49,33 +49,32 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What are the top performing SKUs in Men's Outerwear?"
+> **User Prompt:** "What are the top 3 performing SKUs by total revenue in Men's Outerwear in July 2026?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `merc_aspl_sales_by_sku`
+**Authorized Table Queried:** `merc_aspl_sales_by_sku`, `merc_aspl_product_catalog`
 
 **Agent Response:**
-> Based on BigQuery sales analytics for Men's Outerwear, the top-performing SKUs by total revenue are:
-> 1. **Down Parka (SKU-001)**: $48,250 revenue (510 units sold)
-> 2. **Insulated Vest (SKU-003)**: $32,100 revenue (415 units sold)
-> 3. **Thermal Base Layer (SKU-002)**: $19,400 revenue (388 units sold)
->
-> Down Parka accounts for 48.3% of total category revenue over the last 30 days.
+> For Men's Outerwear in July 2026, the top performing SKUs by total revenue are:
+> 1. **Down Parka (SKU-001)**: $74,796.39 revenue (416 units sold)
+> 2. **Rain Jacket (SKU-002)**: $38,114.92 revenue (422 units sold)
+> 3. **Fleece Vest (SKU-003)**: $33,453.73 revenue (516 units sold)
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are current market trends for men's winter outerwear for Fall/Winter 2026?"
+> **User Prompt:** "What are the current retail consumer trends in sustainable outdoor apparel for Fall/Winter 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> According to current retail market industry reports for Fall/Winter 2026:
-> - **Lightweight Insulation**: Consumer preference is shifting toward high-loft, packable synthetic insulation over heavy down.
-> - **Earth Tones & Utility**: Olive drab, terracotta, and multi-pocket technical shells are outperforming traditional black outerwear.
-> - **Recycled Materials**: Retailers highlighting 100% recycled polyester shells report a 14% higher conversion rate online.
+> Based on recent industry analyses and market reports, here are the key retail consumer trends shaping sustainable outdoor apparel for Fall/Winter 2026:
+> - **Circularity and Take-Back Programs:** Leading outdoor brands are increasingly embedding repair, trade-in, and resale models directly into their retail channels. Consumers actively favor brands that offer guaranteed repairability and end-of-life recycling for technical outerwear.
+> - **Next-Gen Eco Materials:** Growth is surging for PFAS-free waterproof membranes, mono-material garments designed for simpler recycling, and performance fabrics derived from bio-based feedstocks or recycled textile waste rather than virgin synthetics.
+> - **Durability Over Trend Cycles:** Consumers are prioritizing seasonless versatility, rugged construction, and timeless aesthetics over fast-changing seasonal styles, favoring multi-functional gear that transitions from mountain to daily commute.
+> - **Traceability and Supply Chain Transparency:** Demand has sharpened for verifiable digital product passports (DPPs) and clear certifications (such as Bluesign and Fair Trade), enabling shoppers to verify ethical sourcing and environmental impact metrics at the point of purchase.
 
 ---
 
