@@ -50,33 +50,36 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What is our total store EBITDA performance by store location for the past month?"
+> **User Prompt:** "What was the EBITDA and labor OpEx variance for Store 101 in July 2026?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `finc_spnl_monthly_pnl`
+**Authorized Table Queried:** `finc_spnl_monthly_pnl`, `finc_spnl_opex_breakdown`
 
 **Agent Response:**
-> Monthly four-wall store EBITDA summary:
-> 1. **STORE-103**: $185,000 EBITDA (EBITDA Margin: 19.5%) — **Top Performer**
-> 2. **STORE-101**: $142,000 EBITDA (EBITDA Margin: 16.2%) — Meets >15% Target
-> 3. **STORE-102**: $98,000 EBITDA (EBITDA Margin: 12.4%) — Below target
-> 4. **STORE-104**: $64,000 EBITDA (EBITDA Margin: 8.8%) — **Unfavorable OpEx Overrun**
+> For **Store 101 (Austin Flagship)** in July 2026:
 >
-> STORE-104 EBITDA was impacted by higher utility costs and unbudgeted maintenance repairs.
+> - **Store Net Revenue:** $485,000.
+> - **Gross Profit:** $264,325 (54.5% Gross Margin).
+> - **Store EBITDA:** **$82,450 (17.0% EBITDA Margin)**, beating our store profit budget target of $75,000 (+9.9% favorable EBITDA variance).
+> - **Operating Expenses (OpEx):**
+>   - **Labor OpEx:** $68,200 (14.1% of sales vs. 14.5% budget, representing a **$2,100 favorable labor variance**).
+>   - **Occupancy & Rent:** $72,500 (14.9% of sales).
+>   - **Utilities & Maintenance:** $11,175.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are retail industry benchmarks for store-level four-wall EBITDA margins?"
+> **User Prompt:** "What are retail store EBITDA margin and occupancy cost ratio benchmarks?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Financial market benchmarks for store-level four-wall EBITDA:
-> - **Specialty Retail Average**: Enterprise four-wall store EBITDA margins average **14% to 18%**.
-> - **Occupancy Expense Ratio**: Store rent and occupancy costs typically account for **6% to 9% of net sales**.
+> According to retail commercial real estate and store financial performance studies:
+> - **Store-Level EBITDA Margins:** Four-wall retail store EBITDA benchmarks typically range from **14% to 20%** for specialty softlines, and 10% to 15% for mass/general merchandise.
+> - **Occupancy Cost Ratios:** Healthy retail occupancy costs (base rent, CAM, real estate taxes, property insurance) range between **10% and 15% of gross store revenues**.
+> - **Store Contribution Thresholds:** Stores maintaining EBITDA margins below 10% or occupancy ratios exceeding 18% are typically flagged for lease restructuring or store footprint rationalization.
 
 ---
 

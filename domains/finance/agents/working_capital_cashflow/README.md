@@ -52,35 +52,36 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What is our current Cash Conversion Cycle (CCC) trend over the past 6 fiscal months?"
+> **User Prompt:** "What is our current Cash Conversion Cycle (CCC), DSO, and DPO across operating divisions?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `finc_wcap_cash_conversion_cycle`
+**Authorized Table Queried:** `finc_wcap_cash_conversion_cycle`, `finc_wcap_ar_aging_summary`, `finc_wcap_ap_aging_summary`
 
 **Agent Response:**
-> Cash Conversion Cycle (CCC) trend analysis (H1 2026):
-> - **January 2026**: 41.7 days (DSO: 38.5, DIO: 45.2, DPO: 42.0)
-> - **February 2026**: 42.4 days
-> - **March 2026**: 38.3 days
-> - **April 2026**: 34.5 days
-> - **May 2026**: 33.5 days
-> - **June 2026**: 30.5 days (DSO: 35.0, DIO: 40.5, DPO: 45.0) — **Improved by 11.2 days**
+> Based on enterprise working capital and liquidity analytics for the current period:
 >
-> Operating cash flow improved from $1.25M in January to $1.82M in June driven by faster AR collections and extended vendor payment terms.
+> - **Cash Conversion Cycle (CCC):** **48.5 days** (Consolidated Enterprise).
+> - **Working Capital Metrics Breakdown:**
+>   - **Days Sales Outstanding (DSO):** **14.2 days** (Reflecting swift retail credit/debit POS settlement and wholesale AR collections).
+>   - **Days Inventory Outstanding (DIO):** **78.5 days** (Average inventory holding period across distribution centers and retail stores).
+>   - **Days Payable Outstanding (DPO):** **44.2 days** (Weighted supplier trade credit terms).
+> - **Formula Calculation:** $CCC = DIO (78.5) + DSO (14.2) - DPO (44.2) = 48.5\text{ days}$.
+> - **Liquidity Position:** Current operating cash flow forecast indicates strong liquidity headroom of $42.8M over the next 13 weeks.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are current retail industry benchmarks for Cash Conversion Cycle and Days Sales Outstanding?"
+> **User Prompt:** "What are enterprise retail Cash Conversion Cycle and Days Sales Outstanding benchmarks in 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Retail industry working capital benchmarks:
-> - **Cash Conversion Cycle (CCC)**: Broadline retail benchmarks average **30 to 40 days**, while top-performing omni-channel retailers achieve under 25 days.
-> - **Days Sales Outstanding (DSO)**: Retail wholesale/B2B DSO typically ranges between **30 and 40 days**.
+> In enterprise retail corporate finance and working capital management benchmarks for 2026:
+> - **Cash Conversion Cycle (CCC):** Enterprise multichannel retailers average a CCC of **40 to 60 days**, while hyper-efficient supply chains (e.g., automated grocery, rapid replenishment retail) achieve CCCs below 30 days.
+> - **Days Sales Outstanding (DSO):** Because direct-to-consumer and in-store retail transactions settle almost immediately via merchant acquirers (1 to 3 days), blended retail DSO (including omnichannel wholesale accounts) typically benchmarks between **10 and 20 days**.
+> - **Days Payable Outstanding (DPO):** Enterprise retailers leverage supplier agreements to maintain DPO benchmarks between **45 and 65 days**, effectively utilizing trade credit to fund on-hand merchandise inventory.
 
 ---
 

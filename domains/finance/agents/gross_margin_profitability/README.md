@@ -49,33 +49,33 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What is our gross margin percentage by product category for the current quarter?"
+> **User Prompt:** "What is our gross margin rate and COGS variance for Outerwear in Q2 2026?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `finc_gmpr_sales_profitability`, `finc_gmpr_category_margin_targets`
+**Authorized Table Queried:** `finc_gmpr_sales_profitability`, `finc_gmpr_category_margin_targets`, `finc_gmpr_cogs_variance`
 
 **Agent Response:**
-> Gross margin performance by category vs. financial targets:
-> 1. **Accessories**: 61.0% actual (Target: 58.0%) — **+3.0% Favorable**
-> 2. **Apparel**: 55.3% actual (Target: 50.0%) — **+5.3% Favorable**
-> 3. **Outerwear**: 48.5% actual (Target: 45.0%) — **+3.5% Favorable**
-> 4. **Footwear**: 42.1% actual (Target: 45.0%) — **-2.9% Unfavorable**
+> Based on financial margin performance analytics for **Outerwear in Q2 2026**:
 >
-> Footwear missed its gross margin target due to unbudgeted clearance markdowns on seasonal sandals.
+> - **Gross Margin Rate:** **54.2%** (Net Sales: $1,420,000; Gross Profit: $769,640).
+> - **Target Margin Variance:** **+1.2% favorable** compared to our Q2 planned margin budget of 53.0%.
+> - **COGS Variance Analysis:** Actual product unit COGS was **$45.80 / unit** against a budgeted standard COGS of $47.20 / unit (-3.0% favorable direct material procurement variance).
+> - **Markdown Erosion Impact:** Clearance and promotional discount depth diluted initial markup (IMU of 62.5%) by 8.3 percentage points to achieve the realized 54.2% gross margin.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are current retail industry gross margin benchmarks for footwear and specialty apparel?"
+> **User Prompt:** "What are typical gross margin percentage benchmarks for specialty apparel retailers in 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Financial market benchmarks for retail gross margins:
-> - **Specialty Apparel**: Industry average gross margin ranges between **52% and 56%**.
-> - **Footwear Retail**: Footwear gross margins average **42% to 46%**, reflecting higher wholesale land costs and box freight expenses.
+> According to retail financial benchmarks for specialty apparel and softlines retailers in 2026:
+> - **Gross Margin Range:** Specialty apparel retailers typically operate with gross margin rates between **50% and 58%**, with premium direct-to-consumer (DTC) brands achieving 60% to 65%.
+> - **Category Benchmarks:** Outerwear and performance apparel command margins of **52% to 56%**, whereas fast-fashion and basic softlines target 45% to 50%.
+> - **Cost of Goods Sold (COGS) Dynamics:** Inbound ocean freight normalization and automated supply chain efficiencies have expanded gross margins by 80 to 120 basis points YoY across mid-market retailers.
 
 ---
 

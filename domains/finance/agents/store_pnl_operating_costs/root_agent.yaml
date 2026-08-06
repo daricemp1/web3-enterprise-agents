@@ -1,6 +1,6 @@
 agent_class: LlmAgent
 name: store_pnl_operating_costs_root
-model: gemini-2.5-flash
+model: gemini-3.5-flash
 description: >-
   Orchestrator for the Finance: Store P&L & Operating Costs agent. Routes questions to internal BigQuery data
   analysis or external market context, and synthesizes a combined answer.

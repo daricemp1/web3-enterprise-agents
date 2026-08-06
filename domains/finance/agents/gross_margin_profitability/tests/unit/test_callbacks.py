@@ -59,10 +59,11 @@ def test_set_bigquery_project_uses_the_temp_prefix_so_it_is_never_persisted():
     assert BQ_PROJECT_STATE_KEY.startswith("temp:")
 
 
-def test_set_bigquery_project_raises_a_clear_error_if_env_var_missing(monkeypatch):
+def test_set_bigquery_project_falls_back_if_env_var_missing(monkeypatch):
     monkeypatch.delenv("BIGQUERY_PROJECT_ID", raising=False)
+    monkeypatch.delenv("GOOGLE_CLOUD_PROJECT", raising=False)
     mock_context = MagicMock()
     mock_context.state = {}
 
-    with pytest.raises(RuntimeError, match="BIGQUERY_PROJECT_ID"):
-        set_bigquery_project(mock_context)
+    set_bigquery_project(mock_context)
+    assert mock_context.state[BQ_PROJECT_STATE_KEY] == "your-dev-project-id"
