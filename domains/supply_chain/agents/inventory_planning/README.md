@@ -48,33 +48,33 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "How much Running Shoe (SKU-001) inventory do we have across our stores and warehouses?"
+> **User Prompt:** "What is our current inventory position, weeks of supply, and stockout risk for Down Parka?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `spch_inpl_inventory_position`
+**Authorized Table Queried:** `spch_inpl_inventory_position`, `spch_inpl_demand_history`
 
 **Agent Response:**
-> Network inventory position for Running Shoe (SKU-001):
-> - **WH-001 (Main DC)**: 1,200 units on hand
-> - **STORE-101**: 450 units on hand
-> - **STORE-102**: 310 units on hand
-> - **WH-002 (East DC)**: 850 units on hand
+> Based on internal inventory planning data for **Down Parka (SKU-001)**:
 >
-> **Total Network Position**: 2,810 units across 2 warehouses and 2 retail stores.
+> - **Current Network Inventory:** **343 units on hand** (comprising 218 units across retail store locations and 125 units in regional distribution centers).
+> - **Current Weeks of Supply (WOS):** **4.2 weeks** based on 30-day trailing daily sales velocity.
+> - **AI Demand Forecast:** Live forecasting (`AI.FORECAST`) projects demand rising to 110 units/week heading into peak season.
+> - **Stockout Risk Assessment:** **Low to Moderate**; replenishment reorder point trigger is set at 3.0 WOS, recommending an inbound PO issuance of 350 units within the next 10 business days.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "Are industry demand trends for men's running footwear increasing heading into Q3 2026?"
+> **User Prompt:** "What are best practices for AI demand forecasting and dynamic safety stock in retail?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> External retail market intelligence for Q3 2026 indicates:
-> - **Category Demand Growth**: Performance running shoe sales are up **8.2% YoY**, driven by increased marathon participation and trail running adoption.
-> - **Supply Chain Lead Times**: Import transit lead times from Southeast Asia have lengthened by 5 days, recommending an extra 7 days of safety stock buffer.
+> Current supply chain best practices for AI-driven demand forecasting and dynamic safety stock management include:
+> - **Multi-Horizon Machine Learning Models:** Utilizing probabilistic time-series forecasting (such as foundation time-series architectures) that incorporate promotional calendars, price elasticity, local weather anomalies, and regional macroeconomic signals.
+> - **Dynamic Safety Stock Buffers:** Shifting from static safety stock formulas (e.g., fixed 2-week buffer) to demand-volatility and lead-time variability-driven safety stock recalculations performed daily at the SKU-location node.
+> - **Lead-Time Sensing:** Ingesting real-time supplier production lead times and carrier lane transit delays into safety stock calculations to dynamically prevent stockouts during volatile freight market conditions.
 
 ---
 

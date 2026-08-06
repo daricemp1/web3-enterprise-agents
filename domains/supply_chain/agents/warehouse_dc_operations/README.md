@@ -49,33 +49,32 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "Which distribution centers currently have active capacity utilization alerts?"
+> **User Prompt:** "What is our DC inbound throughput, dock-to-stock time, and storage capacity utilization across facilities?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `spch_wdco_capacity_utilization`
+**Authorized Table Queried:** `spch_wdco_dc_throughput_daily`, `spch_wdco_capacity_utilization`
 
 **Agent Response:**
-> Current distribution center pallet capacity status:
-> 1. **DC-Central (Dallas)**: 89.2% utilization (26,760 / 30,000 pallets) — **ACTIVE ALERT (Overflow: 12 trailers)**
-> 2. **DC-East (Atlanta)**: 81.5% utilization (24,450 / 30,000 pallets) — Normal
-> 3. **DC-West (Reno)**: 76.0% utilization (19,000 / 25,000 pallets) — Normal
+> Based on daily distribution center operational metrics:
 >
-> DC-Central is currently exceeding the 85% capacity threshold, triggering overflow trailer storage.
+> - **DC-East (Atlanta):** Inbound throughput of 14,200 units/day; average dock-to-stock cycle time of **6.2 hours**; storage pallet capacity utilization at **84.5%** (Optimal).
+> - **DC-West (Reno):** Inbound throughput of 11,800 units/day; average dock-to-stock cycle time of **5.8 hours**; storage pallet capacity utilization at **78.2%** (Healthy headroom).
+> - **Network Pick/Pack Accuracy:** Network-wide order fulfillment accuracy is tracking at **99.4%**.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are industry 3PL dock turn time benchmarks for receiving full truckload shipments?"
+> **User Prompt:** "What are standard warehouse dock-to-stock and order-picking accuracy benchmarks?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Logistics industry benchmarks for warehouse dock turnaround times:
-> - **Live Unload FTL**: Industry target is **<120 minutes** (2 hours). Detain fees apply beyond 2 hours.
-> - **Drop & Hook**: Target is **<30 minutes** for trailer swapping.
-> - **Automated Receiving**: DCs utilizing autonomous mobile robots (AMRs) report dock-to-stock turnaround under **4 hours**.
+> According to the Warehousing Education and Research Council (WERC) DC performance metrics:
+> - **Dock-to-Stock Cycle Time:** Best-in-class distribution centers achieve dock-to-stock turnaround within **2 to 8 hours** of receipt, while median industry performance ranges from **8 to 24 hours**.
+> - **Order-Picking Accuracy:** Top-quartile fulfillment centers maintain order-picking and packing accuracy between **99.5% and 99.9%**, driven by voice-directed picking, RF scanning, and automated vision verification.
+> - **Storage Capacity Utilization:** Warehouses operate at peak operational efficiency between **80% and 85% capacity utilization**; exceeding 85% incurs severe operational congestion and doubled pallet handling steps.
 
 ---
 

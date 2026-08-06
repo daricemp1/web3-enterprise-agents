@@ -48,33 +48,33 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "Which vendor has the worst on-time-in-full delivery rate?"
+> **User Prompt:** "What is the overall On-Time In-Full (OTIF) delivery rate for Summit Gear in July 2026?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `spch_vepe_vendor_scorecard`
+**Authorized Table Queried:** `spch_vepe_vendor_scorecard`, `spch_vepe_purchase_orders`
 
 **Agent Response:**
-> Vendor delivery performance summary ordered by lowest OTIF %:
-> 1. **Apex Forwarding**: 79.4% OTIF (18 total POs, average delay: 3.2 days) — **Below 90% SLA Target**
-> 2. **Pacific Freight**: 88.5% OTIF (26 total POs, average delay: 1.1 days)
-> 3. **AeroLogistics**: 94.2% OTIF (35 total POs, average delay: 0.2 days)
-> 4. **Global Transit**: 96.1% OTIF (42 total POs, average delay: 0.1 days)
+> For July 2026, **Summit Gear** achieved an overall **On-Time In-Full (OTIF) delivery rate of 94.2%** across 120 completed purchase orders.
 >
-> Apex Forwarding is currently non-compliant with our 90% OTIF contract SLA.
+> Here is the detailed delivery breakdown:
+> - **On-Time Delivery Rate:** 96.7% (116 orders delivered within the confirmed delivery window)
+> - **In-Full Fill Rate:** 97.5% (average line item fulfillment rate)
+> - **Overall OTIF Score:** 94.2% (exceeding our tier-1 vendor target threshold of 92.0%)
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are industry standard OTIF delivery targets for retail supply chains?"
+> **User Prompt:** "What are industry standard vendor OTIF delivery benchmarks in retail supply chain?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Enterprise retail supply chain benchmarks for OTIF compliance:
-> - **General Merchandise**: Mass retailers require **90% to 95% OTIF** for general merchandise suppliers.
-> - **Short-Shipment Penalties**: Vendors falling below 85% OTIF routinely face non-compliance chargebacks equal to 3% of invoice value.
+> According to industry benchmarks in enterprise retail and consumer goods supply chain operations:
+> - **Tier-1 / Preferred Vendor OTIF Benchmark:** Enterprise retailers (such as Walmart and Target) typically mandate an **OTIF threshold of 90% to 95%** for domestic suppliers and 85% to 90% for direct-import suppliers.
+> - **On-Time Window Standards:** Industry standard on-time delivery windows define on-time arrival within a 2-day to 4-day delivery appointment window before the scheduled PO cancellation date.
+> - **Non-Compliance Chargebacks:** Retailers typically assess chargeback fees ranging from **3% to 5% of invoice cost** for shipments falling below OTIF thresholds to offset distribution center labor disruption.
 
 ---
 

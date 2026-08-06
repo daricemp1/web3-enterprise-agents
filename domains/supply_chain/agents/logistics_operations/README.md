@@ -49,33 +49,34 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What is our carrier on-time delivery performance across key regional transit lanes?"
+> **User Prompt:** "What is the on-time delivery rate and average transit delay by carrier over the last 30 days?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `spch_logi_transit_lanes`
+**Authorized Table Queried:** `spch_logi_transit_lanes`, `spch_logi_shipments`
 
 **Agent Response:**
-> Regional transit lane performance summary:
-> 1. **LAX -> ORD**: 96.5% on-time delivery (Avg delay: 0.8 hours) — **Exceeds SLA**
-> 2. **ORD -> ATL**: 93.8% on-time delivery (Avg delay: 1.4 hours)
-> 3. **JFK -> ATL**: 91.2% on-time delivery (Avg delay: 2.1 hours)
-> 4. **SEA -> DFW**: 84.0% on-time delivery (Avg delay: 5.6 hours) — **Below 90% SLA Target**
+> Based on logistics tracking data for the last 30 days:
 >
-> The SEA -> DFW lane experiences recurring weather and driver shortage delays.
+> 1. **SwiftLogistics**: 96.4% on-time delivery rate (avg transit delay: 0.4 days across 185 shipments)
+> 2. **Apex Freightways**: 91.8% on-time delivery rate (avg transit delay: 1.2 days across 142 shipments)
+> 3. **Pacific Transit**: 84.5% on-time delivery rate (avg transit delay: 2.8 days across 98 shipments)
+>
+> Pacific Transit exhibits recurring congestion bottlenecks across the Midwest-to-Southeast intermodal lanes.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What are current port congestion and freight rate trends affecting Pacific Northwest transit lanes?"
+> **User Prompt:** "What are typical carrier on-time transit performance benchmarks in freight logistics?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Logistics industry updates for Pacific Northwest corridors:
-> - **Port Delays**: Dwell times at Puget Sound terminals have increased to 4.2 days due to rail car imbalances.
-> - **Spot Freight Rates**: Diesel price surges have driven Pacific Northwest truckload spot rates up **6.4% month-over-month**.
+> In North American freight transportation and contract logistics:
+> - **Full Truckload (FTL) Benchmark:** Contracted FTL carriers typically target **95% to 98% on-time pickup and delivery** performance under standard operating conditions.
+> - **Less-than-Truckload (LTL) Benchmark:** LTL network transit reliability benchmarks range from **88% to 93%**, reflecting multi-terminal cross-dock consolidation steps.
+> - **Intermodal / Rail Benchmark:** Intermodal freight tracks standard on-time performance between **80% and 88%**, with sensitivity to terminal drayage and rail ramp dwell times.
 
 ---
 

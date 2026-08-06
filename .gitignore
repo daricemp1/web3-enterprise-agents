@@ -13,6 +13,7 @@ uv.lock.bak
 .claude/
 .superpowers/
 docs/**
+/scripts/
 .adk/
 **/deployment/dev.yaml
 **/deployment/prod.yaml

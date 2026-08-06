@@ -1,6 +1,6 @@
 agent_class: LlmAgent
 name: logistics_operations_root
-model: gemini-2.5-flash
+model: gemini-3.5-flash
 description: >-
   Orchestrator for the Supply Chain: Logistics Operations agent. Routes questions to internal BigQuery data
   analysis or external market context, and synthesizes a combined answer.

@@ -49,25 +49,37 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What was the return rate percentage and returned units for E-Commerce Storefront in July 2026?"
+> **User Prompt:** "What is our overall return rate by channel and top return reason codes for Apparel?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `spch_rlog_returns_monthly`
+**Authorized Table Queried:** `spch_rlog_returns_monthly`, `spch_rlog_return_reasons`
 
 **Agent Response:**
-> In July 2026, E-Commerce Storefront (CHN-001) had a return rate of 21.0%, with 9,450 returned units out of 45,000 gross sales units, representing $472,500.00 in returned value and an average restock turnaround of 6.5 days.
+> Based on reverse logistics and returns disposition analytics:
+>
+> - **Return Rate by Channel:**
+>   - **E-Commerce Channel:** **24.5%** aggregate return rate.
+>   - **Physical Retail Stores:** **8.2%** aggregate return rate.
+> - **Top Return Reason Codes (Apparel):**
+>   1. **Sizing / Fit Discrepancy:** 46.2% of all apparel returns.
+>   2. **Item Not as Pictured / Expectation Mismatch:** 24.8% of apparel returns.
+>   3. **Defective / Damaged in Transit:** 8.5% of apparel returns.
+> - **Restock Turnaround Time:** Reverse logistics intake-to-resellable restock turnaround averages **3.4 business days**.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "How does our online e-commerce return rate compare to overall retail industry e-commerce return rate benchmarks?"
+> **User Prompt:** "What are current retail benchmarks for e-commerce vs in-store return rates in 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Retail industry benchmarks indicate that online e-commerce return rates for softlines and apparel typically range between **20% and 30%**, compared to **8% to 12%** for brick-and-mortar stores. Our online E-Commerce Storefront return rate of **21.0%** places us at the lower, healthier end of industry e-commerce averages.
+> Retail reverse logistics industry benchmarks for 2026 report:
+> - **E-Commerce Apparel Return Rates:** Online apparel return rates average between **20% and 30%**, with premium fashion and footwear categories often reaching 30% to 35% due to bracket buying (ordering multiple sizes).
+> - **Brick-and-Mortar Store Return Rates:** In-store physical retail purchases maintain an average return rate between **8% and 10%**.
+> - **Reverse Logistics Cost of Returns:** Processing an e-commerce return (including freight, inspection, repackaging, and markdown depreciation) averages **25% to 30% of original merchandise value**.
 
 ---
 
