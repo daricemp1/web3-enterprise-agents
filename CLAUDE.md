@@ -188,8 +188,12 @@ Building a **new** agent from scratch starts on its own branch, not directly on 
    - Present diffs and live smoke test results for all parallel agents together to the user for review.
    - Once reviewed and approved by the user, merge branches sequentially into `master` one at a time, and push to `origin/master`. Feature branches may be deleted or retained per user preference.
 
-## Key conventions and constraints
-
+- **Git Execution, Concurrency & Lock Safety** (added 2026-08-06):
+  - **Never chain state-changing git commands with `&&`**: Do not run `git checkout master && git merge <branch>` or `git add . && git commit` in a single line. Workspace file watchers and IDE Git extensions (VS Code, Jetski) immediately scan the index when files change on disk, holding `.git/index.lock` for ~50–150ms. Chained commands collide with this active lock and fail (`error: Unable to create '.git/index.lock': File exists`). Always execute state-changing git commands as separate sequential command calls.
+  - **Commit Attribution Standard**: Always include the official co-authorship trailer at the bottom of commit messages:
+    ```
+    Co-authored-by: Google Gemini Code Assist <gemini-code-assist@google.com>
+    ```
 - **Every logical agent ships its own `README.md`, templated into the scaffold** (added
   2026-07-27, enhanced 2026-07-29) — covers **Why This Agent Matters** (business problem & target personas), **Key Metrics Tracked** (KPI table), what it answers & sub-agent routing, **Sample Q&A Showcase** (3 live post-deploy smoke test responses for BigQuery data, Google Search market grounding, and a generated `sample_chart.png` visual artifact), authorized BigQuery tables, real example questions, tools, and local execution flags. Every scaffolded agent includes these sections via `# TODO(scaffold):` placeholders.
 - **ADK Deployment Region and Global Model Inference** (added 2026-08-03):
