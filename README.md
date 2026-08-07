@@ -66,7 +66,7 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>🏬 Store Operations (3 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
+<summary><b>🏬 Store Operations (11 of 11 Agents Complete) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Associate labor productivity vs. foot traffic, BOPIS omnichannel fulfillment, store shrink & loss prevention, planogram visual compliance, facility energy audits, POS queue bottlenecks, register till cash reconciliations, in-store returns desk velocity, workplace safety incidents, curbside pickup SLAs, and store manager audit execution.
@@ -76,6 +76,14 @@ local-only design spec — see [Architecture](#architecture).
 | 1 | [`labor_productivity`](domains/store_operations/agents/labor_productivity/README.md) | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
 | 2 | [`store_fulfillment_execution`](domains/store_operations/agents/store_fulfillment_execution/README.md) | Store Operations: Store Fulfillment & Execution | BOPIS fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, fulfillment queue bottlenecks |
 | 3 | [`loss_prevention_shrinkage`](domains/store_operations/agents/loss_prevention_shrinkage/README.md) | Store Operations: Loss Prevention & Shrinkage | Monthly store shrinkage rates (%), shrink dollars by cause (theft, damage, admin error, unknown loss), high-risk category losses, register audit exception alerts |
+| 4 | [`visual_merchandising_compliance`](domains/store_operations/agents/visual_merchandising_compliance/README.md) | Store Operations: Planogram & Visual Merchandising Compliance | Planogram compliance score %, promotional signage installation speed, endcap display audit pass %, fixture space utilization |
+| 5 | [`energy_facilities_maintenance`](domains/store_operations/agents/energy_facilities_maintenance/README.md) | Store Operations: Store Energy & Facilities Maintenance | Electricity intensity (kWh/sq.ft), refrigeration temperature excursion alarms, HVAC work order MTTR, facility maintenance budget variance |
+| 6 | [`pos_checkout_queue_analytics`](domains/store_operations/agents/pos_checkout_queue_analytics/README.md) | Store Operations: POS & Checkout Queue Analytics | Peak checkout queue wait time (sec), self-checkout (SCO) intervention rate %, cashier scan speed (items/min - IPM), lane throughput |
+| 7 | [`store_cash_management_tills`](domains/store_operations/agents/store_cash_management_tills/README.md) | Store Operations: Store Cash Management & Till Balancing | Cash drawer over/short discrepancy $, cashier cash variance frequency %, armored car deposit reconciliation, counterfeit bill alerts |
+| 8 | [`omnichannel_returns_in_store`](domains/store_operations/agents/omnichannel_returns_in_store/README.md) | Store Operations: In-Store Omnichannel Returns & BORIS | BORIS handling time (mins), same-day shelf restock %, return fraud risk flags, return-to-salvage liquidation recovery rate |
+| 9 | [`store_safety_incident_management`](domains/store_operations/agents/store_safety_incident_management/README.md) | Store Operations: Store Safety & Incident Management | Customer slip/fall incident frequency, OSHA recordables, hazard correction closure speed (hours), general liability claim dollars |
+| 10 | [`curbside_pickup_speed_accuracy`](domains/store_operations/agents/curbside_pickup_speed_accuracy/README.md) | Store Operations: Curbside Pickup Speed & Accuracy | Arrival-to-trunk delivery dwell time (<3 mins), order substitution approval %, runner dispatch transit time, parking bay turnover |
+| 11 | [`store_manager_operational_audit`](domains/store_operations/agents/store_manager_operational_audit/README.md) | Store Operations: Store Manager Operational Audits | 360 operational audit score %, backroom safety/clutter index, shelf price tag scan accuracy %, public health inspection compliance |
 
 </details>
 

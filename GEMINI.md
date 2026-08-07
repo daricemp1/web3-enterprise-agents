@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Sixty-seven agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Seventy-five agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Merchandising Domain (14 of 14 agents complete)** (`domains/merchandising/agents/`):
   - `assortment_planning` ("Merchandising: Assortment Planning")
@@ -54,22 +54,24 @@ registered with Gemini Enterprise:
   - `customs_import_tariff_compliance` ("Supply Chain: Customs & Import Tariff Compliance", added 2026-08-07)
   - `dc_automation_robotics_kpis` ("Supply Chain: DC Automation & Robotics KPIs", added 2026-08-07)
   - `packaging_dunnage_optimization` ("Supply Chain: Packaging & Dunnage Optimization", added 2026-08-07)
+- **Store Operations Domain (11 of 11 agents complete)** (`domains/store_operations/agents/`):
+  - `labor_productivity` ("Store Operations: Labor Productivity", added 2026-07-27)
+  - `store_fulfillment_execution` ("Store Operations: Store Fulfillment & Execution", added 2026-07-28)
+  - `loss_prevention_shrinkage` ("Store Operations: Loss Prevention & Shrinkage", added 2026-07-28)
+  - `visual_merchandising_compliance` ("Store Operations: Planogram & Visual Merchandising Compliance", added 2026-08-07)
+  - `energy_facilities_maintenance` ("Store Operations: Store Energy & Facilities Maintenance", added 2026-08-07)
+  - `pos_checkout_queue_analytics` ("Store Operations: POS & Checkout Queue Analytics", added 2026-08-07)
+  - `store_cash_management_tills` ("Store Operations: Store Cash Management & Till Balancing", added 2026-08-07)
+  - `omnichannel_returns_in_store` ("Store Operations: In-Store Omnichannel Returns & BORIS", added 2026-08-07)
+  - `store_safety_incident_management` ("Store Operations: Store Safety & Incident Management", added 2026-08-07)
+  - `curbside_pickup_speed_accuracy` ("Store Operations: Curbside Pickup Speed & Accuracy", added 2026-08-07)
+  - `store_manager_operational_audit` ("Store Operations: Store Manager Operational Audits", added 2026-08-07)
 - **Cart & Checkout Analytics** (`domains/e_commerce/agents/cart_checkout_analytics/`, display name
   "E-Commerce: Cart & Checkout Analytics") — first E-Commerce agent (added 2026-07-29). Tracks digital funnel
   conversion rates, checkout stage cart abandonment %, payment gateway decline rates, and promo validation errors.
 - **Product Discovery & Analytics** (`domains/e_commerce/agents/search_merchandising_personalization/`, display name
   "E-Commerce: Product Discovery & Analytics") — second E-Commerce agent (added 2026-07-29). Tracks
   digital site search conversion rates, zero-result search query rates, recommendation carousel CTR %, and personalized revenue lift.
-- **Labor Productivity** (`domains/store_operations/agents/labor_productivity/`, display name
-  "Store Operations: Labor Productivity") — first Store Operations agent (added 2026-07-27). Tracks store
-  staffing presence vs. hourly customer foot traffic alignment, department overtime variance, and labor budgets.
-- **Store Fulfillment & Execution** (`domains/store_operations/agents/store_fulfillment_execution/`, display name
-  "Store Operations: Store Fulfillment & Execution") — second Store Operations agent (added 2026-07-28). Tracks
-  Buy-Online-Pick-Up-In-Store (BOPIS) fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, and store queue bottlenecks.
-- **Loss Prevention & Shrinkage** (`domains/store_operations/agents/loss_prevention_shrinkage/`, display name
-  "Store Operations: Loss Prevention & Shrinkage") — third Store Operations agent (added 2026-07-28). Tracks
-  monthly store shrinkage rates (%), shrink dollars by cause (theft, damage, admin error, unknown loss),
-  high-risk category losses, and register audit exception alerts.
 - **Gross Margin & Profitability** (`domains/finance/agents/gross_margin_profitability/`, display name
   "Finance: Gross Margin & Profitability") — first Finance agent (added 2026-07-27). Tracks gross margin rates (%),
   dollar margins, COGS variance, markdown discount erosion, and category margin targets.
