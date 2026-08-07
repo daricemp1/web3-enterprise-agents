@@ -145,16 +145,26 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>👥 Human Resources & Workforce (0 of 9 Agents Deployed — Upcoming) — <i>click to expand</i></b></summary>
+<summary><b>👥 Human Resources & Workforce (9 of 9 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Associate retention & turnover, fair scheduling & predictability compliance, training certification tracking, workplace safety incidents / OSHA compliance, store leadership bench succession, peak seasonal hiring velocity, eNPS associate sentiment pulse, labor union CBA compliance, and frontline wage market benchmarks.
 
-*All 9 agents in this domain are registered in `_shared/table_registry.yaml` and scheduled for upcoming development.*
+| No. | Agent | Gemini Enterprise Display Name | Focus |
+| :--- | :--- | :--- | :--- |
+| 1 | [`store_associate_turnover_retention`](domains/human_resources/agents/store_associate_turnover_retention/README.md) | HR: Store Associate Turnover & Retention | 90-day new hire retention cohorts, annualized turnover %, exit interview sentiment themes by store district |
+| 2 | [`workforce_scheduling_fairness`](domains/human_resources/agents/workforce_scheduling_fairness/README.md) | HR: Scheduling Fairness & Predictive Hours | 14-day schedule lead time, fair workweek / clopening penalty avoidance, shift swap fulfillment % |
+| 3 | [`training_onboarding_compliance`](domains/human_resources/agents/training_onboarding_compliance/README.md) | HR: Training & Onboarding Compliance | Food safety/equipment certification compliance (100%), LMS course completion speeds, time-to-productivity days |
+| 4 | [`workplace_safety_workers_comp`](domains/human_resources/agents/workplace_safety_workers_comp/README.md) | HR: Workplace Safety & Workers' Comp | OSHA TRIR / DART rates, lost workday cases, workers' comp claims $, safety audit scores |
+| 5 | [`store_manager_bench_succession`](domains/human_resources/agents/store_manager_bench_succession/README.md) | HR: Store Leadership Bench & Succession | Assistant Store Manager promotion readiness ratings, store manager vacancy duration (days), internal promotion rate % |
+| 6 | [`seasonal_hiring_peak_readiness`](domains/human_resources/agents/seasonal_hiring_peak_readiness/README.md) | HR: Seasonal Hiring & Peak Readiness | Holiday hiring target vs. actual headcount, background check turnaround days, seasonal funnel conversion % |
+| 7 | [`associate_engagement_pulse_enps`](domains/human_resources/agents/associate_engagement_pulse_enps/README.md) | HR: Associate Pulse & eNPS Analytics | Employee Net Promoter Score (eNPS), department sentiment indexes, manager feedback scores, associate flight risk indicators |
+| 8 | [`labor_union_compliance_cba`](domains/human_resources/agents/labor_union_compliance_cba/README.md) | HR: Labor Union & CBA Compliance | Collective bargaining agreement (CBA) grievance logs, grievance resolution SLAs, seniority shift bidding compliance |
+| 9 | [`frontline_wage_market_benchmarks`](domains/human_resources/agents/frontline_wage_market_benchmarks/README.md) | HR: Frontline Wage & Market Benchmarks | Competitive hourly wage benchmarks by metro area, minimum wage statutory increase budget impacts, store wage compression indexes |
 
 </details>
 
-All forty-one agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
+All fifty agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
 
 ---
 

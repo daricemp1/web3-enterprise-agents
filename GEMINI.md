@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Twenty-one agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Fifty agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
   "Merchandising: Assortment Planning")
@@ -111,6 +111,16 @@ registered with Gemini Enterprise:
   - `chemical_restricted_substances_rsl` ("ESG: Restricted Substances (RSL) & Chemical Safety")
   - `dei_supplier_diversity_spend` ("ESG: Supplier Diversity & Equity Spend")
   - `extended_producer_responsibility_epr` ("ESG: Extended Producer Responsibility (EPR) & Resale")
+- **Human Resources & Workforce Management Domain (9 agents)** (`domains/human_resources/agents/`, added 2026-08-07):
+  - `store_associate_turnover_retention` ("HR: Store Associate Turnover & Retention")
+  - `workforce_scheduling_fairness` ("HR: Scheduling Fairness & Predictive Hours")
+  - `training_onboarding_compliance` ("HR: Training & Onboarding Compliance")
+  - `workplace_safety_workers_comp` ("HR: Workplace Safety & Workers' Comp")
+  - `store_manager_bench_succession` ("HR: Store Leadership Bench & Succession")
+  - `seasonal_hiring_peak_readiness` ("HR: Seasonal Hiring & Peak Readiness")
+  - `associate_engagement_pulse_enps` ("HR: Associate Pulse & eNPS Analytics")
+  - `labor_union_compliance_cba` ("HR: Labor Union & CBA Compliance")
+  - `frontline_wage_market_benchmarks` ("HR: Frontline Wage & Market Benchmarks")
 
 ### 100-Agent Enterprise Retail Architecture (9 Strategic Domains)
 
