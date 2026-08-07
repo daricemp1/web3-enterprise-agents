@@ -17,3 +17,4 @@ docs/**
 .adk/
 **/deployment/dev.yaml
 **/deployment/prod.yaml
+.worktrees/

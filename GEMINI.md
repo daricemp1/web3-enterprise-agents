@@ -163,30 +163,45 @@ placeholders — routing summary, authorized-table list, and its tools/run-local
 mechanically from the same information, but **Example Questions must be copied verbatim from the
 agent's own `eval/agent.evalset.json` once that's written, never invented**.
 
-## Branching for new agent builds
+## Workspace Isolation via Git Worktrees (`.worktrees/`)
 
-Building a **new** agent from scratch starts on its own branch, not directly on `master`:
+Building a **new** agent from scratch or executing batch feature/migration work uses **Git Worktrees** located in project-local `.worktrees/<name>` (gitignored via `.gitignore`), rather than in-place branch checkouts in the root repository.
 
-1. Branch from an up-to-date `master`, named exactly after the agent's snake_case name (matches
-   its folder name and the scaffold's `--name` argument) — e.g. `git checkout -b
-   campaign_performance_roi`.
-2. Do all build work (scaffold, fill in TODOs, seed data, tests, eval, README, deployment, registration) as commits on that branch.
-3. Before merging, the branch must satisfy:
-   - The repo's existing test bar: `uv run --frozen pytest tests/tooling -v` passes, the new agent's
-     `tests/unit` passes, `eval/agent.evalset.json` has real cases, `README.md` is populated, and the agent is registered in `_shared/table_registry.yaml`.
-   - Live post-deploy verification: deployed to Vertex AI Agent Engine and registered with Gemini Enterprise.
-   - A fingerprint/secret scan: no real GCP project ids, service account emails, resource names,
-     keys, LDAP names, or credentials anywhere in the branch's commit content or commit messages.
-4. Merge locally into `master`, then push: `git checkout master && git merge <branch>` followed
-   by `git push origin master`.
-5. **The merge into local `master` always requires explicit user review and approval first.** This is a permanent manual checkpoint, the same way IAM/service-account creation and deploy/publish commands are permanent manual checkpoints.
-6. **Parallel Agent Builds:** Multiple new agents can be built concurrently in parallel on isolated feature branches (one branch per agent):
-   - Register all domain IDs and agent IDs in `_shared/table_registry.yaml` first.
-   - Dispatch parallel background subagents (one subagent per agent branch) to generate synthetic seed data, fill YAML routing/tables, write evals, and run unit tests.
-   - Load seed data for all parallel agents into dev BigQuery and configure IAM permissions for each dedicated service account (`<agent-name>-dev`).
-   - Deploy each agent to Vertex AI Agent Engine, register with Gemini Enterprise, and run live post-deploy smoke tests.
-   - Present diffs and live smoke test results for all parallel agents together to the user for review.
-   - Once reviewed and approved by the user, merge branches sequentially into `master` one at a time, and push to `origin/master`. Feature branches may be deleted or retained per user preference.
+**Why Worktrees**:
+- **Main repo remains on `master` continuously**: IDE/editor file watchers (VS Code, Jetski) never race against branch checkouts in the root directory, preventing `.git/index.lock` collisions.
+- **Parallel & Isolated Development**: Feature batches and parallel subagents work in dedicated isolated directories without dirtying the root workspace.
+
+### Standard Worktree Workflow
+
+1. **Create Worktree**:
+   From the clean root repository (on `master`):
+   ```bash
+   git worktree add .worktrees/<name> -b <name>
+   ```
+2. **Develop & Test in Worktree**:
+   - Perform all edits, scaffolding, configuration updates, and tests inside `.worktrees/<name>/`.
+   - Run tests: `cd .worktrees/<name> && uv run --frozen pytest ...`
+   - Deploy to Vertex AI Agent Engine (`us-central1`) & publish to Gemini Enterprise.
+   - Run live smoke tests and update `README.md` in the worktree.
+3. **Pre-Merge Quality & Security Gate**:
+   - Before merging, the worktree must satisfy:
+     - The repo's test bar: `pytest tests/tooling -v` passes, agent `tests/unit` passes, and evalsets are populated.
+     - Live post-deploy verification in Vertex AI Agent Engine (`us-central1`) and Gemini Enterprise.
+     - A fingerprint/secret scan: zero real GCP project IDs, service account emails, keys, or credentials in git diff.
+4. **Merge Checkpoint & User Review**:
+   - **The merge into local `master` always requires explicit user review and approval first.**
+   - Present diffs, scan results, and live smoke test outputs to the user.
+5. **Merge & Cleanup (from root repository)**:
+   ```bash
+   # In root repo (which stayed on master the entire time):
+   git merge <name>
+   git push origin master
+   git worktree remove .worktrees/<name>
+   git branch -d <name>
+   ```
+6. **Parallel Agent Builds:** Multiple new agents or domain batches can be built concurrently in parallel across isolated worktrees (`.worktrees/<agent_1>`, `.worktrees/<agent_2>`):
+   - Dispatch parallel background subagents (one subagent per worktree).
+   - Once reviewed and approved by the user, merge branches sequentially into `master` one at a time, push to `origin/master`, and remove worktrees.
 
 - **Git Execution, Concurrency & Lock Safety** (added 2026-08-06):
   - **Never chain state-changing git commands with `&&`**: Do not run `git checkout master && git merge <branch>` or `git add . && git commit` in a single line. Workspace file watchers and IDE Git extensions (VS Code, Jetski) immediately scan the index when files change on disk, holding `.git/index.lock` for ~50–150ms. Chained commands collide with this active lock and fail (`error: Unable to create '.git/index.lock': File exists`). Always execute state-changing git commands as separate sequential command calls.
