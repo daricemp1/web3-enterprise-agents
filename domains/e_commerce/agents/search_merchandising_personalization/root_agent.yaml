@@ -1,6 +1,6 @@
 agent_class: LlmAgent
 name: search_merchandising_personalization_root
-model: gemini-2.5-flash
+model: gemini-3.5-flash
 description: >-
   Orchestrator for the E-Commerce: Product Discovery & Analytics agent. Routes questions about site search query conversion,
   zero-result search terms, recommendation carousel CTR %, and customer segment personalization lift to internal BigQuery data.

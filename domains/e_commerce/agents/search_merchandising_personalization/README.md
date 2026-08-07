@@ -43,25 +43,36 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "What was the site search conversion rate and revenue for top search terms in July 2026?"
+> **User Prompt:** "What are our site search conversion rates and top zero-result queries over the last month?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `ecom_smep_search_queries_monthly`
+**Authorized Table Queried:** `ecom_smep_search_queries_monthly`, `ecom_smep_zero_result_queries`
 
 **Agent Response:**
-> In July 2026, 'wireless earbuds' had the highest search conversion rate at 5.5% ($142,000.00 revenue), followed by 'summer linen dress' at 4.8% ($87,500.00) and 'leather boots' at 3.2% ($54,000.00).
+> Based on product discovery and site search performance analytics:
+>
+> - **Site Search Conversion Rate:** **4.85%** (Users who search convert at 2.4x the rate of non-search catalog browsers at 2.02%).
+> - **Search Revenue Contribution:** Site search generates **36.2% of total digital net sales** while representing 15.1% of total site sessions.
+> - **Top Zero-Result Search Queries:**
+>   1. `"merino wool base layer"` (1,420 queries — catalog tagging gap).
+>   2. `"waterproof trail running shoes"` (980 queries — synonym mapping required for "gore-tex runners").
+>   3. `"linen wide leg pants"` (840 queries — seasonal stockout).
+> - **Recommendation Carousel CTR:** Homepage AI recommendations achieved an average **CTR of 6.2%** with a +12.4% average order value (AOV) lift.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "What is the e-commerce industry benchmark for site search zero-result query rates?"
+> **User Prompt:** "What are retail e-commerce site search conversion and zero-result query benchmarks?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> Industry benchmarks indicate that leading e-commerce sites maintain zero-result search query rates below **2% to 3%** by utilizing fuzzy matching, spell correction, and automated synonym redirects.
+> According to e-commerce product discovery and digital search benchmarks:
+> - **Search vs. Browse Conversion:** Site searchers consistently convert at **2x to 3x higher rates** than passive browsers, generating up to 30%–40% of digital revenues.
+> - **Zero-Result Query Threshold:** Leading enterprise retailers target zero-result query rates **below 3% to 5%** of total query volume, utilizing automated synonym libraries, NLP query expansion, and spell tolerance.
+> - **Recommendation Engagement:** Personalized product recommendation carousels benchmark at **4% to 8% CTR**, contributing 10% to 25% of overall digital order value.
 
 ---
 

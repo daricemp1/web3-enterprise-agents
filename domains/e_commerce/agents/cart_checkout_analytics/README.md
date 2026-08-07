@@ -50,25 +50,35 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "Which checkout stage experiences the highest abandoned revenue dollars and what is the primary exit reason?"
+> **User Prompt:** "What is our cart abandonment rate and checkout step drop-off for Q3 2026?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `ecom_ccan_cart_abandonment`
+**Authorized Table Queried:** `ecom_ccan_cart_abandonment`, `ecom_ccan_checkout_funnel_stages`
 
 **Agent Response:**
-> The Shipping Information stage accounts for the highest abandoned revenue at $189,000.00 (2,100 abandoned carts, 41.2% abandonment rate), with 'Unexpected Shipping Costs' identified as the primary exit reason. Payment Info follows with $159,600.00 in abandoned revenue (35.8% rate).
+> Based on e-commerce checkout funnel analytics for **Q3 2026**:
+>
+> - **Overall Cart Abandonment Rate:** **68.4%** (Total Carts Created: 142,000; Orders Completed: 44,890).
+> - **Funnel Stage Drop-Off Breakdown:**
+>   - **Cart to Shipping Info:** 38.2% drop-off (Users adding items but leaving before entering shipping address).
+>   - **Shipping to Payment Details:** 21.5% drop-off (Primary friction point: unexpected shipping surcharges and delivery SLA expectations).
+>   - **Payment Submission to Order Confirmation:** 8.7% drop-off (Payment gateway declines and 3D Secure authentication drop-offs).
+> - **Promo Code Validation Impact:** Promo code error attempts accounted for 4.2% of checkout abandonment sessions.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "How do our mobile checkout conversion rates compare to e-commerce industry benchmarks?"
+> **User Prompt:** "What are industry standard e-commerce cart abandonment and checkout conversion benchmarks in 2026?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> E-commerce industry benchmarks for mobile checkout conversion range from 2.0% – 3.5% for Mobile Web and 4.0% – 6.0% for Mobile Apps. Our Mobile App conversion rate of 25.00% significantly outperforms industry averages, while Mobile Web at 6.00% also beats standard benchmarks.
+> According to retail e-commerce industry benchmark studies:
+> - **Average Cart Abandonment Rate:** Across global digital retail, the average shopping cart abandonment rate benchmarks between **68% and 72%** (Mobile web averages 75%+, Desktop averages ~65%).
+> - **Checkout Step Completion Rates:** Best-in-class e-commerce retailers achieve an overall **checkout step-to-completion rate of 55% to 62%**.
+> - **Primary Abandonment Drivers:** Unexpected extra costs (shipping, fees, taxes) cause 48% of abandonments, required account creation drives 24%, and slow/complex multi-step checkout processes account for 18%.
 
 ---
 

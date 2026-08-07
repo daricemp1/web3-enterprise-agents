@@ -1,6 +1,6 @@
 agent_class: LlmAgent
 name: cart_checkout_analytics_root
-model: gemini-2.5-flash
+model: gemini-3.5-flash
 description: >-
   Orchestrator for the E-Commerce: Cart & Checkout Analytics agent. Routes questions to internal BigQuery data
   analysis or external market context, and synthesizes a combined answer.
