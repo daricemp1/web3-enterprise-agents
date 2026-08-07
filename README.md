@@ -41,7 +41,7 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>🚚 Supply Chain & Logistics (5 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
+<summary><b>🚚 Supply Chain & Logistics (14 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Vendor OTIF delivery, inventory planning & forecasting, carrier freight performance, DC throughput & dock turn, returns & reverse logistics, inbound freight, last-mile routing, cold chain compliance, dynamic safety stock, supplier disruption risk, cross-dock scheduling, customs/tariffs, DC robotics, and sustainable packaging optimization.
@@ -53,6 +53,15 @@ local-only design spec — see [Architecture](#architecture).
 | 3 | [`logistics_operations`](domains/supply_chain/agents/logistics_operations/README.md) | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
 | 4 | [`warehouse_dc_operations`](domains/supply_chain/agents/warehouse_dc_operations/README.md) | Supply Chain: Warehouse & DC Operations | Daily DC inbound/outbound shipment throughput, dock turn times, dock-to-stock hours, pick/pack accuracy %, storage pallet capacity utilization |
 | 5 | [`returns_reverse_logistics`](domains/supply_chain/agents/returns_reverse_logistics/README.md) | Supply Chain: Returns & Reverse Logistics | Store/channel return rates (%), return reason breakdowns, restock turnaround days, reverse disposition value recovery |
+| 6 | [`inbound_freight_optimization`](domains/supply_chain/agents/inbound_freight_optimization/README.md) | Supply Chain: Inbound Freight Optimization | Inbound freight cost per hundredweight ($/CWT), ocean container dwell days, demurrage penalty avoidance, inbound on-time transit rate |
+| 7 | [`last_mile_delivery_dispatch`](domains/supply_chain/agents/last_mile_delivery_dispatch/README.md) | Supply Chain: Last-Mile Delivery & Dispatch | Cost per delivery drop ($), 2-hour delivery window SLA adherence %, route stop density (stops/hr), fleet telematics efficiency index |
+| 8 | [`cold_chain_temperature_compliance`](domains/supply_chain/agents/cold_chain_temperature_compliance/README.md) | Supply Chain: Cold Chain Temperature Compliance | Reefer temperature excursion rate (%), perishable spoilage dollar losses, remaining shelf life (RSL) at DC receipt, IoT cold sensor uptime |
+| 9 | [`multi_echelon_safety_stock`](domains/supply_chain/agents/multi_echelon_safety_stock/README.md) | Supply Chain: Multi-Echelon Safety Stock | Network inventory holding costs, multi-echelon order fulfillment SLA %, lead time volatility buffer days, DC vs store stock balancing ratio |
+| 10 | [`supplier_risk_resilience`](domains/supply_chain/agents/supplier_risk_resilience/README.md) | Supply Chain: Supplier Risk & Resilience | High-risk supplier spend share (%), single-source dependency purchase spend, Altman Z-Score financial solvency ratings, disruption buffer coverage |
+| 11 | [`cross_dock_flow_through`](domains/supply_chain/agents/cross_dock_flow_through/README.md) | Supply Chain: Cross-Dock & Flow-Through Velocity | Trailer-to-trailer cross-dock dwell turn time (<4 hrs), pre-distribution direct store allocation accuracy %, yard staging dwell congestion |
+| 12 | [`customs_import_tariff_compliance`](domains/supply_chain/agents/customs_import_tariff_compliance/README.md) | Supply Chain: Customs & Import Tariff Compliance | HTS classification audit accuracy %, average CBP customs inspection hold hours, duty drawback recovery $, Section 301 effective tariff rate % |
+| 13 | [`dc_automation_robotics_kpis`](domains/supply_chain/agents/dc_automation_robotics_kpis/README.md) | Supply Chain: DC Automation & Robotics KPIs | ASRS crane & AMR system uptime %, robotic picking units per hour (UPH) vs manual baseline, MTBF hours, automated sortation error rate |
+| 14 | [`packaging_dunnage_optimization`](domains/supply_chain/agents/packaging_dunnage_optimization/README.md) | Supply Chain: Packaging & Dunnage Optimization | Master carton cube utilization %, carrier dimensional weight (DIM) surcharge penalties $, parcel packaging damage rate %, void-fill material costs |
 
 </details>
 

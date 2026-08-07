@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Fifty-eight agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Sixty-seven agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Merchandising Domain (14 of 14 agents complete)** (`domains/merchandising/agents/`):
   - `assortment_planning` ("Merchandising: Assortment Planning")
@@ -39,22 +39,21 @@ registered with Gemini Enterprise:
   - `item_lifecycle_rationalization` ("Merchandising: Item Lifecycle & SKU Rationalization", added 2026-08-07)
   - `trade_spend_effectiveness` ("Merchandising: Trade Spend & Allowance Effectiveness", added 2026-08-07)
   - `localized_curation_clustering` ("Merchandising: Localized Assortment Clustering", added 2026-08-07)
-- **Vendor Performance** (`domains/supply_chain/agents/vendor_performance/`, display name
-  "Supply Chain: Vendor Performance") — first Supply Chain agent (added 2026-07-26). Tracks OTIF delivery
-  rates and vendor scorecards.
-- **Inventory Planning** (`domains/supply_chain/agents/inventory_planning/`, display name
-  "Supply Chain: Inventory Planning") — second Supply Chain agent (added 2026-07-26). Tracks network-wide
-  inventory position across stores and warehouses with live demand forecasting (`AI.FORECAST`).
-- **Logistics Operations** (`domains/supply_chain/agents/logistics_operations/`, display name
-  "Supply Chain: Logistics Operations") — third Supply Chain agent (added 2026-07-27). Tracks carrier
-  performance, transit lane performance, shipment tracking, and logistics exceptions.
-- **Warehouse & DC Operations** (`domains/supply_chain/agents/warehouse_dc_operations/`, display name
-  "Supply Chain: Warehouse & DC Operations") — fourth Supply Chain agent (added 2026-07-28). Tracks
-  daily DC inbound/outbound shipment throughput, dock turn times, dock-to-stock hours, pick/pack accuracy %,
-  and storage pallet capacity utilization.
-- **Returns & Reverse Logistics** (`domains/supply_chain/agents/returns_reverse_logistics/`, display name
-  "Supply Chain: Returns & Reverse Logistics") — fifth Supply Chain agent (added 2026-07-29). Tracks store/channel
-  return rates, return reason breakdowns (defects, sizing, wrong item), restock turnaround days, and reverse disposition.
+- **Supply Chain & Logistics Domain (14 of 14 agents complete)** (`domains/supply_chain/agents/`):
+  - `vendor_performance` ("Supply Chain: Vendor Performance", added 2026-07-26)
+  - `inventory_planning` ("Supply Chain: Inventory Planning", added 2026-07-26)
+  - `logistics_operations` ("Supply Chain: Logistics Operations", added 2026-07-27)
+  - `warehouse_dc_operations` ("Supply Chain: Warehouse & DC Operations", added 2026-07-28)
+  - `returns_reverse_logistics` ("Supply Chain: Returns & Reverse Logistics", added 2026-07-29)
+  - `inbound_freight_optimization` ("Supply Chain: Inbound Freight Optimization", added 2026-08-07)
+  - `last_mile_delivery_dispatch` ("Supply Chain: Last-Mile Delivery & Dispatch", added 2026-08-07)
+  - `cold_chain_temperature_compliance` ("Supply Chain: Cold Chain Temperature Compliance", added 2026-08-07)
+  - `multi_echelon_safety_stock` ("Supply Chain: Multi-Echelon Safety Stock", added 2026-08-07)
+  - `supplier_risk_resilience` ("Supply Chain: Supplier Risk & Resilience", added 2026-08-07)
+  - `cross_dock_flow_through` ("Supply Chain: Cross-Dock & Flow-Through Velocity", added 2026-08-07)
+  - `customs_import_tariff_compliance` ("Supply Chain: Customs & Import Tariff Compliance", added 2026-08-07)
+  - `dc_automation_robotics_kpis` ("Supply Chain: DC Automation & Robotics KPIs", added 2026-08-07)
+  - `packaging_dunnage_optimization` ("Supply Chain: Packaging & Dunnage Optimization", added 2026-08-07)
 - **Cart & Checkout Analytics** (`domains/e_commerce/agents/cart_checkout_analytics/`, display name
   "E-Commerce: Cart & Checkout Analytics") — first E-Commerce agent (added 2026-07-29). Tracks digital funnel
   conversion rates, checkout stage cart abandonment %, payment gateway decline rates, and promo validation errors.
