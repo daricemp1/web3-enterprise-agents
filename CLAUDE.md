@@ -22,26 +22,23 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Fifty agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Fifty-eight agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
-- **Assortment Planning** (`domains/merchandising/agents/assortment_planning/`, display name
-  "Merchandising: Assortment Planning")
-- **Pricing & Promotions** (`domains/merchandising/agents/pricing_promotions/`, display name
-  "Merchandising: Pricing & Promotions")
-- **Sell-Through & Inventory Health** (`domains/merchandising/agents/sell_through_inventory_health/`, display name
-  "Merchandising: Sell-Through & Inventory Health") — third Merchandising agent (added 2026-07-28). Tracks
-  store-level sell-through rates, stock turn, aging inventory breakdown (0-30, 31-60, 61-90, 90+ days),
-  weeks of supply, and sell-through % markdown triggers.
-- **Vendor Negotiation & Rebates** (`domains/merchandising/agents/vendor_negotiation_rebates/`, display name
-  "Merchandising: Vendor Negotiation & Rebates") — fourth Merchandising agent (added 2026-07-28). Tracks
-  volume rebate agreement thresholds, YTD spend rebate tier progress, co-op marketing fund commitments/claims,
-  vendor payment terms, and net rebate realization %.
-- **Markdown & Clearance Optimization** (`domains/merchandising/agents/markdown_clearance_optimization/`, display name
-  "Merchandising: Markdown & Clearance Optimization") — fifth Merchandising agent (added 2026-07-29). Tracks
-  end-of-season clearance discount depth ladders, weekly sell-through velocity, markdown budget spend, and salvage recovery.
-- **Price Matching & Competitor Intel** (`domains/merchandising/agents/price_matching_competitor_intel/`, display name
-  "Merchandising: Price Matching & Competitor Intel") — sixth Merchandising agent (added 2026-07-29). Tracks
-  competitor price gap %, category price index parity, POS price match claims $, and competitor out-of-stock holding margin alerts.
+- **Merchandising Domain (14 of 14 agents complete)** (`domains/merchandising/agents/`):
+  - `assortment_planning` ("Merchandising: Assortment Planning")
+  - `pricing_promotions` ("Merchandising: Pricing & Promotions")
+  - `sell_through_inventory_health` ("Merchandising: Sell-Through & Inventory Health")
+  - `vendor_negotiation_rebates` ("Merchandising: Vendor Negotiation & Rebates")
+  - `markdown_clearance_optimization` ("Merchandising: Markdown & Clearance Optimization")
+  - `price_matching_competitor_intel` ("Merchandising: Price Matching & Competitor Intel")
+  - `space_planning_micro_merch` ("Merchandising: Space Planning & Micro-Merchandising", added 2026-08-07)
+  - `private_brand_development` ("Merchandising: Private Brand Development", added 2026-08-07)
+  - `seasonal_transition_planning` ("Merchandising: Seasonal Transition Planning", added 2026-08-07)
+  - `category_growth_strategy` ("Merchandising: Category Growth Strategy", added 2026-08-07)
+  - `size_pack_optimization` ("Merchandising: Size & Case Pack Optimization", added 2026-08-07)
+  - `item_lifecycle_rationalization` ("Merchandising: Item Lifecycle & SKU Rationalization", added 2026-08-07)
+  - `trade_spend_effectiveness` ("Merchandising: Trade Spend & Allowance Effectiveness", added 2026-08-07)
+  - `localized_curation_clustering` ("Merchandising: Localized Assortment Clustering", added 2026-08-07)
 - **Vendor Performance** (`domains/supply_chain/agents/vendor_performance/`, display name
   "Supply Chain: Vendor Performance") — first Supply Chain agent (added 2026-07-26). Tracks OTIF delivery
   rates and vendor scorecards.

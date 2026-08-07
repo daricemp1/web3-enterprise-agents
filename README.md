@@ -16,7 +16,7 @@ local-only design spec — see [Architecture](#architecture).
 > 💡 **Tip**: Click on any retail domain accordion below to expand its deployed agent roster, links, and KPI focus.
 
 <details>
-<summary><b>🛍️ Merchandising (6 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
+<summary><b>🛍️ Merchandising (14 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Assortment planning, pricing elasticity, promotional cadence, markdowns, vendor rebates, competitor intel, space planning, private brand, seasonal transitions, category strategy, size/pack optimization, SKU lifecycle, trade spend, and localized assortment.
@@ -29,6 +29,14 @@ local-only design spec — see [Architecture](#architecture).
 | 4 | [`vendor_negotiation_rebates`](domains/merchandising/agents/vendor_negotiation_rebates/README.md) | Merchandising: Vendor Negotiation & Rebates | Volume rebate agreement thresholds, YTD spend rebate tier progress, co-op marketing fund commitments/claims, vendor payment terms, net rebate realization % |
 | 5 | [`markdown_clearance_optimization`](domains/merchandising/agents/markdown_clearance_optimization/README.md) | Merchandising: Markdown & Clearance Optimization | End-of-season clearance discount depth, clearance sell-through %, markdown budget spend, salvage recovery |
 | 6 | [`price_matching_competitor_intel`](domains/merchandising/agents/price_matching_competitor_intel/README.md) | Merchandising: Price Matching & Competitor Intel | Competitor price gap %, market price index parity (100 baseline), POS price match claims, competitor stock alerts |
+| 7 | [`space_planning_micro_merch`](domains/merchandising/agents/space_planning_micro_merch/README.md) | Merchandising: Space Planning & Micro-Merchandising | Linear shelf space elasticity, planogram compliance %, fixture capacity utilization, eye-level shelf share |
+| 8 | [`private_brand_development`](domains/merchandising/agents/private_brand_development/README.md) | Merchandising: Private Brand Development | Private label volume penetration %, gross margin premium over national brands (bps), co-packer COGS variance |
+| 9 | [`seasonal_transition_planning`](domains/merchandising/agents/seasonal_transition_planning/README.md) | Merchandising: Seasonal Transition Planning | Planned sell-in vs actual sell-through curves, transition milestone adherence, weather demand indexing, salvage risk |
+| 10 | [`category_growth_strategy`](domains/merchandising/agents/category_growth_strategy/README.md) | Merchandising: Category Growth Strategy | Chain market share vs TAM, YoY share change (bps), category roles (Destination/Routine), whitespace growth opportunities |
+| 11 | [`size_pack_optimization`](domains/merchandising/agents/size_pack_optimization/README.md) | Merchandising: Size & Case Pack Optimization | Broken size run stockouts %, regional body size curve skews, master case pack replenishment multiple alignment |
+| 12 | [`item_lifecycle_rationalization`](domains/merchandising/agents/item_lifecycle_rationalization/README.md) | Merchandising: Item Lifecycle & SKU Rationalization | New item launch velocity curves (wks 1-12), SKU cannibalization rates %, tail delisting triggers, liquidation recovery |
+| 13 | [`trade_spend_effectiveness`](domains/merchandising/agents/trade_spend_effectiveness/README.md) | Merchandising: Trade Spend & Allowance Effectiveness | Vendor trade promotion net ROI (%), POS scan allowance audit variances, incremental volume lift %, cannibalization costs |
+| 14 | [`localized_curation_clustering`](domains/merchandising/agents/localized_curation_clustering/README.md) | Merchandising: Localized Assortment Clustering | Demographic store clustering, local artisan vendor revenue share %, regional taste affinity index, cluster assortment rules |
 
 </details>
 
