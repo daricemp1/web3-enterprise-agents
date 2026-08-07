@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Last-Mile Delivery & Dispatch data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Last-Mile Delivery & Dispatch**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_lmdd_delivery_routes`
+  - `spch_lmdd_drop_density_kpis`
+  - `spch_lmdd_delivery_window_slas`
+  - `spch_lmdd_fleet_telematics`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_lmdd_delivery_routes"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_lmdd_drop_density_kpis"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_lmdd_delivery_window_slas"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_lmdd_fleet_telematics"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

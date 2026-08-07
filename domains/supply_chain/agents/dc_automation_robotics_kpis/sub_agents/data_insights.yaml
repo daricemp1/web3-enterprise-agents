@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: DC Automation & Robotics KPIs data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: DC Automation & Robotics KPIs**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_dark_automation_systems`
+  - `spch_dark_asrs_uptime_logs`
+  - `spch_dark_robotic_pick_rates`
+  - `spch_dark_maintenance_workorders`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_dark_automation_systems"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_dark_asrs_uptime_logs"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_dark_robotic_pick_rates"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_dark_maintenance_workorders"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Cold Chain Temperature Compliance data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Cold Chain Temperature Compliance**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_cctc_temperature_logs`
+  - `spch_cctc_perishable_products`
+  - `spch_cctc_cold_storage_sensors`
+  - `spch_cctc_spoilage_excursions`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cctc_temperature_logs"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cctc_perishable_products"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cctc_cold_storage_sensors"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cctc_spoilage_excursions"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

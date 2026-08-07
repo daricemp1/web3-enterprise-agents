@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Supplier Risk & Resilience data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Supplier Risk & Resilience**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_srre_supplier_risk_profiles`
+  - `spch_srre_sole_source_dependencies`
+  - `spch_srre_disruption_scenarios`
+  - `spch_srre_financial_health_scores`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_srre_supplier_risk_profiles"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_srre_sole_source_dependencies"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_srre_disruption_scenarios"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_srre_financial_health_scores"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

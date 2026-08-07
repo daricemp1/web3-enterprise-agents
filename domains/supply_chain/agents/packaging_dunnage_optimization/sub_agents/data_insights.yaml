@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Packaging & Dunnage Optimization data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Packaging & Dunnage Optimization**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_pdop_carton_cube_utilization`
+  - `spch_pdop_dim_weight_penalties`
+  - `spch_pdop_packaging_materials_cost`
+  - `spch_pdop_damage_by_packaging`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_pdop_carton_cube_utilization"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_pdop_dim_weight_penalties"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_pdop_packaging_materials_cost"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_pdop_damage_by_packaging"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

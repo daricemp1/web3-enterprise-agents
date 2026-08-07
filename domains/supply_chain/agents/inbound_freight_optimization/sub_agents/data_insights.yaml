@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Inbound Freight Optimization data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Inbound Freight Optimization**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_ifop_freight_shipments`
+  - `spch_ifop_lane_rate_benchmarks`
+  - `spch_ifop_container_dwell_times`
+  - `spch_ifop_demurrage_fees`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_ifop_freight_shipments"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_ifop_lane_rate_benchmarks"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_ifop_container_dwell_times"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_ifop_demurrage_fees"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

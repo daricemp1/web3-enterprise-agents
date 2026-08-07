@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Customs & Import Tariff Compliance data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Customs & Import Tariff Compliance**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_citc_import_entries`
+  - `spch_citc_hts_tariff_schedules`
+  - `spch_citc_customs_duties_paid`
+  - `spch_citc_port_clearance_holds`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_citc_import_entries"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_citc_hts_tariff_schedules"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_citc_customs_duties_paid"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_citc_port_clearance_holds"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

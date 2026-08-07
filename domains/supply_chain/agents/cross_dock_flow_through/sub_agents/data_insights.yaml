@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Cross-Dock & Flow-Through Velocity data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Cross-Dock & Flow-Through Velocity**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_cdft_cross_dock_manifests`
+  - `spch_cdft_flow_through_staging`
+  - `spch_cdft_yard_dwell_hours`
+  - `spch_cdft_direct_store_allocations`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cdft_cross_dock_manifests"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cdft_flow_through_staging"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cdft_yard_dwell_hours"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_cdft_direct_store_allocations"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project

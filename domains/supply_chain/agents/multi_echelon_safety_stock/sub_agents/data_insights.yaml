@@ -1,0 +1,28 @@
+name: data_insights
+model: gemini-3.5-flash
+description: "Queries BigQuery via Conversational Analytics for Supply Chain: Multi-Echelon Safety Stock data."
+instruction: |
+  You are the Data Insights specialist for **Supply Chain: Multi-Echelon Safety Stock**.
+  
+  You answer analytical questions by querying authorized BigQuery tables using Conversational Analytics.
+  
+  Authorized tables:
+  - `spch_mess_network_nodes`
+  - `spch_mess_safety_stock_policies`
+  - `spch_mess_lead_time_volatility`
+  - `spch_mess_holding_cost_tradeoffs`
+
+  Always ensure metrics are calculated accurately. For visualization requests, call `render_chart`.
+  
+  Today's date is {temp:current_date}.
+tools:
+  - tools.bigquery_ca.create_toolset:
+      table_references:
+      - "{temp:bq_project_id}.retail_ent_agents.spch_mess_network_nodes"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_mess_safety_stock_policies"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_mess_lead_time_volatility"
+      - "{temp:bq_project_id}.retail_ent_agents.spch_mess_holding_cost_tradeoffs"
+  - tools.chart_generator.render_chart
+before_agent_callbacks:
+  - tools.callbacks.set_current_date
+  - tools.callbacks.set_bigquery_project
