@@ -90,6 +90,19 @@ registered with Gemini Enterprise:
   "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks Customer Lifetime
   Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
 
+### 100-Agent Enterprise Retail Architecture (9 Strategic Domains)
+
+The platform architecture defines a comprehensive footprint of **100 enterprise agents** registered in `_shared/table_registry.yaml` across **9 retail business domains**:
+1. **Merchandising (`domain_id: merc`)**: 14 agents (Assortment, Pricing, Sell-Through, Rebates, Clearance, Price Matching, Space Planning, Private Brand, Seasonal, Category Strategy, Size/Pack, Item Lifecycle, Trade Spend, Localized Assortment).
+2. **Supply Chain & Logistics (`domain_id: spch`)**: 14 agents (Vendor OTIF, Inventory Planning, Freight/Logistics, DC Operations, Reverse Logistics, Inbound Freight, Last Mile, Cold Chain, Safety Stock, Supplier Risk, Cross-Dock, Customs/Tariff, DC Robotics, Packaging).
+3. **Store Operations (`domain_id: stop`)**: 11 agents (Labor Productivity, Store BOPIS, Loss Prevention, Visual Compliance, Facilities/Energy, POS Queues, Till Cash, In-Store Returns, Store Safety, Curbside Pickup, Store Audits).
+4. **E-Commerce & Digital (`domain_id: ecom`)**: 11 agents (Cart Checkout, Site Search, Payment Fraud, Marketplace 3P, Mobile App, Web Vitals, PDP Optimization, Subscriptions, Promo Abuse, B2B Portal, SEO/Accessibility).
+5. **Marketing & Retail Media (`domain_id: mktg`)**: 10 agents (Campaign ROAS, Customer CLV/Loyalty, Retail Media Network [RMN], Churn Win-Back, CRM/Email/SMS, Influencer ROI, CAC Payback, Omnichannel CDP, Geotargeting, Brand Health).
+6. **Finance, Real Estate & Accounting (`domain_id: finc`)**: 11 agents (Gross Margin, Store P&L, Working Capital/Cash Flow, Lease/Real Estate, Remodel ROI, Inventory Valuation, Vendor Recovery Audit, Sales Tax Nexus, FP&A Budget, Gift Card Liability, FX Landed Cost).
+7. **Customer Care & Experience (`domain_id: care`)**: 10 agents (Contact Center FCR, WISMO Order Inquiries, NLP VoC Sentiment, Warranty Claims, AI Bot Handoff, VIP Concierge, Return Appeals, Social Support, Store Helpdesk, Damaged Goods).
+8. **Human Resources & Workforce (`domain_id: hrwm`)**: 9 agents (Associate Retention, Fair Scheduling, Training Compliance, Workplace Safety/OSHA, Store Leadership Bench, Seasonal Hiring, eNPS Pulse, Labor Union CBA, Frontline Wage Benchmarks).
+9. **Sustainability, ESG & Compliance (`domain_id: esgc`)**: 10 agents (Scope 1-3 Carbon, Food Waste, Sustainable Packaging, Ethical Sourcing, Product Recall, Renewable Energy, Water Audits, Chemical RSL, Supplier Diversity, Extended Producer Responsibility).
+
 
 ## Repo layout
 

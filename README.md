@@ -37,10 +37,24 @@ local-only design spec — see [Architecture](#architecture).
 | 20 | Merchandising | [`price_matching_competitor_intel`](domains/merchandising/agents/price_matching_competitor_intel/README.md) | Merchandising: Price Matching & Competitor Intel | Competitor price gap %, market price index parity (100 baseline), POS price match claims, competitor stock alerts |
 | 21 | E-Commerce | [`search_merchandising_personalization`](domains/e_commerce/agents/search_merchandising_personalization/README.md) | E-Commerce: Product Discovery & Analytics | Digital funnel site search conversion %, zero-result query rates, recommendation carousel CTR %, personalized revenue lift |
 
-All twenty-one are deployed to Vertex AI Agent Engine (dev) and registered with Gemini Enterprise. The
+All twenty-one agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
 
-scaffold infrastructure that generates a new logical agent (`_shared/`) is domain-agnostic —
-adding a tenth agent, or a sixth domain, is a generator invocation, not new plumbing.
+### 100-Agent Enterprise Architecture Footprint
+
+The complete enterprise catalog of **100 Retail Enterprise Agents** across **9 strategic business domains** is defined in `_shared/table_registry.yaml`:
+
+| # | Domain | `domain_id` | Deployed Agents | Total Roadmap | Domain Scope |
+| :-: | :--- | :---: | :---: | :---: | :--- |
+| 1 | **Merchandising** | `merc` | 6 | **14** | Assortment, pricing, promos, markdowns, rebates, competitor intel, space planning, private brand, seasonal transition, category growth, size/case pack, SKU rationalization, trade spend, localized assortment. |
+| 2 | **Supply Chain & Logistics** | `spch` | 5 | **14** | Vendor OTIF, inventory planning, freight ops, DC throughput, returns, inbound freight, last mile, cold chain, safety stock, supplier risk, cross-dock, customs/tariffs, DC robotics, packaging optimization. |
+| 3 | **Store Operations** | `stop` | 3 | **11** | Labor productivity, BOPIS fulfillment, shrink & loss prevention, visual compliance, facilities/energy, POS queues, till cash, in-store returns, store safety, curbside pickup, store manager audits. |
+| 4 | **E-Commerce & Digital** | `ecom` | 2 | **11** | Cart conversion, site search discovery, payment fraud risk, 3P marketplace, mobile app engagement, web vitals, PDP optimization, subscriptions, coupon abuse, B2B wholesale, SEO/accessibility. |
+| 5 | **Marketing & Retail Media** | `mktg` | 2 | **10** | Campaign ROAS, customer CLV/loyalty, Retail Media Network (RMN) monetization, churn win-back, CRM/email/SMS, influencer ROI, CAC payback, omnichannel CDP, geotargeting, brand sentiment. |
+| 6 | **Finance, Real Estate & Accounting** | `finc` | 3 | **11** | Gross margin, store P&L, working capital, store real estate leases, remodel ROI, inventory LCM reserves, vendor audit recovery, sales tax nexus, FP&A variance, gift card breakage, FX landed cost. |
+| 7 | **Customer Care & Experience** | `care` | 0 | **10** | Contact center FCR, WISMO order tracking, voice of customer NLP, warranty claims, AI bot handoff, VIP concierge, return appeals, social support, store helpdesk, damaged goods claims. |
+| 8 | **Human Resources & Workforce** | `hrwm` | 0 | **9** | Associate retention, fair scheduling, training compliance, workplace safety/OSHA, store manager succession, seasonal hiring, eNPS pulse, labor union CBA, frontline wage benchmarks. |
+| 9 | **Sustainability, ESG & Compliance** | `esgc` | 0 | **10** | Scope 1-3 carbon emissions, food waste reduction, sustainable packaging, ethical sourcing audits, product recall readiness, renewable energy, water conservation, chemical RSL, supplier diversity, EPR circularity. |
+| **Total** | **9 Domains** | | **21** | **100** | **Comprehensive Enterprise Footprint** |
 
 ---
 

@@ -91,34 +91,38 @@ def test_every_agent_domain_field_resolves_to_a_registered_domain():
         )
 
 
-def test_all_twenty_one_agents_are_registered():
+def test_all_nine_domains_are_registered():
     registry = yaml.safe_load(REGISTRY_PATH.read_text())
-    expected_agents = {
-        "assortment_planning",
-        "pricing_promotions",
-        "sell_through_inventory_health",
-        "vendor_performance",
-        "inventory_planning",
-        "logistics_operations",
-        "labor_productivity",
-        "store_fulfillment_execution",
-        "gross_margin_profitability",
-        "campaign_performance_roi",
-        "customer_lifecycle_loyalty",
-        "store_pnl_operating_costs",
-        "loss_prevention_shrinkage",
-        "warehouse_dc_operations",
-        "vendor_negotiation_rebates",
-        "returns_reverse_logistics",
-        "cart_checkout_analytics",
-        "working_capital_cashflow",
-        "markdown_clearance_optimization",
-        "price_matching_competitor_intel",
-        "search_merchandising_personalization",
+    expected_domains = {
+        "merchandising",
+        "supply_chain",
+        "store_operations",
+        "e_commerce",
+        "marketing",
+        "finance",
+        "customer_care",
+        "human_resources",
+        "sustainability_compliance",
     }
-    registered = set(registry["agents"].keys())
-    missing = expected_agents - registered
-    assert not missing, f"Missing agents in {REGISTRY_PATH}: {missing}"
-    assert len(registered) == 21, f"Expected 21 registered agents in {REGISTRY_PATH}, found {len(registered)}"
+    registered_domains = set(registry["domains"].keys())
+    assert registered_domains == expected_domains, (
+        f"Domain mismatch in {REGISTRY_PATH}. Missing: {expected_domains - registered_domains}, "
+        f"Unexpected: {registered_domains - expected_domains}"
+    )
+
+
+def test_all_one_hundred_agents_are_registered():
+    registry = yaml.safe_load(REGISTRY_PATH.read_text())
+    agents = registry["agents"]
+    assert len(agents) == 100, f"Expected 100 registered agents in {REGISTRY_PATH}, found {len(agents)}"
+
+
+def test_every_agent_has_at_least_three_tables():
+    registry = yaml.safe_load(REGISTRY_PATH.read_text())
+    for agent_name, entry in registry["agents"].items():
+        tables = entry.get("tables", [])
+        assert isinstance(tables, list) and len(tables) >= 3, (
+            f"Agent '{agent_name}' must have at least 3 logical tables in {REGISTRY_PATH}, found {len(tables)}"
+        )
 
 
