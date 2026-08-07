@@ -89,6 +89,28 @@ registered with Gemini Enterprise:
 - **Customer Lifecycle & Loyalty** (`domains/marketing/agents/customer_lifecycle_loyalty/`, display name
   "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks Customer Lifetime
   Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
+- **Customer Care & Experience Domain (10 agents)** (`domains/customer_care/agents/`, added 2026-08-07):
+  - `contact_center_agent_performance` ("Customer Care: Contact Center Performance & FCR")
+  - `wismo_order_tracking_resolution` ("Customer Care: WISMO & Order Inquiries")
+  - `voice_of_customer_sentiment_nlp` ("Customer Care: Voice of Customer & NLP Sentiment")
+  - `product_warranty_claims_repair` ("Customer Care: Product Warranty & Claims")
+  - `ai_chatbot_deflection_handoff` ("Customer Care: AI Bot Containment & Escalations")
+  - `vip_clientele_concierge_support` ("Customer Care: VIP & High-CLV Concierge")
+  - `returns_appeals_exception_desk` ("Customer Care: Return Exceptions & Appeals")
+  - `omnichannel_social_support_desk` ("Customer Care: Social Support & Public Sentiment")
+  - `store_associate_support_hotline` ("Customer Care: Store Helpdesk & POS Support")
+  - `damaged_goods_claims_resolution` ("Customer Care: Damaged Goods Claims & Recovery")
+- **Sustainability, ESG & Compliance Domain (10 agents)** (`domains/sustainability_compliance/agents/`, added 2026-08-07):
+  - `carbon_footprint_scope_emissions` ("ESG: Carbon Footprint & Scope Emissions")
+  - `food_waste_spoilage_reduction` ("ESG: Food Waste Reduction & Diversion")
+  - `sustainable_packaging_circularity` ("ESG: Sustainable Packaging & Circularity")
+  - `ethical_sourcing_labor_audits` ("ESG: Ethical Sourcing & Labor Audits")
+  - `product_safety_recall_readiness` ("ESG: Product Safety & Recall Execution")
+  - `energy_renewable_grid_transition` ("ESG: Renewable Energy & Grid Transition")
+  - `water_conservation_facility_audit` ("ESG: Water Conservation & Facility Audits")
+  - `chemical_restricted_substances_rsl` ("ESG: Restricted Substances (RSL) & Chemical Safety")
+  - `dei_supplier_diversity_spend` ("ESG: Supplier Diversity & Equity Spend")
+  - `extended_producer_responsibility_epr` ("ESG: Extended Producer Responsibility (EPR) & Resale")
 
 ### 100-Agent Enterprise Retail Architecture (9 Strategic Domains)
 
