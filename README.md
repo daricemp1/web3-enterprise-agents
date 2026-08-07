@@ -369,7 +369,9 @@ new agent in `_shared/table_registry.yaml`, and add its seed data under `data/`.
 
 This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-lock.json) and reproducible via `npx skills experimental_install`:
 
-### Source: `derailed-dash/dazbo-agent-skills` (6 skills)
+<details>
+<summary><b>📦 Source: <code>derailed-dash/dazbo-agent-skills</code> (6 skills) — <i>click to expand</i></b></summary>
+<br/>
 
 | Skill Name | Path |
 | :--- | :--- |
@@ -380,7 +382,11 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 | `maintaining-core-documentation` | `skills/maintaining-core-documentation/SKILL.md` |
 | `secrets-with-git-crypt` | `skills/secrets-with-git-crypt/SKILL.md` |
 
-### Source: `google/skills` (90 skills)
+</details>
+
+<details>
+<summary><b>📦 Source: <code>google/skills</code> (90 skills) — <i>click to expand</i></b></summary>
+<br/>
 
 | Skill Name | Path |
 | :--- | :--- |
@@ -475,7 +481,11 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 | `ima-sdk-basics` | `skills/ads/ima-sdk-basics/SKILL.md` |
 | `workload-manager-basics` | `skills/cloud/workload-manager-basics/SKILL.md` |
 
-### Source: `obra/superpowers` (14 skills)
+</details>
+
+<details>
+<summary><b>📦 Source: <code>obra/superpowers</code> (14 skills) — <i>click to expand</i></b></summary>
+<br/>
 
 | Skill Name | Path |
 | :--- | :--- |
@@ -494,11 +504,17 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 | `writing-plans` | `skills/writing-plans/SKILL.md` |
 | `writing-skills` | `skills/writing-skills/SKILL.md` |
 
-### Source: `vercel-labs/skills` (1 skills)
+</details>
+
+<details>
+<summary><b>📦 Source: <code>vercel-labs/skills</code> (1 skill) — <i>click to expand</i></b></summary>
+<br/>
 
 | Skill Name | Path |
 | :--- | :--- |
 | `find-skills` | `skills/find-skills/SKILL.md` |
+
+</details>
 
 ---
 ## License
