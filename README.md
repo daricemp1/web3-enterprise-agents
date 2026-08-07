@@ -19,6 +19,8 @@ local-only design spec — see [Architecture](#architecture).
 <summary><b>🛍️ Merchandising (6 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
+> **Domain Scope**: Assortment planning, pricing elasticity, promotional cadence, markdowns, vendor rebates, competitor intel, space planning, private brand, seasonal transitions, category strategy, size/pack optimization, SKU lifecycle, trade spend, and localized assortment.
+
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
 | 1 | [`assortment_planning`](domains/merchandising/agents/assortment_planning/README.md) | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
@@ -34,6 +36,8 @@ local-only design spec — see [Architecture](#architecture).
 <summary><b>🚚 Supply Chain & Logistics (5 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
+> **Domain Scope**: Vendor OTIF delivery, inventory planning & forecasting, carrier freight performance, DC throughput & dock turn, returns & reverse logistics, inbound freight, last-mile routing, cold chain compliance, dynamic safety stock, supplier disruption risk, cross-dock scheduling, customs/tariffs, DC robotics, and sustainable packaging optimization.
+
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
 | 1 | [`vendor_performance`](domains/supply_chain/agents/vendor_performance/README.md) | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
@@ -48,6 +52,8 @@ local-only design spec — see [Architecture](#architecture).
 <summary><b>🏬 Store Operations (3 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
+> **Domain Scope**: Associate labor productivity vs. foot traffic, BOPIS omnichannel fulfillment, store shrink & loss prevention, planogram visual compliance, facility energy audits, POS queue bottlenecks, register till cash reconciliations, in-store returns desk velocity, workplace safety incidents, curbside pickup SLAs, and store manager audit execution.
+
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
 | 1 | [`labor_productivity`](domains/store_operations/agents/labor_productivity/README.md) | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
@@ -60,6 +66,8 @@ local-only design spec — see [Architecture](#architecture).
 <summary><b>🛒 E-Commerce & Digital (2 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
+> **Domain Scope**: Digital funnel & cart abandonment, site search merchandising & zero-results, payment gateway fraud, 3P marketplace seller SLAs, mobile app vitals, web performance/Core Web Vitals, PDP conversion optimization, subscription recurring churn, promotional coupon abuse, B2B wholesale ordering, and SEO/accessibility audits.
+
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
 | 1 | [`cart_checkout_analytics`](domains/e_commerce/agents/cart_checkout_analytics/README.md) | E-Commerce: Cart & Checkout Analytics | Digital funnel conversion rates, checkout stage cart abandonment %, payment gateway decline rates, promo validation errors |
@@ -70,6 +78,8 @@ local-only design spec — see [Architecture](#architecture).
 <details>
 <summary><b>📣 Marketing & Retail Media (2 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
+
+> **Domain Scope**: Paid campaign ROAS, customer lifetime value & loyalty tier migration, Retail Media Network (RMN) sponsored ad yield, churn win-back triggers, CRM/email/SMS attribution, creator/influencer ROI, CAC payback velocity, omnichannel CDP unification, local geotargeting, and brand sentiment tracking.
 
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
@@ -82,6 +92,8 @@ local-only design spec — see [Architecture](#architecture).
 <summary><b>📊 Finance, Real Estate & Accounting (3 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
+> **Domain Scope**: Gross margin bridge & COGS analysis, store-level P&L and EBITDA variance, working capital & cash conversion cycle, retail store lease portfolio liabilities, remodel CapEx ROI, inventory LCM valuation reserves, vendor audit recovery claims, multi-state sales tax nexus, FP&A variance budgets, gift card breakage liability, and FX landed cost exposure.
+
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
 | 1 | [`gross_margin_profitability`](domains/finance/agents/gross_margin_profitability/README.md) | Finance: Gross Margin & Profitability | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
@@ -93,6 +105,8 @@ local-only design spec — see [Architecture](#architecture).
 <details>
 <summary><b>🎧 Customer Care & Experience (10 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
+
+> **Domain Scope**: Contact center FCR and AHT queues, WISMO order tracking and deflection, voice of customer NLP topic sentiment, extended warranty claims and vendor recoveries, AI bot containment and escalation handoffs, VIP clientele concierge SLAs, out-of-policy returns appeals and concessions, social media support response times, store associate POS helpdesk resolution, and damaged goods freight claims.
 
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
@@ -113,6 +127,8 @@ local-only design spec — see [Architecture](#architecture).
 <summary><b>🌱 Sustainability, ESG & Compliance (10 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
+> **Domain Scope**: Scope 1-3 GHG carbon emissions, grocery food waste diversion and donation, sustainable PCR packaging and plastic reduction, supplier ethical labor compliance audits (Sedex SMETA), product safety recall quarantine speed, renewable energy PPA adoption, facility water conservation intensity, chemical RSL testing, diverse supplier procurement spend, and EPR take-back circularity.
+
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
 | 1 | [`carbon_footprint_scope_emissions`](domains/sustainability_compliance/agents/carbon_footprint_scope_emissions/README.md) | ESG: Carbon Footprint & Scope Emissions | Scope 1-3 GHG carbon emissions, store/fleet fossil fuel combustion, supply chain logistics footprint, net zero trajectory |
@@ -128,24 +144,17 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
+<details>
+<summary><b>👥 Human Resources & Workforce (0 of 9 Agents Deployed — Upcoming) — <i>click to expand</i></b></summary>
+<br/>
+
+> **Domain Scope**: Associate retention & turnover, fair scheduling & predictability compliance, training certification tracking, workplace safety incidents / OSHA compliance, store leadership bench succession, peak seasonal hiring velocity, eNPS associate sentiment pulse, labor union CBA compliance, and frontline wage market benchmarks.
+
+*All 9 agents in this domain are registered in `_shared/table_registry.yaml` and scheduled for upcoming development.*
+
+</details>
+
 All forty-one agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
-
-### 100-Agent Enterprise Architecture Footprint
-
-The complete enterprise catalog of **100 Retail Enterprise Agents** across **9 strategic business domains** is defined in `_shared/table_registry.yaml`:
-
-| # | Domain | `domain_id` | Deployed Agents | Total Roadmap | Domain Scope |
-| :-: | :--- | :---: | :---: | :---: | :--- |
-| 1 | **Merchandising** | `merc` | 6 | **14** | Assortment, pricing, promos, markdowns, rebates, competitor intel, space planning, private brand, seasonal transition, category growth, size/case pack, SKU rationalization, trade spend, localized assortment. |
-| 2 | **Supply Chain & Logistics** | `spch` | 5 | **14** | Vendor OTIF, inventory planning, freight ops, DC throughput, returns, inbound freight, last mile, cold chain, safety stock, supplier risk, cross-dock, customs/tariffs, DC robotics, packaging optimization. |
-| 3 | **Store Operations** | `stop` | 3 | **11** | Labor productivity, BOPIS fulfillment, shrink & loss prevention, visual compliance, facilities/energy, POS queues, till cash, in-store returns, store safety, curbside pickup, store manager audits. |
-| 4 | **E-Commerce & Digital** | `ecom` | 2 | **11** | Cart conversion, site search discovery, payment fraud risk, 3P marketplace, mobile app engagement, web vitals, PDP optimization, subscriptions, coupon abuse, B2B wholesale, SEO/accessibility. |
-| 5 | **Marketing & Retail Media** | `mktg` | 2 | **10** | Campaign ROAS, customer CLV/loyalty, Retail Media Network (RMN) monetization, churn win-back, CRM/email/SMS, influencer ROI, CAC payback, omnichannel CDP, geotargeting, brand sentiment. |
-| 6 | **Finance, Real Estate & Accounting** | `finc` | 3 | **11** | Gross margin, store P&L, working capital, store real estate leases, remodel ROI, inventory LCM reserves, vendor audit recovery, sales tax nexus, FP&A variance, gift card breakage, FX landed cost. |
-| 7 | **Customer Care & Experience** | `care` | 10 | **10** | Contact center FCR, WISMO order tracking, voice of customer NLP, warranty claims, AI bot handoff, VIP concierge, return appeals, social support, store helpdesk, damaged goods claims. |
-| 8 | **Human Resources & Workforce** | `hrwm` | 0 | **9** | Associate retention, fair scheduling, training compliance, workplace safety/OSHA, store manager succession, seasonal hiring, eNPS pulse, labor union CBA, frontline wage benchmarks. |
-| 9 | **Sustainability, ESG & Compliance** | `esgc` | 10 | **10** | Scope 1-3 carbon emissions, food waste reduction, sustainable packaging, ethical sourcing audits, product recall readiness, renewable energy, water conservation, chemical RSL, supplier diversity, EPR circularity. |
-| **Total** | **9 Domains** | | **41** | **100** | **Comprehensive Enterprise Footprint** |
 
 ---
 
