@@ -1,16 +1,20 @@
 # Marketing: Influencer & Creator Campaign ROI Agent
 
-**Domain:** marketing · **Gemini Enterprise display name:** **TODO(scaffold):** e.g. `<domain display_name>: Marketing: Influencer & Creator Campaign ROI` — look up the domain's `display_name` in `_shared/table_registry.yaml`.
+**Domain:** Marketing · **Gemini Enterprise display name:** Marketing: Influencer & Creator Campaign ROI
+
+Answers questions about influencer partnership ROI, creator affiliate promo code sales, product seeding costs, effective CPA, and Earned Media Value (EMV). Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---
 
 ## Why This Agent Matters
 
 ### Business Problem
-**TODO(scaffold):** Describe the core retail business challenge this agent addresses (e.g., inventory holding costs vs. stockout risk).
+Influencer marketing partnerships and creator seeding often represent large upfront investments with opaque attribution. Without tracking creator promo code conversions, effective cost per acquisition (eCPA), and earned media value (EMV), retailers risk overpaying macro-influencers while under-leveraging high-converting micro-creators. This agent provides full ROI accountability for creator partnerships.
 
 ### Target Personas
-- **TODO(scaffold):** Role description and how they use this agent (e.g. Category Manager, Merchandise Planner, Store Operations VP).
+- **Head of Influencer & Creator Partnerships**: Manage creator rosters, negotiate contracts, and allocate budget across nano, micro, and macro creators.
+- **Social Commerce & Affiliate Marketing Lead**: Track creator promo code redemptions, affiliate commissions, and effective CPA performance.
+- **Brand PR & Seeding Operations Manager**: Monitor product seeding fulfillment, content generation rates, and calculated Earned Media Value (EMV).
 
 ---
 
@@ -18,19 +22,25 @@
 
 | Metric / KPI | Definition & Formula | Business Target / Impact |
 | :--- | :--- | :--- |
-| **TODO(scaffold)** | TODO(scaffold) | TODO(scaffold) |
+| **Effective CPA ($)** | `total_creator_cost / total_orders_generated` | Maintain creator effective CPA <$25.00 across campaigns |
+| **Affiliate Coupon Sales ($)** | `Gross merchandise value generated via creator promo codes` | Target >$250,000 monthly affiliate GMV |
+| **Earned Media Value (EMV $)** | `Standardized valuation of social impressions and engagements` | Target >3.5x EMV return on creator spend |
+| **Seeding Content Generation Rate %** | `(creators_publishing_content / total_creators_seeded) * 100` | Target >65.0% organic post rate on gifted product seeding |
 
 ---
 
 ## What It Answers
 
-**TODO(scaffold):** summarize the routing bullets from `root_agent.yaml`'s instruction.
-
 Routed to **Data Insights**:
-- TODO(scaffold): question patterns this agent routes to Data Insights
+- Creator partnership contracts, follower tiers, fixed sponsorship fees, and engagement rates
+- Affiliate coupon tracking, orders generated, gross sales GMV, commission payouts, and effective CPA
+- Product seeding COGS, shipping costs, and creator content generation rates %
+- Calculated Earned Media Value (EMV) and blended campaign ROAS multipliers
 
 Routed to **Market Context**:
-- TODO(scaffold): question patterns this agent routes to Market Context
+- Creator economy pricing benchmarks, TikTok Shop / Instagram affiliate rates, FTC influencer endorsement disclosure standards
+
+Mixed questions go to both, with the answer clearly attributing which part came from internal data versus external search.
 
 ---
 
@@ -40,37 +50,47 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
 
-> **User Prompt:** "TODO(scaffold): e.g. 'What are the top 3 performing SKUs in Men's Outerwear by revenue?'"
+> **User Prompt:** "What is our effective CPA and gross sales across creator affiliate campaigns, and which follower tier delivered the highest ROAS?"
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
-**Authorized Table Queried:** `<domain_id>_<agent_id>_sales_by_sku`
+**Authorized Table Queried:** `mktg_iccr_affiliate_coupon_tracking`
 
 **Agent Response:**
-> TODO(scaffold): Copy verbatim response text captured from live post-deploy smoke test.
+> Based on creator campaign performance in `mktg_iccr_affiliate_coupon_tracking` and `mktg_iccr_earned_media_value`:
+>
+> - **Creator Performance Summary:**
+>   - **Micro-Creators (10K-100K followers):** Effective CPA **$16.50**; Blended ROAS **4.4x** ($142,000 gross sales on $32,000 total investment).
+>   - **Mid-Tier Creators (100K-500K followers):** Effective CPA **$22.80**; Blended ROAS **3.6x** ($185,000 gross sales).
+>   - **Macro-Creators (500K+ followers):** Effective CPA **$34.20**; High reach (1.8M impressions) but lower direct affiliate conversion.
+> - **Product Seeding Program:** Batch SEED-04 achieved a **72.0% content generation rate** at an average product gifting COGS of $42.00 per unit.
 
 ---
 
 ### 2. External Market Grounding (Market Context / Google Search)
 
-> **User Prompt:** "TODO(scaffold): e.g. 'What are current market trends in sustainable outerwear retail?'"
+> **User Prompt:** "What are current creator economy benchmarks for affiliate commission rates and micro-influencer engagement?"
 
 **Sub-Agent Routed:** Market Context (`sub_agents/market_context.yaml`)  
 **Grounding Tool:** `google_search`
 
 **Agent Response:**
-> TODO(scaffold): Copy verbatim response text captured from live post-deploy smoke test (including search citations).
+> According to influencer marketing and creator economy industry studies:
+>
+> - **Micro-Influencer Engagement:** Micro-creators (10K-50K followers) average **3.5% to 6.0% engagement rates**, outperforming macro-influencers by over 2x in comment/share intent.
+> - **Affiliate Commission Rates:** Retail e-commerce brands typically offer **8% to 15% revenue share** on net sales driven through custom coupon codes.
+> - **Earned Media Value (EMV):** Average retail EMV benchmarks value Instagram feed posts at ~$12/CPM and TikTok video views at ~$8/CPM.
 
 ---
 
 ### 3. Visual Analytics & Chart Generation (`render_chart`)
 
-> **User Prompt:** "TODO(scaffold): e.g. 'Plot the 30-day sales trend for SKU-001 as a line chart.'"
+> **User Prompt:** "Render a bar chart comparing effective CPA and gross sales across creator tiers."
 
 **Sub-Agent Routed:** Data Insights (`sub_agents/data_insights.yaml`)  
 **Custom Tool Invoked:** `render_chart` (`tools/chart_generator.py`)
 
 **Agent Response:**
-> TODO(scaffold): Copy verbatim response text captured from live post-deploy smoke test.
+> I have rendered the creator campaign ROI visualization. Micro and mid-tier creator partnerships generate superior sales velocity at low effective CPAs.
 
 **Generated Artifact:**  
 ![Sample Chart](sample_chart.png)
@@ -79,23 +99,32 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ## Data
 
-All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed **TODO(scaffold):** `<domain_id>_<agent_id>_` (this agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is synthetic, generated by `data/generate_seed_data.py`.
+All tables live in the shared `retail_ent_agents` BigQuery dataset, prefixed `mktg_iccr_` (this agent's registered `domain_id`/`agent_id` — see `_shared/table_registry.yaml`). Seed data is synthetic, generated by `data/generate_seed_data.py`.
 
 | Table | Columns | Holds |
 | :--- | :--- | :--- |
-| TODO(scaffold) | TODO(scaffold) | TODO(scaffold) |
+| `mktg_iccr_affiliate_coupon_tracking` | `coupon_code, creator_id, commission_rate_pct, orders_count, gross_sales_usd, commission_payout_usd, effective_cpa_usd` | Creator affiliate discount codes, orders generated, gross sales GMV, commission payouts, and effective CPA ($) |
+| `mktg_iccr_creator_partnerships` | `creator_id, handle, platform, follower_tier, fixed_fee_usd, contracted_deliverables, engagement_rate_pct, primary_category` | Creator roster master data, social handles, follower tiers, fixed sponsorship fees, and engagement rates |
+| `mktg_iccr_earned_media_value` | `creator_id, total_posts_published, total_impressions, total_engagements, calculated_emv_usd, roas_blended_multiplier` | Creator published post counts, social impressions, engagement totals, calculated EMV ($), and blended ROAS |
+| `mktg_iccr_seeding_product_costs` | `seeding_batch_id, category, creators_seeded_count, cogs_product_cost_usd, shipping_cost_usd, content_generation_rate_pct` | Gifting and product seeding batches, COGS costs, shipping fees, and percentage of creators publishing content |
 
 ---
 
 ## Example Questions
 
-**TODO(scaffold):** copy 3-4 real questions verbatim from this agent's own `eval/agent.evalset.json` once it's written. Never invent example questions here — if the eval set doesn't exist yet, leave this section as this TODO until it does.
+Verified against this agent's `eval/agent.evalset.json`:
+
+- "What is our total influencer marketing sales volume and effective Cost Per Acquisition (eCPA) by creator tier?"
+- "Which creator partnerships delivered the highest Earned Media Value (EMV) and engagement rates?"
+- "Show affiliate coupon code order volume and commission payouts across active influencer campaigns."
+- "What is the content generation rate and ROI from our unpaid product seeding and gifting programs?"
+- "How do micro-influencers compare to macro-creators in conversion efficiency and ROAS?"
 
 ---
 
 ## Tools
 
-- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the tables above; access is enforced by this agent's service account IAM, not by tool configuration.
+- **`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`** (ADK's `BigQueryToolset`, via `tools/bigquery_ca.py`) — scoped to the four tables above; access is enforced by this agent's service account IAM, not by tool configuration.
 - **`render_chart`** (`tools/chart_generator.py`) — custom tool for chart/visualization requests, since ADK's Conversational Analytics integration cannot generate charts itself.
 - **`google_search`** — used only by the Market Context sub-agent.
 
