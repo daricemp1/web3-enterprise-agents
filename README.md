@@ -66,7 +66,7 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>🏬 Store Operations (11 of 11 Agents Complete) — <i>click to expand</i></b></summary>
+<summary><b>🏬 Store Operations (11 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Associate labor productivity vs. foot traffic, BOPIS omnichannel fulfillment, store shrink & loss prevention, planogram visual compliance, facility energy audits, POS queue bottlenecks, register till cash reconciliations, in-store returns desk velocity, workplace safety incidents, curbside pickup SLAs, and store manager audit execution.
@@ -101,7 +101,7 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>📣 Marketing & Retail Media (2 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
+<summary><b>📣 Marketing & Retail Media (10 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Paid campaign ROAS, customer lifetime value & loyalty tier migration, Retail Media Network (RMN) sponsored ad yield, churn win-back triggers, CRM/email/SMS attribution, creator/influencer ROI, CAC payback velocity, omnichannel CDP unification, local geotargeting, and brand sentiment tracking.
@@ -110,6 +110,14 @@ local-only design spec — see [Architecture](#architecture).
 | :--- | :--- | :--- | :--- |
 | 1 | [`campaign_performance_roi`](domains/marketing/agents/campaign_performance_roi/README.md) | Marketing: Campaign Performance & ROI | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
 | 2 | [`customer_lifecycle_loyalty`](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | Marketing: Customer Lifecycle & Loyalty | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
+| 3 | [`retail_media_network_monetization`](domains/marketing/agents/retail_media_network_monetization/README.md) | Marketing: Retail Media Network & Sponsored Ad Yield | Retail Media ad revenue $, sponsored product search auction yields (CPC/eCPM), advertiser ROAS delivery reports |
+| 4 | [`customer_churn_winback_analytics`](domains/marketing/agents/customer_churn_winback_analytics/README.md) | Marketing: Churn Prediction & Win-Back Triggers | 30/60/90-day churn probability scores, category lapse intervals, win-back promo margin costs vs. reactivation lift |
+| 5 | [`email_sms_crm_orchestration`](domains/marketing/agents/email_sms_crm_orchestration/README.md) | Marketing: CRM, Email & SMS Campaign Orchestration | Revenue per email/SMS send ($), automated cart/browse abandon journeys, unsubscribe rates, domain deliverability health |
+| 6 | [`influencer_creator_campaign_roi`](domains/marketing/agents/influencer_creator_campaign_roi/README.md) | Marketing: Influencer & Creator Campaign ROI | Influencer effective cost per acquisition (eCPA), creator affiliate promo code sales $, earned media value (EMV) |
+| 7 | [`customer_acquisition_cost_cac`](domains/marketing/agents/customer_acquisition_cost_cac/README.md) | Marketing: CAC Payback Velocity & Unit Economics | Blended vs. paid CAC by acquisition channel, CAC payback horizon (months), first-to-second order acceleration velocity |
+| 8 | [`omnichannel_customer_cdp_insights`](domains/marketing/agents/omnichannel_customer_cdp_insights/README.md) | Marketing: Omnichannel CDP & Customer Identity | Customer identity resolution match rates %, omnichannel shopper 3x spending multiplier vs. single-channel, cross-shopping journeys |
+| 9 | [`geotargeted_local_marketing`](domains/marketing/agents/geotargeted_local_marketing/README.md) | Marketing: Geotargeted & Local Store Marketing | Store radius digital geotargeting, physical store foot-traffic lift from mobile ads, localized weather-triggered promotions |
+| 10 | [`brand_health_social_sentiment`](domains/marketing/agents/brand_health_social_sentiment/README.md) | Marketing: Brand Health & Social Sentiment | Net Brand Sentiment Score (NBSS), social listening Share of Voice (SOV) vs. competitors, crisis response sentiment recovery |
 
 </details>
 
@@ -189,7 +197,7 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-All fifty agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
+All eighty-three agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
 
 ---
 

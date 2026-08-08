@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Seventy-five agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Eighty-three agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Merchandising Domain (14 of 14 agents complete)** (`domains/merchandising/agents/`):
   - `assortment_planning` ("Merchandising: Assortment Planning")
@@ -81,12 +81,17 @@ registered with Gemini Enterprise:
 - **Working Capital & Cash Flow** (`domains/finance/agents/working_capital_cashflow/`, display name
   "Finance: Working Capital & Cash Flow") — third Finance agent (added 2026-07-29). Tracks Cash Conversion
   Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, and liquidity forecasts.
-- **Campaign Performance & ROI** (`domains/marketing/agents/campaign_performance_roi/`, display name
-  "Marketing: Campaign Performance & ROI") — first Marketing agent (added 2026-07-28). Tracks campaign ROAS,
-  channel attribution, CAC targets vs. actuals, and conversion lift metrics.
-- **Customer Lifecycle & Loyalty** (`domains/marketing/agents/customer_lifecycle_loyalty/`, display name
-  "Marketing: Customer Lifecycle & Loyalty") — second Marketing agent (added 2026-07-28). Tracks Customer Lifetime
-  Value (CLV), RFM segment migration, loyalty tier redemptions, and churn risk scores.
+- **Marketing & Retail Media Domain (10 of 10 agents complete)** (`domains/marketing/agents/`):
+  - `campaign_performance_roi` ("Marketing: Campaign Performance & ROI", added 2026-07-28)
+  - `customer_lifecycle_loyalty` ("Marketing: Customer Lifecycle & Loyalty", added 2026-07-28)
+  - `retail_media_network_monetization` ("Marketing: Retail Media Network & Sponsored Ad Yield", added 2026-08-08)
+  - `customer_churn_winback_analytics` ("Marketing: Churn Prediction & Win-Back Triggers", added 2026-08-08)
+  - `email_sms_crm_orchestration` ("Marketing: CRM, Email & SMS Campaign Orchestration", added 2026-08-08)
+  - `influencer_creator_campaign_roi` ("Marketing: Influencer & Creator Campaign ROI", added 2026-08-08)
+  - `customer_acquisition_cost_cac` ("Marketing: CAC Payback Velocity & Unit Economics", added 2026-08-08)
+  - `omnichannel_customer_cdp_insights` ("Marketing: Omnichannel CDP & Customer Identity", added 2026-08-08)
+  - `geotargeted_local_marketing` ("Marketing: Geotargeted & Local Store Marketing", added 2026-08-08)
+  - `brand_health_social_sentiment` ("Marketing: Brand Health & Social Sentiment", added 2026-08-08)
 - **Customer Care & Experience Domain (10 agents)** (`domains/customer_care/agents/`, added 2026-08-07):
   - `contact_center_agent_performance` ("Customer Care: Contact Center Performance & FCR")
   - `wismo_order_tracking_resolution` ("Customer Care: WISMO & Order Inquiries")
