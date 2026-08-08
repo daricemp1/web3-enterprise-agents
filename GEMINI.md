@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Ninety-one agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. One hundred agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Merchandising Domain (14 of 14 agents complete)** (`domains/merchandising/agents/`):
   - `assortment_planning` ("Merchandising: Assortment Planning")
@@ -66,12 +66,18 @@ registered with Gemini Enterprise:
   - `store_safety_incident_management` ("Store Operations: Store Safety & Incident Management", added 2026-08-07)
   - `curbside_pickup_speed_accuracy` ("Store Operations: Curbside Pickup Speed & Accuracy", added 2026-08-07)
   - `store_manager_operational_audit` ("Store Operations: Store Manager Operational Audits", added 2026-08-07)
-- **Cart & Checkout Analytics** (`domains/e_commerce/agents/cart_checkout_analytics/`, display name
-  "E-Commerce: Cart & Checkout Analytics") — first E-Commerce agent (added 2026-07-29). Tracks digital funnel
-  conversion rates, checkout stage cart abandonment %, payment gateway decline rates, and promo validation errors.
-- **Product Discovery & Analytics** (`domains/e_commerce/agents/search_merchandising_personalization/`, display name
-  "E-Commerce: Product Discovery & Analytics") — second E-Commerce agent (added 2026-07-29). Tracks
-  digital site search conversion rates, zero-result search query rates, recommendation carousel CTR %, and personalized revenue lift.
+- **E-Commerce & Digital Channels Domain (11 of 11 agents complete)** (`domains/e_commerce/agents/`):
+  - `cart_checkout_analytics` ("E-Commerce: Cart & Checkout Analytics", added 2026-07-29)
+  - `search_merchandising_personalization` ("E-Commerce: Product Discovery & Analytics", added 2026-07-29)
+  - `payment_gateway_fraud_risk` ("E-Commerce: Payment Gateway & Fraud Risk", added 2026-08-08)
+  - `marketplace_seller_performance` ("E-Commerce: 3P Marketplace Seller Performance", added 2026-08-08)
+  - `mobile_app_conversion_retention` ("E-Commerce: Mobile App Conversion & Engagement", added 2026-08-08)
+  - `digital_site_performance_vitals` ("E-Commerce: Digital Web Performance & Vitals", added 2026-08-08)
+  - `product_detail_page_optimization` ("E-Commerce: PDP Optimization & Media Engagement", added 2026-08-08)
+  - `subscription_recurring_orders` ("E-Commerce: Subscription & Recurring Orders", added 2026-08-08)
+  - `digital_promotions_coupon_abuse` ("E-Commerce: Digital Promo & Coupon Abuse", added 2026-08-08)
+  - `b2b_wholesale_portal_analytics` ("E-Commerce: B2B Wholesale Portal Analytics", added 2026-08-08)
+  - `web_accessibility_seo_health` ("E-Commerce: SEO Health & Web Accessibility", added 2026-08-08)
 - **Finance, Real Estate & Accounting Domain (11 of 11 agents complete)** (`domains/finance/agents/`):
   - `gross_margin_profitability` ("Finance: Gross Margin & Profitability", added 2026-07-27)
   - `store_pnl_operating_costs` ("Finance: Store P&L & Operating Costs", added 2026-07-28)

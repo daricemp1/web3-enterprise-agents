@@ -88,7 +88,7 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>🛒 E-Commerce & Digital (2 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
+<summary><b>🛒 E-Commerce & Digital (11 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Digital funnel & cart abandonment, site search merchandising & zero-results, payment gateway fraud, 3P marketplace seller SLAs, mobile app vitals, web performance/Core Web Vitals, PDP conversion optimization, subscription recurring churn, promotional coupon abuse, B2B wholesale ordering, and SEO/accessibility audits.
@@ -97,6 +97,15 @@ local-only design spec — see [Architecture](#architecture).
 | :--- | :--- | :--- | :--- |
 | 1 | [`cart_checkout_analytics`](domains/e_commerce/agents/cart_checkout_analytics/README.md) | E-Commerce: Cart & Checkout Analytics | Digital funnel conversion rates, checkout stage cart abandonment %, payment gateway decline rates, promo validation errors |
 | 2 | [`search_merchandising_personalization`](domains/e_commerce/agents/search_merchandising_personalization/README.md) | E-Commerce: Product Discovery & Analytics | Digital funnel site search conversion %, zero-result query rates, recommendation carousel CTR %, personalized revenue lift |
+| 3 | [`payment_gateway_fraud_risk`](domains/e_commerce/agents/payment_gateway_fraud_risk/README.md) | E-Commerce: Payment Gateway & Fraud Risk | Payment gateway authorization rates %, chargeback dispute win rates, 3D Secure friction drop-offs, fraud scoring false positives |
+| 4 | [`marketplace_seller_performance`](domains/e_commerce/agents/marketplace_seller_performance/README.md) | E-Commerce: 3P Marketplace Seller Performance | Marketplace 3P seller defect rates (target <1%), commission net revenues, catalog sync latency, seller fulfillment SLAs |
+| 5 | [`mobile_app_conversion_retention`](domains/e_commerce/agents/mobile_app_conversion_retention/README.md) | E-Commerce: Mobile App Conversion & Engagement | Native mobile app DAU/MAU, push notification conversion rates, in-app crash-free session metrics (99.9%) |
+| 6 | [`digital_site_performance_vitals`](domains/e_commerce/agents/digital_site_performance_vitals/README.md) | E-Commerce: Digital Web Performance & Vitals | Core Web Vitals (LCP, INP, CLS), page speed impact on bounce rate, CDN cache hit ratios, API 5xx error spikes |
+| 7 | [`product_detail_page_optimization`](domains/e_commerce/agents/product_detail_page_optimization/README.md) | E-Commerce: PDP Optimization & Media Engagement | Product detail page (PDP) add-to-cart rates, rich media/video interactions, size-guide usage, customer review sentiment |
+| 8 | [`subscription_recurring_orders`](domains/e_commerce/agents/subscription_recurring_orders/README.md) | E-Commerce: Subscription & Recurring Orders | Subscribe & Save recurring revenue (MRR), monthly subscriber churn, skip/pause retention strategies, subscriber lifetime value |
+| 9 | [`digital_promotions_coupon_abuse`](domains/e_commerce/agents/digital_promotions_coupon_abuse/README.md) | E-Commerce: Digital Promo & Coupon Abuse | Coupon stacking exploits, bot/scraper promotional traffic, unauthorized affiliate coupon claims, digital margin leaks |
+| 10 | [`b2b_wholesale_portal_analytics`](domains/e_commerce/agents/b2b_wholesale_portal_analytics/README.md) | E-Commerce: B2B Wholesale Portal Analytics | B2B corporate customer quote-to-order cycle time, credit limit utilization, bulk volume tier pricing uptake |
+| 11 | [`web_accessibility_seo_health`](domains/e_commerce/agents/web_accessibility_seo_health/README.md) | E-Commerce: SEO Health & Web Accessibility | Organic SERP impressions/clicks, schema product rich snippets, technical SEO crawl errors, WCAG accessibility compliance scores |
 
 </details>
 
@@ -205,7 +214,7 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-All eighty-three agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
+All one hundred agents are fully deployed to Vertex AI Agent Engine (`us-central1`), registered with Gemini Enterprise, and running on `gemini-3.5-flash` with global inference.
 
 ---
 
