@@ -122,7 +122,7 @@ local-only design spec — see [Architecture](#architecture).
 </details>
 
 <details>
-<summary><b>📊 Finance, Real Estate & Accounting (3 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
+<summary><b>📊 Finance, Real Estate & Accounting (11 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
 <br/>
 
 > **Domain Scope**: Gross margin bridge & COGS analysis, store-level P&L and EBITDA variance, working capital & cash conversion cycle, retail store lease portfolio liabilities, remodel CapEx ROI, inventory LCM valuation reserves, vendor audit recovery claims, multi-state sales tax nexus, FP&A variance budgets, gift card breakage liability, and FX landed cost exposure.
@@ -132,6 +132,14 @@ local-only design spec — see [Architecture](#architecture).
 | 1 | [`gross_margin_profitability`](domains/finance/agents/gross_margin_profitability/README.md) | Finance: Gross Margin & Profitability | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
 | 2 | [`store_pnl_operating_costs`](domains/finance/agents/store_pnl_operating_costs/README.md) | Finance: Store P&L & Operating Costs | Store-level P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, profitability targets |
 | 3 | [`working_capital_cashflow`](domains/finance/agents/working_capital_cashflow/README.md) | Finance: Working Capital & Cash Flow | Cash Conversion Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, liquidity forecasts |
+| 4 | [`store_real_estate_lease_mgmt`](domains/finance/agents/store_real_estate_lease_mgmt/README.md) | Finance: Store Real Estate & Lease Management | Store lease terms, occupancy cost ratios (% of sales), percentage rent breakpoints, co-tenancy clause violations |
+| 5 | [`capex_store_remodel_roi`](domains/finance/agents/capex_store_remodel_roi/README.md) | Finance: CapEx & Store Remodel ROI | Store remodel CapEx budget variance, Internal Rate of Return (IRR %), post-remodel sales lift vs. un-remodeled control stores |
+| 6 | [`inventory_valuation_provisions`](domains/finance/agents/inventory_valuation_provisions/README.md) | Finance: Inventory Valuation & LCM Provisions | Lower of Cost or Market (LCM) reserves, inventory write-down schedules, shrink financial accruals |
+| 7 | [`vendor_recovery_audit_compliance`](domains/finance/agents/vendor_recovery_audit_compliance/README.md) | Finance: Vendor Recovery Audit & Compliance | Duplicate invoice payments, vendor compliance chargebacks, post-audit overpayment recovery claims |
+| 8 | [`sales_tax_nexus_compliance`](domains/finance/agents/sales_tax_nexus_compliance/README.md) | Finance: Sales Tax Nexus & Jurisdictional Compliance | State/local economic nexus thresholds, sales tax audit liability provisions, resale exemption certificates |
+| 9 | [`corporate_budget_variance_fpna`](domains/finance/agents/corporate_budget_variance_fpna/README.md) | Finance: Corporate Budget Variance & FP&A | Corporate cost center SG&A variance vs. budget, rolling EBITDA forecasts, headcount run rates |
+| 10 | [`gift_card_breakage_liability`](domains/finance/agents/gift_card_breakage_liability/README.md) | Finance: Gift Card Breakage & Liability | Unredeemed gift card outstanding liabilities, historical redemption decay curves, GAAP/IFRS breakage income |
+| 11 | [`foreign_exchange_landed_costs`](domains/finance/agents/foreign_exchange_landed_costs/README.md) | Finance: FX Exposure & Landed Cost Hedging | FX currency exposure on global purchase orders, landed cost variance, forward hedging contract coverage |
 
 </details>
 

@@ -22,7 +22,7 @@ distribute it.
 
 The scaffolding infrastructure (template, shared instruction fragments, generator script) is
 built and is domain-agnostic — creating a new domain is just a new `--domain` value, no new
-infra needed. Eighty-three agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
+infra needed. Ninety-one agents are fully built, tested, deployed to Vertex AI Agent Engine (dev), and
 registered with Gemini Enterprise:
 - **Merchandising Domain (14 of 14 agents complete)** (`domains/merchandising/agents/`):
   - `assortment_planning` ("Merchandising: Assortment Planning")
@@ -72,15 +72,18 @@ registered with Gemini Enterprise:
 - **Product Discovery & Analytics** (`domains/e_commerce/agents/search_merchandising_personalization/`, display name
   "E-Commerce: Product Discovery & Analytics") — second E-Commerce agent (added 2026-07-29). Tracks
   digital site search conversion rates, zero-result search query rates, recommendation carousel CTR %, and personalized revenue lift.
-- **Gross Margin & Profitability** (`domains/finance/agents/gross_margin_profitability/`, display name
-  "Finance: Gross Margin & Profitability") — first Finance agent (added 2026-07-27). Tracks gross margin rates (%),
-  dollar margins, COGS variance, markdown discount erosion, and category margin targets.
-- **Store P&L & Operating Costs** (`domains/finance/agents/store_pnl_operating_costs/`, display name
-  "Finance: Store P&L & Operating Costs") — second Finance agent (added 2026-07-28). Tracks store-level
-  P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, and profitability targets.
-- **Working Capital & Cash Flow** (`domains/finance/agents/working_capital_cashflow/`, display name
-  "Finance: Working Capital & Cash Flow") — third Finance agent (added 2026-07-29). Tracks Cash Conversion
-  Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, and liquidity forecasts.
+- **Finance, Real Estate & Accounting Domain (11 of 11 agents complete)** (`domains/finance/agents/`):
+  - `gross_margin_profitability` ("Finance: Gross Margin & Profitability", added 2026-07-27)
+  - `store_pnl_operating_costs` ("Finance: Store P&L & Operating Costs", added 2026-07-28)
+  - `working_capital_cashflow` ("Finance: Working Capital & Cash Flow", added 2026-07-29)
+  - `capex_store_remodel_roi` ("Finance: CapEx & Store Remodel ROI", added 2026-08-08)
+  - `corporate_budget_variance_fpna` ("Finance: Corporate Budget Variance & FP&A", added 2026-08-08)
+  - `foreign_exchange_landed_costs` ("Finance: FX Exposure & Landed Cost Hedging", added 2026-08-08)
+  - `gift_card_breakage_liability` ("Finance: Gift Card Breakage & Liability", added 2026-08-08)
+  - `inventory_valuation_provisions` ("Finance: Inventory Valuation & LCM Provisions", added 2026-08-08)
+  - `sales_tax_nexus_compliance` ("Finance: Sales Tax Nexus & Jurisdictional Compliance", added 2026-08-08)
+  - `store_real_estate_lease_mgmt` ("Finance: Store Real Estate & Lease Management", added 2026-08-08)
+  - `vendor_recovery_audit_compliance` ("Finance: Vendor Recovery Audit & Compliance", added 2026-08-08)
 - **Marketing & Retail Media Domain (10 of 10 agents complete)** (`domains/marketing/agents/`):
   - `campaign_performance_roi` ("Marketing: Campaign Performance & ROI", added 2026-07-28)
   - `customer_lifecycle_loyalty` ("Marketing: Customer Lifecycle & Loyalty", added 2026-07-28)
