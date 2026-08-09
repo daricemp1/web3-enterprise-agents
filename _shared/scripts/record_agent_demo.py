@@ -34,6 +34,32 @@ DEFAULT_SOURCE_CHROME_DIR = Path.home() / ".config" / "google-chrome"
 DEFAULT_CHROME_PROFILE_DIR = os.getenv("CHROME_PROFILE_DIR", "Profile 2")
 DEFAULT_CHROME_PROFILE_NAME = os.getenv("CHROME_PROFILE_NAME", "Default Profile")
 
+RESOLUTION_CONFIGS = {
+    "1080p": {"width": 1920, "height": 1080},
+    "720p": {"width": 1280, "height": 720},
+}
+
+
+def enforce_100_percent_zoom():
+    """Sanitizes synced Chrome preferences so vertexaisearch zoom is strictly 100% (0.0)."""
+    pref_path = DEFAULT_CHROME_USER_DATA_DIR / DEFAULT_CHROME_PROFILE_DIR / "Preferences"
+    if pref_path.exists():
+        try:
+            import json
+            data = json.loads(pref_path.read_text(encoding="utf-8"))
+            # 1. Reset per_host_zoom_levels
+            partition = data.get("partition", {})
+            per_host = partition.get("per_host_zoom_levels", {})
+            if "x" in per_host and isinstance(per_host["x"], dict):
+                if "vertexaisearch.cloud.google.com" in per_host["x"]:
+                    per_host["x"]["vertexaisearch.cloud.google.com"]["zoom_level"] = 0.0
+            # 2. Reset default zoom level
+            if "profile" in data and isinstance(data["profile"], dict):
+                data["profile"]["default_zoom_level"] = 0.0
+            pref_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        except Exception as e:
+            print(f"⚠️ Warning sanitizing preferences: {e}", flush=True)
+
 
 def sync_chrome_profile():
     """Syncs user Chrome profile into demo recorder directory to avoid singleton locks."""
@@ -65,6 +91,7 @@ def sync_chrome_profile():
             tgt_item = p_tgt / item
             if src_item.is_file():
                 shutil.copy2(src_item, tgt_item)
+    enforce_100_percent_zoom()
 
 
 def get_agent_display_name(agent_name: str, domain: str) -> str:
@@ -103,7 +130,7 @@ def convert_webm_to_mp4(webm_path: Path, mp4_path: Path) -> bool:
 async def wait_for_response_completion(
     page,
     turn_index: int,
-    timeout_seconds: int = 120,
+    timeout_seconds: int = 180,
     read_pause: float = 6.0
 ):
     """Waits for the streaming response of turn_index to fully render and the Stop button to change back to Action."""
@@ -144,6 +171,155 @@ async def wait_for_response_completion(
     print(f"✅ Turn {turn_index} response successfully displayed.\n", flush=True)
 
 
+async def activate_canvas_mode(page) -> bool:
+    """Clicks the Tools menu option below the text box (to the right of +) and selects Canvas."""
+    print("🎨 Activating Canvas mode via Tools menu...", flush=True)
+    
+    # 1. Click Tools button (to the right of the + button)
+    tools_button_selectors = [
+        "button[aria-label*='tool' i]:visible",
+        "button:visible:has(mat-icon:has-text('tune'))",
+        "button:visible:has(mat-icon:has-text('handyman'))",
+        "button:visible:has-text('Tools')",
+        "button:visible:has-text('Add tool')",
+        "button[aria-label*='Add' i]:visible",
+        "button:visible:has(mat-icon:has-text('add'))",
+        "[data-test-id*='tools-button']:visible",
+        "[class*='tools-button']:visible"
+    ]
+    
+    tools_clicked = False
+    for sel in tools_button_selectors:
+        btns = page.locator(sel)
+        count = await btns.count()
+        if count > 0:
+            btn = btns.last
+            if await btn.is_visible():
+                print(f"   ✓ Clicking Tools menu button ({sel})...", flush=True)
+                try:
+                    await btn.click()
+                    await asyncio.sleep(1.5)
+                    tools_clicked = True
+                    break
+                except Exception as e:
+                    print(f"   ⚠️ Tools button click note: {e}", flush=True)
+                    
+    # 2. Select Canvas option from the opened menu
+    try:
+        if hasattr(page, "get_by_text"):
+            canvas_item = page.get_by_text("Canvas", exact=True).first
+            if await canvas_item.is_visible():
+                print("   ✓ Found Canvas menu option via get_by_text. Clicking...", flush=True)
+                await canvas_item.click()
+                await asyncio.sleep(1.5)
+                print("   ✅ Canvas mode successfully activated from Tools menu.", flush=True)
+                return True
+    except Exception as e:
+        print(f"   ⚠️ get_by_text search note: {e}", flush=True)
+        
+    # 3. Fallback: scan overlay menu items
+    menu_locators = page.locator(
+        ".cdk-overlay-container [role='menuitem']:visible, "
+        ".cdk-overlay-container mat-menu-item:visible, "
+        ".cdk-overlay-container button:visible, "
+        "[role='menu'] [role='menuitem']:visible, "
+        "[role='menu'] button:visible, "
+        ".mat-mdc-menu-item:visible, "
+        ":visible:has-text('Canvas')"
+    )
+    
+    try:
+        count = await menu_locators.count()
+        if count > 0:
+            print(f"   📋 Scanning {count} open menu options in overlay...", flush=True)
+            for idx in range(count):
+                item = menu_locators.nth(idx)
+                txt = (await item.text_content() or "").strip()
+                if "canvas" in txt.lower():
+                    print(f"   ✓ Found matching option: '{txt}'. Clicking...", flush=True)
+                    await item.click()
+                    await asyncio.sleep(1.5)
+                    print("   ✅ Canvas mode successfully activated from Tools menu.", flush=True)
+                    return True
+    except Exception as e:
+        print(f"   ⚠️ Menu scanning note: {e}", flush=True)
+        
+    print("   ℹ️ Canvas option not found in dropdown menu. Proceeding with presentation prompt...", flush=True)
+    return False
+
+
+async def showcase_canvas_presentation(page, num_slides: int = 4, slide_pause: float = 2.5):
+    """Detects the rendered Canvas presentation and clicks through 3-4 slides with a reading pause."""
+    print(f"\n📊 Showcasing Canvas presentation ({num_slides} slides, {slide_pause:.1f}s pause per slide)...", flush=True)
+    
+    # 1. Comprehensive locator for slide thumbnails
+    thumb_locator = page.locator(
+        "[class*='slide-thumbnail']:visible, "
+        "[class*='thumbnail']:visible, "
+        "[class*='slide-card']:visible, "
+        "[class*='slide-item']:visible, "
+        "[class*='slide-nav'] button:visible, "
+        "button[aria-label*='Slide' i]:visible, "
+        "[role='tab'][aria-label*='Slide' i]:visible"
+    )
+    
+    try:
+        count = await thumb_locator.count()
+        if count > 1:
+            print(f"   ✓ Found {count} slide thumbnails. Navigating slides...", flush=True)
+            slides_to_show = min(count, num_slides)
+            for idx in range(slides_to_show):
+                print(f"   👉 Viewing Slide {idx + 1}/{slides_to_show}...", flush=True)
+                try:
+                    await thumb_locator.nth(idx).click()
+                except Exception as e:
+                    print(f"      (click notice: {e})", flush=True)
+                await asyncio.sleep(slide_pause)
+            print(f"   ✅ Finished showcasing {slides_to_show} presentation slides.\n", flush=True)
+            return
+    except Exception as e:
+        print(f"   ⚠️ Slide thumbnail detection note: {e}", flush=True)
+            
+    # 2. Next slide button fallback
+    next_selectors = [
+        "button[aria-label*='Next slide' i]:visible",
+        "button[aria-label*='Next' i]:visible",
+        "button:has(mat-icon:has-text('navigate_next')):visible",
+        "button:has(mat-icon:has-text('chevron_right')):visible",
+        "button:has(mat-icon:has-text('arrow_forward')):visible"
+    ]
+    
+    for sel in next_selectors:
+        next_btn = page.locator(sel).first
+        if await next_btn.is_visible():
+            print(f"   ✓ Found Next Slide button ({sel}). Navigating slides...", flush=True)
+            for idx in range(num_slides):
+                print(f"   👉 Viewing Slide {idx + 1}/{num_slides}...", flush=True)
+                await asyncio.sleep(slide_pause)
+                if idx < num_slides - 1:
+                    try:
+                        await next_btn.click()
+                    except Exception:
+                        pass
+            print(f"   ✅ Finished showcasing {num_slides} presentation slides.\n", flush=True)
+            return
+            
+    print(f"   ℹ️ Slide pagination controls not detected. Pausing {slide_pause * 2:.1f}s to showcase presentation view...", flush=True)
+    await asyncio.sleep(slide_pause * 2)
+
+
+async def scroll_to_bottom_prompt_box(page):
+    """Smoothly scrolls down to ensure the prompt box and input controls are fully visible in viewport."""
+    try:
+        await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        for _ in range(8):
+            await page.mouse.wheel(0, 300)
+            await asyncio.sleep(0.04)
+        await asyncio.sleep(0.4)
+    except Exception:
+        pass
+
+
 async def smooth_mouse_scroll_walkthrough(page):
     """Performs a smooth mouse scroll to the top of the conversation and then down to the bottom."""
     print("\n📜 Performing smooth mouse scroll walkthrough of full conversation...", flush=True)
@@ -176,6 +352,7 @@ async def record_single_agent_demo(
     output_dir: Path,
     speed: str = "normal",
     video_format: str = "mp4",
+    resolution: str = "1080p",
     headless: bool = False,
     chrome_profile_dir: str = DEFAULT_CHROME_PROFILE_DIR,
     ge_url: str = DEFAULT_GE_URL,
@@ -185,6 +362,8 @@ async def record_single_agent_demo(
     domain_output_dir = output_dir / domain
     domain_output_dir.mkdir(parents=True, exist_ok=True)
     target_video_file = domain_output_dir / f"{agent_name}.{video_format}"
+    
+    res_config = RESOLUTION_CONFIGS.get(resolution, RESOLUTION_CONFIGS["1080p"])
     
     display_name = get_agent_display_name(agent_name, domain)
     # Extract search title without domain prefix
@@ -198,6 +377,7 @@ async def record_single_agent_demo(
     print(f"🎯 Target Video: {target_video_file}", flush=True)
     print(f"👤 Chrome Profile: {chrome_profile_dir} ({DEFAULT_CHROME_PROFILE_NAME})", flush=True)
     print(f"⚡ Pacing Speed: {speed}", flush=True)
+    print(f"📺 Resolution: {resolution} ({res_config['width']}x{res_config['height']})", flush=True)
     print(f"🎞️ Output Format: {video_format.upper()}", flush=True)
     print("📝 Prompts to Execute:", flush=True)
     for idx, p in enumerate(prompts, 1):
@@ -227,17 +407,17 @@ async def record_single_agent_demo(
             channel="chrome",
             headless=headless,
             record_video_dir=str(temp_video_dir),
-            record_video_size={"width": 1920, "height": 1080},
-            viewport={"width": 1536, "height": 864},
-            device_scale_factor=1.25,
+            record_video_size=res_config,
+            viewport=res_config,
+            device_scale_factor=1.0,
             ignore_default_args=["--password-store=basic", "--use-mock-keychain"],
             args=[
                 f"--profile-directory={chrome_profile_dir}",
                 "--password-store=detect",
-                "--force-device-scale-factor=1.25",
+                "--force-device-scale-factor=1.0",
                 "--disable-blink-features=AutomationControlled",
                 "--no-default-browser-check",
-                "--start-maximized"
+                f"--window-size={res_config['width']},{res_config['height']}"
             ]
         )
         
@@ -294,9 +474,13 @@ async def record_single_agent_demo(
                 print(f"\n--- Turn {turn_idx}/3 ---", flush=True)
                 print(f"💬 Typing Prompt {turn_idx}: \"{prompt_text}\"", flush=True)
                 
+                # Scroll down so prompt input box is fully in view
+                await scroll_to_bottom_prompt_box(page)
+                
                 input_box = page.locator("div[contenteditable='true']:visible, textarea:visible").last
                 await input_box.wait_for(state="visible", timeout=25000)
                 await input_box.click()
+                await input_box.fill("")
                 await asyncio.sleep(0.5)
                 
                 if speed == "normal":
@@ -306,20 +490,86 @@ async def record_single_agent_demo(
                     
                 await asyncio.sleep(0.8)
                 
+                # Left-click prompt box to maintain active focus
+                print("👉 Putting mouse focus on prompt input box...", flush=True)
+                await input_box.click()
+                await asyncio.sleep(0.4)
+                
                 print(f"📤 Submitting Prompt {turn_idx}...", flush=True)
-                send_btn = page.locator("button[aria-label*='Send' i], button[aria-label*='Submit' i]").first
-                if turn_idx == 1 and await send_btn.is_visible():
+                send_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").first
+                if await send_btn.is_visible():
                     await send_btn.click()
                 else:
                     await input_box.press("Enter")
+                
+                # Immediately re-focus prompt box during generation so it stays visible
+                await asyncio.sleep(0.8)
+                input_box_after = page.locator("div[contenteditable='true']:visible, textarea:visible").last
+                if await input_box_after.is_visible():
+                    try:
+                        await input_box_after.click()
+                    except Exception:
+                        pass
                 
                 # Active wait for response to appear on screen and finish streaming
                 await wait_for_response_completion(page, turn_index=turn_idx, read_pause=read_pause)
                 print(f"✅ Turn {turn_idx} response successfully displayed.", flush=True)
                 
-            print("\n🎉 All 3 responses have been received and verified on screen!", flush=True)
+            print("\n🎉 All 3 agent responses have been received and verified on screen!", flush=True)
             
-            # --- STEP 5: Mouse scroll walkthrough from top to bottom ---
+            # --- STEP 5: Canvas Presentation Creation & Slide Navigation ---
+            print("\n👉 Step 5: Creating Canvas Presentation & Showcasing Slides...", flush=True)
+            await scroll_to_bottom_prompt_box(page)
+            await activate_canvas_mode(page)
+            
+            canvas_prompt = "Create a 4-slide executive presentation summarizing the Q3 cart abandonment and drop-off analysis above."
+            print(f"\n--- Turn 4/4 (Canvas Presentation) ---", flush=True)
+            print(f"💬 Typing Canvas Prompt: \"{canvas_prompt}\"", flush=True)
+            
+            await scroll_to_bottom_prompt_box(page)
+            input_box = page.locator("div[contenteditable='true']:visible, textarea:visible").last
+            await input_box.wait_for(state="visible", timeout=25000)
+            await input_box.click()
+            await input_box.fill("")
+            await asyncio.sleep(0.5)
+            
+            if speed == "normal":
+                await input_box.press_sequentially(canvas_prompt, delay=keystroke_delay)
+            else:
+                await input_box.fill(canvas_prompt)
+                
+            await asyncio.sleep(0.8)
+            
+            # Left-click prompt box to maintain active focus
+            print("👉 Putting mouse focus on prompt input box...", flush=True)
+            await input_box.click()
+            await asyncio.sleep(0.4)
+            
+            print("📤 Submitting Canvas Presentation Prompt...", flush=True)
+            send_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").first
+            if await send_btn.is_visible():
+                await send_btn.click()
+            else:
+                await input_box.press("Enter")
+            
+            # Immediately re-focus prompt box during generation so it stays visible
+            await asyncio.sleep(0.8)
+            input_box_after = page.locator("div[contenteditable='true']:visible, textarea:visible").last
+            if await input_box_after.is_visible():
+                try:
+                    await input_box_after.click()
+                except Exception:
+                    pass
+            
+            # Active wait for Canvas presentation generation to finish
+            await wait_for_response_completion(page, turn_index=4, timeout_seconds=150, read_pause=4.0)
+            
+            # Showcase 3-4 slides in Canvas view with 2.5s pacing
+            await showcase_canvas_presentation(page, num_slides=4, slide_pause=2.5)
+            
+            print("\n🎉 Multi-turn responses and Canvas presentation completed on screen!", flush=True)
+            
+            # --- STEP 6: Mouse scroll walkthrough from top to bottom (side-by-side) ---
             await smooth_mouse_scroll_walkthrough(page)
             
             print("\n🏁 Finalizing video recording session...", flush=True)
@@ -358,6 +608,7 @@ def main():
     parser.add_argument("--all", action="store_true", help="Record all agents in the specified domain (or all domains)")
     parser.add_argument("--speed", choices=["normal", "fast"], default="normal", help="Pacing speed (default: normal)")
     parser.add_argument("--format", choices=["mp4", "webm"], default="mp4", help="Video output format (default: mp4)")
+    parser.add_argument("--resolution", choices=["1080p", "720p"], default="1080p", help="Video recording resolution (default: 1080p)")
     parser.add_argument("--headless", action="store_true", help="Run browser in headless mode (default is headed)")
     parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / "demos" / "gemini-enterprise", help="Base output directory for recorded videos")
     parser.add_argument("--profile", type=str, default=DEFAULT_CHROME_PROFILE_DIR, help="Chrome profile directory name (default: Profile 2)")
@@ -405,6 +656,7 @@ def main():
                 output_dir=args.output_dir,
                 speed=args.speed,
                 video_format=args.format,
+                resolution=args.resolution,
                 headless=args.headless,
                 chrome_profile_dir=args.profile,
                 ge_url=args.url,

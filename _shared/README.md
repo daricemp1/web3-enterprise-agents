@@ -116,7 +116,8 @@ for response in agent.stream_query(
 * **Prompt Discovery**: Automatically extracts the 3 curated business prompts from the target agent's `README.md` via `_shared/scripts/prompt_parser.py`.
 * **Agent @Mention Selection**: Automatically focuses the prompt input bar, types `@<agent_keyword>`, and selects the agent card above the prompt box.
 * **Stop-to-Action Response Synchronization**: Uses a 4-phase async state machine monitoring the prompt submission button lifecycle (**Stop $\to$ Action transition**), ensuring BigQuery SQL generation, data retrieval, and LLM streaming are 100% finished before initiating subsequent turns.
-* **Smooth Mouse Scroll Walkthrough**: After all 3 responses render, the mouse pointer centers and performs human-paced smooth scrolling from top to bottom.
+* **Canvas Presentation Creation & Slide Showcase**: Activates Canvas mode from the Tools menu, submits the universal presentation prompt (`"Summarize the above to create a presentation."`), and navigates through 3–4 generated presentation slides with reading pauses.
+* **Smooth Mouse Scroll Walkthrough**: After all responses and Canvas slides render, the mouse pointer centers and performs human-paced smooth scrolling from top to bottom while keeping the presentation split-screen open.
 * **1080p MP4 Video Transcoding**: Transcoded via **FFmpeg** (`ffmpeg -c:v libx264 -crf 22 -preset medium -movflags +faststart`) to produce web-optimized Full HD video files under `demos/gemini-enterprise/<domain>/<agent_name>.mp4`.
 
 ### Commands & Options
