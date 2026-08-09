@@ -46,7 +46,7 @@ Mixed questions go to both, with the answer clearly attributing which part came 
 
 ## Sample Q&A Showcase
 
-> 🎬 **Interactive Video Walkthrough:** [Watch 1080p MP4 Demo Recording](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
+> 🎬 **Interactive Video Walkthrough:** [Watch 1080p MP4 Demo Recording](https://raw.githubusercontent.com/rajanm/retail-enterprise-agents/master/demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
 
 The following three responses are captured from live post-deploy smoke tests of this agent:
 
@@ -103,9 +103,9 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 An authentic 3-turn interactive session recorded live in Gemini Enterprise demonstrating `@mention` agent invocation, BigQuery conversational analytics, Google Search market grounding, and visual chart artifact generation:
 
-> ### 🎬 [▶️ Click Here to Play 1080p Video Walkthrough (`cart_checkout_analytics.mp4`)](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
+> ### 🎬 [▶️ Play 1080p Video Walkthrough (`cart_checkout_analytics.mp4`)](https://raw.githubusercontent.com/rajanm/retail-enterprise-agents/master/demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
 > **Duration:** 5:11 · **Resolution:** Full HD 1080p · **Format:** H.264 MP4  
-> *(Clicking the link opens GitHub's native video player with play, seek, and full-screen controls)*
+> *(Clicking the link opens Chrome's native media player with Play/Pause, Seekbar, Speed & Fullscreen controls)*
 
 ---
 
