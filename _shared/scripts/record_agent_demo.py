@@ -249,61 +249,39 @@ async def activate_canvas_mode(page) -> bool:
 
 
 async def showcase_canvas_presentation(page, num_slides: int = 4, slide_pause: float = 2.5, resolution: str = "1080p"):
-    """Detects the rendered Canvas presentation and clicks through 3-4 slides with a reading pause."""
+    """Ensures Canvas split screen is active and smoothly clicks through presentation slides via the bottom thumbnail rail."""
     print(f"\n📊 Showcasing Canvas presentation ({num_slides} slides, {slide_pause:.1f}s pause per slide)...", flush=True)
     
-    # 1. Detect distinct top-level slide thumbnail targets via deduplicated DOM coordinates
-    clicked_via_eval = False
+    # 1. Ensure the Canvas split screen is open
     try:
-        distinct_elements = await page.evaluate('''() => {
-            const candidates = Array.from(document.querySelectorAll('button, [role="tab"], [role="button"], [class*="thumbnail"], [class*="slide"], [class*="card"]'));
-            const matched = [];
-            for (const el of candidates) {
-                const r = el.getBoundingClientRect();
-                if (r.y > 750 && r.x > 500 && r.width > 50 && r.width < 250 && r.height > 30 && r.height < 120) {
-                    matched.push({x: r.x + r.width / 2, y: r.y + r.height / 2});
-                }
-            }
-            // Deduplicate by X coordinate (within 35px)
-            const unique = [];
-            for (const pt of matched) {
-                if (!unique.some(u => Math.abs(u.x - pt.x) < 35)) {
-                    unique.push(pt);
-                }
-            }
-            unique.sort((a, b) => a.x - b.x);
-            return unique;
-        }''')
+        open_btn = page.locator("button:visible:has-text('Open'), [role='button']:visible:has-text('Open')").first
+        if await open_btn.is_visible():
+            print("   ✓ Clicking 'Open' button to expand Canvas split pane...", flush=True)
+            await open_btn.click()
+            await asyncio.sleep(2.5)
+    except Exception:
+        pass
+
+    # 2. Smoothly glide cursor and click through each thumbnail in the bottom rail
+    res_config = RESOLUTION_CONFIGS.get(resolution, RESOLUTION_CONFIGS["1080p"])
+    w = res_config["width"]
+    scale = w / 1920.0
+    y_pos = 995 * scale
+    x_coords = [(749 + idx * 172) * scale for idx in range(num_slides)]
+    
+    print(f"   👉 Navigating {num_slides} slides via bottom thumbnail rail (y={y_pos:.0f})...", flush=True)
+    for idx, x_pos in enumerate(x_coords):
+        print(f"   👉 Moving smoothly to Slide {idx + 1}/{num_slides} at ({x_pos:.0f}, {y_pos:.0f})...", flush=True)
+        try:
+            await page.mouse.move(x_pos, y_pos, steps=15)
+            await asyncio.sleep(0.4)
+            await page.mouse.click(x_pos, y_pos)
+            print(f"   ✓ Selected Slide {idx + 1}. Pausing {slide_pause:.1f}s to showcase content...", flush=True)
+        except Exception as ce:
+            print(f"      (thumbnail click note: {ce})", flush=True)
+        await asyncio.sleep(slide_pause)
         
-        if distinct_elements and len(distinct_elements) >= 2:
-            print(f"   ✓ Found {len(distinct_elements)} unique slide thumbnail targets. Navigating slides...", flush=True)
-            slides_to_show = min(len(distinct_elements), num_slides)
-            for idx, pt in enumerate(distinct_elements[:slides_to_show]):
-                print(f"   👉 Viewing Slide {idx + 1}/{slides_to_show} at ({pt['x']:.0f}, {pt['y']:.0f})...", flush=True)
-                await page.mouse.click(pt['x'], pt['y'])
-                await asyncio.sleep(slide_pause)
-            print(f"   ✅ Finished showcasing {slides_to_show} presentation slides.\n", flush=True)
-            clicked_via_eval = True
-    except Exception as e:
-        print(f"   ⚠️ DOM thumbnail detection note: {e}", flush=True)
-            
-    if not clicked_via_eval:
-        # 2. Calibrated thumbnail positions based on viewport resolution
-        print("   👉 Navigating slides via calibrated thumbnail coordinate targeting...", flush=True)
-        res_config = RESOLUTION_CONFIGS.get(resolution, RESOLUTION_CONFIGS["1080p"])
-        w = res_config["width"]
-        scale = w / 1920.0
-        y_pos = 995 * scale
-        x_coords = [(750 + idx * 172) * scale for idx in range(num_slides)]
-        
-        for idx, x_pos in enumerate(x_coords):
-            print(f"   👉 Viewing Slide {idx + 1}/{num_slides} at ({x_pos:.0f}, {y_pos:.0f})...", flush=True)
-            try:
-                await page.mouse.click(x_pos, y_pos)
-            except Exception as ce:
-                print(f"      (coordinate click note: {ce})", flush=True)
-            await asyncio.sleep(slide_pause)
-        print(f"   ✅ Finished showcasing {num_slides} presentation slides.\n", flush=True)
+    print(f"   ✅ Finished showcasing {num_slides} presentation slides.\n", flush=True)
 
 
 
@@ -361,6 +339,7 @@ async def record_single_agent_demo(
     headless: bool = False,
     chrome_profile_dir: str = DEFAULT_CHROME_PROFILE_DIR,
     ge_url: str = DEFAULT_GE_URL,
+    canvas_prompt: str | None = None,
     dry_run: bool = False
 ) -> Path:
     """Executes full flow: opens GE, types @agent, selects card above prompt box, executes 3 prompts with response sync, scrolls top to bottom, records MP4."""
@@ -526,9 +505,9 @@ async def record_single_agent_demo(
             await scroll_to_bottom_prompt_box(page)
             await activate_canvas_mode(page)
             
-            canvas_prompt = "Create a 4-slide executive presentation summarizing the Q3 cart abandonment and drop-off analysis above."
+            presentation_prompt = canvas_prompt or f"Create a 4-slide executive presentation summarizing the {agent_clean_title} analysis and recommendations above."
             print(f"\n--- Turn 4/4 (Canvas Presentation) ---", flush=True)
-            print(f"💬 Typing Canvas Prompt: \"{canvas_prompt}\"", flush=True)
+            print(f"💬 Typing Canvas Prompt: \"{presentation_prompt}\"", flush=True)
             
             await scroll_to_bottom_prompt_box(page)
             input_box = page.locator("div[contenteditable='true']:visible, textarea:visible").last
@@ -537,9 +516,9 @@ async def record_single_agent_demo(
             await asyncio.sleep(0.5)
             
             if speed == "normal":
-                await input_box.press_sequentially(canvas_prompt, delay=keystroke_delay)
+                await input_box.press_sequentially(presentation_prompt, delay=keystroke_delay)
             else:
-                await input_box.fill(canvas_prompt)
+                await input_box.fill(presentation_prompt)
                 
             await asyncio.sleep(0.8)
             
@@ -616,6 +595,7 @@ def main():
     parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / "demos" / "gemini-enterprise", help="Base output directory for recorded videos")
     parser.add_argument("--profile", type=str, default=DEFAULT_CHROME_PROFILE_DIR, help="Chrome profile directory name (default: Profile 2)")
     parser.add_argument("--url", type=str, default=DEFAULT_GE_URL, help="Gemini Enterprise URL (default: GEMINI_ENTERPRISE_URL env var)")
+    parser.add_argument("--canvas-prompt", type=str, default=None, help="Custom prompt for Turn 4 Canvas presentation (default: dynamic template based on agent title)")
     parser.add_argument("--dry-run", action="store_true", help="Validate prompt parsing without launching the browser")
     
     args = parser.parse_args()
@@ -663,6 +643,7 @@ def main():
                 headless=args.headless,
                 chrome_profile_dir=args.profile,
                 ge_url=args.url,
+                canvas_prompt=args.canvas_prompt,
                 dry_run=args.dry_run
             )
         )

@@ -88,32 +88,21 @@ async def test_activate_canvas_mode_graceful_fallback():
 
 
 @pytest.mark.asyncio
-async def test_showcase_canvas_presentation_dom_eval():
+async def test_showcase_canvas_presentation_thumbnail_rail():
     page = MagicMock()
-    page.evaluate = AsyncMock(return_value=[
-        {"x": 750, "y": 995},
-        {"x": 922, "y": 995},
-        {"x": 1094, "y": 995},
-        {"x": 1266, "y": 995},
-    ])
-    page.mouse.click = AsyncMock()
     
-    await showcase_canvas_presentation(page, num_slides=4, slide_pause=0.01)
-    assert page.mouse.click.call_count == 4
-    page.mouse.click.assert_any_call(750, 995)
-    page.mouse.click.assert_any_call(1266, 995)
-
-
-@pytest.mark.asyncio
-async def test_showcase_canvas_presentation_coordinate_fallback():
-    page = MagicMock()
-    page.evaluate = AsyncMock(side_effect=Exception("DOM eval failed"))
+    open_btn = MagicMock()
+    open_btn.is_visible = AsyncMock(return_value=False)
+    page.locator = MagicMock(return_value=MagicMock(first=open_btn))
+    
+    page.mouse.move = AsyncMock()
     page.mouse.click = AsyncMock()
     
     await showcase_canvas_presentation(page, num_slides=4, slide_pause=0.01, resolution="1080p")
+    assert page.mouse.move.call_count == 4
     assert page.mouse.click.call_count == 4
-    page.mouse.click.assert_any_call(750.0, 995.0)
-    page.mouse.click.assert_any_call(1266.0, 995.0)
+    page.mouse.click.assert_any_call(749.0, 995.0)
+    page.mouse.click.assert_any_call(1265.0, 995.0)
 
 
 def test_resolution_configs_mapping():
@@ -153,5 +142,21 @@ async def test_smooth_mouse_scroll_walkthrough_left_pane():
     assert len(wheel_calls) >= 70
     assert any(c.args[1] < 0 for c in wheel_calls)
     assert any(c.args[1] > 0 for c in wheel_calls)
+
+
+def test_canvas_prompt_generalization_and_override():
+    from _shared.scripts.record_agent_demo import get_agent_display_name
+    display_name = get_agent_display_name("cart_checkout_analytics", "e_commerce")
+    agent_clean_title = display_name.split(":")[-1].strip() if ":" in display_name else display_name
+    
+    # Default dynamic template
+    dynamic_prompt = f"Create a 4-slide executive presentation summarizing the {agent_clean_title} analysis and recommendations above."
+    assert "Cart Checkout Analytics" in dynamic_prompt
+    assert "4-slide executive presentation" in dynamic_prompt
+    
+    # Custom override
+    custom_override = "Create a custom 3-slide pitch deck."
+    prompt_to_use = custom_override or dynamic_prompt
+    assert prompt_to_use == "Create a custom 3-slide pitch deck."
 
 
