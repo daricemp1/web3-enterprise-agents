@@ -248,64 +248,63 @@ async def activate_canvas_mode(page) -> bool:
     return False
 
 
-async def showcase_canvas_presentation(page, num_slides: int = 4, slide_pause: float = 2.5):
+async def showcase_canvas_presentation(page, num_slides: int = 4, slide_pause: float = 2.5, resolution: str = "1080p"):
     """Detects the rendered Canvas presentation and clicks through 3-4 slides with a reading pause."""
     print(f"\n📊 Showcasing Canvas presentation ({num_slides} slides, {slide_pause:.1f}s pause per slide)...", flush=True)
     
-    # 1. Comprehensive locator for slide thumbnails
-    thumb_locator = page.locator(
-        "[class*='slide-thumbnail']:visible, "
-        "[class*='thumbnail']:visible, "
-        "[class*='slide-card']:visible, "
-        "[class*='slide-item']:visible, "
-        "[class*='slide-nav'] button:visible, "
-        "button[aria-label*='Slide' i]:visible, "
-        "[role='tab'][aria-label*='Slide' i]:visible"
-    )
-    
+    # 1. Detect distinct top-level slide thumbnail targets via deduplicated DOM coordinates
+    clicked_via_eval = False
     try:
-        count = await thumb_locator.count()
-        if count > 1:
-            print(f"   ✓ Found {count} slide thumbnails. Navigating slides...", flush=True)
-            slides_to_show = min(count, num_slides)
-            for idx in range(slides_to_show):
-                print(f"   👉 Viewing Slide {idx + 1}/{slides_to_show}...", flush=True)
-                try:
-                    await thumb_locator.nth(idx).click()
-                except Exception as e:
-                    print(f"      (click notice: {e})", flush=True)
+        distinct_elements = await page.evaluate('''() => {
+            const candidates = Array.from(document.querySelectorAll('button, [role="tab"], [role="button"], [class*="thumbnail"], [class*="slide"], [class*="card"]'));
+            const matched = [];
+            for (const el of candidates) {
+                const r = el.getBoundingClientRect();
+                if (r.y > 750 && r.x > 500 && r.width > 50 && r.width < 250 && r.height > 30 && r.height < 120) {
+                    matched.push({x: r.x + r.width / 2, y: r.y + r.height / 2});
+                }
+            }
+            // Deduplicate by X coordinate (within 35px)
+            const unique = [];
+            for (const pt of matched) {
+                if (!unique.some(u => Math.abs(u.x - pt.x) < 35)) {
+                    unique.push(pt);
+                }
+            }
+            unique.sort((a, b) => a.x - b.x);
+            return unique;
+        }''')
+        
+        if distinct_elements and len(distinct_elements) >= 2:
+            print(f"   ✓ Found {len(distinct_elements)} unique slide thumbnail targets. Navigating slides...", flush=True)
+            slides_to_show = min(len(distinct_elements), num_slides)
+            for idx, pt in enumerate(distinct_elements[:slides_to_show]):
+                print(f"   👉 Viewing Slide {idx + 1}/{slides_to_show} at ({pt['x']:.0f}, {pt['y']:.0f})...", flush=True)
+                await page.mouse.click(pt['x'], pt['y'])
                 await asyncio.sleep(slide_pause)
             print(f"   ✅ Finished showcasing {slides_to_show} presentation slides.\n", flush=True)
-            return
+            clicked_via_eval = True
     except Exception as e:
-        print(f"   ⚠️ Slide thumbnail detection note: {e}", flush=True)
+        print(f"   ⚠️ DOM thumbnail detection note: {e}", flush=True)
             
-    # 2. Next slide button fallback
-    next_selectors = [
-        "button[aria-label*='Next slide' i]:visible",
-        "button[aria-label*='Next' i]:visible",
-        "button:has(mat-icon:has-text('navigate_next')):visible",
-        "button:has(mat-icon:has-text('chevron_right')):visible",
-        "button:has(mat-icon:has-text('arrow_forward')):visible"
-    ]
-    
-    for sel in next_selectors:
-        next_btn = page.locator(sel).first
-        if await next_btn.is_visible():
-            print(f"   ✓ Found Next Slide button ({sel}). Navigating slides...", flush=True)
-            for idx in range(num_slides):
-                print(f"   👉 Viewing Slide {idx + 1}/{num_slides}...", flush=True)
-                await asyncio.sleep(slide_pause)
-                if idx < num_slides - 1:
-                    try:
-                        await next_btn.click()
-                    except Exception:
-                        pass
-            print(f"   ✅ Finished showcasing {num_slides} presentation slides.\n", flush=True)
-            return
-            
-    print(f"   ℹ️ Slide pagination controls not detected. Pausing {slide_pause * 2:.1f}s to showcase presentation view...", flush=True)
-    await asyncio.sleep(slide_pause * 2)
+    if not clicked_via_eval:
+        # 2. Calibrated thumbnail positions based on viewport resolution
+        print("   👉 Navigating slides via calibrated thumbnail coordinate targeting...", flush=True)
+        res_config = RESOLUTION_CONFIGS.get(resolution, RESOLUTION_CONFIGS["1080p"])
+        w = res_config["width"]
+        scale = w / 1920.0
+        y_pos = 995 * scale
+        x_coords = [(750 + idx * 172) * scale for idx in range(num_slides)]
+        
+        for idx, x_pos in enumerate(x_coords):
+            print(f"   👉 Viewing Slide {idx + 1}/{num_slides} at ({x_pos:.0f}, {y_pos:.0f})...", flush=True)
+            try:
+                await page.mouse.click(x_pos, y_pos)
+            except Exception as ce:
+                print(f"      (coordinate click note: {ce})", flush=True)
+            await asyncio.sleep(slide_pause)
+        print(f"   ✅ Finished showcasing {num_slides} presentation slides.\n", flush=True)
+
 
 
 async def scroll_to_bottom_prompt_box(page):
@@ -320,26 +319,32 @@ async def scroll_to_bottom_prompt_box(page):
         pass
 
 
-async def smooth_mouse_scroll_walkthrough(page):
-    """Performs a smooth mouse scroll to the top of the conversation and then down to the bottom."""
-    print("\n📜 Performing smooth mouse scroll walkthrough of full conversation...", flush=True)
+async def smooth_mouse_scroll_walkthrough(page, resolution: str = "1080p"):
+    """Performs a smooth mouse scroll to the top of the conversation and then down to the bottom specifically on the left conversation pane."""
+    print("\n📜 Performing smooth mouse scroll walkthrough of full conversation on left pane...", flush=True)
     
-    # Center mouse on viewport
-    await page.mouse.move(960, 540)
+    res_config = RESOLUTION_CONFIGS.get(resolution, RESOLUTION_CONFIGS["1080p"])
+    width = res_config["width"]
+    height = res_config["height"]
+    left_x = int(width * 0.25)
+    center_y = int(height * 0.5)
+    
+    # Position mouse firmly over left conversation pane
+    await page.mouse.move(left_x, center_y)
     await asyncio.sleep(0.5)
     
-    print("   ⬆️ Smoothly scrolling mouse up to the top...", flush=True)
-    for _ in range(30):
-        await page.mouse.wheel(0, -250)
-        await asyncio.sleep(0.06)
+    print(f"   ⬆️ Smoothly scrolling left pane (x={left_x}, y={center_y}) up to the top...", flush=True)
+    for _ in range(35):
+        await page.mouse.wheel(0, -180)
+        await asyncio.sleep(0.05)
         
     print("   ⏸️ Pausing at top (3.0s) to showcase agent pill and Turn 1 response...", flush=True)
     await asyncio.sleep(3.0)
     
-    print("   ⬇️ Smoothly scrolling mouse down to the bottom...", flush=True)
-    for _ in range(30):
-        await page.mouse.wheel(0, 250)
-        await asyncio.sleep(0.06)
+    print(f"   ⬇️ Smoothly scrolling left pane down to the bottom...", flush=True)
+    for _ in range(35):
+        await page.mouse.wheel(0, 180)
+        await asyncio.sleep(0.05)
         
     print("   ⏸️ Pausing at bottom (3.0s) to showcase final charts and recommendations...", flush=True)
     await asyncio.sleep(3.0)
@@ -480,7 +485,6 @@ async def record_single_agent_demo(
                 input_box = page.locator("div[contenteditable='true']:visible, textarea:visible").last
                 await input_box.wait_for(state="visible", timeout=25000)
                 await input_box.click()
-                await input_box.fill("")
                 await asyncio.sleep(0.5)
                 
                 if speed == "normal":
@@ -530,7 +534,6 @@ async def record_single_agent_demo(
             input_box = page.locator("div[contenteditable='true']:visible, textarea:visible").last
             await input_box.wait_for(state="visible", timeout=25000)
             await input_box.click()
-            await input_box.fill("")
             await asyncio.sleep(0.5)
             
             if speed == "normal":
@@ -565,12 +568,12 @@ async def record_single_agent_demo(
             await wait_for_response_completion(page, turn_index=4, timeout_seconds=150, read_pause=4.0)
             
             # Showcase 3-4 slides in Canvas view with 2.5s pacing
-            await showcase_canvas_presentation(page, num_slides=4, slide_pause=2.5)
+            await showcase_canvas_presentation(page, num_slides=4, slide_pause=2.5, resolution=resolution)
             
             print("\n🎉 Multi-turn responses and Canvas presentation completed on screen!", flush=True)
             
             # --- STEP 6: Mouse scroll walkthrough from top to bottom (side-by-side) ---
-            await smooth_mouse_scroll_walkthrough(page)
+            await smooth_mouse_scroll_walkthrough(page, resolution=resolution)
             
             print("\n🏁 Finalizing video recording session...", flush=True)
             await asyncio.sleep(2.0)

@@ -88,44 +88,32 @@ async def test_activate_canvas_mode_graceful_fallback():
 
 
 @pytest.mark.asyncio
-async def test_showcase_canvas_presentation_thumbnails():
+async def test_showcase_canvas_presentation_dom_eval():
     page = MagicMock()
-    
-    slide_elem = MagicMock()
-    slide_elem.click = AsyncMock()
-    
-    thumb_locator = MagicMock()
-    thumb_locator.count = AsyncMock(return_value=4)
-    thumb_locator.nth = MagicMock(return_value=slide_elem)
-    
-    def locator_router(selector):
-        if "thumbnail" in selector or "slide-nav" in selector:
-            return thumb_locator
-        loc = MagicMock()
-        loc.count = AsyncMock(return_value=0)
-        loc.first.is_visible = AsyncMock(return_value=False)
-        return loc
-        
-    page.locator = MagicMock(side_effect=locator_router)
+    page.evaluate = AsyncMock(return_value=[
+        {"x": 750, "y": 995},
+        {"x": 922, "y": 995},
+        {"x": 1094, "y": 995},
+        {"x": 1266, "y": 995},
+    ])
+    page.mouse.click = AsyncMock()
     
     await showcase_canvas_presentation(page, num_slides=4, slide_pause=0.01)
-    assert slide_elem.click.call_count == 4
+    assert page.mouse.click.call_count == 4
+    page.mouse.click.assert_any_call(750, 995)
+    page.mouse.click.assert_any_call(1266, 995)
 
 
 @pytest.mark.asyncio
-async def test_showcase_canvas_presentation_fallback():
+async def test_showcase_canvas_presentation_coordinate_fallback():
     page = MagicMock()
+    page.evaluate = AsyncMock(side_effect=Exception("DOM eval failed"))
+    page.mouse.click = AsyncMock()
     
-    def locator_router(selector):
-        loc = MagicMock()
-        loc.count = AsyncMock(return_value=0)
-        loc.first.is_visible = AsyncMock(return_value=False)
-        return loc
-        
-    page.locator = MagicMock(side_effect=locator_router)
-    
-    # Should not raise exception
-    await showcase_canvas_presentation(page, num_slides=4, slide_pause=0.01)
+    await showcase_canvas_presentation(page, num_slides=4, slide_pause=0.01, resolution="1080p")
+    assert page.mouse.click.call_count == 4
+    page.mouse.click.assert_any_call(750.0, 995.0)
+    page.mouse.click.assert_any_call(1266.0, 995.0)
 
 
 def test_resolution_configs_mapping():
@@ -147,4 +135,23 @@ async def test_scroll_to_bottom_prompt_box_success():
     
     assert page.evaluate.called
     assert page.mouse.wheel.call_count >= 5
+
+
+@pytest.mark.asyncio
+async def test_smooth_mouse_scroll_walkthrough_left_pane():
+    from _shared.scripts.record_agent_demo import smooth_mouse_scroll_walkthrough
+    page = MagicMock()
+    page.mouse.move = AsyncMock()
+    page.mouse.wheel = AsyncMock()
+    
+    await smooth_mouse_scroll_walkthrough(page, resolution="1080p")
+    
+    # Check mouse positioned over left pane (1920 * 0.25 = 480, 1080 * 0.5 = 540)
+    page.mouse.move.assert_called_with(480, 540)
+    # Check that wheel was called in both negative (up) and positive (down) directions
+    wheel_calls = page.mouse.wheel.call_args_list
+    assert len(wheel_calls) >= 70
+    assert any(c.args[1] < 0 for c in wheel_calls)
+    assert any(c.args[1] > 0 for c in wheel_calls)
+
 
