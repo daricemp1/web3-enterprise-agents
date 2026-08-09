@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Commerce: Cart & Checkout Analytics — Gemini Enterprise Demo Walkthrough</title>
+  <title>Merchandising: Assortment Planning — Gemini Enterprise Demo Walkthrough</title>
   <style>
     :root {
       --bg-primary: #0f172a;
@@ -195,18 +195,18 @@
     <header>
       <div class="badge-row">
         <span class="badge">Retail Enterprise Agents</span>
-        <span class="badge">E-Commerce Domain</span>
+        <span class="badge">Merchandising Domain</span>
         <span class="badge">Gemini Enterprise</span>
       </div>
-      <h1>🛒 E-Commerce: Cart & Checkout Analytics</h1>
+      <h1>🛍️ Merchandising: Assortment Planning</h1>
       <p class="subtitle">
-        Answers questions about digital checkout funnel conversion rates, cart abandonment stages and revenue loss, payment gateway decline exceptions, promo code validation failures, and e-commerce checkout benchmarks. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
+        Answers questions about product mix, category and SKU performance, and assortment width versus plan. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
       </p>
     </header>
 
     <div class="video-wrapper">
       <video controls autoplay muted playsinline preload="auto">
-        <source src="cart_checkout_analytics.mp4" type="video/mp4">
+        <source src="assortment_planning.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
     </div>
@@ -233,15 +233,15 @@
     <div class="turns-section">
       <h2>📋 Multi-Turn Conversation Flow</h2>
       <ul class="turn-list">
-        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"What is our cart abandonment rate and checkout step drop-off for Q3 2026?"</em> — Synthesizes internal BigQuery conversational analytics query and computes KPI summary.</li>
-        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"What are industry standard e-commerce cart abandonment and checkout conversion benchmarks in 2026?"</em> — Grounds analysis against external retail benchmarks and industry context.</li>
-        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"Render a bar chart showing abandoned cart revenue loss across checkout stages."</em> — Generates and renders a custom chart visualization artifact inline.</li>
-        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create a 4-slide executive presentation summarizing the Cart & Checkout Analytics analysis and recommendations above."</em> — Automatically creates a 4-slide deck and showcases each slide via the bottom thumbnail rail.</li>
+        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"What are the top 3 performing SKUs by total revenue in Men's Outerwear in July 2026?"</em> — Synthesizes internal BigQuery conversational analytics query and computes KPI summary.</li>
+        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"What are the current retail consumer trends in sustainable outdoor apparel for Fall/Winter 2026?"</em> — Grounds analysis against external retail benchmarks and industry context.</li>
+        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"Can you plot the 30-day sales trend for Down Parka and Insulated Vest?"</em> — Generates and renders a custom chart visualization artifact inline.</li>
+        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create a 4-slide executive presentation summarizing the Assortment Planning analysis and recommendations above."</em> — Automatically creates a 4-slide deck and showcases each slide via the bottom thumbnail rail.</li>
       </ul>
     </div>
 
     <footer>
-      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/e_commerce/agents/cart_checkout_analytics" target="_blank" rel="noopener noreferrer">
+      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/merchandising/agents/assortment_planning" target="_blank" rel="noopener noreferrer">
         ← View Agent Code & Documentation on GitHub
       </a>
       <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents" target="_blank" rel="noopener noreferrer">

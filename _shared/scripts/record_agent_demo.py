@@ -24,6 +24,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from _shared.scripts.prompt_parser import parse_agent_prompts, resolve_agent_domain
+from _shared.scripts.generate_demo_html import generate_html_showcase
 
 # Load environment configuration
 load_dotenv(REPO_ROOT / "_shared" / ".env")
@@ -586,6 +587,10 @@ async def record_single_agent_demo(
             
         shutil.rmtree(str(temp_video_dir), ignore_errors=True)
         print(f"\n🎥 Video successfully saved to: {target_video_file} ({target_video_file.stat().st_size / 1024 / 1024:.2f} MB)", flush=True)
+        try:
+            generate_html_showcase(agent_name=agent_name, domain=domain, output_dir=output_dir)
+        except Exception as he:
+            print(f"⚠️ Warning generating HTML demo showcase: {he}", flush=True)
     else:
         print("⚠️ No video file generated.", flush=True)
         

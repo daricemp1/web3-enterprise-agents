@@ -116,9 +116,13 @@ for response in agent.stream_query(
 * **Prompt Discovery**: Automatically extracts the 3 curated business prompts from the target agent's `README.md` via `_shared/scripts/prompt_parser.py`.
 * **Agent @Mention Selection**: Automatically focuses the prompt input bar, types `@<agent_keyword>`, and selects the agent card above the prompt box.
 * **Stop-to-Action Response Synchronization**: Uses a 4-phase async state machine monitoring the prompt submission button lifecycle (**Stop $\to$ Action transition**), ensuring BigQuery SQL generation, data retrieval, and LLM streaming are 100% finished before initiating subsequent turns.
-* **Canvas Presentation Creation & Slide Showcase**: Activates Canvas mode from the Tools menu, submits the universal presentation prompt (`"Summarize the above to create a presentation."`), and navigates through 3–4 generated presentation slides with reading pauses.
-* **Smooth Mouse Scroll Walkthrough**: After all responses and Canvas slides render, the mouse pointer centers and performs human-paced smooth scrolling from top to bottom while keeping the presentation split-screen open.
+* **Dynamic Canvas Executive Presentation Creation**: Activates Canvas mode from the Tools menu and submits a tailored, agent-specific executive presentation prompt passed dynamically by default across all runs (`"Create a 4-slide executive presentation summarizing the <Agent Title> analysis and recommendations above."`), with support for custom `--canvas-prompt` CLI overrides.
+* **Bottom Slide Thumbnail Rail Navigation**: Automatically expands the Canvas split stage and navigates sequentially across all 4 generated slides via calibrated bottom thumbnail coordinates at $Y=995$ with smooth cursor gliding (`steps=15`), hover states, and 2.5s pacing per slide.
+* **Full Conversation History Scroll Walkthrough**: After all responses and Canvas slides render, smoothly scrolls the left conversation pane up to Turn 1 (pausing 3.0s at top to showcase the pinned agent pill and initial BigQuery response) and smoothly down through all turns and chart artifacts.
 * **1080p MP4 Video Transcoding**: Transcoded via **FFmpeg** (`ffmpeg -c:v libx264 -crf 22 -preset medium -movflags +faststart`) to produce web-optimized Full HD video files under `demos/gemini-enterprise/<domain>/<agent_name>.mp4`.
+* **Automated HTML Showcase Player Generation**: Auto-generates a standalone responsive dark-mode HTML5 video player at `demos/gemini-enterprise/<domain>/<agent_name>.html` complete with metadata grid, multi-turn flow summary, and GitHub links.
+
+---
 
 ### Commands & Options
 
@@ -127,18 +131,71 @@ for response in agent.stream_query(
 cp .env.example .env
 # Set GEMINI_ENTERPRISE_URL and Chrome Profile settings in .env
 
-# 2. Record a single agent demo (1080p MP4)
+# 2. Record a single agent demo (1080p MP4 + HTML player)
 uv run --frozen python _shared/scripts/record_agent_demo.py \
     --domain e_commerce \
     --name cart_checkout_analytics \
     --speed normal \
     --format mp4
 
-# 3. Record all agents in a domain
-uv run --frozen python _shared/scripts/record_agent_demo.py --domain e_commerce --all
+# 3. Custom Canvas presentation prompt override (optional)
+uv run --frozen python _shared/scripts/record_agent_demo.py \
+    --name assortment_planning \
+    --canvas-prompt "Create a 4-slide executive presentation summarizing our top revenue drivers."
 
-# 4. Dry-run prompt parsing validation (no browser launched)
+# 4. Record all agents in a domain
+uv run --frozen python _shared/scripts/record_agent_demo.py --domain merchandising --all
+
+# 5. Dry-run prompt parsing validation (no browser launched)
 uv run --frozen python _shared/scripts/record_agent_demo.py --name cart_checkout_analytics --dry-run
 ```
+
+---
+
+## Parallel Recording & Chrome Profile Isolation
+
+Chromium places an exclusive filesystem lock (`SingletonLock`) on its user data directory. To record 2 or more agent demos concurrently in parallel, provide dedicated user data directories via `--user-data-dir` or the `CHROME_USER_DATA_DIR` environment variable:
+
+```bash
+# Worker 1 (in background task / terminal 1):
+uv run --frozen python _shared/scripts/record_agent_demo.py \
+    --name assortment_planning \
+    --user-data-dir ~/.config/google-chrome-demo-recorder-worker-1 &
+
+# Worker 2 (in background task / terminal 2):
+uv run --frozen python _shared/scripts/record_agent_demo.py \
+    --name pricing_promotions \
+    --user-data-dir ~/.config/google-chrome-demo-recorder-worker-2 &
+```
+
+The script automatically synchronizes authentication cookies from the base master profile (`~/.config/google-chrome-demo-recorder`) into the target worker directory while excluding active runtime locks (`Singleton*`, `*lock*`, `Crashpad`).
+
+---
+
+## Standalone HTML Demo Video Showcase Player
+
+Every recorded demo includes a self-contained HTML5 web player generated via `_shared/scripts/generate_demo_html.py`:
+
+```bash
+# Generate HTML player for a specific agent
+uv run --frozen python _shared/scripts/generate_demo_html.py --name cart_checkout_analytics
+
+# Generate HTML players for an entire domain
+uv run --frozen python _shared/scripts/generate_demo_html.py --domain merchandising --all
+```
+
+### Standard Cross-Linking Convention
+
+When a demo video and HTML player are published, link them across documentation as follows:
+
+1. **Root `README.md` (in domain agent tables)**:
+   ```markdown
+   | 1 | [`cart_checkout_analytics`](domains/e_commerce/agents/cart_checkout_analytics/README.md) (<a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/e_commerce/cart_checkout_analytics.html" target="_blank" rel="noopener noreferrer">🎬 Demo ↗</a>) | E-Commerce: Cart & Checkout Analytics | ... |
+   ```
+
+2. **Individual Agent `README.md` (under `## Sample Q&A Showcase`)**:
+   ```markdown
+   > 🎬 **Interactive Video Walkthrough:** <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/e_commerce/cart_checkout_analytics.html" target="_blank" rel="noopener noreferrer">Watch 1080p Web Player Demo ↗</a>
+   ```
 
 

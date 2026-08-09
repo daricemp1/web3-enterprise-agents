@@ -45,6 +45,8 @@ Mixed questions go to both, with the answer clearly attributing which part came 
 
 ## Sample Q&A Showcase
 
+> 🎬 **Interactive Video Walkthrough:** <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/assortment_planning.html" target="_blank" rel="noopener noreferrer">Watch 1080p Web Player Demo ↗</a>
+
 The following three responses are captured from live post-deploy smoke tests of this agent:
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
