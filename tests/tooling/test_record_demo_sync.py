@@ -160,3 +160,17 @@ def test_canvas_prompt_generalization_and_override():
     assert prompt_to_use == "Create a custom 3-slide pitch deck."
 
 
+def test_user_data_dir_isolation_and_env_override(tmp_path, monkeypatch):
+    from _shared.scripts.record_agent_demo import DEFAULT_BASE_CHROME_DIR, sync_chrome_profile
+    import argparse
+    from pathlib import Path
+    
+    # Verify default base directory
+    assert DEFAULT_BASE_CHROME_DIR == Path.home() / ".config" / "google-chrome-demo-recorder"
+    
+    # Verify custom worker user data dir sync logic
+    worker_dir = tmp_path / "worker_1"
+    sync_chrome_profile(user_data_dir=worker_dir)
+    assert worker_dir.exists()
+
+

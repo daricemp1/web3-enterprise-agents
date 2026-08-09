@@ -29,7 +29,8 @@ from _shared.scripts.prompt_parser import parse_agent_prompts, resolve_agent_dom
 load_dotenv(REPO_ROOT / "_shared" / ".env")
 load_dotenv(REPO_ROOT / ".env")
 DEFAULT_GE_URL = os.getenv("GEMINI_ENTERPRISE_URL", "")
-DEFAULT_CHROME_USER_DATA_DIR = Path.home() / ".config" / "google-chrome-demo-recorder"
+DEFAULT_BASE_CHROME_DIR = Path.home() / ".config" / "google-chrome-demo-recorder"
+DEFAULT_CHROME_USER_DATA_DIR = Path(os.getenv("CHROME_USER_DATA_DIR", str(DEFAULT_BASE_CHROME_DIR)))
 DEFAULT_SOURCE_CHROME_DIR = Path.home() / ".config" / "google-chrome"
 DEFAULT_CHROME_PROFILE_DIR = os.getenv("CHROME_PROFILE_DIR", "Profile 2")
 DEFAULT_CHROME_PROFILE_NAME = os.getenv("CHROME_PROFILE_NAME", "Default Profile")
@@ -40,9 +41,10 @@ RESOLUTION_CONFIGS = {
 }
 
 
-def enforce_100_percent_zoom():
+def enforce_100_percent_zoom(user_data_dir: Path | None = None):
     """Sanitizes synced Chrome preferences so vertexaisearch zoom is strictly 100% (0.0)."""
-    pref_path = DEFAULT_CHROME_USER_DATA_DIR / DEFAULT_CHROME_PROFILE_DIR / "Preferences"
+    target_dir = user_data_dir or DEFAULT_CHROME_USER_DATA_DIR
+    pref_path = target_dir / DEFAULT_CHROME_PROFILE_DIR / "Preferences"
     if pref_path.exists():
         try:
             import json
@@ -61,37 +63,41 @@ def enforce_100_percent_zoom():
             print(f"⚠️ Warning sanitizing preferences: {e}", flush=True)
 
 
-def sync_chrome_profile():
+def sync_chrome_profile(user_data_dir: Path | None = None):
     """Syncs user Chrome profile into demo recorder directory to avoid singleton locks."""
-    if not DEFAULT_CHROME_USER_DATA_DIR.exists():
-        DEFAULT_CHROME_USER_DATA_DIR.mkdir(parents=True, exist_ok=True)
-        print("🔄 Performing initial Chrome profile sync...", flush=True)
+    target_dir = user_data_dir or DEFAULT_CHROME_USER_DATA_DIR
+    source_dir = DEFAULT_BASE_CHROME_DIR if (target_dir != DEFAULT_BASE_CHROME_DIR and DEFAULT_BASE_CHROME_DIR.exists()) else DEFAULT_SOURCE_CHROME_DIR
+    
+    if not target_dir.exists():
+        target_dir.mkdir(parents=True, exist_ok=True)
+        print(f"🔄 Performing initial Chrome profile sync to {target_dir}...", flush=True)
         cmd = [
             "rsync", "-av", "--delete",
             "--exclude=Singleton*",
+            "--exclude=*lock*",
             "--exclude=*Cache*",
             "--exclude=*Crash*",
             "--exclude=BrowserMetrics*",
-            str(DEFAULT_SOURCE_CHROME_DIR) + "/",
-            str(DEFAULT_CHROME_USER_DATA_DIR) + "/"
+            str(source_dir) + "/",
+            str(target_dir) + "/"
         ]
         subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
         # Fast sync of Local State and Profile Preferences/Cookies
         for f in ["Local State"]:
-            src_f = DEFAULT_SOURCE_CHROME_DIR / f
-            tgt_f = DEFAULT_CHROME_USER_DATA_DIR / f
+            src_f = source_dir / f
+            tgt_f = target_dir / f
             if src_f.exists():
                 shutil.copy2(src_f, tgt_f)
-        p_src = DEFAULT_SOURCE_CHROME_DIR / DEFAULT_CHROME_PROFILE_DIR
-        p_tgt = DEFAULT_CHROME_USER_DATA_DIR / DEFAULT_CHROME_PROFILE_DIR
+        p_src = source_dir / DEFAULT_CHROME_PROFILE_DIR
+        p_tgt = target_dir / DEFAULT_CHROME_PROFILE_DIR
         p_tgt.mkdir(parents=True, exist_ok=True)
         for item in ["Preferences", "Secure Preferences", "Cookies", "Network"]:
             src_item = p_src / item
             tgt_item = p_tgt / item
             if src_item.is_file():
                 shutil.copy2(src_item, tgt_item)
-    enforce_100_percent_zoom()
+    enforce_100_percent_zoom(target_dir)
 
 
 def get_agent_display_name(agent_name: str, domain: str) -> str:
@@ -340,6 +346,7 @@ async def record_single_agent_demo(
     chrome_profile_dir: str = DEFAULT_CHROME_PROFILE_DIR,
     ge_url: str = DEFAULT_GE_URL,
     canvas_prompt: str | None = None,
+    user_data_dir: Path | str | None = None,
     dry_run: bool = False
 ) -> Path:
     """Executes full flow: opens GE, types @agent, selects card above prompt box, executes 3 prompts with response sync, scrolls top to bottom, records MP4."""
@@ -348,6 +355,7 @@ async def record_single_agent_demo(
     target_video_file = domain_output_dir / f"{agent_name}.{video_format}"
     
     res_config = RESOLUTION_CONFIGS.get(resolution, RESOLUTION_CONFIGS["1080p"])
+    effective_user_data_dir = Path(user_data_dir) if user_data_dir else DEFAULT_CHROME_USER_DATA_DIR
     
     display_name = get_agent_display_name(agent_name, domain)
     # Extract search title without domain prefix
@@ -360,6 +368,7 @@ async def record_single_agent_demo(
     print(f"📁 Domain: {domain}", flush=True)
     print(f"🎯 Target Video: {target_video_file}", flush=True)
     print(f"👤 Chrome Profile: {chrome_profile_dir} ({DEFAULT_CHROME_PROFILE_NAME})", flush=True)
+    print(f"📁 User Data Dir: {effective_user_data_dir}", flush=True)
     print(f"⚡ Pacing Speed: {speed}", flush=True)
     print(f"📺 Resolution: {resolution} ({res_config['width']}x{res_config['height']})", flush=True)
     print(f"🎞️ Output Format: {video_format.upper()}", flush=True)
@@ -372,7 +381,7 @@ async def record_single_agent_demo(
         print("🔍 [DRY-RUN] Validation passed. Skipping browser launch.", flush=True)
         return target_video_file
 
-    sync_chrome_profile()
+    sync_chrome_profile(effective_user_data_dir)
     
     from playwright.async_api import async_playwright
     
@@ -385,9 +394,9 @@ async def record_single_agent_demo(
     action_pause = 2.0 if speed == "normal" else 0.8
 
     async with async_playwright() as p:
-        print("🌐 Launching Google Chrome with authenticated session...", flush=True)
+        print(f"🌐 Launching Google Chrome with authenticated session ({effective_user_data_dir})...", flush=True)
         context = await p.chromium.launch_persistent_context(
-            user_data_dir=str(DEFAULT_CHROME_USER_DATA_DIR),
+            user_data_dir=str(effective_user_data_dir),
             channel="chrome",
             headless=headless,
             record_video_dir=str(temp_video_dir),
@@ -596,6 +605,7 @@ def main():
     parser.add_argument("--profile", type=str, default=DEFAULT_CHROME_PROFILE_DIR, help="Chrome profile directory name (default: Profile 2)")
     parser.add_argument("--url", type=str, default=DEFAULT_GE_URL, help="Gemini Enterprise URL (default: GEMINI_ENTERPRISE_URL env var)")
     parser.add_argument("--canvas-prompt", type=str, default=None, help="Custom prompt for Turn 4 Canvas presentation (default: dynamic template based on agent title)")
+    parser.add_argument("--user-data-dir", type=Path, default=None, help="Custom Chrome user data directory path for parallel worker isolation (default: ~/.config/google-chrome-demo-recorder)")
     parser.add_argument("--dry-run", action="store_true", help="Validate prompt parsing without launching the browser")
     
     args = parser.parse_args()
@@ -644,6 +654,7 @@ def main():
                 chrome_profile_dir=args.profile,
                 ge_url=args.url,
                 canvas_prompt=args.canvas_prompt,
+                user_data_dir=args.user_data_dir,
                 dry_run=args.dry_run
             )
         )
