@@ -99,15 +99,13 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 ---
 
-### 4. Live Multi-Turn Demo Recording (Gemini Enterprise)
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
 An authentic 3-turn interactive session recorded live in Gemini Enterprise demonstrating `@mention` agent invocation, BigQuery conversational analytics, Google Search market grounding, and visual chart artifact generation:
 
-<video src="../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4" controls width="100%">
-  <p>Your browser does not support HTML5 video. <a href="../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4">Click here to open or download the demo video</a>.</p>
-</video>
-
-> 💡 **Direct Video File**: [▶️ Watch / Download 1080p Full HD MP4 (`cart_checkout_analytics.mp4`)](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
+> ### 🎬 [▶️ Click Here to Play 1080p Video Walkthrough (`cart_checkout_analytics.mp4`)](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
+> **Duration:** 5:11 · **Resolution:** Full HD 1080p · **Format:** H.264 MP4  
+> *(Clicking the link opens GitHub's native video player with play, seek, and full-screen controls)*
 
 ---
 
