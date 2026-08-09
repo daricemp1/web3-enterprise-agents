@@ -106,3 +106,38 @@ for response in agent.stream_query(
     print(response)
 ```
 
+---
+
+## Recording Agent Demos: Playwright + FFmpeg Pipeline
+
+`_shared/scripts/record_agent_demo.py` automates end-to-end multi-turn video recording of registered Gemini Enterprise assistants:
+
+* **Browser Automation & Screen Capture**: Powered by **Playwright** (`playwright.chromium`), driving Google Chrome with persistent authenticated profiles, 1.25x high-DPI viewport scaling, and real-time screen capture.
+* **Prompt Discovery**: Automatically extracts the 3 curated business prompts from the target agent's `README.md` via `_shared/scripts/prompt_parser.py`.
+* **Agent @Mention Selection**: Automatically focuses the prompt input bar, types `@<agent_keyword>`, and selects the agent card above the prompt box.
+* **Stop-to-Action Response Synchronization**: Uses a 4-phase async state machine monitoring the prompt submission button lifecycle (**Stop $\to$ Action transition**), ensuring BigQuery SQL generation, data retrieval, and LLM streaming are 100% finished before initiating subsequent turns.
+* **Smooth Mouse Scroll Walkthrough**: After all 3 responses render, the mouse pointer centers and performs human-paced smooth scrolling from top to bottom.
+* **1080p MP4 Video Transcoding**: Transcoded via **FFmpeg** (`ffmpeg -c:v libx264 -crf 22 -preset medium -movflags +faststart`) to produce web-optimized Full HD video files under `demos/gemini-enterprise/<domain>/<agent_name>.mp4`.
+
+### Commands & Options
+
+```bash
+# 1. Initialize environment configuration from template
+cp .env.example .env
+# Set GEMINI_ENTERPRISE_URL and Chrome Profile settings in .env
+
+# 2. Record a single agent demo (1080p MP4)
+uv run --frozen python _shared/scripts/record_agent_demo.py \
+    --domain e_commerce \
+    --name cart_checkout_analytics \
+    --speed normal \
+    --format mp4
+
+# 3. Record all agents in a domain
+uv run --frozen python _shared/scripts/record_agent_demo.py --domain e_commerce --all
+
+# 4. Dry-run prompt parsing validation (no browser launched)
+uv run --frozen python _shared/scripts/record_agent_demo.py --name cart_checkout_analytics --dry-run
+```
+
+

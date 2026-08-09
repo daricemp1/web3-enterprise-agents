@@ -46,6 +46,8 @@ Mixed questions go to both, with the answer clearly attributing which part came 
 
 ## Sample Q&A Showcase
 
+> 🎬 **Interactive Video Walkthrough:** [Watch 1080p MP4 Demo Recording](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)
+
 The following three responses are captured from live post-deploy smoke tests of this agent:
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)

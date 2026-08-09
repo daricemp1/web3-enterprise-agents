@@ -95,7 +95,7 @@ local-only design spec — see [Architecture](#architecture).
 
 | No. | Agent | Gemini Enterprise Display Name | Focus |
 | :--- | :--- | :--- | :--- |
-| 1 | [`cart_checkout_analytics`](domains/e_commerce/agents/cart_checkout_analytics/README.md) | E-Commerce: Cart & Checkout Analytics | Digital funnel conversion rates, checkout stage cart abandonment %, payment gateway decline rates, promo validation errors |
+| 1 | [`cart_checkout_analytics`](domains/e_commerce/agents/cart_checkout_analytics/README.md) ([🎬 Demo](demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4)) | E-Commerce: Cart & Checkout Analytics | Digital funnel conversion rates, checkout stage cart abandonment %, payment gateway decline rates, promo validation errors |
 | 2 | [`search_merchandising_personalization`](domains/e_commerce/agents/search_merchandising_personalization/README.md) | E-Commerce: Product Discovery & Analytics | Digital funnel site search conversion %, zero-result query rates, recommendation carousel CTR %, personalized revenue lift |
 | 3 | [`payment_gateway_fraud_risk`](domains/e_commerce/agents/payment_gateway_fraud_risk/README.md) | E-Commerce: Payment Gateway & Fraud Risk | Payment gateway authorization rates %, chargeback dispute win rates, 3D Secure friction drop-offs, fraud scoring false positives |
 | 4 | [`marketplace_seller_performance`](domains/e_commerce/agents/marketplace_seller_performance/README.md) | E-Commerce: 3P Marketplace Seller Performance | Marketplace 3P seller defect rates (target <1%), commission net revenues, catalog sync latency, seller fulfillment SLAs |
@@ -341,11 +341,15 @@ retail-enterprise-agents/
           data/*.csv                   # one seed CSV per BigQuery table this agent needs
           deployment/{dev,prod}-example.yaml   # committed placeholders
           deployment/{dev,prod}.yaml            # real values, gitignored like .env
+  demos/
+    gemini-enterprise/
+      <domain>/
+        <agent_name>.mp4             # 1080p Full HD demo video recordings
   _shared/
     templates/logical_agent/    # scaffold skeleton, copied+token-substituted per new agent
     instructions/*.md            # shared persona/safety/formatting fragments (scaffold-time only)
     table_registry.yaml          # domain_id/agent_id registry for the shared BigQuery dataset
-    scripts/                     # scaffold, load seed data, grant table-level IAM
+    scripts/                     # scaffold, load seed data, grant table IAM, prompt parsing, demo recorder
   tests/tooling/                 # tests for the _shared/scripts tooling itself
 ```
 
@@ -417,11 +421,21 @@ Reference](#commands-reference) below for the day-to-day command reference once 
 | Scaffold a new logical agent | `uv run python _shared/scripts/scaffold_logical_agent.py --domain <domain> --name <snake_case_name> --display-name "<Human Readable Name>"` |
 | Load an agent's seed data into BigQuery | `uv run python _shared/scripts/load_agent_data.py --domain <domain> --name <agent> --project <dev_project_id> --dataset retail_ent_agents` |
 | Grant an agent's service account table-level access | `uv run python _shared/scripts/grant_table_access.py --project <dev_project_id> --dataset retail_ent_agents --service-account <sa_email> --table <table> [--table <table> ...]` |
+| Record an agent interactive demo video | `uv run python _shared/scripts/record_agent_demo.py --domain <domain> --name <agent> --speed normal --format mp4` |
+| Record all agent demos in a domain | `uv run python _shared/scripts/record_agent_demo.py --domain <domain> --all` |
 
 After scaffolding, fill in the `# TODO(scaffold):` markers in `root_agent.yaml` and
 `sub_agents/data_insights.yaml` (routing guidance and authorized BigQuery tables), register the
 new agent in `_shared/table_registry.yaml`, and add its seed data under `data/`. See
 `_shared/README.md` for the full walkthrough.
+
+---
+
+## 🎬 Interactive Demo Video Recordings
+
+The repository includes automated multi-turn video recordings of deployed agents in Gemini Enterprise, stored under `demos/gemini-enterprise/<domain>/<agent_name>.mp4`. Recordings are captured using **Playwright** browser automation with 1.25x high-DPI UI scaling, Stop-to-Action response synchronization, and **FFmpeg** 1080p MP4 transcoding.
+
+For full recording pipeline documentation, CLI flags, and environment setup, see [`_shared/README.md`](_shared/README.md#recording-agent-demos-playwright--ffmpeg-pipeline).
 
 ---
 

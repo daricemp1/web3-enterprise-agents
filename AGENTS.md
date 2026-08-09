@@ -151,6 +151,10 @@ The platform architecture defines a comprehensive footprint of **100 enterprise 
 ## Repo layout
 
 ```
+demos/
+  gemini-enterprise/
+    <domain>/
+      <agent_name>.mp4        # 1080p Full HD demo video recordings
 _shared/
   templates/logical_agent/   # scaffold skeleton, copied+token-substituted per new agent
                               # NOT runnable directly — do not `adk run` against it
@@ -158,6 +162,8 @@ _shared/
                                # templates at SCAFFOLD time, not runtime (see below)
   scripts/
     scaffold_logical_agent.py # generates domains/<domain>/agents/<name>/ from the template
+    prompt_parser.py          # extracts curated prompts from agent READMEs
+    record_agent_demo.py      # Playwright + FFmpeg multi-turn video recording engine
 docs/superpowers/    # LOCAL ONLY — gitignored, purged from git history, not on a fresh clone
   specs/     # architecture + per-agent design docs (source of truth for "why")
   plans/     # step-by-step implementation plans for each spec
@@ -277,6 +283,7 @@ Building a **new** agent from scratch or executing batch feature/migration work 
   - **`agents-cli publish gemini-enterprise`**: Use `agents-cli publish gemini-enterprise` (not `agents-cli register`). Discover active Gemini Enterprise app IDs in the project via `agents-cli publish gemini-enterprise --list --project <project_id>`.
   - **`grant_table_access.py`**: The `--table` argument uses `action="append"`, requiring repeating `--table <table_1> --table <table_2>` per table.
   - **`load_agent_data.py`**: Requires `--domain <domain> --name <agent_name> --project <project_id> --dataset retail_ent_agents`.
+  - **`record_agent_demo.py` & `prompt_parser.py`** (added 2026-08-08): Automated demo video recording pipeline using Playwright and FFmpeg transcoding (`-c:v libx264 -crf 22 -preset medium -movflags +faststart`). Supports `--domain <domain>`, `--name <agent_name>`, `--all`, `--speed normal|fast`, `--format mp4|webm`, `--url <ge_url>`, and `--dry-run`. Response synchronization strictly waits for full BigQuery SQL generation and LLM token streaming via a 4-phase Stop-to-Action button state machine, with 1.25x high-DPI viewport scaling and smooth mouse scroll walkthrough.
 - **Use `uv` for everything** — `uv sync`, `uv run ...`. Never bare `pip`/`python`.
 - Python >=3.10 (required by `google-adk`).
 - **Scaffold-time composition, not runtime includes.** `_shared/instructions/*.md` are
@@ -418,7 +425,7 @@ Building a **new** agent from scratch or executing batch feature/migration work 
   Assortment Planning"`, `"Supply Chain: Logistics Operations"`. Always pass `--display_name` and `--description`
   to `adk deploy agent_engine`, and `--display-name`, `--description`, and `--tool-description` to
   `agents-cli publish gemini-enterprise`. Export `gcloud` to `PATH` prior to `agents-cli` calls
-  (`export PATH=$PATH:/usr/local/google/home/rajanvasagam/Dev/google-cloud-sdk/bin`). Re-running deployment
+  (`export PATH=$PATH:$HOME/Dev/google-cloud-sdk/bin`). Re-running deployment
   with `--agent_engine_id` / publishing with `--agent-runtime-id` updates existing resources in place.
 - **Post-Deploy Live Smoke Testing Signature (google-adk 2.5.0):**
   When testing deployed Agent Engine instances via Python SDK `vertexai.agent_engines`:
