@@ -117,8 +117,8 @@ local-only design spec — see [Architecture](#architecture).
 
 | No. | Gemini Enterprise Agent | Demo | Focus of Agent |
 | :--- | :--- | :---: | :--- |
-| 1 | [Campaign Performance & ROI](domains/marketing/agents/campaign_performance_roi/README.md) | — | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
-| 2 | [Customer Lifecycle & Loyalty](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | — | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
+| 1 | [Campaign Performance & ROI](domains/marketing/agents/campaign_performance_roi/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/marketing/campaign_performance_roi.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
+| 2 | [Customer Lifecycle & Loyalty](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/marketing/customer_lifecycle_loyalty.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
 | 3 | [Retail Media Network & Sponsored Ad Yield](domains/marketing/agents/retail_media_network_monetization/README.md) | — | Retail Media ad revenue $, sponsored product search auction yields (CPC/eCPM), advertiser ROAS delivery reports |
 | 4 | [Churn Prediction & Win-Back Triggers](domains/marketing/agents/customer_churn_winback_analytics/README.md) | — | 30/60/90-day churn probability scores, category lapse intervals, win-back promo margin costs vs. reactivation lift |
 | 5 | [CRM, Email & SMS Campaign Orchestration](domains/marketing/agents/email_sms_crm_orchestration/README.md) | — | Revenue per email/SMS send ($), automated cart/browse abandon journeys, unsubscribe rates, domain deliverability health |

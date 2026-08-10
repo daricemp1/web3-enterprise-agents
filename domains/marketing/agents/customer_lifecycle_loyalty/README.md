@@ -2,6 +2,8 @@
 
 **Domain:** Marketing · **Gemini Enterprise display name:** Marketing: Customer Lifecycle & Loyalty
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/marketing/customer_lifecycle_loyalty.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/marketing/customer_lifecycle_loyalty.html)
+
 Answers questions about customer lifetime value (CLV), RFM customer segmentation, loyalty tier redemption rates, churn risk scores, and retail customer loyalty benchmarks. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---

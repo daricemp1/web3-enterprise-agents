@@ -2,6 +2,8 @@
 
 **Domain:** Marketing · **Gemini Enterprise display name:** Marketing: Campaign Performance & ROI
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/marketing/campaign_performance_roi.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/marketing/campaign_performance_roi.html)
+
 Answers questions about campaign performance, channel return on ad spend (ROAS), customer acquisition cost (CAC) variances, conversion lift, and digital media industry benchmarks. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---
