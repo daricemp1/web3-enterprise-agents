@@ -2,7 +2,9 @@
 
 **Domain:** Merchandising · **Gemini Enterprise display name:** Merchandising: Vendor Negotiation & Rebates
 
-Answers questions about vendor volume rebate tiers, co-op marketing fund claims, vendor payment terms, and rebate realization %. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external market trends and vendor rebate negotiation benchmark questions via Google Search grounding.
+Answers questions about vendor spend tiers, volume rebate agreements, rebate accruals, and supplier compliance. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external vendor benchmarks and market intelligence questions via Google Search grounding.
+
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/merchandising/vendor_negotiation_rebates.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/merchandising/vendor_negotiation_rebates.html)
 
 ---
 

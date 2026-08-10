@@ -126,3 +126,14 @@ def test_every_agent_has_at_least_three_tables():
         )
 
 
+def test_every_agent_has_a_valid_display_name():
+    registry = yaml.safe_load(REGISTRY_PATH.read_text())
+    for agent_name, entry in registry["agents"].items():
+        display_name = entry.get("display_name")
+        assert display_name, f"Agent '{agent_name}' is missing a display_name in {REGISTRY_PATH}"
+        assert ":" in display_name, f"Agent '{agent_name}' display_name '{display_name}' must follow '<Domain>: <Agent Name>'"
+        prefix, clean_title = display_name.split(":", 1)
+        assert prefix.strip(), f"Agent '{agent_name}' display_name missing domain prefix"
+        assert clean_title.strip(), f"Agent '{agent_name}' display_name missing clean agent title"
+
+

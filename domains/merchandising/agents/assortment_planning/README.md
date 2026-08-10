@@ -4,6 +4,9 @@
 
 Answers questions about product mix, category and SKU performance, and assortment width versus plan. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
+- 📺 **Full HD Demo Video**: [`demos/gemini-enterprise/merchandising/assortment_planning.mp4`](../../../demos/gemini-enterprise/merchandising/assortment_planning.mp4)
+- 🌐 **Interactive HTML Showcase**: [`demos/gemini-enterprise/merchandising/assortment_planning.html`](../../../demos/gemini-enterprise/merchandising/assortment_planning.html)
+
 ---
 
 ## Why This Agent Matters

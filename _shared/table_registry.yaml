@@ -70,6 +70,7 @@ agents:
   # and assortment breadth vs. depth optimization questions.
   # -------------------------------------------------------------------------
   assortment_planning:
+    display_name: "Merchandising: Assortment Planning"
     domain: merchandising
     agent_id: aspl
     tables:
@@ -83,6 +84,7 @@ agents:
   # and promotional calendar scheduling efficiency.
   # -------------------------------------------------------------------------
   pricing_promotions:
+    display_name: "Merchandising: Pricing & Promotions"
     domain: merchandising
     agent_id: prpm
     tables:
@@ -97,6 +99,7 @@ agents:
   # (0-30, 31-60, 61-90, 90+ days), and markdown trigger thresholds.
   # -------------------------------------------------------------------------
   sell_through_inventory_health:
+    display_name: "Merchandising: Sell-Through & Inventory Health"
     domain: merchandising
     agent_id: stih
     tables:
@@ -111,6 +114,7 @@ agents:
   # payment terms realization, and vendor net cost settlements.
   # -------------------------------------------------------------------------
   vendor_negotiation_rebates:
+    display_name: "Merchandising: Vendor Negotiation & Rebates"
     domain: merchandising
     agent_id: vreb
     tables:
@@ -125,6 +129,7 @@ agents:
   # salvage recovery %, and clearance budget burn.
   # -------------------------------------------------------------------------
   markdown_clearance_optimization:
+    display_name: "Merchandising: Markdown & Clearance Optimization"
     domain: merchandising
     agent_id: mcle
     tables:
@@ -139,6 +144,7 @@ agents:
   # and competitor stockout holding margin opportunities.
   # -------------------------------------------------------------------------
   price_matching_competitor_intel:
+    display_name: "Merchandising: Price Matching & Competitor Intel"
     domain: merchandising
     agent_id: pmci
     tables:
@@ -153,6 +159,7 @@ agents:
   # and eye-level shelf share to maximize dollar sales per square/linear foot.
   # -------------------------------------------------------------------------
   space_planning_micro_merch:
+    display_name: "Merchandising: Space Planning & Micro-Merchandising"
     domain: merchandising
     agent_id: spmm
     tables:
@@ -167,6 +174,7 @@ agents:
   # and co-packer cost of goods (COGS) variance.
   # -------------------------------------------------------------------------
   private_brand_development:
+    display_name: "Merchandising: Private Brand Development"
     domain: merchandising
     agent_id: pbde
     tables:
@@ -181,6 +189,7 @@ agents:
   # and weather-correlated seasonal demand shifts.
   # -------------------------------------------------------------------------
   seasonal_transition_planning:
+    display_name: "Merchandising: Seasonal Transition Planning"
     domain: merchandising
     agent_id: strp
     tables:
@@ -195,6 +204,7 @@ agents:
   # market share vs. TAM, and cross-category basket affinity.
   # -------------------------------------------------------------------------
   category_growth_strategy:
+    display_name: "Merchandising: Category Growth Strategy"
     domain: merchandising
     agent_id: cgst
     tables:
@@ -209,6 +219,7 @@ agents:
   # and master case-pack replenishment fit.
   # -------------------------------------------------------------------------
   size_pack_optimization:
+    display_name: "Merchandising: Size & Case Pack Optimization"
     domain: merchandising
     agent_id: spop
     tables:
@@ -223,6 +234,7 @@ agents:
   # and slow-mover delisting phaseout triggers.
   # -------------------------------------------------------------------------
   item_lifecycle_rationalization:
+    display_name: "Merchandising: Item Lifecycle & SKU Rationalization"
     domain: merchandising
     agent_id: ilrt
     tables:
@@ -237,6 +249,7 @@ agents:
   # and net incremental volume lift %.
   # -------------------------------------------------------------------------
   trade_spend_effectiveness:
+    display_name: "Merchandising: Trade Spend & Allowance Effectiveness"
     domain: merchandising
     agent_id: tsef
     tables:
@@ -251,6 +264,7 @@ agents:
   # and micro-climate product customization rules.
   # -------------------------------------------------------------------------
   localized_curation_clustering:
+    display_name: "Merchandising: Localized Assortment Clustering"
     domain: merchandising
     agent_id: lccu
     tables:
@@ -269,6 +283,7 @@ agents:
   # variance, and vendor scorecard ratings.
   # -------------------------------------------------------------------------
   vendor_performance:
+    display_name: "Supply Chain: Vendor Performance"
     domain: supply_chain
     agent_id: vepe
     tables:
@@ -283,6 +298,7 @@ agents:
   # forecasting (`AI.FORECAST`), and buffer stock allocation.
   # -------------------------------------------------------------------------
   inventory_planning:
+    display_name: "Supply Chain: Inventory Planning"
     domain: supply_chain
     agent_id: inpl
     tables:
@@ -296,6 +312,7 @@ agents:
   # congestion, and shipment delay exception root causes.
   # -------------------------------------------------------------------------
   logistics_operations:
+    display_name: "Supply Chain: Logistics Operations"
     domain: supply_chain
     agent_id: logi
     tables:
@@ -310,6 +327,7 @@ agents:
   # accuracy %, and storage pallet capacity utilization.
   # -------------------------------------------------------------------------
   warehouse_dc_operations:
+    display_name: "Supply Chain: Warehouse & DC Operations"
     domain: supply_chain
     agent_id: wdco
     tables:
@@ -324,6 +342,7 @@ agents:
   # restock cycle time, and liquidation salvage disposition.
   # -------------------------------------------------------------------------
   returns_reverse_logistics:
+    display_name: "Supply Chain: Returns & Reverse Logistics"
     domain: supply_chain
     agent_id: rlog
     tables:
@@ -338,6 +357,7 @@ agents:
   # and port demurrage/detention penalty avoidance.
   # -------------------------------------------------------------------------
   inbound_freight_optimization:
+    display_name: "Supply Chain: Inbound Freight Optimization"
     domain: supply_chain
     agent_id: ifop
     tables:
@@ -352,6 +372,7 @@ agents:
   # route stop density, and driver fleet efficiency.
   # -------------------------------------------------------------------------
   last_mile_delivery_dispatch:
+    display_name: "Supply Chain: Last-Mile Delivery & Dispatch"
     domain: supply_chain
     agent_id: lmdd
     tables:
@@ -366,6 +387,7 @@ agents:
   # shelf life (RSL), and in-transit spoilage losses.
   # -------------------------------------------------------------------------
   cold_chain_temperature_compliance:
+    display_name: "Supply Chain: Cold Chain Temperature Compliance"
     domain: supply_chain
     agent_id: cctc
     tables:
@@ -380,6 +402,7 @@ agents:
   # store nodes while balancing service level targets vs. holding cost.
   # -------------------------------------------------------------------------
   multi_echelon_safety_stock:
+    display_name: "Supply Chain: Multi-Echelon Safety Stock"
     domain: supply_chain
     agent_id: mess
     tables:
@@ -394,6 +417,7 @@ agents:
   # risk, and supplier financial solvency ratings.
   # -------------------------------------------------------------------------
   supplier_risk_resilience:
+    display_name: "Supply Chain: Supplier Risk & Resilience"
     domain: supply_chain
     agent_id: srre
     tables:
@@ -408,6 +432,7 @@ agents:
   # allocation accuracy, and yard staging bottlenecks.
   # -------------------------------------------------------------------------
   cross_dock_flow_through:
+    display_name: "Supply Chain: Cross-Dock & Flow-Through Velocity"
     domain: supply_chain
     agent_id: cdft
     tables:
@@ -422,6 +447,7 @@ agents:
   # and customs import clearance hold times.
   # -------------------------------------------------------------------------
   customs_import_tariff_compliance:
+    display_name: "Supply Chain: Customs & Import Tariff Compliance"
     domain: supply_chain
     agent_id: citc
     tables:
@@ -436,6 +462,7 @@ agents:
   # per hour (UPH), and preventative maintenance MTBF.
   # -------------------------------------------------------------------------
   dc_automation_robotics_kpis:
+    display_name: "Supply Chain: DC Automation & Robotics KPIs"
     domain: supply_chain
     agent_id: dark
     tables:
@@ -450,6 +477,7 @@ agents:
   # penalties, and void-fill packaging material costs.
   # -------------------------------------------------------------------------
   packaging_dunnage_optimization:
+    display_name: "Supply Chain: Packaging & Dunnage Optimization"
     domain: supply_chain
     agent_id: pdop
     tables:
@@ -468,6 +496,7 @@ agents:
   # and store department overtime budget variances.
   # -------------------------------------------------------------------------
   labor_productivity:
+    display_name: "Store Operations: Labor Productivity"
     domain: store_operations
     agent_id: lprd
     tables:
@@ -482,6 +511,7 @@ agents:
   # pick/pack accuracy %, and fulfillment cancellation rates.
   # -------------------------------------------------------------------------
   store_fulfillment_execution:
+    display_name: "Store Operations: Store Fulfillment & Execution"
     domain: store_operations
     agent_id: sfex
     tables:
@@ -496,6 +526,7 @@ agents:
   # high-risk category losses, and register audit exceptions.
   # -------------------------------------------------------------------------
   loss_prevention_shrinkage:
+    display_name: "Store Operations: Loss Prevention & Shrinkage"
     domain: store_operations
     agent_id: lpsh
     tables:
@@ -510,6 +541,7 @@ agents:
   # and planogram photo audit defect rates.
   # -------------------------------------------------------------------------
   visual_merchandising_compliance:
+    display_name: "Store Operations: Planogram & Visual Merchandising Compliance"
     domain: store_operations
     agent_id: vmco
     tables:
@@ -524,6 +556,7 @@ agents:
   # and HVAC maintenance workorder mean time to repair (MTTR).
   # -------------------------------------------------------------------------
   energy_facilities_maintenance:
+    display_name: "Store Operations: Store Energy & Facilities Maintenance"
     domain: store_operations
     agent_id: efma
     tables:
@@ -538,6 +571,7 @@ agents:
   # rates, and cashier scan speed (items per minute).
   # -------------------------------------------------------------------------
   pos_checkout_queue_analytics:
+    display_name: "Store Operations: POS & Checkout Queue Analytics"
     domain: store_operations
     agent_id: pcqa
     tables:
@@ -552,6 +586,7 @@ agents:
   # and counterfeit bill detection logs.
   # -------------------------------------------------------------------------
   store_cash_management_tills:
+    display_name: "Store Operations: Store Cash Management & Till Balancing"
     domain: store_operations
     agent_id: scmt
     tables:
@@ -566,6 +601,7 @@ agents:
   # restock %, and store-level return fraud patterns.
   # -------------------------------------------------------------------------
   omnichannel_returns_in_store:
+    display_name: "Store Operations: In-Store Omnichannel Returns & BORIS"
     domain: store_operations
     agent_id: oris
     tables:
@@ -580,6 +616,7 @@ agents:
   # action closure speed, and store liability claim dollars.
   # -------------------------------------------------------------------------
   store_safety_incident_management:
+    display_name: "Store Operations: Store Safety & Incident Management"
     domain: store_operations
     agent_id: ssim
     tables:
@@ -594,6 +631,7 @@ agents:
   # acceptance %, and runner dispatch bottlenecks.
   # -------------------------------------------------------------------------
   curbside_pickup_speed_accuracy:
+    display_name: "Store Operations: Curbside Pickup Speed & Accuracy"
     domain: store_operations
     agent_id: cpsa
     tables:
@@ -608,6 +646,7 @@ agents:
   # price tag scan accuracy %, and health inspection readiness.
   # -------------------------------------------------------------------------
   store_manager_operational_audit:
+    display_name: "Store Operations: Store Manager Operational Audits"
     domain: store_operations
     agent_id: smoa
     tables:
@@ -626,6 +665,7 @@ agents:
   # gateway declines, and promo code validation errors.
   # -------------------------------------------------------------------------
   cart_checkout_analytics:
+    display_name: "E-Commerce: Cart & Checkout Analytics"
     domain: e_commerce
     agent_id: ccan
     tables:
@@ -640,6 +680,7 @@ agents:
   # recommendation carousel CTR %, and personalized revenue lift.
   # -------------------------------------------------------------------------
   search_merchandising_personalization:
+    display_name: "E-Commerce: Product Discovery & Analytics"
     domain: e_commerce
     agent_id: smep
     tables:
@@ -654,6 +695,7 @@ agents:
   # 3D Secure friction drop-offs, and fraud scoring false positives.
   # -------------------------------------------------------------------------
   payment_gateway_fraud_risk:
+    display_name: "E-Commerce: Payment Gateway & Fraud Risk"
     domain: e_commerce
     agent_id: pgfr
     tables:
@@ -668,6 +710,7 @@ agents:
   # revenues, catalog sync latency, and seller fulfillment SLAs.
   # -------------------------------------------------------------------------
   marketplace_seller_performance:
+    display_name: "E-Commerce: 3P Marketplace Seller Performance"
     domain: e_commerce
     agent_id: mspe
     tables:
@@ -682,6 +725,7 @@ agents:
   # and in-app crash-free session metrics (99.9%).
   # -------------------------------------------------------------------------
   mobile_app_conversion_retention:
+    display_name: "E-Commerce: Mobile App Conversion & Engagement"
     domain: e_commerce
     agent_id: macr
     tables:
@@ -696,6 +740,7 @@ agents:
   # CDN cache hit ratios, and API 5xx error spikes.
   # -------------------------------------------------------------------------
   digital_site_performance_vitals:
+    display_name: "E-Commerce: Digital Web Performance & Vitals"
     domain: e_commerce
     agent_id: dspv
     tables:
@@ -710,6 +755,7 @@ agents:
   # interactions, size-guide usage, and customer review sentiment.
   # -------------------------------------------------------------------------
   product_detail_page_optimization:
+    display_name: "E-Commerce: PDP Optimization & Media Engagement"
     domain: e_commerce
     agent_id: pdpo
     tables:
@@ -724,6 +770,7 @@ agents:
   # skip/pause retention strategies, and subscriber lifetime value.
   # -------------------------------------------------------------------------
   subscription_recurring_orders:
+    display_name: "E-Commerce: Subscription & Recurring Orders"
     domain: e_commerce
     agent_id: sror
     tables:
@@ -738,6 +785,7 @@ agents:
   # unauthorized affiliate coupon claims, and digital margin leaks.
   # -------------------------------------------------------------------------
   digital_promotions_coupon_abuse:
+    display_name: "E-Commerce: Digital Promo & Coupon Abuse"
     domain: e_commerce
     agent_id: dpca
     tables:
@@ -752,6 +800,7 @@ agents:
   # utilization, and bulk volume tier pricing uptake.
   # -------------------------------------------------------------------------
   b2b_wholesale_portal_analytics:
+    display_name: "E-Commerce: B2B Wholesale Portal Analytics"
     domain: e_commerce
     agent_id: bwpa
     tables:
@@ -766,6 +815,7 @@ agents:
   # technical SEO crawl errors, and WCAG accessibility compliance scores.
   # -------------------------------------------------------------------------
   web_accessibility_seo_health:
+    display_name: "E-Commerce: SEO Health & Web Accessibility"
     domain: e_commerce
     agent_id: wash
     tables:
@@ -784,6 +834,7 @@ agents:
   # customer acquisition cost (CAC), and campaign revenue lift.
   # -------------------------------------------------------------------------
   campaign_performance_roi:
+    display_name: "Marketing: Campaign Performance & ROI"
     domain: marketing
     agent_id: cpro
     tables:
@@ -798,6 +849,7 @@ agents:
   # loyalty tier reward redemptions, and predictive churn risk.
   # -------------------------------------------------------------------------
   customer_lifecycle_loyalty:
+    display_name: "Marketing: Customer Lifecycle & Loyalty"
     domain: marketing
     agent_id: cloy
     tables:
@@ -812,6 +864,7 @@ agents:
   # (CPC/eCPM), and brand advertiser ROAS delivery reports.
   # -------------------------------------------------------------------------
   retail_media_network_monetization:
+    display_name: "Marketing: Retail Media Network & Sponsored Ad Yield"
     domain: marketing
     agent_id: rmnm
     tables:
@@ -826,6 +879,7 @@ agents:
   # and dynamic win-back promo margin costs vs. reactivation lift.
   # -------------------------------------------------------------------------
   customer_churn_winback_analytics:
+    display_name: "Marketing: Churn Prediction & Win-Back Triggers"
     domain: marketing
     agent_id: ccwa
     tables:
@@ -840,6 +894,7 @@ agents:
   # conversions, unsubscribe rates, and domain deliverability health.
   # -------------------------------------------------------------------------
   email_sms_crm_orchestration:
+    display_name: "Marketing: CRM, Email & SMS Campaign Orchestration"
     domain: marketing
     agent_id: esco
     tables:
@@ -854,6 +909,7 @@ agents:
   # promo code sales $, and earned media value (EMV).
   # -------------------------------------------------------------------------
   influencer_creator_campaign_roi:
+    display_name: "Marketing: Influencer & Creator Campaign ROI"
     domain: marketing
     agent_id: iccr
     tables:
@@ -868,6 +924,7 @@ agents:
   # (months), and first-to-second order acceleration velocity.
   # -------------------------------------------------------------------------
   customer_acquisition_cost_cac:
+    display_name: "Marketing: CAC Payback Velocity & Unit Economics"
     domain: marketing
     agent_id: cacc
     tables:
@@ -882,6 +939,7 @@ agents:
   # 3x spending multiplier vs. single-channel, and cross-shopping journeys.
   # -------------------------------------------------------------------------
   omnichannel_customer_cdp_insights:
+    display_name: "Marketing: Omnichannel CDP & Customer Identity"
     domain: marketing
     agent_id: ocdi
     tables:
@@ -896,6 +954,7 @@ agents:
   # from mobile ads, and localized weather-triggered promotions.
   # -------------------------------------------------------------------------
   geotargeted_local_marketing:
+    display_name: "Marketing: Geotargeted & Local Store Marketing"
     domain: marketing
     agent_id: gtlm
     tables:
@@ -910,6 +969,7 @@ agents:
   # (SOV) vs. competitors, and crisis response sentiment recovery.
   # -------------------------------------------------------------------------
   brand_health_social_sentiment:
+    display_name: "Marketing: Brand Health & Social Sentiment"
     domain: marketing
     agent_id: bhss
     tables:
@@ -928,6 +988,7 @@ agents:
   # erosion, and product category margin targets.
   # -------------------------------------------------------------------------
   gross_margin_profitability:
+    display_name: "Finance: Gross Margin & Profitability"
     domain: finance
     agent_id: gmpr
     tables:
@@ -942,6 +1003,7 @@ agents:
   # OpEx variance (labor, occupancy rent, utilities).
   # -------------------------------------------------------------------------
   store_pnl_operating_costs:
+    display_name: "Finance: Store P&L & Operating Costs"
     domain: finance
     agent_id: spnl
     tables:
@@ -956,6 +1018,7 @@ agents:
   # Payable Outstanding (DPO), AR/AP aging, and liquidity cash flow forecasts.
   # -------------------------------------------------------------------------
   working_capital_cashflow:
+    display_name: "Finance: Working Capital & Cash Flow"
     domain: finance
     agent_id: wcap
     tables:
@@ -970,6 +1033,7 @@ agents:
   # rent overage thresholds, and co-tenancy clause triggers.
   # -------------------------------------------------------------------------
   store_real_estate_lease_mgmt:
+    display_name: "Finance: Store Real Estate & Lease Management"
     domain: finance
     agent_id: srel
     tables:
@@ -984,6 +1048,7 @@ agents:
   # and post-remodel sales lift vs. un-remodeled control stores.
   # -------------------------------------------------------------------------
   capex_store_remodel_roi:
+    display_name: "Finance: CAPEX & Store Remodel ROI"
     domain: finance
     agent_id: csrr
     tables:
@@ -998,6 +1063,7 @@ agents:
   # provisions $, shrink accruals, and FIFO vs. standard cost adjustments.
   # -------------------------------------------------------------------------
   inventory_valuation_provisions:
+    display_name: "Finance: Inventory Valuation & LCM Provisions"
     domain: finance
     agent_id: ivpr
     tables:
@@ -1012,6 +1078,7 @@ agents:
   # post-audit pricing discrepancies, and unearned cash discount losses.
   # -------------------------------------------------------------------------
   vendor_recovery_audit_compliance:
+    display_name: "Finance: Vendor Recovery Audit & Overpayments"
     domain: finance
     agent_id: vrac
     tables:
@@ -1026,6 +1093,7 @@ agents:
   # reserves, and reseller exemption certificate expiration dates.
   # -------------------------------------------------------------------------
   sales_tax_nexus_compliance:
+    display_name: "Finance: Sales Tax Nexus & Jurisdictional Filings"
     domain: finance
     agent_id: stnc
     tables:
@@ -1040,6 +1108,7 @@ agents:
   # consolidated EBITDA forecasts, and corporate headcount run rates.
   # -------------------------------------------------------------------------
   corporate_budget_variance_fpna:
+    display_name: "Finance: FP&A Corporate Budget & Variance"
     domain: finance
     agent_id: cbvf
     tables:
@@ -1054,6 +1123,7 @@ agents:
   # decay curves, recognized breakage income, and state escheatment filings.
   # -------------------------------------------------------------------------
   gift_card_breakage_liability:
+    display_name: "Finance: Gift Card Breakage & Liability Accounting"
     domain: finance
     agent_id: gcbl
     tables:
@@ -1068,6 +1138,7 @@ agents:
   # landed cost FX variance $, and hedging contract mark-to-market valuations.
   # -------------------------------------------------------------------------
   foreign_exchange_landed_costs:
+    display_name: "Finance: FX Hedging & Landed Cost Exposure"
     domain: finance
     agent_id: felc
     tables:
@@ -1086,6 +1157,7 @@ agents:
   # Time (AHT), agent occupancy rates, and post-call CSAT ratings.
   # -------------------------------------------------------------------------
   contact_center_agent_performance:
+    display_name: "Customer Care: Contact Center Performance & FCR"
     domain: customer_care
     agent_id: ccap
     tables:
@@ -1100,6 +1172,7 @@ agents:
   # deflection %, and customer appeasement credit costs $.
   # -------------------------------------------------------------------------
   wismo_order_tracking_resolution:
+    display_name: "Customer Care: WISMO & Order Inquiries"
     domain: customer_care
     agent_id: wotr
     tables:
@@ -1114,6 +1187,7 @@ agents:
   # defects, delivery delays), and product complaint trend spikes.
   # -------------------------------------------------------------------------
   voice_of_customer_sentiment_nlp:
+    display_name: "Customer Care: Voice of Customer & NLP Sentiment"
     domain: customer_care
     agent_id: vocs
     tables:
@@ -1128,6 +1202,7 @@ agents:
   # recovery $, and repair center cycle turnaround days.
   # -------------------------------------------------------------------------
   product_warranty_claims_repair:
+    display_name: "Customer Care: Product Warranty & Claims"
     domain: customer_care
     agent_id: pwcr
     tables:
@@ -1142,6 +1217,7 @@ agents:
   # accuracy, and negative sentiment escalation handoffs to human agents.
   # -------------------------------------------------------------------------
   ai_chatbot_deflection_handoff:
+    display_name: "Customer Care: AI Bot Containment & Escalations"
     domain: customer_care
     agent_id: acdh
     tables:
@@ -1156,6 +1232,7 @@ agents:
   # personal shopping sales $, and VIP tier retention rates.
   # -------------------------------------------------------------------------
   vip_clientele_concierge_support:
+    display_name: "Customer Care: VIP & High-CLV Concierge"
     domain: customer_care
     agent_id: vccs
     tables:
@@ -1170,6 +1247,7 @@ agents:
   # costs $, and serial returner abuse detection patterns.
   # -------------------------------------------------------------------------
   returns_appeals_exception_desk:
+    display_name: "Customer Care: Return Exceptions & Appeals"
     domain: customer_care
     agent_id: raed
     tables:
@@ -1184,6 +1262,7 @@ agents:
   # de-escalation rates %, and social direct-message commerce conversions.
   # -------------------------------------------------------------------------
   omnichannel_social_support_desk:
+    display_name: "Customer Care: Social Support & Public Sentiment"
     domain: customer_care
     agent_id: ossd
     tables:
@@ -1198,6 +1277,7 @@ agents:
   # ticket volume, and recurring store software bug pain points.
   # -------------------------------------------------------------------------
   store_associate_support_hotline:
+    display_name: "Customer Care: Store Helpdesk & POS Support"
     domain: customer_care
     agent_id: sash
     tables:
@@ -1212,6 +1292,7 @@ agents:
   # and customer replacement order dispatch velocity.
   # -------------------------------------------------------------------------
   damaged_goods_claims_resolution:
+    display_name: "Customer Care: Damaged Goods Claims & Recovery"
     domain: customer_care
     agent_id: dgcr
     tables:
@@ -1230,6 +1311,7 @@ agents:
   # and exit interview sentiment themes by store district.
   # -------------------------------------------------------------------------
   store_associate_turnover_retention:
+    display_name: "HR: Store Associate Turnover & Retention"
     domain: human_resources
     agent_id: satr
     tables:
@@ -1244,6 +1326,7 @@ agents:
   # clopening penalty avoidance, and shift swap fulfillment rates.
   # -------------------------------------------------------------------------
   workforce_scheduling_fairness:
+    display_name: "HR: Scheduling Fairness & Predictive Hours"
     domain: human_resources
     agent_id: wsfa
     tables:
@@ -1258,6 +1341,7 @@ agents:
   # completion speeds, and time-to-associate-productivity days.
   # -------------------------------------------------------------------------
   training_onboarding_compliance:
+    display_name: "HR: Training & Onboarding Compliance"
     domain: human_resources
     agent_id: tocp
     tables:
@@ -1272,6 +1356,7 @@ agents:
   # (DART), workers' comp claims cost $, and safety audit compliance.
   # -------------------------------------------------------------------------
   workplace_safety_workers_comp:
+    display_name: "HR: Workplace Safety & Workers' Comp"
     domain: human_resources
     agent_id: wswc
     tables:
@@ -1286,6 +1371,7 @@ agents:
   # vacancy duration (days), and internal leadership promotion rates %.
   # -------------------------------------------------------------------------
   store_manager_bench_succession:
+    display_name: "HR: Store Leadership Bench & Succession"
     domain: human_resources
     agent_id: smbs
     tables:
@@ -1300,6 +1386,7 @@ agents:
   # days, and seasonal applicant funnel conversion rates.
   # -------------------------------------------------------------------------
   seasonal_hiring_peak_readiness:
+    display_name: "HR: Seasonal Hiring & Peak Readiness"
     domain: human_resources
     agent_id: shpr
     tables:
@@ -1314,6 +1401,7 @@ agents:
   # manager feedback scores, and associate flight risk indicators.
   # -------------------------------------------------------------------------
   associate_engagement_pulse_enps:
+    display_name: "HR: Associate Pulse & eNPS Analytics"
     domain: human_resources
     agent_id: aepe
     tables:
@@ -1328,6 +1416,7 @@ agents:
   # resolution SLAs, and seniority shift bidding audit compliance.
   # -------------------------------------------------------------------------
   labor_union_compliance_cba:
+    display_name: "HR: Labor Union & CBA Compliance"
     domain: human_resources
     agent_id: lucc
     tables:
@@ -1342,6 +1431,7 @@ agents:
   # increase budget impacts, and store wage compression indexes.
   # -------------------------------------------------------------------------
   frontline_wage_market_benchmarks:
+    display_name: "HR: Frontline Wage & Market Benchmarks"
     domain: human_resources
     agent_id: fwmb
     tables:
@@ -1360,6 +1450,7 @@ agents:
   # (metric tons), progress vs. net-zero targets, and supply chain carbon intensity.
   # -------------------------------------------------------------------------
   carbon_footprint_scope_emissions:
+    display_name: "ESG: Carbon Footprint & Scope Emissions"
     domain: sustainability_compliance
     agent_id: cfse
     tables:
@@ -1374,6 +1465,7 @@ agents:
   # food bank donation volumes (lbs), and landfill composting diversion %.
   # -------------------------------------------------------------------------
   food_waste_spoilage_reduction:
+    display_name: "ESG: Food Waste Reduction & Diversion"
     domain: sustainability_compliance
     agent_id: fwsr
     tables:
@@ -1388,6 +1480,7 @@ agents:
   # elimination milestones, and reusable container cycle turns.
   # -------------------------------------------------------------------------
   sustainable_packaging_circularity:
+    display_name: "ESG: Sustainable Packaging & Circularity"
     domain: sustainability_compliance
     agent_id: spci
     tables:
@@ -1402,6 +1495,7 @@ agents:
   # human rights violations (0), and corrective action plan closure rates.
   # -------------------------------------------------------------------------
   ethical_sourcing_labor_audits:
+    display_name: "ESG: Ethical Sourcing & Labor Audits"
     domain: sustainability_compliance
     agent_id: esla
     tables:
@@ -1416,6 +1510,7 @@ agents:
   # customer notification reach %, and quarantined stock disposition audits.
   # -------------------------------------------------------------------------
   product_safety_recall_readiness:
+    display_name: "ESG: Product Safety & Recall Execution"
     domain: sustainability_compliance
     agent_id: psrr
     tables:
@@ -1430,6 +1525,7 @@ agents:
   # procurement %, and battery storage peak demand charge savings $.
   # -------------------------------------------------------------------------
   energy_renewable_grid_transition:
+    display_name: "ESG: Renewable Energy & Grid Transition"
     domain: sustainability_compliance
     agent_id: ergt
     tables:
@@ -1444,6 +1540,7 @@ agents:
   # recycling efficiency, and high-stress watershed facility risk audits.
   # -------------------------------------------------------------------------
   water_conservation_facility_audit:
+    display_name: "ESG: Water Conservation & Facility Audits"
     domain: sustainability_compliance
     agent_id: wcfa
     tables:
@@ -1458,6 +1555,7 @@ agents:
   # vendor compliance certificate renewals, and hazardous chemical phaseouts.
   # -------------------------------------------------------------------------
   chemical_restricted_substances_rsl:
+    display_name: "ESG: Restricted Substances (RSL) & Chemical Safety"
     domain: sustainability_compliance
     agent_id: crsr
     tables:
@@ -1472,6 +1570,7 @@ agents:
   # as % of total corporate procurement, and vendor incubation programs.
   # -------------------------------------------------------------------------
   dei_supplier_diversity_spend:
+    display_name: "ESG: Supplier Diversity & Equity Spend"
     domain: sustainability_compliance
     agent_id: dsds
     tables:
@@ -1486,6 +1585,7 @@ agents:
   # tonnage, and circular economy garment/electronics resale recovery revenue.
   # -------------------------------------------------------------------------
   extended_producer_responsibility_epr:
+    display_name: "ESG: Extended Producer Responsibility (EPR) & Resale"
     domain: sustainability_compliance
     agent_id: epre
     tables:

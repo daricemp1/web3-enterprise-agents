@@ -151,7 +151,7 @@ def test_canvas_prompt_generalization_and_override():
     
     # Default dynamic template
     dynamic_prompt = f"Create a 4-slide executive presentation summarizing the {agent_clean_title} analysis and recommendations above."
-    assert "Cart Checkout Analytics" in dynamic_prompt
+    assert "Cart & Checkout Analytics" in dynamic_prompt
     assert "4-slide executive presentation" in dynamic_prompt
     
     # Custom override
@@ -172,5 +172,24 @@ def test_user_data_dir_isolation_and_env_override(tmp_path, monkeypatch):
     worker_dir = tmp_path / "worker_1"
     sync_chrome_profile(user_data_dir=worker_dir)
     assert worker_dir.exists()
+
+
+def test_mention_query_formatting_lowercase_no_space():
+    from _shared.scripts.record_agent_demo import get_agent_display_name
+    
+    dname_1 = get_agent_display_name("sell_through_inventory_health", "merchandising")
+    assert dname_1 == "Merchandising: Sell-Through & Inventory Health"
+    clean_1 = dname_1.split(":")[-1].strip()
+    assert clean_1 == "Sell-Through & Inventory Health"
+    mention_1 = f"@{clean_1.lower()}"
+    assert mention_1 == "@sell-through & inventory health"
+    assert " " not in mention_1[:2]  # No space between @ and agent name
+    
+    dname_2 = get_agent_display_name("vendor_negotiation_rebates", "merchandising")
+    assert dname_2 == "Merchandising: Vendor Negotiation & Rebates"
+    clean_2 = dname_2.split(":")[-1].strip()
+    assert clean_2 == "Vendor Negotiation & Rebates"
+    mention_2 = f"@{clean_2.lower()}"
+    assert mention_2 == "@vendor negotiation & rebates"
 
 

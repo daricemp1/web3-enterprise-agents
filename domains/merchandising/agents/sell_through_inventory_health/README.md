@@ -4,6 +4,8 @@
 
 Answers questions about weekly sell-through %, stock turn, aging inventory breakdown, weeks of supply, and markdown risk triggers. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external market trends and retail industry benchmark questions via Google Search grounding.
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/merchandising/sell_through_inventory_health.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/merchandising/sell_through_inventory_health.html)
+
 ---
 
 ## Why This Agent Matters

@@ -102,13 +102,23 @@ def sync_chrome_profile(user_data_dir: Path | None = None):
 
 
 def get_agent_display_name(agent_name: str, domain: str) -> str:
-    """Gets human-readable display name from root_agent.yaml or table_registry.yaml."""
+    """Gets human-readable display name from table_registry.yaml or root_agent.yaml."""
+    registry_file = REPO_ROOT / "_shared" / "table_registry.yaml"
+    if registry_file.exists():
+        try:
+            data = yaml.safe_load(registry_file.read_text(encoding="utf-8"))
+            agent_entry = data.get("agents", {}).get(agent_name, {})
+            if "display_name" in agent_entry:
+                return agent_entry["display_name"].strip()
+        except Exception:
+            pass
+
     root_agent_file = REPO_ROOT / "domains" / domain / "agents" / agent_name / "root_agent.yaml"
     if root_agent_file.exists():
         try:
             data = yaml.safe_load(root_agent_file.read_text(encoding="utf-8"))
             if "display_name" in data:
-                return data["display_name"]
+                return data["display_name"].strip()
         except Exception:
             pass
     return agent_name.replace("_", " ").title()
@@ -415,6 +425,7 @@ async def record_single_agent_demo(
             ]
         )
         
+        await context.grant_permissions(["clipboard-read", "clipboard-write"])
         page = context.pages[0] if context.pages else await context.new_page()
         
         try:
@@ -422,45 +433,90 @@ async def record_single_agent_demo(
             await page.goto(ge_url, wait_until="domcontentloaded", timeout=45000)
             await asyncio.sleep(4.0)
             
-            # --- STEP 1: Focus on main home prompt input box ---
-            print("👉 Step 1: Focusing on main prompt input box...", flush=True)
-            prompt_box = page.locator("div[contenteditable='true']:visible, textarea:visible").first
-            await prompt_box.wait_for(state="visible", timeout=20000)
-            await prompt_box.click()
+            # --- STEP 1: Navigate to 'Agents' tab in the left sidebar ---
+            print("👉 Step 1: Navigating to 'Agents' tab in left sidebar...", flush=True)
+            agents_tab_clicked = False
+            
+            left_elements = await page.locator("a:visible, button:visible, div[role='button']:visible, li:visible").all()
+            for el in left_elements:
+                box = await el.bounding_box()
+                if box and box['x'] < 250:
+                    txt = (await el.text_content() or '').strip()
+                    if (txt == "Agents" or txt.startswith("Agents")) and "new" not in txt.lower() and "designer" not in txt.lower():
+                        print(f"   ✓ Clicking 'Agents' tab in sidebar: '{txt}' at ({box['x']}, {box['y']})...", flush=True)
+                        await el.click()
+                        agents_tab_clicked = True
+                        break
+                        
+            if not agents_tab_clicked:
+                agents_text = page.get_by_text("Agents", exact=True).first
+                if await agents_text.is_visible():
+                    print("   ✓ Clicking 'Agents' via get_by_text(exact=True)...", flush=True)
+                    await agents_text.click()
+                    agents_tab_clicked = True
+
+            assert agents_tab_clicked, "Could not locate 'Agents' tab in left sidebar"
             await asyncio.sleep(action_pause)
 
-            # --- STEP 2: Type @ followed by agent name ---
-            mention_text = f"@{mention_keyword}"
-            print(f"👉 Step 2: Typing mention query \"{mention_text}\" in prompt box...", flush=True)
-            await prompt_box.press_sequentially(mention_text, delay=mention_delay)
-            await asyncio.sleep(1.5)
-
-            # --- STEP 3: Select agent card showing up above the prompt box ---
-            print(f"👉 Step 3: Selecting agent card for '{display_name}' above prompt box...", flush=True)
-            agent_card_selectors = [
-                f"[role='option']:visible:has-text('{agent_clean_title}')",
-                f"[role='option']:visible:has-text('{mention_keyword}')",
-                f"mat-option:visible:has-text('{agent_clean_title}')",
-                f".mention-item:visible:has-text('{agent_clean_title}')",
-                f"[class*='mention']:visible:has-text('{agent_clean_title}')",
-                f"[role='option']:visible"
-            ]
-
-            selected = False
-            for sel in agent_card_selectors:
-                el = page.locator(sel).first
-                if await el.is_visible():
-                    print(f"   ✓ Found agent card above prompt box: {sel}", flush=True)
-                    await el.click()
-                    selected = True
+            # --- STEP 2: Find search input/icon in center of screen & filter by agent name ---
+            print(f"👉 Step 2: Searching for '{agent_clean_title}' in center of screen...", flush=True)
+            search_input = None
+            candidate_inputs = await page.locator("input:visible").all()
+            for inp in candidate_inputs:
+                box = await inp.bounding_box()
+                if box and box['x'] > 250 and box['y'] < 350:
+                    search_input = inp
                     break
+                    
+            if not search_input:
+                center_buttons = await page.locator("button:visible, [role='button']:visible, mat-icon:visible, [aria-label*='Search' i]:visible").all()
+                for btn in center_buttons:
+                    box = await btn.bounding_box()
+                    if box and box['x'] > 250 and box['y'] < 350:
+                        aria = (await btn.get_attribute("aria-label") or "").lower()
+                        txt = (await btn.text_content() or "").lower()
+                        classes = (await btn.get_attribute("class") or "").lower()
+                        if "search" in aria or "search" in txt or "search" in classes or "mat-icon" in classes:
+                            print(f"   ✓ Clicking center search button at ({box['x']}, {box['y']})...", flush=True)
+                            await btn.click()
+                            await asyncio.sleep(1.0)
+                            break
+                search_input = page.locator("input:visible").first
 
-            if not selected:
-                print("   ℹ️ Fallback: Pressing Enter to select agent suggestion.", flush=True)
-                await prompt_box.press("Enter")
+            assert search_input, "Could not find center search input on Agents page"
+            await search_input.click()
+            await asyncio.sleep(0.5)
+            
+            print(f"   ⌨️ Typing search query: \"{agent_clean_title}\"...", flush=True)
+            await search_input.fill("")
+            await search_input.type(agent_clean_title, delay=60 if speed == "normal" else 20)
+            await asyncio.sleep(2.5)
 
+            # --- STEP 3: Click on the single matching agent card below search ---
+            print(f"👉 Step 3: Finding agent card for '{agent_clean_title}'...", flush=True)
+            card_clicked = False
+            
+            card_candidates = await page.locator("[role='button']:visible, mat-card:visible, a:visible, div:visible").all()
+            for el in card_candidates:
+                box = await el.bounding_box()
+                if box and box['x'] > 250 and box['y'] > 180 and box['width'] > 100:
+                    txt = (await el.text_content() or '').strip()
+                    if agent_clean_title in txt:
+                        print(f"   ✓ Found matching agent card at ({box['x']}, {box['y']}): '{txt[:40]}...'. Clicking...", flush=True)
+                        await el.click()
+                        card_clicked = True
+                        break
+
+            if not card_clicked:
+                first_card = page.locator("mat-card:visible, [class*='card']:visible, [role='listitem']:visible").first
+                if await first_card.is_visible():
+                    print("   ✓ Clicking first filtered card result...", flush=True)
+                    await first_card.click()
+                    card_clicked = True
+
+            assert card_clicked, f"Could not click agent card for '{agent_clean_title}'"
             await asyncio.sleep(action_pause)
-            print("   ✓ Agent successfully selected and pinned in prompt box.", flush=True)
+            print(f"   ✓ Dedicated agent chat successfully opened for {display_name}.", flush=True)
 
             # --- STEP 4: Execute 3 prompts sequentially with response sync ---
             print("👉 Step 4: Executing 3 prompts sequentially with response synchronization...", flush=True)
@@ -489,7 +545,7 @@ async def record_single_agent_demo(
                 await asyncio.sleep(0.4)
                 
                 print(f"📤 Submitting Prompt {turn_idx}...", flush=True)
-                send_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").first
+                send_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").last
                 if await send_btn.is_visible():
                     await send_btn.click()
                 else:
@@ -510,14 +566,10 @@ async def record_single_agent_demo(
                 
             print("\n🎉 All 3 agent responses have been received and verified on screen!", flush=True)
             
-            # --- STEP 5: Canvas Presentation Creation & Slide Navigation ---
-            print("\n👉 Step 5: Creating Canvas Presentation & Showcasing Slides...", flush=True)
-            await scroll_to_bottom_prompt_box(page)
-            await activate_canvas_mode(page)
-            
-            presentation_prompt = canvas_prompt or f"Create a 4-slide executive presentation summarizing the {agent_clean_title} analysis and recommendations above."
-            print(f"\n--- Turn 4/4 (Canvas Presentation) ---", flush=True)
-            print(f"💬 Typing Canvas Prompt: \"{presentation_prompt}\"", flush=True)
+            # --- STEP 4b: Turn 4 (Generate 4-Slide Executive Text in Agent Chat) ---
+            presentation_prompt = canvas_prompt or f"Create a 4-slide executive presentation summarizing the {agent_clean_title} analysis, key KPIs, and strategic recommendations."
+            print(f"\n--- Turn 4/4 (Executive Slide Synthesis) ---", flush=True)
+            print(f"💬 Typing Slide Synthesis Prompt: \"{presentation_prompt}\"", flush=True)
             
             await scroll_to_bottom_prompt_box(page)
             input_box = page.locator("div[contenteditable='true']:visible, textarea:visible").last
@@ -531,39 +583,105 @@ async def record_single_agent_demo(
                 await input_box.fill(presentation_prompt)
                 
             await asyncio.sleep(0.8)
-            
-            # Left-click prompt box to maintain active focus
             print("👉 Putting mouse focus on prompt input box...", flush=True)
             await input_box.click()
             await asyncio.sleep(0.4)
             
-            print("📤 Submitting Canvas Presentation Prompt...", flush=True)
-            send_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").first
+            print("📤 Submitting Slide Synthesis Prompt...", flush=True)
+            send_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").last
             if await send_btn.is_visible():
                 await send_btn.click()
             else:
                 await input_box.press("Enter")
-            
-            # Immediately re-focus prompt box during generation so it stays visible
-            await asyncio.sleep(0.8)
-            input_box_after = page.locator("div[contenteditable='true']:visible, textarea:visible").last
-            if await input_box_after.is_visible():
-                try:
-                    await input_box_after.click()
-                except Exception:
-                    pass
-            
-            # Active wait for Canvas presentation generation to finish
-            await wait_for_response_completion(page, turn_index=4, timeout_seconds=150, read_pause=4.0)
-            
-            # Showcase 3-4 slides in Canvas view with 2.5s pacing
+                
+            await wait_for_response_completion(page, turn_index=4, timeout_seconds=120, read_pause=4.0)
+            print("✅ Turn 4 slide content successfully generated by agent.", flush=True)
+
+            # --- STEP 5: Visual Copy Action (Clipboard Capture) ---
+            print("\n👉 Step 5: Finding and clicking Copy button on Turn 4 response...", flush=True)
+            copy_buttons = await page.locator("button[aria-label*='Copy' i]:visible, button:has(mat-icon:has-text('content_copy')):visible, button:has([data-icon*='copy']):visible").all()
+            copied_text = ""
+            if copy_buttons:
+                last_copy_btn = copy_buttons[-1]
+                box = await last_copy_btn.bounding_box()
+                if box:
+                    print(f"   ✓ Clicking Copy button at ({box['x']:.0f}, {box['y']:.0f})...", flush=True)
+                    await page.mouse.move(box['x'] + box['width']/2, box['y'] + box['height']/2, steps=10)
+                    await asyncio.sleep(0.3)
+                    await last_copy_btn.click()
+                    await asyncio.sleep(1.0)
+                    
+            try:
+                copied_text = await page.evaluate("navigator.clipboard.readText()")
+                if copied_text:
+                    print(f"   📋 Successfully read {len(copied_text)} chars from clipboard!", flush=True)
+            except Exception as e:
+                print(f"   ℹ️ Clipboard read fallback note: {e}", flush=True)
+                
+            if not copied_text:
+                response_containers = await page.locator("[class*='response'], [class*='message-content'], [class*='model-turn']").all()
+                if response_containers:
+                    copied_text = (await response_containers[-1].text_content() or "").strip()
+                    print(f"   📋 Extracted {len(copied_text)} chars from response container.", flush=True)
+
+            # --- STEP 6: Transition to 'New chat' ---
+            print("\n👉 Step 6: Clicking 'New chat' on top-left sidebar...", flush=True)
+            new_chat_clicked = False
+            new_chat_elements = await page.locator("a:visible, button:visible, div[role='button']:visible").all()
+            for el in new_chat_elements:
+                box = await el.bounding_box()
+                if box and box['x'] < 250 and box['y'] < 140:
+                    txt = (await el.text_content() or '').strip()
+                    if "new chat" in txt.lower():
+                        print(f"   ✓ Clicking 'New chat' at ({box['x']:.0f}, {box['y']:.0f})...", flush=True)
+                        await page.mouse.move(box['x'] + box['width']/2, box['y'] + box['height']/2, steps=10)
+                        await asyncio.sleep(0.3)
+                        await el.click()
+                        new_chat_clicked = True
+                        break
+                        
+            if not new_chat_clicked:
+                new_chat_btn = page.get_by_text("New chat", exact=False).first
+                if await new_chat_btn.is_visible():
+                    await new_chat_btn.click()
+                    new_chat_clicked = True
+
+            await asyncio.sleep(3.0)
+
+            # --- STEP 7: Select 'Canvas' Mode in Fresh Chat ---
+            print("\n👉 Step 7: Activating 'Canvas' mode via Tools menu in fresh chat...", flush=True)
+            await activate_canvas_mode(page)
+
+            # --- STEP 8: Paste Slide Synthesis & Submit Presentation Prompt ---
+            print("\n👉 Step 8: Pasting slide content and submitting Canvas presentation prompt...", flush=True)
+            canvas_input = page.locator("div[contenteditable='true']:visible, textarea:visible").last
+            await canvas_input.wait_for(state="visible", timeout=15000)
+            await canvas_input.click()
+            await asyncio.sleep(0.5)
+
+            full_canvas_prompt = f"create a 4 slide presentation with below content:\n\n{copied_text}"
+            print(f"   📋 Pasting {len(full_canvas_prompt)} chars into Canvas prompt box...", flush=True)
+            await canvas_input.fill(full_canvas_prompt)
+            await asyncio.sleep(1.5)
+
+            submit_btn = page.locator("button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))").last
+            if await submit_btn.is_visible():
+                await submit_btn.click()
+            else:
+                await canvas_input.press("Enter")
+
+            # Active wait for Canvas presentation generation
+            print("⏳ Waiting for Canvas presentation to generate...", flush=True)
+            await wait_for_response_completion(page, turn_index=2, timeout_seconds=150, read_pause=5.0)
+
+            # --- STEP 9: Showcase 4 Slides in Canvas View via Bottom Thumbnail Rail ---
             await showcase_canvas_presentation(page, num_slides=4, slide_pause=2.5, resolution=resolution)
-            
+
             print("\n🎉 Multi-turn responses and Canvas presentation completed on screen!", flush=True)
-            
-            # --- STEP 6: Mouse scroll walkthrough from top to bottom (side-by-side) ---
+
+            # --- STEP 10: Mouse scroll walkthrough of conversation and Canvas artifact ---
             await smooth_mouse_scroll_walkthrough(page, resolution=resolution)
-            
+
             print("\n🏁 Finalizing video recording session...", flush=True)
             await asyncio.sleep(2.0)
             
