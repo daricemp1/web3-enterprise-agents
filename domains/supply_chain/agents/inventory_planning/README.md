@@ -2,6 +2,8 @@
 
 **Domain:** Supply Chain · **Gemini Enterprise display name:** Supply Chain: Inventory Planning
 
+> 🎬 **Interactive Multi-Turn Demo:** Watch this agent in action with multi-turn analytics, market grounding, live visual charting, and executive presentation synthesis: **[View Full HD Interactive Demo](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/inventory_planning.html)**
+
 Answers questions about network-wide inventory position across stores and warehouses, and stockout/overstock risk via live demand forecasting. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools (`AI.FORECAST`), and **Market Context**, which answers external questions via Google Search grounding.
 
 ---
@@ -90,6 +92,14 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 **Generated Artifact:**  
 ![Sample Chart](sample_chart.png)
+
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+> 🎬 **Watch the full high-definition video walkthrough of this multi-turn workflow:**  
+> **[Open Interactive Demo Player (1080p Full HD)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/inventory_planning.html)**  
+> *(Video file: `demos/gemini-enterprise/supply_chain/inventory_planning.mp4`)*
 
 ---
 

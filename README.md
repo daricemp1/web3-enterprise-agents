@@ -48,9 +48,9 @@ local-only design spec — see [Architecture](#architecture).
 
 | No. | Gemini Enterprise Agent | Demo | Focus of Agent |
 | :--- | :--- | :---: | :--- |
-| 1 | [Vendor Performance](domains/supply_chain/agents/vendor_performance/README.md) | — | OTIF delivery, vendor scorecards |
-| 2 | [Inventory Planning](domains/supply_chain/agents/inventory_planning/README.md) | — | Network-wide inventory position across stores and warehouses, live demand forecasting |
-| 3 | [Logistics Operations](domains/supply_chain/agents/logistics_operations/README.md) | — | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
+| 1 | [Vendor Performance](domains/supply_chain/agents/vendor_performance/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/vendor_performance.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | OTIF delivery, vendor scorecards |
+| 2 | [Inventory Planning](domains/supply_chain/agents/inventory_planning/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/inventory_planning.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Network-wide inventory position across stores and warehouses, live demand forecasting |
+| 3 | [Logistics Operations](domains/supply_chain/agents/logistics_operations/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/logistics_operations.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
 | 4 | [Warehouse & DC Operations](domains/supply_chain/agents/warehouse_dc_operations/README.md) | — | Daily DC inbound/outbound shipment throughput, dock turn times, dock-to-stock hours, pick/pack accuracy %, storage pallet capacity utilization |
 | 5 | [Returns & Reverse Logistics](domains/supply_chain/agents/returns_reverse_logistics/README.md) | — | Store/channel return rates (%), return reason breakdowns, restock turnaround days, reverse disposition value recovery |
 | 6 | [Inbound Freight Optimization](domains/supply_chain/agents/inbound_freight_optimization/README.md) | — | Inbound freight cost per hundredweight ($/CWT), ocean container dwell days, demurrage penalty avoidance, inbound on-time transit rate |
