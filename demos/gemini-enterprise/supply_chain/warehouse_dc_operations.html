@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supply Chain: Logistics Operations — Gemini Enterprise Demo Walkthrough</title>
+  <title>Supply Chain: Warehouse & DC Operations — Gemini Enterprise Demo Walkthrough</title>
   <style>
     :root {
       --bg-primary: #0f172a;
@@ -198,15 +198,15 @@
         <span class="badge">Supply Chain & Logistics Domain</span>
         <span class="badge">Gemini Enterprise</span>
       </div>
-      <h1>🚚 Supply Chain: Logistics Operations</h1>
+      <h1>🚚 Supply Chain: Warehouse & DC Operations</h1>
       <p class="subtitle">
-        Answers questions about freight carrier performance, transit lane delays, shipment status tracking, and logistics freight costs. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
+        Answers questions about distribution center daily throughput, dock turn times, pick/pack accuracy %, and storage capacity utilization. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
       </p>
     </header>
 
     <div class="video-wrapper">
       <video controls autoplay muted playsinline preload="auto">
-        <source src="logistics_operations.mp4" type="video/mp4">
+        <source src="warehouse_dc_operations.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
     </div>
@@ -233,15 +233,15 @@
     <div class="turns-section">
       <h2>📋 Multi-Turn Conversation Flow</h2>
       <ul class="turn-list">
-        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"What is the on-time delivery rate and average transit delay by carrier over the last 30 days?"</em> — Synthesizes internal BigQuery conversational analytics query and computes KPI summary.</li>
-        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"What are typical carrier on-time transit performance benchmarks in freight logistics?"</em> — Grounds analysis against external retail benchmarks and industry context.</li>
-        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"Plot a horizontal bar chart of transit lane on-time delivery percentages vs our 90% SLA target."</em> — Generates and renders a custom chart visualization artifact inline.</li>
-        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create a 4-slide executive presentation summarizing the Logistics Operations analysis and recommendations above."</em> — Automatically creates a 4-slide deck and showcases each slide via the bottom thumbnail rail.</li>
+        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"What is our DC inbound throughput, dock-to-stock time, and storage capacity utilization across facilities?"</em> — Synthesizes internal BigQuery conversational analytics query and computes KPI summary.</li>
+        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"What are standard warehouse dock-to-stock and order-picking accuracy benchmarks?"</em> — Grounds analysis against external retail benchmarks and industry context.</li>
+        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"Render a bar chart comparing daily inbound vs outbound unit throughput across distribution centers."</em> — Generates and renders a custom chart visualization artifact inline.</li>
+        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create a 4-slide executive presentation summarizing the Warehouse & DC Operations analysis and recommendations above."</em> — Automatically creates a 4-slide deck and showcases each slide via the bottom thumbnail rail.</li>
       </ul>
     </div>
 
     <footer>
-      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/supply_chain/agents/logistics_operations" target="_blank" rel="noopener noreferrer">
+      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/supply_chain/agents/warehouse_dc_operations" target="_blank" rel="noopener noreferrer">
         ← View Agent Code & Documentation on GitHub
       </a>
       <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents" target="_blank" rel="noopener noreferrer">
