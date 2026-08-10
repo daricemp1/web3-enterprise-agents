@@ -2,6 +2,8 @@
 
 **Domain:** E-Commerce · **Gemini Enterprise display name:** E-Commerce: Cart & Checkout Analytics
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/e_commerce/cart_checkout_analytics.html)
+
 Answers questions about digital checkout funnel conversion rates, cart abandonment stages and revenue loss, payment gateway decline exceptions, promo code validation failures, and e-commerce checkout benchmarks. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---
