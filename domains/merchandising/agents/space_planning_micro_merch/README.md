@@ -81,6 +81,16 @@ All tables reside in the `retail_ent_agents` BigQuery dataset:
 
 ---
 
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+An authentic multi-turn interactive session recorded live in Gemini Enterprise demonstrating dedicated agent invocation, BigQuery conversational analytics, Google Search market grounding, visual chart artifact generation, and executive Canvas presentation synthesis:
+
+> ### 🎬 <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/space_planning_micro_merch.html" target="_blank" rel="noopener noreferrer">▶️ Launch 1080p Video Player (`space_planning_micro_merch.html`) ↗</a>
+> **Walkthrough:** 1080p Full HD MP4 · **Format:** H.264 MP4 + HTML5 Player · [Direct MP4 Link](../../../../demos/gemini-enterprise/merchandising/space_planning_micro_merch.mp4)  
+> *(Opens the dedicated HTML5 web player in a new tab with Play/Pause, Seekbar, Speed & Fullscreen controls)*
+
+---
+
 ## How to Run & Test
 
 ```bash

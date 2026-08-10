@@ -46,8 +46,6 @@ Mixed questions go to both, with the answer clearly attributing which part came 
 
 ## Sample Q&A Showcase
 
-> 🎬 **Interactive Video Walkthrough:** <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/pricing_promotions.html" target="_blank" rel="noopener noreferrer">Watch 1080p Web Player Demo ↗</a>
-
 The following three responses are captured from live post-deploy smoke tests of this agent:
 
 ### 1. Internal Data Analytics (Data Insights / BigQuery)
@@ -96,6 +94,17 @@ The following three responses are captured from live post-deploy smoke tests of 
 
 **Generated Artifact:**  
 ![Sample Chart](sample_chart.png)
+
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+An authentic multi-turn interactive session recorded live in Gemini Enterprise demonstrating dedicated agent invocation, BigQuery conversational analytics, Google Search market grounding, visual chart artifact generation, and executive Canvas presentation synthesis:
+
+> ### 🎬 <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/pricing_promotions.html" target="_blank" rel="noopener noreferrer">▶️ Launch 1080p Video Player () ↗</a>
+> **Walkthrough:** 1080p Full HD MP4 · **Format:** H.264 MP4 + HTML5 Player · [Direct MP4 Link](../../../../demos/gemini-enterprise/merchandising/pricing_promotions.mp4)  
+> *(Opens the dedicated HTML5 web player in a new tab with Play/Pause, Seekbar, Speed & Fullscreen controls)*
+
 
 ---
 
