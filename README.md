@@ -220,20 +220,38 @@ All one hundred agents are fully deployed to Vertex AI Agent Engine (`us-central
 
 ## Architecture
 
-Three levels, each with one job:
+> 📐 **Comprehensive Architecture Reference**: For complete codebase topology (726 nodes, 711 edges), BigQuery data lineages, `_shared/` automation pipelines, and SQLite query recipes, see [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-- **Domain** (`merchandising`, `supply_chain`, ...) — a folder and an ownership boundary. Nothing
-  runs at this level.
-- **Logical agent** (`assortment_planning`, ...) — the unit of deployment. Each one is packaged,
-  deployed to its own Agent Engine resource, and registered independently in Gemini Enterprise —
-  a business user picks "Assortment Planning," not a domain-level router.
-- **Inside a logical agent** — a thin orchestrator `LlmAgent` delegates to two sub-agents: **Data
-  Insights**, which answers questions from BigQuery via the Conversational Analytics API, and
-  **Market Context**, which answers external questions via Google Search grounding.
+```mermaid
+graph TD
+    User["Retail Executive / Category Planner"] -->|Natural Language Prompt| GE["Gemini Enterprise Assistant"]
+    GE -->|Routes to Agent| Root["Root Orchestrator LlmAgent<br/>(gemini-3.5-flash)"]
+    
+    Root -->|Lifecycle Callback| CB1["tools.callbacks.set_current_date"]
+    
+    Root -->|Internal Business Data| DI["Data Insights Sub-Agent<br/>(BigQuery CA API)"]
+    Root -->|External Market Intel| MC["Market Context Sub-Agent<br/>(Google Search Grounding)"]
+    
+    DI -->|Lifecycle Callback| CB2["tools.callbacks.set_bigquery_project"]
+    DI -->|NL to SQL & Analytics| BQCA["BigQuery CA Toolset<br/>(ask_data_insights, forecast, detect_anomalies)"]
+    DI -->|Visualization Request| CG["Chart Generator<br/>(render_chart -> PNG)"]
+    
+    BQCA -->|Authorized Table Queries| BQ[("BigQuery Dataset<br/>retail_ent_agents")]
+    MC -->|Real-time Web Grounding| GS["Google Search Engine"]
+    
+    DI -->|Quantitative Data Synthesis| Root
+    MC -->|Competitive Context| Root
+    Root -->|Combined Grounded Response| GE
+    GE -->|Two-Stage Canvas Presentation| Canvas["Interactive 4-Slide Presentation Deck"]
+```
 
-Every logical agent is generated from the same template (`_shared/templates/logical_agent/`) by
-`_shared/scripts/scaffold_logical_agent.py`, so structure and conventions stay identical across
-agents even as the business content differs.
+### 3-Tier Enterprise Architecture:
+
+- **Domain Layer (9 Strategic Domains)** — ownership and business boundaries (`merchandising`, `supply_chain`, `store_operations`, `e_commerce`, `marketing`, `finance`, `customer_care`, `human_resources`, `sustainability_compliance`).
+- **Logical Agent Layer (100 Agents)** — the unit of deployment. Each agent is packaged, deployed to Vertex AI Agent Engine (`us-central1`), and registered independently in Gemini Enterprise.
+- **Sub-Agent Execution Layer** — a thin orchestrator `LlmAgent` delegates between **Data Insights** (BigQuery NL-to-SQL + CA API) and **Market Context** (Google Search grounding).
+
+Every logical agent is generated from the shared template (`_shared/templates/logical_agent/`) by `_shared/scripts/scaffold_logical_agent.py`, guaranteeing structural and behavioral consistency across all 100 agents.
 
 ### Models, Agents, Runtimes and Apps
 
