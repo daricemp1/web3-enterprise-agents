@@ -2,6 +2,8 @@
 
 **Domain:** Store Operations · **Gemini Enterprise display name:** Store Operations: Store Fulfillment & Execution
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/store_operations/store_fulfillment_execution.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/store_operations/store_fulfillment_execution.html)
+
 Answers questions about Buy Online Pick Up In Store (BOPIS) order processing, curbside wait time analytics, pick accuracy tracking, and omnichannel fulfillment performance. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---

@@ -2,6 +2,8 @@
 
 **Domain:** Store Operations · **Gemini Enterprise display name:** Store Operations: Loss Prevention & Shrinkage
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/store_operations/loss_prevention_shrinkage.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/store_operations/loss_prevention_shrinkage.html)
+
 Answers questions about store-level inventory shrinkage %, shrink dollar losses by root cause, high-risk product category losses, and register POS audit exception anomalies. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---
