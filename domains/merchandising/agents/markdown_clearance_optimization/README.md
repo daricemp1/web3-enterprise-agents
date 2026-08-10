@@ -2,6 +2,8 @@
 
 **Domain:** Merchandising · **Gemini Enterprise display name:** Merchandising: Markdown & Clearance Optimization
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/merchandising/markdown_clearance_optimization.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/merchandising/markdown_clearance_optimization.html)
+
 ---
 
 ## Why This Agent Matters
