@@ -2,6 +2,8 @@
 
 An enterprise AI agent for **Merchandising: Space Planning & Micro-Merchandising**, built with Google ADK for Gemini Enterprise.
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/merchandising/space_planning_micro_merch.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/merchandising/space_planning_micro_merch.html)
+
 ---
 
 ## Why This Agent Matters

@@ -2,6 +2,8 @@
 
 **Domain:** Merchandising · **Gemini Enterprise display name:** Merchandising: Price Matching & Competitor Intel
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/merchandising/price_matching_competitor_intel.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/merchandising/price_matching_competitor_intel.html)
+
 ---
 
 ## Why This Agent Matters
