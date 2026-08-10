@@ -2,6 +2,8 @@
 
 **Domain:** Finance · **Gemini Enterprise display name:** Finance: Working Capital & Cash Flow
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/finance/working_capital_cashflow.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/finance/working_capital_cashflow.html)
+
 Answers questions about cash conversion cycle (CCC, DSO, DIO, DPO), accounts receivable aging, bad debt risk, accounts payable aging, early payment discount opportunities, and 30-day liquidity cash flow forecasts. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---

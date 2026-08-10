@@ -2,6 +2,8 @@
 
 **Domain:** E-Commerce · **Gemini Enterprise display name:** E-Commerce: Product Discovery & Analytics
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/e_commerce/search_merchandising_personalization.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/e_commerce/search_merchandising_personalization.html)
+
 ---
 
 ## Why This Agent Matters
