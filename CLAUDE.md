@@ -194,9 +194,9 @@ deployment/{dev,prod}.yaml           # real values, gitignored like .env — cop
 ### One-Time Prerequisites & Setup
 1. **Python & `uv`**: Python >=3.10. Run `uv sync`. Always execute commands with `uv run --frozen` (e.g. `uv run --frozen pytest tests/tooling -v`) to avoid corporate package index proxy re-resolution errors.
 2. **`google-agents-cli` >= 1.2.1**: Pinned tool version required for Gemini Enterprise registration (`--registration-type adk`). Upgrade via `uv tool upgrade google-agents-cli`.
-3. **`gcloud` PATH Export**: `agents-cli` calls `gcloud` under the hood. Ensure `gcloud` is in `PATH`:
-   `export PATH=$PATH:$HOME/Dev/google-cloud-sdk/bin`
-4. **One-Time GCP API Enablement**:
+3. **`gcloud` PATH Export**: `agents-cli` calls `gcloud` under the hood. Ensure `gcloud` is exported in `PATH` (e.g. `export PATH=$PATH:$HOME/google-cloud-sdk/bin`).
+4. **FFmpeg & Google Chrome**: Required for `record_agent_demo.py` Playwright session capture and 1080p MP4 transcoding (`sudo apt-get install ffmpeg` or `brew install ffmpeg`).
+5. **One-Time GCP API Enablement**:
    ```bash
    gcloud services enable \
        geminidataanalytics.googleapis.com \

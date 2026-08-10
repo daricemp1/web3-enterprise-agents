@@ -378,41 +378,37 @@ retail-enterprise-agents/
 One-time machine setup, in the order it actually needs to happen:
 
 1. **Install prerequisites**, if you don't already have them:
-   - Git
-   - Python 3.10+
-   - [`uv`](https://docs.astral.sh/uv/getting-started/installation/) — the Python package/env
-     manager this repo standardizes on
-   - Node.js 18+ and `npm` (only needed for step 4, restoring this repo's agent skills)
-   - [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) (`gcloud`, which bundles `bq`)
+   - **Git**
+   - **Python 3.10+**
+   - [`uv`](https://docs.astral.sh/uv/getting-started/installation/) — the Python package/env manager this repo standardizes on (`uv run --frozen` recommended)
+   - [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) (`gcloud`, which bundles `bq`). Ensure `gcloud` is exported in `$PATH` (e.g. `export PATH=$PATH:$HOME/google-cloud-sdk/bin`).
+   - **FFmpeg** (required for `record_agent_demo.py` 1080p MP4 transcoding — `sudo apt-get install ffmpeg` or `brew install ffmpeg`)
+   - **Google Chrome** (required for Playwright demo video capture with authenticated Gemini Enterprise sessions)
+   - **Node.js 18+ and `npm`** (only needed for step 4, restoring this repo's agent skills)
 
 2. **Clone the repo and `cd` into it.**
 
-3. **Sync Python dependencies.** This also installs the `adk` CLI, since `google-adk` is a
-   declared project dependency — no separate ADK install step exists or is needed.
+3. **Sync Python dependencies.** This also installs the `adk` CLI, since `google-adk` is a declared project dependency — no separate ADK install step exists or is needed.
 
    ```bash
    uv sync
-   uv run adk --help   # verify: should print ADK's subcommands (run, web, eval, deploy, ...)
+   uv run --frozen adk --help   # verify: should print ADK's subcommands (run, web, eval, deploy, ...)
    ```
 
-4. **Restore this repo's agent skills.** `.agents/skills/` is gitignored (machine-local), but
-   the exact skill set is pinned in the committed `skills-lock.json` and reproducible from it:
+4. **Restore this repo's agent skills.** `.agents/skills/` is gitignored (machine-local), but the exact skill set is pinned in the committed `skills-lock.json` and reproducible from it:
 
    ```bash
    npx skills experimental_install
    ```
 
-5. **Install the `agents-cli` tool** — used for `agents-cli publish gemini-enterprise`
-   (registering a deployed agent with Gemini Enterprise) and the `.agents/skills/google-agents-cli-*`
-   skill set:
+5. **Install the `agents-cli` tool (`>= 1.2.1`)** — used for `agents-cli publish gemini-enterprise` (registering a deployed agent with Gemini Enterprise):
 
    ```bash
-   uv tool install google-agents-cli
+   uv tool install "google-agents-cli>=1.2.1"
    agents-cli --version   # verify
    ```
 
-6. **Authenticate with Google Cloud** — two separate credentials for two separate purposes, both
-   needed:
+6. **Authenticate with Google Cloud & Enable Required APIs** — two separate credentials for two separate purposes, both needed:
 
    ```bash
    gcloud auth login                            # your own identity, for gcloud/bq CLI commands
@@ -420,11 +416,17 @@ One-time machine setup, in the order it actually needs to happen:
                                                  # agents' own code (google.auth.default()),
                                                  # `uv run adk run`, and tests/integration use
    gcloud config set project <YOUR_DEV_PROJECT_ID>   # ask a maintainer for the dev project id
+
+   # One-time API enablement on the project:
+   gcloud services enable \
+       geminidataanalytics.googleapis.com \
+       aiplatform.googleapis.com \
+       discoveryengine.googleapis.com \
+       bigquery.googleapis.com \
+       --project <YOUR_DEV_PROJECT_ID>
    ```
 
-After these six steps, `uv run pytest tests/tooling -v` and `uv run adk run
-domains/<domain>/agents/<agent>` both work locally. See [Commands
-Reference](#commands-reference) below for the day-to-day command reference once you're set up.
+After these six steps, `uv run --frozen pytest tests/tooling -v` and `uv run --frozen adk run domains/<domain>/agents/<agent>` both work locally. See [Commands Reference](#commands-reference) below for the day-to-day command reference once you're set up.
 
 ---
 
@@ -433,14 +435,15 @@ Reference](#commands-reference) below for the day-to-day command reference once 
 | Task | Command |
 | :--- | :--- |
 | Install/sync dependencies | `uv sync` |
-| Run the tooling test suite | `uv run pytest tests/tooling -v` |
-| Run a local agent | `uv run adk run domains/<domain>/agents/<agent>` |
-| Browse all agents in a domain | `uv run adk web domains/<domain>/agents` |
-| Scaffold a new logical agent | `uv run python _shared/scripts/scaffold_logical_agent.py --domain <domain> --name <snake_case_name> --display-name "<Human Readable Name>"` |
-| Load an agent's seed data into BigQuery | `uv run python _shared/scripts/load_agent_data.py --domain <domain> --name <agent> --project <dev_project_id> --dataset retail_ent_agents` |
-| Grant an agent's service account table-level access | `uv run python _shared/scripts/grant_table_access.py --project <dev_project_id> --dataset retail_ent_agents --service-account <sa_email> --table <table> [--table <table> ...]` |
-| Record an agent interactive demo video | `uv run python _shared/scripts/record_agent_demo.py --domain <domain> --name <agent> --speed normal --format mp4` |
-| Record all agent demos in a domain | `uv run python _shared/scripts/record_agent_demo.py --domain <domain> --all` |
+| Run the tooling test suite | `uv run --frozen pytest tests/tooling -v` |
+| Run a local agent | `uv run --frozen adk run domains/<domain>/agents/<agent>` |
+| Browse all agents in a domain | `uv run --frozen adk web domains/<domain>/agents` |
+| Scaffold a new logical agent | `uv run --frozen python _shared/scripts/scaffold_logical_agent.py --domain <domain> --name <snake_case_name> --display-name "<Human Readable Name>"` |
+| Load an agent's seed data into BigQuery | `uv run --frozen python _shared/scripts/load_agent_data.py --domain <domain> --name <agent> --project <dev_project_id> --dataset retail_ent_agents` |
+| Grant an agent's service account table-level access | `uv run --frozen python _shared/scripts/grant_table_access.py --project <dev_project_id> --dataset retail_ent_agents --service-account <sa_email> --table <table> [--table <table> ...]` |
+| Record an agent interactive demo video | `uv run --frozen python _shared/scripts/record_agent_demo.py --domain <domain> --name <agent> --speed normal --format mp4` |
+| Record all agent demos in a domain | `uv run --frozen python _shared/scripts/record_agent_demo.py --domain <domain> --all` |
+| Generate architecture AST & SQLite graph | `uv run --frozen python _shared/scripts/graphify.py` |
 
 After scaffolding, fill in the `# TODO(scaffold):` markers in `root_agent.yaml` and
 `sub_agents/data_insights.yaml` (routing guidance and authorized BigQuery tables), register the
