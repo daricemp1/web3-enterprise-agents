@@ -138,8 +138,8 @@ local-only design spec — see [Architecture](#architecture).
 
 | No. | Gemini Enterprise Agent | Demo | Focus of Agent |
 | :--- | :--- | :---: | :--- |
-| 1 | [Gross Margin & Profitability](domains/finance/agents/gross_margin_profitability/README.md) | — | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
-| 2 | [Store P&L & Operating Costs](domains/finance/agents/store_pnl_operating_costs/README.md) | — | Store-level P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, profitability targets |
+| 1 | [Gross Margin & Profitability](domains/finance/agents/gross_margin_profitability/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/finance/gross_margin_profitability.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
+| 2 | [Store P&L & Operating Costs](domains/finance/agents/store_pnl_operating_costs/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/finance/store_pnl_operating_costs.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Store-level P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, profitability targets |
 | 3 | [Working Capital & Cash Flow](domains/finance/agents/working_capital_cashflow/README.md) | — | Cash Conversion Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, liquidity forecasts |
 | 4 | [Store Real Estate & Lease Management](domains/finance/agents/store_real_estate_lease_mgmt/README.md) | — | Store lease terms, occupancy cost ratios (% of sales), percentage rent breakpoints, co-tenancy clause violations |
 | 5 | [CAPEX & Store Remodel ROI](domains/finance/agents/capex_store_remodel_roi/README.md) | — | Store remodel CapEx budget variance, Internal Rate of Return (IRR %), post-remodel sales lift vs. un-remodeled control stores |

@@ -2,6 +2,8 @@
 
 **Domain:** Finance · **Gemini Enterprise display name:** Finance: Gross Margin & Profitability
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/finance/gross_margin_profitability.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/finance/gross_margin_profitability.html)
+
 Answers questions about product/SKU gross margins, promotional markdown impact on net margins, category margin target vs. actual variances, and retail industry gross margin benchmarks. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---

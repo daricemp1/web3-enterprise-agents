@@ -2,6 +2,8 @@
 
 **Domain:** Finance · **Gemini Enterprise display name:** Finance: Store P&L & Operating Costs
 
+> 🎬 **Demo Video & Interactive Player**: [Full HD Walkthrough MP4](../../../../demos/gemini-enterprise/finance/store_pnl_operating_costs.mp4) · [Interactive HTML Demo Player](../../../../demos/gemini-enterprise/finance/store_pnl_operating_costs.html)
+
 Answers questions about store-level P&L performance, operating cost category variances, labor and rent cost comparisons across store locations, and retail industry operating margin benchmarks. Orchestrates two sub-agents: **Data Insights**, which queries BigQuery via the Conversational Analytics API and BigQuery's built-in forecasting/contribution/anomaly-detection tools, and **Market Context**, which answers external questions via Google Search grounding.
 
 ---
