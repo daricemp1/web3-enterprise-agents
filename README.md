@@ -21,22 +21,22 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Assortment planning, pricing elasticity, promotional cadence, markdowns, vendor rebates, competitor intel, space planning, private brand, seasonal transitions, category strategy, size/pack optimization, SKU lifecycle, trade spend, and localized assortment.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`assortment_planning`](domains/merchandising/agents/assortment_planning/README.md)<br/><br/><a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/assortment_planning.html" target="_blank" rel="noopener noreferrer">🎬 Demo ↗</a> | Merchandising: Assortment Planning | Product mix, category/SKU performance, assortment width vs. plan |
-| 2 | [`pricing_promotions`](domains/merchandising/agents/pricing_promotions/README.md)<br/><br/><a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/pricing_promotions.html" target="_blank" rel="noopener noreferrer">🎬 Demo ↗</a> | Merchandising: Pricing & Promotions | Price elasticity, promo effectiveness, markdown cadence |
-| 3 | [`sell_through_inventory_health`](domains/merchandising/agents/sell_through_inventory_health/README.md)<br/><br/><a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/sell_through_inventory_health.html" target="_blank" rel="noopener noreferrer">🎬 Demo ↗</a> | Merchandising: Sell-Through & Inventory Health | Store-level sell-through rates, stock turn, aging inventory breakdown, weeks of supply, markdown triggers |
-| 4 | [`vendor_negotiation_rebates`](domains/merchandising/agents/vendor_negotiation_rebates/README.md)<br/><br/><a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/vendor_negotiation_rebates.html" target="_blank" rel="noopener noreferrer">🎬 Demo ↗</a> | Merchandising: Vendor Negotiation & Rebates | Volume rebate agreement thresholds, YTD spend rebate tier progress, co-op marketing fund commitments/claims, vendor payment terms, net rebate realization % |
-| 5 | [`markdown_clearance_optimization`](domains/merchandising/agents/markdown_clearance_optimization/README.md) | Merchandising: Markdown & Clearance Optimization | End-of-season clearance discount depth, clearance sell-through %, markdown budget spend, salvage recovery |
-| 6 | [`price_matching_competitor_intel`](domains/merchandising/agents/price_matching_competitor_intel/README.md) | Merchandising: Price Matching & Competitor Intel | Competitor price gap %, market price index parity (100 baseline), POS price match claims, competitor stock alerts |
-| 7 | [`space_planning_micro_merch`](domains/merchandising/agents/space_planning_micro_merch/README.md) | Merchandising: Space Planning & Micro-Merchandising | Linear shelf space elasticity, planogram compliance %, fixture capacity utilization, eye-level shelf share |
-| 8 | [`private_brand_development`](domains/merchandising/agents/private_brand_development/README.md) | Merchandising: Private Brand Development | Private label volume penetration %, gross margin premium over national brands (bps), co-packer COGS variance |
-| 9 | [`seasonal_transition_planning`](domains/merchandising/agents/seasonal_transition_planning/README.md) | Merchandising: Seasonal Transition Planning | Planned sell-in vs actual sell-through curves, transition milestone adherence, weather demand indexing, salvage risk |
-| 10 | [`category_growth_strategy`](domains/merchandising/agents/category_growth_strategy/README.md) | Merchandising: Category Growth Strategy | Chain market share vs TAM, YoY share change (bps), category roles (Destination/Routine), whitespace growth opportunities |
-| 11 | [`size_pack_optimization`](domains/merchandising/agents/size_pack_optimization/README.md) | Merchandising: Size & Case Pack Optimization | Broken size run stockouts %, regional body size curve skews, master case pack replenishment multiple alignment |
-| 12 | [`item_lifecycle_rationalization`](domains/merchandising/agents/item_lifecycle_rationalization/README.md) | Merchandising: Item Lifecycle & SKU Rationalization | New item launch velocity curves (wks 1-12), SKU cannibalization rates %, tail delisting triggers, liquidation recovery |
-| 13 | [`trade_spend_effectiveness`](domains/merchandising/agents/trade_spend_effectiveness/README.md) | Merchandising: Trade Spend & Allowance Effectiveness | Vendor trade promotion net ROI (%), POS scan allowance audit variances, incremental volume lift %, cannibalization costs |
-| 14 | [`localized_curation_clustering`](domains/merchandising/agents/localized_curation_clustering/README.md) | Merchandising: Localized Assortment Clustering | Demographic store clustering, local artisan vendor revenue share %, regional taste affinity index, cluster assortment rules |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Assortment Planning](domains/merchandising/agents/assortment_planning/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/assortment_planning.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Product mix, category/SKU performance, assortment width vs. plan |
+| 2 | [Pricing & Promotions](domains/merchandising/agents/pricing_promotions/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/pricing_promotions.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Price elasticity, promo effectiveness, markdown cadence |
+| 3 | [Sell-Through & Inventory Health](domains/merchandising/agents/sell_through_inventory_health/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/sell_through_inventory_health.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Store-level sell-through rates, stock turn, aging inventory breakdown, weeks of supply, markdown triggers |
+| 4 | [Vendor Negotiation & Rebates](domains/merchandising/agents/vendor_negotiation_rebates/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/merchandising/vendor_negotiation_rebates.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Volume rebate agreement thresholds, YTD spend rebate tier progress, co-op marketing fund commitments/claims, vendor payment terms, net rebate realization % |
+| 5 | [Markdown & Clearance Optimization](domains/merchandising/agents/markdown_clearance_optimization/README.md) | — | End-of-season clearance discount depth, clearance sell-through %, markdown budget spend, salvage recovery |
+| 6 | [Price Matching & Competitor Intel](domains/merchandising/agents/price_matching_competitor_intel/README.md) | — | Competitor price gap %, market price index parity (100 baseline), POS price match claims, competitor stock alerts |
+| 7 | [Space Planning & Micro-Merchandising](domains/merchandising/agents/space_planning_micro_merch/README.md) | — | Linear shelf space elasticity, planogram compliance %, fixture capacity utilization, eye-level shelf share |
+| 8 | [Private Brand Development](domains/merchandising/agents/private_brand_development/README.md) | — | Private label volume penetration %, gross margin premium over national brands (bps), co-packer COGS variance |
+| 9 | [Seasonal Transition Planning](domains/merchandising/agents/seasonal_transition_planning/README.md) | — | Planned sell-in vs actual sell-through curves, transition milestone adherence, weather demand indexing, salvage risk |
+| 10 | [Category Growth Strategy](domains/merchandising/agents/category_growth_strategy/README.md) | — | Chain market share vs TAM, YoY share change (bps), category roles (Destination/Routine), whitespace growth opportunities |
+| 11 | [Size & Case Pack Optimization](domains/merchandising/agents/size_pack_optimization/README.md) | — | Broken size run stockouts %, regional body size curve skews, master case pack replenishment multiple alignment |
+| 12 | [Item Lifecycle & SKU Rationalization](domains/merchandising/agents/item_lifecycle_rationalization/README.md) | — | New item launch velocity curves (wks 1-12), SKU cannibalization rates %, tail delisting triggers, liquidation recovery |
+| 13 | [Trade Spend & Allowance Effectiveness](domains/merchandising/agents/trade_spend_effectiveness/README.md) | — | Vendor trade promotion net ROI (%), POS scan allowance audit variances, incremental volume lift %, cannibalization costs |
+| 14 | [Localized Assortment Clustering](domains/merchandising/agents/localized_curation_clustering/README.md) | — | Demographic store clustering, local artisan vendor revenue share %, regional taste affinity index, cluster assortment rules |
 
 </details>
 
@@ -46,22 +46,22 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Vendor OTIF delivery, inventory planning & forecasting, carrier freight performance, DC throughput & dock turn, returns & reverse logistics, inbound freight, last-mile routing, cold chain compliance, dynamic safety stock, supplier disruption risk, cross-dock scheduling, customs/tariffs, DC robotics, and sustainable packaging optimization.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`vendor_performance`](domains/supply_chain/agents/vendor_performance/README.md) | Supply Chain: Vendor Performance | OTIF delivery, vendor scorecards |
-| 2 | [`inventory_planning`](domains/supply_chain/agents/inventory_planning/README.md) | Supply Chain: Inventory Planning | Network-wide inventory position across stores and warehouses, live demand forecasting |
-| 3 | [`logistics_operations`](domains/supply_chain/agents/logistics_operations/README.md) | Supply Chain: Logistics Operations | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
-| 4 | [`warehouse_dc_operations`](domains/supply_chain/agents/warehouse_dc_operations/README.md) | Supply Chain: Warehouse & DC Operations | Daily DC inbound/outbound shipment throughput, dock turn times, dock-to-stock hours, pick/pack accuracy %, storage pallet capacity utilization |
-| 5 | [`returns_reverse_logistics`](domains/supply_chain/agents/returns_reverse_logistics/README.md) | Supply Chain: Returns & Reverse Logistics | Store/channel return rates (%), return reason breakdowns, restock turnaround days, reverse disposition value recovery |
-| 6 | [`inbound_freight_optimization`](domains/supply_chain/agents/inbound_freight_optimization/README.md) | Supply Chain: Inbound Freight Optimization | Inbound freight cost per hundredweight ($/CWT), ocean container dwell days, demurrage penalty avoidance, inbound on-time transit rate |
-| 7 | [`last_mile_delivery_dispatch`](domains/supply_chain/agents/last_mile_delivery_dispatch/README.md) | Supply Chain: Last-Mile Delivery & Dispatch | Cost per delivery drop ($), 2-hour delivery window SLA adherence %, route stop density (stops/hr), fleet telematics efficiency index |
-| 8 | [`cold_chain_temperature_compliance`](domains/supply_chain/agents/cold_chain_temperature_compliance/README.md) | Supply Chain: Cold Chain Temperature Compliance | Reefer temperature excursion rate (%), perishable spoilage dollar losses, remaining shelf life (RSL) at DC receipt, IoT cold sensor uptime |
-| 9 | [`multi_echelon_safety_stock`](domains/supply_chain/agents/multi_echelon_safety_stock/README.md) | Supply Chain: Multi-Echelon Safety Stock | Network inventory holding costs, multi-echelon order fulfillment SLA %, lead time volatility buffer days, DC vs store stock balancing ratio |
-| 10 | [`supplier_risk_resilience`](domains/supply_chain/agents/supplier_risk_resilience/README.md) | Supply Chain: Supplier Risk & Resilience | High-risk supplier spend share (%), single-source dependency purchase spend, Altman Z-Score financial solvency ratings, disruption buffer coverage |
-| 11 | [`cross_dock_flow_through`](domains/supply_chain/agents/cross_dock_flow_through/README.md) | Supply Chain: Cross-Dock & Flow-Through Velocity | Trailer-to-trailer cross-dock dwell turn time (<4 hrs), pre-distribution direct store allocation accuracy %, yard staging dwell congestion |
-| 12 | [`customs_import_tariff_compliance`](domains/supply_chain/agents/customs_import_tariff_compliance/README.md) | Supply Chain: Customs & Import Tariff Compliance | HTS classification audit accuracy %, average CBP customs inspection hold hours, duty drawback recovery $, Section 301 effective tariff rate % |
-| 13 | [`dc_automation_robotics_kpis`](domains/supply_chain/agents/dc_automation_robotics_kpis/README.md) | Supply Chain: DC Automation & Robotics KPIs | ASRS crane & AMR system uptime %, robotic picking units per hour (UPH) vs manual baseline, MTBF hours, automated sortation error rate |
-| 14 | [`packaging_dunnage_optimization`](domains/supply_chain/agents/packaging_dunnage_optimization/README.md) | Supply Chain: Packaging & Dunnage Optimization | Master carton cube utilization %, carrier dimensional weight (DIM) surcharge penalties $, parcel packaging damage rate %, void-fill material costs |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Vendor Performance](domains/supply_chain/agents/vendor_performance/README.md) | — | OTIF delivery, vendor scorecards |
+| 2 | [Inventory Planning](domains/supply_chain/agents/inventory_planning/README.md) | — | Network-wide inventory position across stores and warehouses, live demand forecasting |
+| 3 | [Logistics Operations](domains/supply_chain/agents/logistics_operations/README.md) | — | Carrier performance, transit lane performance, shipment tracking, logistics exceptions |
+| 4 | [Warehouse & DC Operations](domains/supply_chain/agents/warehouse_dc_operations/README.md) | — | Daily DC inbound/outbound shipment throughput, dock turn times, dock-to-stock hours, pick/pack accuracy %, storage pallet capacity utilization |
+| 5 | [Returns & Reverse Logistics](domains/supply_chain/agents/returns_reverse_logistics/README.md) | — | Store/channel return rates (%), return reason breakdowns, restock turnaround days, reverse disposition value recovery |
+| 6 | [Inbound Freight Optimization](domains/supply_chain/agents/inbound_freight_optimization/README.md) | — | Inbound freight cost per hundredweight ($/CWT), ocean container dwell days, demurrage penalty avoidance, inbound on-time transit rate |
+| 7 | [Last-Mile Delivery & Dispatch](domains/supply_chain/agents/last_mile_delivery_dispatch/README.md) | — | Cost per delivery drop ($), 2-hour delivery window SLA adherence %, route stop density (stops/hr), fleet telematics efficiency index |
+| 8 | [Cold Chain Temperature Compliance](domains/supply_chain/agents/cold_chain_temperature_compliance/README.md) | — | Reefer temperature excursion rate (%), perishable spoilage dollar losses, remaining shelf life (RSL) at DC receipt, IoT cold sensor uptime |
+| 9 | [Multi-Echelon Safety Stock](domains/supply_chain/agents/multi_echelon_safety_stock/README.md) | — | Network inventory holding costs, multi-echelon order fulfillment SLA %, lead time volatility buffer days, DC vs store stock balancing ratio |
+| 10 | [Supplier Risk & Resilience](domains/supply_chain/agents/supplier_risk_resilience/README.md) | — | High-risk supplier spend share (%), single-source dependency purchase spend, Altman Z-Score financial solvency ratings, disruption buffer coverage |
+| 11 | [Cross-Dock & Flow-Through Velocity](domains/supply_chain/agents/cross_dock_flow_through/README.md) | — | Trailer-to-trailer cross-dock dwell turn time (<4 hrs), pre-distribution direct store allocation accuracy %, yard staging dwell congestion |
+| 12 | [Customs & Import Tariff Compliance](domains/supply_chain/agents/customs_import_tariff_compliance/README.md) | — | HTS classification audit accuracy %, average CBP customs inspection hold hours, duty drawback recovery $, Section 301 effective tariff rate % |
+| 13 | [DC Automation & Robotics KPIs](domains/supply_chain/agents/dc_automation_robotics_kpis/README.md) | — | ASRS crane & AMR system uptime %, robotic picking units per hour (UPH) vs manual baseline, MTBF hours, automated sortation error rate |
+| 14 | [Packaging & Dunnage Optimization](domains/supply_chain/agents/packaging_dunnage_optimization/README.md) | — | Master carton cube utilization %, carrier dimensional weight (DIM) surcharge penalties $, parcel packaging damage rate %, void-fill material costs |
 
 </details>
 
@@ -71,19 +71,19 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Associate labor productivity vs. foot traffic, BOPIS omnichannel fulfillment, store shrink & loss prevention, planogram visual compliance, facility energy audits, POS queue bottlenecks, register till cash reconciliations, in-store returns desk velocity, workplace safety incidents, curbside pickup SLAs, and store manager audit execution.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`labor_productivity`](domains/store_operations/agents/labor_productivity/README.md) | Store Operations: Labor Productivity | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
-| 2 | [`store_fulfillment_execution`](domains/store_operations/agents/store_fulfillment_execution/README.md) | Store Operations: Store Fulfillment & Execution | BOPIS fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, fulfillment queue bottlenecks |
-| 3 | [`loss_prevention_shrinkage`](domains/store_operations/agents/loss_prevention_shrinkage/README.md) | Store Operations: Loss Prevention & Shrinkage | Monthly store shrinkage rates (%), shrink dollars by cause (theft, damage, admin error, unknown loss), high-risk category losses, register audit exception alerts |
-| 4 | [`visual_merchandising_compliance`](domains/store_operations/agents/visual_merchandising_compliance/README.md) | Store Operations: Planogram & Visual Merchandising Compliance | Planogram compliance score %, promotional signage installation speed, endcap display audit pass %, fixture space utilization |
-| 5 | [`energy_facilities_maintenance`](domains/store_operations/agents/energy_facilities_maintenance/README.md) | Store Operations: Store Energy & Facilities Maintenance | Electricity intensity (kWh/sq.ft), refrigeration temperature excursion alarms, HVAC work order MTTR, facility maintenance budget variance |
-| 6 | [`pos_checkout_queue_analytics`](domains/store_operations/agents/pos_checkout_queue_analytics/README.md) | Store Operations: POS & Checkout Queue Analytics | Peak checkout queue wait time (sec), self-checkout (SCO) intervention rate %, cashier scan speed (items/min - IPM), lane throughput |
-| 7 | [`store_cash_management_tills`](domains/store_operations/agents/store_cash_management_tills/README.md) | Store Operations: Store Cash Management & Till Balancing | Cash drawer over/short discrepancy $, cashier cash variance frequency %, armored car deposit reconciliation, counterfeit bill alerts |
-| 8 | [`omnichannel_returns_in_store`](domains/store_operations/agents/omnichannel_returns_in_store/README.md) | Store Operations: In-Store Omnichannel Returns & BORIS | BORIS handling time (mins), same-day shelf restock %, return fraud risk flags, return-to-salvage liquidation recovery rate |
-| 9 | [`store_safety_incident_management`](domains/store_operations/agents/store_safety_incident_management/README.md) | Store Operations: Store Safety & Incident Management | Customer slip/fall incident frequency, OSHA recordables, hazard correction closure speed (hours), general liability claim dollars |
-| 10 | [`curbside_pickup_speed_accuracy`](domains/store_operations/agents/curbside_pickup_speed_accuracy/README.md) | Store Operations: Curbside Pickup Speed & Accuracy | Arrival-to-trunk delivery dwell time (<3 mins), order substitution approval %, runner dispatch transit time, parking bay turnover |
-| 11 | [`store_manager_operational_audit`](domains/store_operations/agents/store_manager_operational_audit/README.md) | Store Operations: Store Manager Operational Audits | 360 operational audit score %, backroom safety/clutter index, shelf price tag scan accuracy %, public health inspection compliance |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Labor Productivity](domains/store_operations/agents/labor_productivity/README.md) | — | Staffing alignment vs. foot traffic, overtime variance, labor cost budgets |
+| 2 | [Store Fulfillment & Execution](domains/store_operations/agents/store_fulfillment_execution/README.md) | — | BOPIS fulfillment SLAs, curbside pickup wait times, pick/pack accuracy %, fulfillment queue bottlenecks |
+| 3 | [Loss Prevention & Shrinkage](domains/store_operations/agents/loss_prevention_shrinkage/README.md) | — | Monthly store shrinkage rates (%), shrink dollars by cause (theft, damage, admin error, unknown loss), high-risk category losses, register audit exception alerts |
+| 4 | [Planogram & Visual Merchandising Compliance](domains/store_operations/agents/visual_merchandising_compliance/README.md) | — | Planogram compliance score %, promotional signage installation speed, endcap display audit pass %, fixture space utilization |
+| 5 | [Store Energy & Facilities Maintenance](domains/store_operations/agents/energy_facilities_maintenance/README.md) | — | Electricity intensity (kWh/sq.ft), refrigeration temperature excursion alarms, HVAC work order MTTR, facility maintenance budget variance |
+| 6 | [POS & Checkout Queue Analytics](domains/store_operations/agents/pos_checkout_queue_analytics/README.md) | — | Peak checkout queue wait time (sec), self-checkout (SCO) intervention rate %, cashier scan speed (items/min - IPM), lane throughput |
+| 7 | [Store Cash Management & Till Balancing](domains/store_operations/agents/store_cash_management_tills/README.md) | — | Cash drawer over/short discrepancy $, cashier cash variance frequency %, armored car deposit reconciliation, counterfeit bill alerts |
+| 8 | [In-Store Omnichannel Returns & BORIS](domains/store_operations/agents/omnichannel_returns_in_store/README.md) | — | BORIS handling time (mins), same-day shelf restock %, return fraud risk flags, return-to-salvage liquidation recovery rate |
+| 9 | [Store Safety & Incident Management](domains/store_operations/agents/store_safety_incident_management/README.md) | — | Customer slip/fall incident frequency, OSHA recordables, hazard correction closure speed (hours), general liability claim dollars |
+| 10 | [Curbside Pickup Speed & Accuracy](domains/store_operations/agents/curbside_pickup_speed_accuracy/README.md) | — | Arrival-to-trunk delivery dwell time (<3 mins), order substitution approval %, runner dispatch transit time, parking bay turnover |
+| 11 | [Store Manager Operational Audits](domains/store_operations/agents/store_manager_operational_audit/README.md) | — | 360 operational audit score %, backroom safety/clutter index, shelf price tag scan accuracy %, public health inspection compliance |
 
 </details>
 
@@ -93,19 +93,19 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Digital funnel & cart abandonment, site search merchandising & zero-results, payment gateway fraud, 3P marketplace seller SLAs, mobile app vitals, web performance/Core Web Vitals, PDP conversion optimization, subscription recurring churn, promotional coupon abuse, B2B wholesale ordering, and SEO/accessibility audits.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`cart_checkout_analytics`](domains/e_commerce/agents/cart_checkout_analytics/README.md)<br/><br/><a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/e_commerce/cart_checkout_analytics.html" target="_blank" rel="noopener noreferrer">🎬 Demo ↗</a> | E-Commerce: Cart & Checkout Analytics | Digital funnel conversion rates, checkout stage cart abandonment %, payment gateway decline rates, promo validation errors |
-| 2 | [`search_merchandising_personalization`](domains/e_commerce/agents/search_merchandising_personalization/README.md) | E-Commerce: Product Discovery & Analytics | Digital funnel site search conversion %, zero-result query rates, recommendation carousel CTR %, personalized revenue lift |
-| 3 | [`payment_gateway_fraud_risk`](domains/e_commerce/agents/payment_gateway_fraud_risk/README.md) | E-Commerce: Payment Gateway & Fraud Risk | Payment gateway authorization rates %, chargeback dispute win rates, 3D Secure friction drop-offs, fraud scoring false positives |
-| 4 | [`marketplace_seller_performance`](domains/e_commerce/agents/marketplace_seller_performance/README.md) | E-Commerce: 3P Marketplace Seller Performance | Marketplace 3P seller defect rates (target <1%), commission net revenues, catalog sync latency, seller fulfillment SLAs |
-| 5 | [`mobile_app_conversion_retention`](domains/e_commerce/agents/mobile_app_conversion_retention/README.md) | E-Commerce: Mobile App Conversion & Engagement | Native mobile app DAU/MAU, push notification conversion rates, in-app crash-free session metrics (99.9%) |
-| 6 | [`digital_site_performance_vitals`](domains/e_commerce/agents/digital_site_performance_vitals/README.md) | E-Commerce: Digital Web Performance & Vitals | Core Web Vitals (LCP, INP, CLS), page speed impact on bounce rate, CDN cache hit ratios, API 5xx error spikes |
-| 7 | [`product_detail_page_optimization`](domains/e_commerce/agents/product_detail_page_optimization/README.md) | E-Commerce: PDP Optimization & Media Engagement | Product detail page (PDP) add-to-cart rates, rich media/video interactions, size-guide usage, customer review sentiment |
-| 8 | [`subscription_recurring_orders`](domains/e_commerce/agents/subscription_recurring_orders/README.md) | E-Commerce: Subscription & Recurring Orders | Subscribe & Save recurring revenue (MRR), monthly subscriber churn, skip/pause retention strategies, subscriber lifetime value |
-| 9 | [`digital_promotions_coupon_abuse`](domains/e_commerce/agents/digital_promotions_coupon_abuse/README.md) | E-Commerce: Digital Promo & Coupon Abuse | Coupon stacking exploits, bot/scraper promotional traffic, unauthorized affiliate coupon claims, digital margin leaks |
-| 10 | [`b2b_wholesale_portal_analytics`](domains/e_commerce/agents/b2b_wholesale_portal_analytics/README.md) | E-Commerce: B2B Wholesale Portal Analytics | B2B corporate customer quote-to-order cycle time, credit limit utilization, bulk volume tier pricing uptake |
-| 11 | [`web_accessibility_seo_health`](domains/e_commerce/agents/web_accessibility_seo_health/README.md) | E-Commerce: SEO Health & Web Accessibility | Organic SERP impressions/clicks, schema product rich snippets, technical SEO crawl errors, WCAG accessibility compliance scores |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Cart & Checkout Analytics](domains/e_commerce/agents/cart_checkout_analytics/README.md) | <a href="https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/e_commerce/cart_checkout_analytics.html" target="_blank" rel="noopener noreferrer">🎬 Demo</a> | Digital funnel conversion rates, checkout stage cart abandonment %, payment gateway decline rates, promo validation errors |
+| 2 | [Product Discovery & Analytics](domains/e_commerce/agents/search_merchandising_personalization/README.md) | — | Digital funnel site search conversion %, zero-result query rates, recommendation carousel CTR %, personalized revenue lift |
+| 3 | [Payment Gateway & Fraud Risk](domains/e_commerce/agents/payment_gateway_fraud_risk/README.md) | — | Payment gateway authorization rates %, chargeback dispute win rates, 3D Secure friction drop-offs, fraud scoring false positives |
+| 4 | [3P Marketplace Seller Performance](domains/e_commerce/agents/marketplace_seller_performance/README.md) | — | Marketplace 3P seller defect rates (target <1%), commission net revenues, catalog sync latency, seller fulfillment SLAs |
+| 5 | [Mobile App Conversion & Engagement](domains/e_commerce/agents/mobile_app_conversion_retention/README.md) | — | Native mobile app DAU/MAU, push notification conversion rates, in-app crash-free session metrics (99.9%) |
+| 6 | [Digital Web Performance & Vitals](domains/e_commerce/agents/digital_site_performance_vitals/README.md) | — | Core Web Vitals (LCP, INP, CLS), page speed impact on bounce rate, CDN cache hit ratios, API 5xx error spikes |
+| 7 | [PDP Optimization & Media Engagement](domains/e_commerce/agents/product_detail_page_optimization/README.md) | — | Product detail page (PDP) add-to-cart rates, rich media/video interactions, size-guide usage, customer review sentiment |
+| 8 | [Subscription & Recurring Orders](domains/e_commerce/agents/subscription_recurring_orders/README.md) | — | Subscribe & Save recurring revenue (MRR), monthly subscriber churn, skip/pause retention strategies, subscriber lifetime value |
+| 9 | [Digital Promo & Coupon Abuse](domains/e_commerce/agents/digital_promotions_coupon_abuse/README.md) | — | Coupon stacking exploits, bot/scraper promotional traffic, unauthorized affiliate coupon claims, digital margin leaks |
+| 10 | [B2B Wholesale Portal Analytics](domains/e_commerce/agents/b2b_wholesale_portal_analytics/README.md) | — | B2B corporate customer quote-to-order cycle time, credit limit utilization, bulk volume tier pricing uptake |
+| 11 | [SEO Health & Web Accessibility](domains/e_commerce/agents/web_accessibility_seo_health/README.md) | — | Organic SERP impressions/clicks, schema product rich snippets, technical SEO crawl errors, WCAG accessibility compliance scores |
 
 </details>
 
@@ -115,18 +115,18 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Paid campaign ROAS, customer lifetime value & loyalty tier migration, Retail Media Network (RMN) sponsored ad yield, churn win-back triggers, CRM/email/SMS attribution, creator/influencer ROI, CAC payback velocity, omnichannel CDP unification, local geotargeting, and brand sentiment tracking.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`campaign_performance_roi`](domains/marketing/agents/campaign_performance_roi/README.md) | Marketing: Campaign Performance & ROI | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
-| 2 | [`customer_lifecycle_loyalty`](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | Marketing: Customer Lifecycle & Loyalty | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
-| 3 | [`retail_media_network_monetization`](domains/marketing/agents/retail_media_network_monetization/README.md) | Marketing: Retail Media Network & Sponsored Ad Yield | Retail Media ad revenue $, sponsored product search auction yields (CPC/eCPM), advertiser ROAS delivery reports |
-| 4 | [`customer_churn_winback_analytics`](domains/marketing/agents/customer_churn_winback_analytics/README.md) | Marketing: Churn Prediction & Win-Back Triggers | 30/60/90-day churn probability scores, category lapse intervals, win-back promo margin costs vs. reactivation lift |
-| 5 | [`email_sms_crm_orchestration`](domains/marketing/agents/email_sms_crm_orchestration/README.md) | Marketing: CRM, Email & SMS Campaign Orchestration | Revenue per email/SMS send ($), automated cart/browse abandon journeys, unsubscribe rates, domain deliverability health |
-| 6 | [`influencer_creator_campaign_roi`](domains/marketing/agents/influencer_creator_campaign_roi/README.md) | Marketing: Influencer & Creator Campaign ROI | Influencer effective cost per acquisition (eCPA), creator affiliate promo code sales $, earned media value (EMV) |
-| 7 | [`customer_acquisition_cost_cac`](domains/marketing/agents/customer_acquisition_cost_cac/README.md) | Marketing: CAC Payback Velocity & Unit Economics | Blended vs. paid CAC by acquisition channel, CAC payback horizon (months), first-to-second order acceleration velocity |
-| 8 | [`omnichannel_customer_cdp_insights`](domains/marketing/agents/omnichannel_customer_cdp_insights/README.md) | Marketing: Omnichannel CDP & Customer Identity | Customer identity resolution match rates %, omnichannel shopper 3x spending multiplier vs. single-channel, cross-shopping journeys |
-| 9 | [`geotargeted_local_marketing`](domains/marketing/agents/geotargeted_local_marketing/README.md) | Marketing: Geotargeted & Local Store Marketing | Store radius digital geotargeting, physical store foot-traffic lift from mobile ads, localized weather-triggered promotions |
-| 10 | [`brand_health_social_sentiment`](domains/marketing/agents/brand_health_social_sentiment/README.md) | Marketing: Brand Health & Social Sentiment | Net Brand Sentiment Score (NBSS), social listening Share of Voice (SOV) vs. competitors, crisis response sentiment recovery |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Campaign Performance & ROI](domains/marketing/agents/campaign_performance_roi/README.md) | — | Campaign ROAS, channel attribution, CAC targets vs. actuals, conversion lift |
+| 2 | [Customer Lifecycle & Loyalty](domains/marketing/agents/customer_lifecycle_loyalty/README.md) | — | Customer Lifetime Value (CLV), RFM segment migration, loyalty tier redemptions, churn risk |
+| 3 | [Retail Media Network & Sponsored Ad Yield](domains/marketing/agents/retail_media_network_monetization/README.md) | — | Retail Media ad revenue $, sponsored product search auction yields (CPC/eCPM), advertiser ROAS delivery reports |
+| 4 | [Churn Prediction & Win-Back Triggers](domains/marketing/agents/customer_churn_winback_analytics/README.md) | — | 30/60/90-day churn probability scores, category lapse intervals, win-back promo margin costs vs. reactivation lift |
+| 5 | [CRM, Email & SMS Campaign Orchestration](domains/marketing/agents/email_sms_crm_orchestration/README.md) | — | Revenue per email/SMS send ($), automated cart/browse abandon journeys, unsubscribe rates, domain deliverability health |
+| 6 | [Influencer & Creator Campaign ROI](domains/marketing/agents/influencer_creator_campaign_roi/README.md) | — | Influencer effective cost per acquisition (eCPA), creator affiliate promo code sales $, earned media value (EMV) |
+| 7 | [CAC Payback Velocity & Unit Economics](domains/marketing/agents/customer_acquisition_cost_cac/README.md) | — | Blended vs. paid CAC by acquisition channel, CAC payback horizon (months), first-to-second order acceleration velocity |
+| 8 | [Omnichannel CDP & Customer Identity](domains/marketing/agents/omnichannel_customer_cdp_insights/README.md) | — | Customer identity resolution match rates %, omnichannel shopper 3x spending multiplier vs. single-channel, cross-shopping journeys |
+| 9 | [Geotargeted & Local Store Marketing](domains/marketing/agents/geotargeted_local_marketing/README.md) | — | Store radius digital geotargeting, physical store foot-traffic lift from mobile ads, localized weather-triggered promotions |
+| 10 | [Brand Health & Social Sentiment](domains/marketing/agents/brand_health_social_sentiment/README.md) | — | Net Brand Sentiment Score (NBSS), social listening Share of Voice (SOV) vs. competitors, crisis response sentiment recovery |
 
 </details>
 
@@ -136,19 +136,19 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Gross margin bridge & COGS analysis, store-level P&L and EBITDA variance, working capital & cash conversion cycle, retail store lease portfolio liabilities, remodel CapEx ROI, inventory LCM valuation reserves, vendor audit recovery claims, multi-state sales tax nexus, FP&A variance budgets, gift card breakage liability, and FX landed cost exposure.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`gross_margin_profitability`](domains/finance/agents/gross_margin_profitability/README.md) | Finance: Gross Margin & Profitability | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
-| 2 | [`store_pnl_operating_costs`](domains/finance/agents/store_pnl_operating_costs/README.md) | Finance: Store P&L & Operating Costs | Store-level P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, profitability targets |
-| 3 | [`working_capital_cashflow`](domains/finance/agents/working_capital_cashflow/README.md) | Finance: Working Capital & Cash Flow | Cash Conversion Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, liquidity forecasts |
-| 4 | [`store_real_estate_lease_mgmt`](domains/finance/agents/store_real_estate_lease_mgmt/README.md) | Finance: Store Real Estate & Lease Management | Store lease terms, occupancy cost ratios (% of sales), percentage rent breakpoints, co-tenancy clause violations |
-| 5 | [`capex_store_remodel_roi`](domains/finance/agents/capex_store_remodel_roi/README.md) | Finance: CapEx & Store Remodel ROI | Store remodel CapEx budget variance, Internal Rate of Return (IRR %), post-remodel sales lift vs. un-remodeled control stores |
-| 6 | [`inventory_valuation_provisions`](domains/finance/agents/inventory_valuation_provisions/README.md) | Finance: Inventory Valuation & LCM Provisions | Lower of Cost or Market (LCM) reserves, inventory write-down schedules, shrink financial accruals |
-| 7 | [`vendor_recovery_audit_compliance`](domains/finance/agents/vendor_recovery_audit_compliance/README.md) | Finance: Vendor Recovery Audit & Compliance | Duplicate invoice payments, vendor compliance chargebacks, post-audit overpayment recovery claims |
-| 8 | [`sales_tax_nexus_compliance`](domains/finance/agents/sales_tax_nexus_compliance/README.md) | Finance: Sales Tax Nexus & Jurisdictional Compliance | State/local economic nexus thresholds, sales tax audit liability provisions, resale exemption certificates |
-| 9 | [`corporate_budget_variance_fpna`](domains/finance/agents/corporate_budget_variance_fpna/README.md) | Finance: Corporate Budget Variance & FP&A | Corporate cost center SG&A variance vs. budget, rolling EBITDA forecasts, headcount run rates |
-| 10 | [`gift_card_breakage_liability`](domains/finance/agents/gift_card_breakage_liability/README.md) | Finance: Gift Card Breakage & Liability | Unredeemed gift card outstanding liabilities, historical redemption decay curves, GAAP/IFRS breakage income |
-| 11 | [`foreign_exchange_landed_costs`](domains/finance/agents/foreign_exchange_landed_costs/README.md) | Finance: FX Exposure & Landed Cost Hedging | FX currency exposure on global purchase orders, landed cost variance, forward hedging contract coverage |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Gross Margin & Profitability](domains/finance/agents/gross_margin_profitability/README.md) | — | Gross margin rates (%), dollar margins, COGS variance, markdown discount erosion |
+| 2 | [Store P&L & Operating Costs](domains/finance/agents/store_pnl_operating_costs/README.md) | — | Store-level P&L, net sales, gross profit, EBITDA, labor/rent/utilities OpEx variance, profitability targets |
+| 3 | [Working Capital & Cash Flow](domains/finance/agents/working_capital_cashflow/README.md) | — | Cash Conversion Cycle (CCC), Days Sales Outstanding (DSO), Days Payable Outstanding (DPO), AR/AP aging, liquidity forecasts |
+| 4 | [Store Real Estate & Lease Management](domains/finance/agents/store_real_estate_lease_mgmt/README.md) | — | Store lease terms, occupancy cost ratios (% of sales), percentage rent breakpoints, co-tenancy clause violations |
+| 5 | [CAPEX & Store Remodel ROI](domains/finance/agents/capex_store_remodel_roi/README.md) | — | Store remodel CapEx budget variance, Internal Rate of Return (IRR %), post-remodel sales lift vs. un-remodeled control stores |
+| 6 | [Inventory Valuation & LCM Provisions](domains/finance/agents/inventory_valuation_provisions/README.md) | — | Lower of Cost or Market (LCM) reserves, inventory write-down schedules, shrink financial accruals |
+| 7 | [Vendor Recovery Audit & Overpayments](domains/finance/agents/vendor_recovery_audit_compliance/README.md) | — | Duplicate invoice payments, vendor compliance chargebacks, post-audit overpayment recovery claims |
+| 8 | [Sales Tax Nexus & Jurisdictional Filings](domains/finance/agents/sales_tax_nexus_compliance/README.md) | — | State/local economic nexus thresholds, sales tax audit liability provisions, resale exemption certificates |
+| 9 | [FP&A Corporate Budget & Variance](domains/finance/agents/corporate_budget_variance_fpna/README.md) | — | Corporate cost center SG&A variance vs. budget, rolling EBITDA forecasts, headcount run rates |
+| 10 | [Gift Card Breakage & Liability Accounting](domains/finance/agents/gift_card_breakage_liability/README.md) | — | Unredeemed gift card outstanding liabilities, historical redemption decay curves, GAAP/IFRS breakage income |
+| 11 | [FX Hedging & Landed Cost Exposure](domains/finance/agents/foreign_exchange_landed_costs/README.md) | — | FX currency exposure on global purchase orders, landed cost variance, forward hedging contract coverage |
 
 </details>
 
@@ -158,18 +158,18 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Contact center FCR and AHT queues, WISMO order tracking and deflection, voice of customer NLP topic sentiment, extended warranty claims and vendor recoveries, AI bot containment and escalation handoffs, VIP clientele concierge SLAs, out-of-policy returns appeals and concessions, social media support response times, store associate POS helpdesk resolution, and damaged goods freight claims.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`contact_center_agent_performance`](domains/customer_care/agents/contact_center_agent_performance/README.md) | Customer Care: Contact Center Performance & FCR | Contact center First Contact Resolution (FCR %), Average Handle Time (AHT), agent queue adherence, CSAT survey scores |
-| 2 | [`wismo_order_tracking_resolution`](domains/customer_care/agents/wismo_order_tracking_resolution/README.md) | Customer Care: WISMO & Order Inquiries | Where Is My Order (WISMO) inquiry resolution, carrier tracking delays, automated deflection %, appeasement credits |
-| 3 | [`voice_of_customer_sentiment_nlp`](domains/customer_care/agents/voice_of_customer_sentiment_nlp/README.md) | Customer Care: Voice of Customer & NLP Sentiment | NLP feedback sentiment analysis, NPS score driver extraction, product defect signals, channel sentiment trends |
-| 4 | [`product_warranty_claims_repair`](domains/customer_care/agents/product_warranty_claims_repair/README.md) | Customer Care: Product Warranty & Claims | Extended warranty attachment rates %, manufacturer warranty claim processing, repair turnaround times, replacement cost recovery |
-| 5 | [`ai_chatbot_deflection_handoff`](domains/customer_care/agents/ai_chatbot_deflection_handoff/README.md) | Customer Care: AI Bot Containment & Escalations | Conversational AI containment rates (>65%), intent recognition accuracy, negative sentiment escalation handoffs to human agents |
-| 6 | [`vip_clientele_concierge_support`](domains/customer_care/agents/vip_clientele_concierge_support/README.md) | Customer Care: VIP & High-CLV Concierge | High-CLV customer inquiry response SLAs (<5 mins), concierge-assisted sales conversions, dedicated agent appointment completion |
-| 7 | [`returns_appeals_exception_desk`](domains/customer_care/agents/returns_appeals_exception_desk/README.md) | Customer Care: Return Exceptions & Appeals | Disputed out-of-policy return approvals, appeasement concession costs, serial returner policy abuse flags, dispute settlement rates |
-| 8 | [`omnichannel_social_support_desk`](domains/customer_care/agents/omnichannel_social_support_desk/README.md) | Customer Care: Social Support & Public Sentiment | Public social media complaint response SLAs (<15 mins), public-to-private escalation rates, brand sentiment shifts, social commerce DM conversion |
-| 9 | [`store_associate_support_hotline`](domains/customer_care/agents/store_associate_support_hotline/README.md) | Customer Care: Store Helpdesk & POS Support | Store associate POS register outage resolution MTTR, hardware/scanner ticket volume, recurring store software bug pain points |
-| 10 | [`damaged_goods_claims_resolution`](domains/customer_care/agents/damaged_goods_claims_resolution/README.md) | Customer Care: Damaged Goods Claims & Recovery | Damaged-in-transit claims cycle time, carrier liability reimbursement $, customer replacement order dispatch velocity |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Contact Center Performance & FCR](domains/customer_care/agents/contact_center_agent_performance/README.md) | — | Contact center First Contact Resolution (FCR %), Average Handle Time (AHT), agent queue adherence, CSAT survey scores |
+| 2 | [WISMO & Order Inquiries](domains/customer_care/agents/wismo_order_tracking_resolution/README.md) | — | Where Is My Order (WISMO) inquiry resolution, carrier tracking delays, automated deflection %, appeasement credits |
+| 3 | [Voice of Customer & NLP Sentiment](domains/customer_care/agents/voice_of_customer_sentiment_nlp/README.md) | — | NLP feedback sentiment analysis, NPS score driver extraction, product defect signals, channel sentiment trends |
+| 4 | [Product Warranty & Claims](domains/customer_care/agents/product_warranty_claims_repair/README.md) | — | Extended warranty attachment rates %, manufacturer warranty claim processing, repair turnaround times, replacement cost recovery |
+| 5 | [AI Bot Containment & Escalations](domains/customer_care/agents/ai_chatbot_deflection_handoff/README.md) | — | Conversational AI containment rates (>65%), intent recognition accuracy, negative sentiment escalation handoffs to human agents |
+| 6 | [VIP & High-CLV Concierge](domains/customer_care/agents/vip_clientele_concierge_support/README.md) | — | High-CLV customer inquiry response SLAs (<5 mins), concierge-assisted sales conversions, dedicated agent appointment completion |
+| 7 | [Return Exceptions & Appeals](domains/customer_care/agents/returns_appeals_exception_desk/README.md) | — | Disputed out-of-policy return approvals, appeasement concession costs, serial returner policy abuse flags, dispute settlement rates |
+| 8 | [Social Support & Public Sentiment](domains/customer_care/agents/omnichannel_social_support_desk/README.md) | — | Public social media complaint response SLAs (<15 mins), public-to-private escalation rates, brand sentiment shifts, social commerce DM conversion |
+| 9 | [Store Helpdesk & POS Support](domains/customer_care/agents/store_associate_support_hotline/README.md) | — | Store associate POS register outage resolution MTTR, hardware/scanner ticket volume, recurring store software bug pain points |
+| 10 | [Damaged Goods Claims & Recovery](domains/customer_care/agents/damaged_goods_claims_resolution/README.md) | — | Damaged-in-transit claims cycle time, carrier liability reimbursement $, customer replacement order dispatch velocity |
 
 </details>
 
@@ -179,18 +179,18 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Scope 1-3 GHG carbon emissions, grocery food waste diversion and donation, sustainable PCR packaging and plastic reduction, supplier ethical labor compliance audits (Sedex SMETA), product safety recall quarantine speed, renewable energy PPA adoption, facility water conservation intensity, chemical RSL testing, diverse supplier procurement spend, and EPR take-back circularity.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`carbon_footprint_scope_emissions`](domains/sustainability_compliance/agents/carbon_footprint_scope_emissions/README.md) | ESG: Carbon Footprint & Scope Emissions | Scope 1-3 GHG carbon emissions, store/fleet fossil fuel combustion, supply chain logistics footprint, net zero trajectory |
-| 2 | [`food_waste_spoilage_reduction`](domains/sustainability_compliance/agents/food_waste_spoilage_reduction/README.md) | ESG: Food Waste Reduction & Diversion | Perishable grocery spoilage rates, dynamic markdown rescue revenue, food bank donation weight (lbs), composting diversion |
-| 3 | [`sustainable_packaging_circularity`](domains/sustainability_compliance/agents/sustainable_packaging_circularity/README.md) | ESG: Sustainable Packaging & Circularity | Post-consumer recycled (PCR %) content in packaging, single-use plastic elimination, curbside recyclable packaging compliance |
-| 4 | [`ethical_sourcing_labor_audits`](domains/sustainability_compliance/agents/ethical_sourcing_labor_audits/README.md) | ESG: Ethical Sourcing & Labor Audits | Supplier factory social compliance audit scores (Sedex SMETA), child/forced labor zero-tolerance flags, fair wage verification |
-| 5 | [`product_safety_recall_readiness`](domains/sustainability_compliance/agents/product_safety_recall_readiness/README.md) | ESG: Product Safety & Recall Execution | CPSC/FDA regulatory recall quarantine execution time, store inventory lock velocity, customer notification delivery % |
-| 6 | [`energy_renewable_grid_transition`](domains/sustainability_compliance/agents/energy_renewable_grid_transition/README.md) | ESG: Renewable Energy & Grid Transition | Store and DC electricity consumption (kWh), on-site solar generation, green power purchase agreement (PPA) share % |
-| 7 | [`water_conservation_facility_audit`](domains/sustainability_compliance/agents/water_conservation_facility_audit/README.md) | ESG: Water Conservation & Facility Audits | Facility water consumption intensity, cooling tower water recycling %, low-flow fixture efficiency, watershed stress index |
-| 8 | [`chemical_restricted_substances_rsl`](domains/sustainability_compliance/agents/chemical_restricted_substances_rsl/README.md) | ESG: Restricted Substances (RSL) & Chemical Safety | Restricted Substance List (RSL) lab test pass rates, Prop 65 / REACH compliance, hazardous chemical phase-out schedules |
-| 9 | [`dei_supplier_diversity_spend`](domains/sustainability_compliance/agents/dei_supplier_diversity_spend/README.md) | ESG: Supplier Diversity & Equity Spend | Diverse supplier procurement spend (MBE/WBE/SDVOB/LGBTQE/DBE), diversity spend % of category budget, tier-1 vs. tier-2 spend |
-| 10 | [`extended_producer_responsibility_epr`](domains/sustainability_compliance/agents/extended_producer_responsibility_epr/README.md) | ESG: Extended Producer Responsibility (EPR) & Resale | EPR regulatory packaging fee liability, textile/electronics take-back collection volume, certified pre-owned resale revenue |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Carbon Footprint & Scope Emissions](domains/sustainability_compliance/agents/carbon_footprint_scope_emissions/README.md) | — | Scope 1-3 GHG carbon emissions, store/fleet fossil fuel combustion, supply chain logistics footprint, net zero trajectory |
+| 2 | [Food Waste Reduction & Diversion](domains/sustainability_compliance/agents/food_waste_spoilage_reduction/README.md) | — | Perishable grocery spoilage rates, dynamic markdown rescue revenue, food bank donation weight (lbs), composting diversion |
+| 3 | [Sustainable Packaging & Circularity](domains/sustainability_compliance/agents/sustainable_packaging_circularity/README.md) | — | Post-consumer recycled (PCR %) content in packaging, single-use plastic elimination, curbside recyclable packaging compliance |
+| 4 | [Ethical Sourcing & Labor Audits](domains/sustainability_compliance/agents/ethical_sourcing_labor_audits/README.md) | — | Supplier factory social compliance audit scores (Sedex SMETA), child/forced labor zero-tolerance flags, fair wage verification |
+| 5 | [Product Safety & Recall Execution](domains/sustainability_compliance/agents/product_safety_recall_readiness/README.md) | — | CPSC/FDA regulatory recall quarantine execution time, store inventory lock velocity, customer notification delivery % |
+| 6 | [Renewable Energy & Grid Transition](domains/sustainability_compliance/agents/energy_renewable_grid_transition/README.md) | — | Store and DC electricity consumption (kWh), on-site solar generation, green power purchase agreement (PPA) share % |
+| 7 | [Water Conservation & Facility Audits](domains/sustainability_compliance/agents/water_conservation_facility_audit/README.md) | — | Facility water consumption intensity, cooling tower water recycling %, low-flow fixture efficiency, watershed stress index |
+| 8 | [Restricted Substances (RSL) & Chemical Safety](domains/sustainability_compliance/agents/chemical_restricted_substances_rsl/README.md) | — | Restricted Substance List (RSL) lab test pass rates, Prop 65 / REACH compliance, hazardous chemical phase-out schedules |
+| 9 | [Supplier Diversity & Equity Spend](domains/sustainability_compliance/agents/dei_supplier_diversity_spend/README.md) | — | Diverse supplier procurement spend (MBE/WBE/SDVOB/LGBTQE/DBE), diversity spend % of category budget, tier-1 vs. tier-2 spend |
+| 10 | [Extended Producer Responsibility (EPR) & Resale](domains/sustainability_compliance/agents/extended_producer_responsibility_epr/README.md) | — | EPR regulatory packaging fee liability, textile/electronics take-back collection volume, certified pre-owned resale revenue |
 
 </details>
 
@@ -200,17 +200,17 @@ local-only design spec — see [Architecture](#architecture).
 
 > **Domain Scope**: Associate retention & turnover, fair scheduling & predictability compliance, training certification tracking, workplace safety incidents / OSHA compliance, store leadership bench succession, peak seasonal hiring velocity, eNPS associate sentiment pulse, labor union CBA compliance, and frontline wage market benchmarks.
 
-| No. | Agent | Gemini Enterprise Display Name | Focus |
-| :--- | :--- | :--- | :--- |
-| 1 | [`store_associate_turnover_retention`](domains/human_resources/agents/store_associate_turnover_retention/README.md) | HR: Store Associate Turnover & Retention | 90-day new hire retention cohorts, annualized turnover %, exit interview sentiment themes by store district |
-| 2 | [`workforce_scheduling_fairness`](domains/human_resources/agents/workforce_scheduling_fairness/README.md) | HR: Scheduling Fairness & Predictive Hours | 14-day schedule lead time, fair workweek / clopening penalty avoidance, shift swap fulfillment % |
-| 3 | [`training_onboarding_compliance`](domains/human_resources/agents/training_onboarding_compliance/README.md) | HR: Training & Onboarding Compliance | Food safety/equipment certification compliance (100%), LMS course completion speeds, time-to-productivity days |
-| 4 | [`workplace_safety_workers_comp`](domains/human_resources/agents/workplace_safety_workers_comp/README.md) | HR: Workplace Safety & Workers' Comp | OSHA TRIR / DART rates, lost workday cases, workers' comp claims $, safety audit scores |
-| 5 | [`store_manager_bench_succession`](domains/human_resources/agents/store_manager_bench_succession/README.md) | HR: Store Leadership Bench & Succession | Assistant Store Manager promotion readiness ratings, store manager vacancy duration (days), internal promotion rate % |
-| 6 | [`seasonal_hiring_peak_readiness`](domains/human_resources/agents/seasonal_hiring_peak_readiness/README.md) | HR: Seasonal Hiring & Peak Readiness | Holiday hiring target vs. actual headcount, background check turnaround days, seasonal funnel conversion % |
-| 7 | [`associate_engagement_pulse_enps`](domains/human_resources/agents/associate_engagement_pulse_enps/README.md) | HR: Associate Pulse & eNPS Analytics | Employee Net Promoter Score (eNPS), department sentiment indexes, manager feedback scores, associate flight risk indicators |
-| 8 | [`labor_union_compliance_cba`](domains/human_resources/agents/labor_union_compliance_cba/README.md) | HR: Labor Union & CBA Compliance | Collective bargaining agreement (CBA) grievance logs, grievance resolution SLAs, seniority shift bidding compliance |
-| 9 | [`frontline_wage_market_benchmarks`](domains/human_resources/agents/frontline_wage_market_benchmarks/README.md) | HR: Frontline Wage & Market Benchmarks | Competitive hourly wage benchmarks by metro area, minimum wage statutory increase budget impacts, store wage compression indexes |
+| No. | Gemini Enterprise Agent | Demo | Focus of Agent |
+| :--- | :--- | :---: | :--- |
+| 1 | [Store Associate Turnover & Retention](domains/human_resources/agents/store_associate_turnover_retention/README.md) | — | 90-day new hire retention cohorts, annualized turnover %, exit interview sentiment themes by store district |
+| 2 | [Scheduling Fairness & Predictive Hours](domains/human_resources/agents/workforce_scheduling_fairness/README.md) | — | 14-day schedule lead time, fair workweek / clopening penalty avoidance, shift swap fulfillment % |
+| 3 | [Training & Onboarding Compliance](domains/human_resources/agents/training_onboarding_compliance/README.md) | — | Food safety/equipment certification compliance (100%), LMS course completion speeds, time-to-productivity days |
+| 4 | [Workplace Safety & Workers' Comp](domains/human_resources/agents/workplace_safety_workers_comp/README.md) | — | OSHA TRIR / DART rates, lost workday cases, workers' comp claims $, safety audit scores |
+| 5 | [Store Leadership Bench & Succession](domains/human_resources/agents/store_manager_bench_succession/README.md) | — | Assistant Store Manager promotion readiness ratings, store manager vacancy duration (days), internal promotion rate % |
+| 6 | [Seasonal Hiring & Peak Readiness](domains/human_resources/agents/seasonal_hiring_peak_readiness/README.md) | — | Holiday hiring target vs. actual headcount, background check turnaround days, seasonal funnel conversion % |
+| 7 | [Associate Pulse & eNPS Analytics](domains/human_resources/agents/associate_engagement_pulse_enps/README.md) | — | Employee Net Promoter Score (eNPS), department sentiment indexes, manager feedback scores, associate flight risk indicators |
+| 8 | [Labor Union & CBA Compliance](domains/human_resources/agents/labor_union_compliance_cba/README.md) | — | Collective bargaining agreement (CBA) grievance logs, grievance resolution SLAs, seniority shift bidding compliance |
+| 9 | [Frontline Wage & Market Benchmarks](domains/human_resources/agents/frontline_wage_market_benchmarks/README.md) | — | Competitive hourly wage benchmarks by metro area, minimum wage statutory increase budget impacts, store wage compression indexes |
 
 </details>
 
