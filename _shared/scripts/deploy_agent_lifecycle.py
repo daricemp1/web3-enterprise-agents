@@ -17,6 +17,8 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
+import shutil
 import subprocess
 import sys
 import time
@@ -265,15 +267,36 @@ class AgentLifecycleEngine:
 
     def deploy_backend(self, config: AgentDeployConfig) -> str:
         """Deploys the agent reasoning engine to Vertex AI via `adk deploy`."""
+        agent_env = config.agent_dir / ".env"
+        if not agent_env.exists():
+            root_env = REPO_ROOT / ".env"
+            if root_env.exists():
+                shutil.copy(root_env, agent_env)
+            else:
+                agent_env.write_text(
+                    f"GOOGLE_GENAI_USE_VERTEXAI=true\n"
+                    f"GOOGLE_CLOUD_PROJECT={config.project_id}\n"
+                    f"GOOGLE_CLOUD_LOCATION=global\n"
+                    f"BIGQUERY_PROJECT_ID={config.project_id}\n",
+                    encoding="utf-8"
+                )
+
         cmd = [
-            "adk", "deploy", "agent_engine",
+            "uv", "run", "--frozen", "adk", "deploy", "agent_engine",
             "--project", config.project_id,
             "--region", config.region,
             "--display_name", config.display_name,
-            "--description", config.description
+            "--description", config.description,
+            "."
         ]
         res = subprocess.run(cmd, cwd=str(config.agent_dir), capture_output=True, text=True, check=True)
         
+        # 1. Regex match from stdout
+        match = re.search(r"projects/[^/]+/locations/[^/]+/reasoningEngines/(\d+)", res.stdout)
+        if match:
+            return match.group(0)
+            
+        # 2. Check metadata files
         meta_path = config.agent_dir / "deployment_metadata.json"
         if meta_path.exists():
             try:
@@ -284,7 +307,7 @@ class AgentLifecycleEngine:
                         return re_id
             except Exception:
                 pass
-        raise RuntimeError(f"Could not extract deployed Reasoning Engine ID from {meta_path}. Output: {res.stdout}")
+        raise RuntimeError(f"Could not extract deployed Reasoning Engine ID. Output: {res.stdout}")
 
     def publish_ge(self, config: AgentDeployConfig, reasoning_engine_id: str) -> None:
         """Publishes the deployed reasoning engine to Gemini Enterprise."""
