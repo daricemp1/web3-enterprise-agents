@@ -25,3 +25,9 @@ graphify-out/
 /tmp/graph-out/
 *.graph.json
 *.graph.sqlite
+~
+**/~
+*_tmp*
+*.tmp
+*.bak
+*.swp

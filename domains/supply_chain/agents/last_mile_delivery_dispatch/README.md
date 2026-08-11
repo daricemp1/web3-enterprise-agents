@@ -1,6 +1,8 @@
 # Supply Chain: Last-Mile Delivery & Dispatch Agent
 
-An enterprise AI agent for **Supply Chain: Last-Mile Delivery & Dispatch**, built with Google ADK for Gemini Enterprise.
+**Domain:** Supply Chain · **Gemini Enterprise display name:** Supply Chain: Last-Mile Delivery & Dispatch
+
+> 🎬 **Interactive Multi-Turn Demo:** Watch this agent in action with multi-turn analytics, market grounding, live visual charting, and executive presentation synthesis: **[View Full HD Interactive Demo](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/last_mile_delivery_dispatch.html)**
 
 ---
 
@@ -77,6 +79,14 @@ All tables reside in the `retail_ent_agents` BigQuery dataset:
 **Agent**: Generated domain analytics visualization:
 
 ![Sample Performance Visualization](sample_chart.png)
+
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+> 🎬 **Watch the full high-definition video walkthrough of this multi-turn workflow:**  
+> **[Open Interactive Demo Player (1080p Full HD)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/supply_chain/last_mile_delivery_dispatch.html)**  
+> *(Video file: `demos/gemini-enterprise/supply_chain/last_mile_delivery_dispatch.mp4`)*
 
 ---
 
