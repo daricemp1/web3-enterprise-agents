@@ -223,9 +223,22 @@ class AgentLifecycleEngine:
             c for c in all_cards
             if c.get("displayName", "").strip().lower() == target_name
         ]
+        
+        all_engine_names = {e.get("name", "") for e in all_engines}
+        dangling_cards = []
+        bound_cards = []
+        for card in matching_cards:
+            re_ref = card.get("adkAgentDefinition", {}).get("provisionedReasoningEngine", {}).get("reasoningEngine", "")
+            if not re_ref or re_ref not in all_engine_names:
+                dangling_cards.append(card)
+            else:
+                bound_cards.append(card)
+                
         return {
             "matching_engines": matching_engines,
-            "matching_cards": matching_cards
+            "matching_cards": matching_cards,
+            "dangling_cards": dangling_cards,
+            "bound_cards": bound_cards
         }
 
     def clean(self, config: AgentDeployConfig, matching_engines: list[dict], matching_cards: list[dict]) -> dict:
@@ -495,21 +508,32 @@ def main(argv: list[str] | None = None) -> int:
         matched = engine.match_resources(config, all_engines, all_cards)
         num_engines = len(matched["matching_engines"])
         num_cards = len(matched["matching_cards"])
+        num_dangling = len(matched["dangling_cards"])
         
-        before_state = f"{num_engines} Engine(s), {num_cards} GE Card(s)"
-        if num_engines == 0:
-            before_state = "❌ No Backend Engine"
+        if num_engines == 0 and num_cards == 0:
+            before_state = "❌ Missing Runtime & Card"
+            audit_status = "NEEDS_DEPLOY"
+        elif num_engines == 0:
+            before_state = "❌ Dangling Card (No Engine)"
+            audit_status = "NEEDS_DEPLOY"
+        elif num_dangling > 0:
+            before_state = "⚠️ Dangling Card (Points to Deleted Engine)"
+            audit_status = "NEEDS_REPUBLISH"
+        elif num_cards == 0:
+            before_state = f"⚠️ {num_engines} Engine(s), 0 Cards (Unpublished)"
+            audit_status = "NEEDS_PUBLISH"
         elif num_cards > 1:
             before_state = f"⚠️ {num_cards} Duplicate GE Cards"
+            audit_status = "NEEDS_CLEANUP"
+        elif num_engines > 1:
+            before_state = f"⚠️ {num_engines} Duplicate Engines, 1 Card"
+            audit_status = "NEEDS_CLEANUP"
+        else:
+            before_state = "✅ Healthy (1:1 Bound)"
+            audit_status = "HEALTHY"
 
         demo_file = REPO_ROOT / "demos" / "gemini-enterprise" / domain / f"{ag_name}.mp4"
         demo_status = "🎬 1080p Ready" if demo_file.exists() else "—"
-        
-        audit_status = "HEALTHY"
-        if num_engines == 0:
-            audit_status = "NEEDS_DEPLOY"
-        elif num_cards > 1:
-            audit_status = "NEEDS_CLEANUP"
 
         print(f"   📋 Audit: {before_state} | Demo: {demo_status}")
         
