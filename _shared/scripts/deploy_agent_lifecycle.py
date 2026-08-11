@@ -173,7 +173,7 @@ class GcpControlPlaneClient:
     def delete_reasoning_engine(self, engine_resource_name: str, project_id: str) -> bool:
         """Deletes a Vertex AI Reasoning Engine."""
         region = "us-central1"
-        url = f"https://{region}-aiplatform.googleapis.com/v1beta1/{engine_resource_name}"
+        url = f"https://{region}-aiplatform.googleapis.com/v1beta1/{engine_resource_name}?force=true"
         try:
             resp = requests.delete(url, headers=self._headers(project_id), timeout=30)
             return resp.status_code in [200, 202, 204]
