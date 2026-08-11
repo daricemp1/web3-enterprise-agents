@@ -217,6 +217,17 @@ git checkout master && git pull
 git checkout -b <snake_case_name>
 uv run --frozen python _shared/scripts/scaffold_logical_agent.py \
     --domain <domain> --name <snake_case_name> --display-name "<Human Readable Name>"
+
+# Idempotent Deployment, Deduplication & Domain Audit Engine:
+# 1. Audit all 100 agents by domain (generates docs/reports/<domain>_audit.md):
+uv run python _shared/scripts/deploy_agent_lifecycle.py --all --audit-only
+
+# 2. Deploy/redeploy a single agent with deduplication and optional 1080p demo recording:
+uv run python _shared/scripts/deploy_agent_lifecycle.py \
+    --domain <domain> --name <agent_name> --record-demo
+
+# 3. Deploy/redeploy all agents in a domain inside an isolated Git worktree:
+uv run python _shared/scripts/deploy_agent_lifecycle.py --domain <domain>
 ```
 
 After scaffolding a new agent, fill in the `# TODO(scaffold):` markers in `root_agent.yaml` and
@@ -228,11 +239,11 @@ agent's own `eval/agent.evalset.json` once that's written, never invented**.
 
 ## Workspace Isolation via Git Worktrees (`.worktrees/`)
 
-Building a **new** agent from scratch or executing batch feature/migration work uses **Git Worktrees** located in project-local `.worktrees/<name>` (gitignored via `.gitignore`), rather than in-place branch checkouts in the root repository.
+Building a **new** agent from scratch, executing batch domain deployments, or running feature/migration work uses **Git Worktrees** located in project-local `.worktrees/<name>` (gitignored via `.gitignore`), rather than in-place branch checkouts in the root repository.
 
 **Why Worktrees**:
 - **Main repo remains on `master` continuously**: IDE/editor file watchers (VS Code, Jetski) never race against branch checkouts in the root directory, preventing `.git/index.lock` collisions.
-- **Parallel & Isolated Development**: Feature batches and parallel subagents work in dedicated isolated directories without dirtying the root workspace.
+- **Parallel & Isolated Development**: Feature batches and parallel subagents work in dedicated isolated directories without dirtying the root workspace. Each domain maintains its own locked audit file (`docs/reports/<domain>_audit.md`) preventing cross-domain collisions.
 
 ### Standard Worktree Workflow
 
