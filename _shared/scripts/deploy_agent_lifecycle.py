@@ -33,6 +33,12 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
+# Ensure gcloud is in PATH if present in standard user location
+gcloud_bin = Path.home() / "Dev" / "google-cloud-sdk" / "bin"
+if gcloud_bin.exists() and str(gcloud_bin) not in os.environ.get("PATH", ""):
+    os.environ["PATH"] = f"{gcloud_bin}:{os.environ.get('PATH', '')}"
+
+
 
 @dataclass
 class AgentDeployConfig:
@@ -159,16 +165,27 @@ class GcpControlPlaneClient:
 
     def list_reasoning_engines(self, project_id: str, region: str = "us-central1") -> list[dict]:
         """Lists all deployed Vertex AI Reasoning Engines in the specified region."""
-        url = f"https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/reasoningEngines"
-        try:
-            resp = requests.get(url, headers=self._headers(project_id), timeout=30)
-            if resp.status_code == 200:
-                return resp.json().get("reasoningEngines", [])
-            else:
-                print(f"⚠️ [Vertex AI] list_reasoning_engines HTTP {resp.status_code}: {resp.text[:200]}", file=sys.stderr)
-        except Exception as e:
-            print(f"⚠️ [Vertex AI] list_reasoning_engines connection error: {e}", file=sys.stderr)
-        return []
+        engines: list[dict] = []
+        page_token = None
+        while True:
+            url = f"https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/reasoningEngines?pageSize=100"
+            if page_token:
+                url += f"&pageToken={page_token}"
+            try:
+                resp = requests.get(url, headers=self._headers(project_id), timeout=30)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    engines.extend(data.get("reasoningEngines", []))
+                    page_token = data.get("nextPageToken")
+                    if not page_token:
+                        break
+                else:
+                    print(f"⚠️ [Vertex AI] list_reasoning_engines HTTP {resp.status_code}: {resp.text[:200]}", file=sys.stderr)
+                    break
+            except Exception as e:
+                print(f"⚠️ [Vertex AI] list_reasoning_engines connection error: {e}", file=sys.stderr)
+                break
+        return engines
 
     def delete_reasoning_engine(self, engine_resource_name: str, project_id: str) -> bool:
         """Deletes a Vertex AI Reasoning Engine."""
@@ -181,21 +198,47 @@ class GcpControlPlaneClient:
             print(f"⚠️ [Vertex AI] delete_reasoning_engine error: {e}", file=sys.stderr)
             return False
 
+    def update_reasoning_engine(self, engine_resource_name: str, display_name: str, description: str, project_id: str) -> bool:
+        """Updates display name and description on a Vertex AI Reasoning Engine."""
+        region = "us-central1"
+        url = f"https://{region}-aiplatform.googleapis.com/v1beta1/{engine_resource_name}?updateMask=displayName,description"
+        payload = {
+            "displayName": display_name,
+            "description": description
+        }
+        try:
+            resp = requests.patch(url, headers=self._headers(project_id), json=payload, timeout=30)
+            return resp.status_code in [200, 201, 202]
+        except Exception as e:
+            print(f"⚠️ [Vertex AI] update_reasoning_engine error: {e}", file=sys.stderr)
+            return False
+
     def list_ge_agents(self, app_id: str, project_id: str) -> list[dict]:
         """Lists all registered assistant agents in Gemini Enterprise / Discovery Engine."""
         if not app_id:
             return []
         endpoint = "https://discoveryengine.googleapis.com"
-        url = f"{endpoint}/v1alpha/{app_id}/assistants/default_assistant/agents"
-        try:
-            resp = requests.get(url, headers=self._headers(project_id), timeout=30)
-            if resp.status_code == 200:
-                return resp.json().get("agents", [])
-            else:
-                print(f"⚠️ [Discovery Engine] list_ge_agents HTTP {resp.status_code}: {resp.text[:200]}", file=sys.stderr)
-        except Exception as e:
-            print(f"⚠️ [Discovery Engine] list_ge_agents connection error: {e}", file=sys.stderr)
-        return []
+        agents: list[dict] = []
+        page_token = None
+        while True:
+            url = f"{endpoint}/v1alpha/{app_id}/assistants/default_assistant/agents?pageSize=100"
+            if page_token:
+                url += f"&pageToken={page_token}"
+            try:
+                resp = requests.get(url, headers=self._headers(project_id), timeout=30)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    agents.extend(data.get("agents", []))
+                    page_token = data.get("nextPageToken")
+                    if not page_token:
+                        break
+                else:
+                    print(f"⚠️ [Discovery Engine] list_ge_agents HTTP {resp.status_code}: {resp.text[:200]}", file=sys.stderr)
+                    break
+            except Exception as e:
+                print(f"⚠️ [Discovery Engine] list_ge_agents connection error: {e}", file=sys.stderr)
+                break
+        return agents
 
     def delete_ge_agent(self, agent_resource_name: str, project_id: str) -> bool:
         """Deletes a registered agent card from Gemini Enterprise Discovery Engine."""
@@ -217,13 +260,19 @@ class AgentLifecycleEngine:
     def match_resources(self, config: AgentDeployConfig, all_engines: list[dict], all_cards: list[dict]) -> dict:
         """Matches reasoning engines and GE assistant cards for the given agent."""
         target_name = config.display_name.strip().lower()
-        matching_engines = [
-            e for e in all_engines
-            if e.get("displayName", "").strip().lower() == target_name
-        ]
         matching_cards = [
             c for c in all_cards
-            if c.get("displayName", "").strip().lower() == target_name
+            if (c.get("displayName") or "").strip().lower() == target_name
+        ]
+        card_re_refs = {
+            c.get("adkAgentDefinition", {}).get("provisionedReasoningEngine", {}).get("reasoningEngine", "")
+            for c in matching_cards
+        }
+        card_re_refs.discard("")
+
+        matching_engines = [
+            e for e in all_engines
+            if (e.get("displayName") or "").strip().lower() == target_name or e.get("name") in card_re_refs
         ]
         
         all_engine_names = {e.get("name", "") for e in all_engines}
@@ -292,22 +341,30 @@ class AgentLifecycleEngine:
         res = subprocess.run(cmd, cwd=str(config.agent_dir), capture_output=True, text=True, check=True)
         
         # 1. Regex match from stdout
+        re_id = None
         match = re.search(r"projects/[^/]+/locations/[^/]+/reasoningEngines/(\d+)", res.stdout)
         if match:
-            return match.group(0)
+            re_id = match.group(0)
             
         # 2. Check metadata files
-        meta_path = config.agent_dir / "deployment_metadata.json"
-        if meta_path.exists():
-            try:
-                with open(meta_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    re_id = data.get("remote_agent_engine_id") or data.get("resource_name")
-                    if re_id:
-                        return re_id
-            except Exception:
-                pass
-        raise RuntimeError(f"Could not extract deployed Reasoning Engine ID. Output: {res.stdout}")
+        if not re_id:
+            meta_path = config.agent_dir / "deployment_metadata.json"
+            if meta_path.exists():
+                try:
+                    with open(meta_path, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        re_id = data.get("remote_agent_engine_id") or data.get("resource_name")
+                except Exception:
+                    pass
+        if not re_id:
+            raise RuntimeError(f"Could not extract deployed Reasoning Engine ID. Output: {res.stdout}")
+
+        # Ensure displayName and description are set on Vertex AI Reasoning Engine resource
+        try:
+            self.client.update_reasoning_engine(re_id, config.display_name, config.description, config.project_id)
+        except Exception:
+            pass
+        return re_id
 
     def publish_ge(self, config: AgentDeployConfig, reasoning_engine_id: str) -> None:
         """Publishes the deployed reasoning engine to Gemini Enterprise."""
@@ -334,14 +391,27 @@ class AgentLifecycleEngine:
 
     def verify_deduplication(self, config: AgentDeployConfig, expected_engine_id: str) -> bool:
         """Verifies exactly 1 reasoning engine and 1 registered card exist and are bound."""
-        engines = self.client.list_reasoning_engines(config.project_id, config.region)
-        cards = self.client.list_ge_agents(config.gemini_enterprise_app_id, config.project_id)
-        matched = self.match_resources(config, engines, cards)
-        
-        if len(matched["matching_engines"]) != 1:
-            raise AssertionError(f"Expected exactly 1 Reasoning Engine, found {len(matched['matching_engines'])}")
-        if len(matched["matching_cards"]) != 1:
-            raise AssertionError(f"Expected exactly 1 GE Card, found {len(matched['matching_cards'])}")
+        matched: dict = {}
+        for attempt in range(5):
+            engines = self.client.list_reasoning_engines(config.project_id, config.region)
+            cards = self.client.list_ge_agents(config.gemini_enterprise_app_id, config.project_id)
+            matched = self.match_resources(config, engines, cards)
+            
+            if len(matched["matching_engines"]) == 1 and len(matched["matching_cards"]) == 1:
+                card_re = (
+                    matched["matching_cards"][0]
+                    .get("adkAgentDefinition", {})
+                    .get("provisionedReasoningEngine", {})
+                    .get("reasoningEngine", "")
+                )
+                if expected_engine_id in card_re:
+                    return True
+            time.sleep(3.0)
+            
+        if len(matched.get("matching_engines", [])) != 1:
+            raise AssertionError(f"Expected exactly 1 Reasoning Engine, found {len(matched.get('matching_engines', []))}")
+        if len(matched.get("matching_cards", [])) != 1:
+            raise AssertionError(f"Expected exactly 1 GE Card, found {len(matched.get('matching_cards', []))}")
             
         card_re = (
             matched["matching_cards"][0]
@@ -352,6 +422,46 @@ class AgentLifecycleEngine:
         if expected_engine_id not in card_re:
             raise AssertionError(f"Bound engine '{card_re}' does not match expected '{expected_engine_id}'")
         return True
+
+    def smoke_test(self, config: AgentDeployConfig, reasoning_engine_id: str) -> str:
+        """Executes a live query against the deployed Reasoning Engine to verify execution."""
+        import vertexai
+        from vertexai.agent_engines import get
+        
+        vertexai.init(project=config.project_id, location=config.region)
+        agent = get(reasoning_engine_id)
+        session = agent.create_session(user_id="smoke_test_user")
+        session_id = session.get("id") if isinstance(session, dict) else session.session_id
+        
+        prompt = "What is the average dwell time for flow-through shipments?"
+        try:
+            from prompt_parser import parse_agent_prompts
+            readme_path = config.agent_dir / "README.md"
+            if readme_path.exists():
+                prompts = parse_agent_prompts(readme_path)
+                if prompts:
+                    prompt = prompts[0]
+        except Exception:
+            pass
+            
+        chunks = []
+        for resp in agent.stream_query(
+            session_id=session_id,
+            message=prompt,
+            user_id="smoke_test_user"
+        ):
+            if isinstance(resp, str):
+                chunks.append(resp)
+            elif isinstance(resp, dict):
+                content = resp.get("content") or resp.get("text") or resp.get("message") or str(resp)
+                chunks.append(str(content))
+            elif hasattr(resp, "text"):
+                chunks.append(resp.text)
+            elif hasattr(resp, "content"):
+                chunks.append(str(resp.content))
+            else:
+                chunks.append(str(resp))
+        return "".join(chunks).strip()
 
 
 def group_results_by_domain(results: list[dict]) -> dict[str, list[dict]]:
@@ -596,7 +706,19 @@ def main(argv: list[str] | None = None) -> int:
             })
             continue
             
-        # 4. GE Publish
+        # 4. Live Smoke Test
+        smoke_output = ""
+        try:
+            print(f"   🧪 Executing live smoke test against Reasoning Engine...")
+            smoke_output = engine.smoke_test(config, new_engine_id)
+            print(f"   ✓ Smoke test succeeded ({len(smoke_output)} chars)")
+            if smoke_output:
+                preview = smoke_output.replace('\n', ' ')[:120]
+                print(f"     Response preview: {preview}...")
+        except Exception as e:
+            print(f"   ⚠️ Smoke test warning: {e}")
+
+        # 5. GE Publish
         try:
             print(f"   📢 Publishing to Gemini Enterprise ({config.gemini_enterprise_app_id})...")
             engine.publish_ge(config, new_engine_id)
@@ -616,7 +738,7 @@ def main(argv: list[str] | None = None) -> int:
             })
             continue
             
-        # 5. Verification
+        # 6. Verification
         try:
             print("   🔍 Verifying deduplication & binding...")
             engine.verify_deduplication(config, new_engine_id)

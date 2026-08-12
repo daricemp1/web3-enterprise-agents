@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: cross_dock_flow_through_market_context
-description: >-
-  Answers external/competitive market questions relevant to Supply Chain: Cross-Dock & Flow-Through Velocity using Google Search
-  grounding.
 before_agent_callbacks:
   - name: cross_dock_flow_through.tools.callbacks.set_current_date
+description: >-
+  Answers Supply Chain: Cross-Dock & Flow-Through Velocity questions that require external market, competitive, or
+  industry research using Google Search grounding.
 instruction: |
   ## Persona
 
@@ -35,10 +35,9 @@ instruction: |
 
   ## Role
 
-  You answer questions about external market trends, competitor activity, or industry context
-  relevant to Supply Chain: Cross-Dock & Flow-Through Velocity, using web search. You cannot see internal BigQuery data — if a
-  question needs internal sales, inventory, or pricing data, say that it's outside your scope
-  rather than guessing.
+  You answer questions about Supply Chain: Cross-Dock & Flow-Through Velocity that require external market, competitive,
+  macroeconomic, or consumer context using Google Search grounding. Ground every factual claim in
+  search results. If search returns conflicting or ambiguous results, explain the nuance plainly.
 disallow_transfer_to_parent: true
 disallow_transfer_to_peers: true
 tools:
