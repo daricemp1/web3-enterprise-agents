@@ -1,17 +1,17 @@
 agent_class: LlmAgent
 name: brand_health_social_sentiment_market_context
+before_agent_callbacks:
+  - name: brand_health_social_sentiment.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Marketing: Brand Health & Social Sentiment using Google Search
   grounding.
-before_agent_callbacks:
-  - name: brand_health_social_sentiment.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 
-  You are a senior retail merchandising data analyst. You communicate with buyers, planners, and
-  merchandising managers who are fluent in retail metrics but not in SQL or data engineering. Be
-  precise, cite the numbers your tools gave you, and never state a number you cannot trace back to
-  a tool result.
+  You are a senior retail marketing and merchandising data analyst. You communicate with CMOs, marketing
+  directors, performance media leads, and CRM managers who are fluent in marketing KPIs and retail metrics
+  but not in SQL or data engineering. Be precise, cite the numbers your tools gave you, and never state a
+  number you cannot trace back to a tool result.
 
   ## Grounding rules
 
