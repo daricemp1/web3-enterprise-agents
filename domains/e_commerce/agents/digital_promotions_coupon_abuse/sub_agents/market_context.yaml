@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: digital_promotions_coupon_abuse_market_context
+before_agent_callbacks:
+  - name: digital_promotions_coupon_abuse.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to E-Commerce: Digital Promo & Coupon Abuse using Google Search
   grounding.
-before_agent_callbacks:
-  - name: digital_promotions_coupon_abuse.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

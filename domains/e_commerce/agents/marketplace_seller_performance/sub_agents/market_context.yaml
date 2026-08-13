@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: marketplace_seller_performance_market_context
+before_agent_callbacks:
+  - name: marketplace_seller_performance.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to E-Commerce: 3P Marketplace Seller Performance using Google Search
   grounding.
-before_agent_callbacks:
-  - name: marketplace_seller_performance.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

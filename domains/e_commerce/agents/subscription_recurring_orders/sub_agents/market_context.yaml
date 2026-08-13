@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: subscription_recurring_orders_market_context
+before_agent_callbacks:
+  - name: subscription_recurring_orders.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to E-Commerce: Subscription & Recurring Orders using Google Search
   grounding.
-before_agent_callbacks:
-  - name: subscription_recurring_orders.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

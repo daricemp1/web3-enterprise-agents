@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: web_accessibility_seo_health_market_context
+before_agent_callbacks:
+  - name: web_accessibility_seo_health.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to E-Commerce: SEO Health & Web Accessibility using Google Search
   grounding.
-before_agent_callbacks:
-  - name: web_accessibility_seo_health.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

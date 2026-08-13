@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: digital_site_performance_vitals_market_context
+before_agent_callbacks:
+  - name: digital_site_performance_vitals.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to E-Commerce: Digital Web Performance & Vitals using Google Search
   grounding.
-before_agent_callbacks:
-  - name: digital_site_performance_vitals.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

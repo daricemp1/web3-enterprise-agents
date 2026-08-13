@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: mobile_app_conversion_retention_market_context
+before_agent_callbacks:
+  - name: mobile_app_conversion_retention.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to E-Commerce: Mobile App Conversion & Engagement using Google Search
   grounding.
-before_agent_callbacks:
-  - name: mobile_app_conversion_retention.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 
