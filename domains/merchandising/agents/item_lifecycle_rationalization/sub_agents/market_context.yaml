@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: item_lifecycle_rationalization_market_context
+before_agent_callbacks:
+  - name: item_lifecycle_rationalization.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Merchandising: Item Lifecycle & SKU Rationalization using Google Search
   grounding.
-before_agent_callbacks:
-  - name: item_lifecycle_rationalization.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

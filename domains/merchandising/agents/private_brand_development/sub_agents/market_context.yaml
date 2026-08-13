@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: private_brand_development_market_context
+before_agent_callbacks:
+  - name: private_brand_development.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Merchandising: Private Brand Development using Google Search
   grounding.
-before_agent_callbacks:
-  - name: private_brand_development.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 
