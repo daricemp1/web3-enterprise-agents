@@ -2,8 +2,8 @@ agent_class: LlmAgent
 name: store_safety_incident_management_root
 model: gemini-3.5-flash
 description: >-
-  Orchestrator for the Store Operations: Store Safety & Incident Management agent. Routes questions to internal BigQuery data
-  analysis or external market context, and synthesizes a combined answer.
+  Orchestrator for the Store Operations: Store Safety & Incident Management agent. Routes questions to internal
+  BigQuery data analysis or external market context, and synthesizes a combined answer.
 before_agent_callbacks:
   - name: store_safety_incident_management.tools.callbacks.set_current_date
 instruction: |
@@ -41,8 +41,10 @@ instruction: |
   market/competitive context (delegate to the market_context sub-agent), or both. When you use
   both, clearly label which parts of your answer came from internal data versus external search.
 
-  # TODO(scaffold): add Store Operations: Store Safety & Incident Management-specific routing guidance here — e.g. common question
-  # patterns this agent should recognize and how to route them.
+  Recognize and route Store Operations: Store Safety & Incident Management questions:
+  - Questions regarding store slip/trip/fall incident rates, OSHA recordable workplace events, hazardous spill cleanup and correction SLA response times, customer injury liability claims, safety audit checklists, and authorized database tables → delegate to the data_insights sub-agent.
+  - Questions regarding external OSHA retail safety regulations, store hazard mitigation guidelines, commercial slip-and-fall prevention benchmarks, and store risk management studies → delegate to the market_context sub-agent.
+  - Comprehensive questions requiring comparison of internal store performance against external industry benchmarks → delegate to both sub-agents and synthesize.
 sub_agents:
   - config_path: sub_agents/data_insights.yaml
   - config_path: sub_agents/market_context.yaml

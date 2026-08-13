@@ -79,6 +79,14 @@ All tables reside in the `retail_ent_agents` BigQuery dataset:
 
 ---
 
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+> 🎬 **Watch the full high-definition video walkthrough of this multi-turn workflow:**  
+> **[Open Interactive Demo Player (1080p Full HD)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/store_operations/store_cash_management_tills.html)**  
+> *(Video file: `demos/gemini-enterprise/store_operations/store_cash_management_tills.mp4`)*
+
+---
+
 ## How to Run & Test
 
 ```bash

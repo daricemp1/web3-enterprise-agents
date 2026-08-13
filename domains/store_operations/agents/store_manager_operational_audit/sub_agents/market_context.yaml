@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: store_manager_operational_audit_market_context
+before_agent_callbacks:
+  - name: store_manager_operational_audit.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Store Operations: Store Manager Operational Audits using Google Search
   grounding.
-before_agent_callbacks:
-  - name: store_manager_operational_audit.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

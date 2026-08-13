@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: visual_merchandising_compliance_market_context
+before_agent_callbacks:
+  - name: visual_merchandising_compliance.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Store Operations: Planogram & Visual Merchandising Compliance using Google Search
   grounding.
-before_agent_callbacks:
-  - name: visual_merchandising_compliance.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

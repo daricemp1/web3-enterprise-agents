@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: energy_facilities_maintenance_market_context
+before_agent_callbacks:
+  - name: energy_facilities_maintenance.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Store Operations: Store Energy & Facilities Maintenance using Google Search
   grounding.
-before_agent_callbacks:
-  - name: energy_facilities_maintenance.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

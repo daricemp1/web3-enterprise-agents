@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: store_cash_management_tills_market_context
+before_agent_callbacks:
+  - name: store_cash_management_tills.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Store Operations: Store Cash Management & Till Balancing using Google Search
   grounding.
-before_agent_callbacks:
-  - name: store_cash_management_tills.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

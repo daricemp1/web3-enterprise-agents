@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: pos_checkout_queue_analytics_market_context
+before_agent_callbacks:
+  - name: pos_checkout_queue_analytics.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Store Operations: POS & Checkout Queue Analytics using Google Search
   grounding.
-before_agent_callbacks:
-  - name: pos_checkout_queue_analytics.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

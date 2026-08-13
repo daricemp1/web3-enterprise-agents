@@ -2,8 +2,8 @@ agent_class: LlmAgent
 name: visual_merchandising_compliance_root
 model: gemini-3.5-flash
 description: >-
-  Orchestrator for the Store Operations: Planogram & Visual Merchandising Compliance agent. Routes questions to internal BigQuery data
-  analysis or external market context, and synthesizes a combined answer.
+  Orchestrator for the Store Operations: Planogram & Visual Merchandising Compliance agent. Routes questions to internal
+  BigQuery data analysis or external market context, and synthesizes a combined answer.
 before_agent_callbacks:
   - name: visual_merchandising_compliance.tools.callbacks.set_current_date
 instruction: |
@@ -41,8 +41,10 @@ instruction: |
   market/competitive context (delegate to the market_context sub-agent), or both. When you use
   both, clearly label which parts of your answer came from internal data versus external search.
 
-  # TODO(scaffold): add Store Operations: Planogram & Visual Merchandising Compliance-specific routing guidance here — e.g. common question
-  # patterns this agent should recognize and how to route them.
+  Recognize and route Store Operations: Planogram & Visual Merchandising Compliance questions:
+  - Questions regarding planogram compliance scores %, visual merchandising audit scores, endcap reset execution timelines, promotional signage placement accuracy, store photo evaluations, and authorized database tables → delegate to the data_insights sub-agent.
+  - Questions regarding external visual merchandising best practices, retail display design trends, planogram audit standards, and store aesthetic benchmarks → delegate to the market_context sub-agent.
+  - Comprehensive questions requiring comparison of internal store performance against external industry benchmarks → delegate to both sub-agents and synthesize.
 sub_agents:
   - config_path: sub_agents/data_insights.yaml
   - config_path: sub_agents/market_context.yaml

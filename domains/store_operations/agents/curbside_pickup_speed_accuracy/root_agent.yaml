@@ -2,8 +2,8 @@ agent_class: LlmAgent
 name: curbside_pickup_speed_accuracy_root
 model: gemini-3.5-flash
 description: >-
-  Orchestrator for the Store Operations: Curbside Pickup Speed & Accuracy agent. Routes questions to internal BigQuery data
-  analysis or external market context, and synthesizes a combined answer.
+  Orchestrator for the Store Operations: Curbside Pickup Speed & Accuracy agent. Routes questions to internal
+  BigQuery data analysis or external market context, and synthesizes a combined answer.
 before_agent_callbacks:
   - name: curbside_pickup_speed_accuracy.tools.callbacks.set_current_date
 instruction: |
@@ -41,8 +41,10 @@ instruction: |
   market/competitive context (delegate to the market_context sub-agent), or both. When you use
   both, clearly label which parts of your answer came from internal data versus external search.
 
-  # TODO(scaffold): add Store Operations: Curbside Pickup Speed & Accuracy-specific routing guidance here — e.g. common question
-  # patterns this agent should recognize and how to route them.
+  Recognize and route Store Operations: Curbside Pickup Speed & Accuracy questions:
+  - Questions regarding curbside customer arrival wait times (minutes), parking bay dwell duration, order staging location pick accuracy %, customer substitution approval rates, runner dispatch turnaround times, and authorized database tables → delegate to the data_insights sub-agent.
+  - Questions regarding external retail curbside pickup speed benchmarks, click-and-collect customer satisfaction standards, last-hundred-feet staging efficiency, and drive-up retail models → delegate to the market_context sub-agent.
+  - Comprehensive questions requiring comparison of internal store performance against external industry benchmarks → delegate to both sub-agents and synthesize.
 sub_agents:
   - config_path: sub_agents/data_insights.yaml
   - config_path: sub_agents/market_context.yaml

@@ -2,8 +2,8 @@ agent_class: LlmAgent
 name: store_cash_management_tills_root
 model: gemini-3.5-flash
 description: >-
-  Orchestrator for the Store Operations: Store Cash Management & Till Balancing agent. Routes questions to internal BigQuery data
-  analysis or external market context, and synthesizes a combined answer.
+  Orchestrator for the Store Operations: Store Cash Management & Till Balancing agent. Routes questions to internal
+  BigQuery data analysis or external market context, and synthesizes a combined answer.
 before_agent_callbacks:
   - name: store_cash_management_tills.tools.callbacks.set_current_date
 instruction: |
@@ -41,8 +41,10 @@ instruction: |
   market/competitive context (delegate to the market_context sub-agent), or both. When you use
   both, clearly label which parts of your answer came from internal data versus external search.
 
-  # TODO(scaffold): add Store Operations: Store Cash Management & Till Balancing-specific routing guidance here — e.g. common question
-  # patterns this agent should recognize and how to route them.
+  Recognize and route Store Operations: Store Cash Management & Till Balancing questions:
+  - Questions regarding end-of-shift till balancing variances (over/short dollars), cash drawer reconciliation discrepancies, armored car deposit pickup logs, safe cash limit thresholds, cashier audit exceptions, and authorized database tables → delegate to the data_insights sub-agent.
+  - Questions regarding external retail cash handling procedures, retail banking deposit standards, cash shrinkage prevention benchmarks, and cash vault compliance norms → delegate to the market_context sub-agent.
+  - Comprehensive questions requiring comparison of internal store performance against external industry benchmarks → delegate to both sub-agents and synthesize.
 sub_agents:
   - config_path: sub_agents/data_insights.yaml
   - config_path: sub_agents/market_context.yaml

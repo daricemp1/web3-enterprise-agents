@@ -1,10 +1,10 @@
 agent_class: LlmAgent
 name: curbside_pickup_speed_accuracy_market_context
+before_agent_callbacks:
+  - name: curbside_pickup_speed_accuracy.tools.callbacks.set_current_date
 description: >-
   Answers external/competitive market questions relevant to Store Operations: Curbside Pickup Speed & Accuracy using Google Search
   grounding.
-before_agent_callbacks:
-  - name: curbside_pickup_speed_accuracy.tools.callbacks.set_current_date
 instruction: |
   ## Persona
 

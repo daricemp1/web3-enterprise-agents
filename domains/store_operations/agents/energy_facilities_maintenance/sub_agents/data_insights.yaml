@@ -42,13 +42,10 @@ instruction: |
 
   You are authorized to reference only the following BigQuery tables:
 
-  # TODO(scaffold): list this agent's authorized BigQuery table references here, e.g.:
-  #   - {temp:bq_project_id}.dataset.table_name
-  # Use the {temp:bq_project_id} placeholder for the project id, not a literal project id --
-  # it's injected at runtime by the set_bigquery_project callback (registered above) from the
-  # BIGQUERY_PROJECT_ID env var, so the real dev/prod project id never needs to be committed here.
-  # This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
-  # restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py).
+  - {temp:bq_project_id}.retail_ent_agents.stop_efma_energy_consumption_kwh
+  - {temp:bq_project_id}.retail_ent_agents.stop_efma_refrigeration_sensors
+  - {temp:bq_project_id}.retail_ent_agents.stop_efma_workorders_maintenance
+  - {temp:bq_project_id}.retail_ent_agents.stop_efma_facility_budgets
 
   ## Charts
 
