@@ -13,10 +13,10 @@ local-only design spec — see [Architecture](#architecture).
 
 ## What's Built
 
-> 💡 **Tip**: Click on any retail domain accordion below to expand its deployed agent roster, links, and KPI focus.
+> 💡 **Tip**: Click on any retail domain accordion below to collapse/expand its deployed agent roster, links, and KPI focus.
 
-<details>
-<summary><b>🛍️ Merchandising (14 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>🛍️ Merchandising (14 of 14 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Assortment planning, pricing elasticity, promotional cadence, markdowns, vendor rebates, competitor intel, space planning, private brand, seasonal transitions, category strategy, size/pack optimization, SKU lifecycle, trade spend, and localized assortment.
@@ -40,8 +40,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>🚚 Supply Chain & Logistics (14 of 14 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>🚚 Supply Chain & Logistics (14 of 14 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Vendor OTIF delivery, inventory planning & forecasting, carrier freight performance, DC throughput & dock turn, returns & reverse logistics, inbound freight, last-mile routing, cold chain compliance, dynamic safety stock, supplier disruption risk, cross-dock scheduling, customs/tariffs, DC robotics, and sustainable packaging optimization.
@@ -65,8 +65,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>🏬 Store Operations (11 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>🏬 Store Operations (11 of 11 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Associate labor productivity vs. foot traffic, BOPIS omnichannel fulfillment, store shrink & loss prevention, planogram visual compliance, facility energy audits, POS queue bottlenecks, register till cash reconciliations, in-store returns desk velocity, workplace safety incidents, curbside pickup SLAs, and store manager audit execution.
@@ -87,8 +87,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>🛒 E-Commerce & Digital (11 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>🛒 E-Commerce & Digital (11 of 11 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Digital funnel & cart abandonment, site search merchandising & zero-results, payment gateway fraud, 3P marketplace seller SLAs, mobile app vitals, web performance/Core Web Vitals, PDP conversion optimization, subscription recurring churn, promotional coupon abuse, B2B wholesale ordering, and SEO/accessibility audits.
@@ -109,8 +109,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>📣 Marketing & Retail Media (10 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>📣 Marketing & Retail Media (10 of 10 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Paid campaign ROAS, customer lifetime value & loyalty tier migration, Retail Media Network (RMN) sponsored ad yield, churn win-back triggers, CRM/email/SMS attribution, creator/influencer ROI, CAC payback velocity, omnichannel CDP unification, local geotargeting, and brand sentiment tracking.
@@ -130,8 +130,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>📊 Finance, Real Estate & Accounting (11 of 11 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>📊 Finance, Real Estate & Accounting (11 of 11 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Gross margin bridge & COGS analysis, store-level P&L and EBITDA variance, working capital & cash conversion cycle, retail store lease portfolio liabilities, remodel CapEx ROI, inventory LCM valuation reserves, vendor audit recovery claims, multi-state sales tax nexus, FP&A variance budgets, gift card breakage liability, and FX landed cost exposure.
@@ -152,8 +152,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>🎧 Customer Care & Experience (10 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>🎧 Customer Care & Experience (10 of 10 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Contact center FCR and AHT queues, WISMO order tracking and deflection, voice of customer NLP topic sentiment, extended warranty claims and vendor recoveries, AI bot containment and escalation handoffs, VIP clientele concierge SLAs, out-of-policy returns appeals and concessions, social media support response times, store associate POS helpdesk resolution, and damaged goods freight claims.
@@ -173,8 +173,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>🌱 Sustainability, ESG & Compliance (10 of 10 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>🌱 Sustainability, ESG & Compliance (10 of 10 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Scope 1-3 GHG carbon emissions, grocery food waste diversion and donation, sustainable PCR packaging and plastic reduction, supplier ethical labor compliance audits (Sedex SMETA), product safety recall quarantine speed, renewable energy PPA adoption, facility water conservation intensity, chemical RSL testing, diverse supplier procurement spend, and EPR take-back circularity.
@@ -194,8 +194,8 @@ local-only design spec — see [Architecture](#architecture).
 
 </details>
 
-<details>
-<summary><b>👥 Human Resources & Workforce (9 of 9 Agents Deployed) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>👥 Human Resources & Workforce (9 of 9 Agents Deployed)</b></summary>
 <br/>
 
 > **Domain Scope**: Associate retention & turnover, fair scheduling & predictability compliance, training certification tracking, workplace safety incidents / OSHA compliance, store leadership bench succession, peak seasonal hiring velocity, eNPS associate sentiment pulse, labor union CBA compliance, and frontline wage market benchmarks.
@@ -464,8 +464,8 @@ For full recording pipeline documentation, CLI flags, and environment setup, see
 
 This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-lock.json) and reproducible via `npx skills experimental_install`:
 
-<details>
-<summary><b>📦 Source: <code>derailed-dash/dazbo-agent-skills</code> (6 skills) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>📦 Source: <code>derailed-dash/dazbo-agent-skills</code> (6 skills)</b></summary>
 <br/>
 
 | Skill Name | Path |
@@ -479,8 +479,8 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 
 </details>
 
-<details>
-<summary><b>📦 Source: <code>google/skills</code> (90 skills) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>📦 Source: <code>google/skills</code> (90 skills)</b></summary>
 <br/>
 
 | Skill Name | Path |
@@ -578,8 +578,8 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 
 </details>
 
-<details>
-<summary><b>📦 Source: <code>obra/superpowers</code> (14 skills) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>📦 Source: <code>obra/superpowers</code> (14 skills)</b></summary>
 <br/>
 
 | Skill Name | Path |
@@ -601,8 +601,8 @@ This repository has **111 agent skills** pinned in [`skills-lock.json`](skills-l
 
 </details>
 
-<details>
-<summary><b>📦 Source: <code>vercel-labs/skills</code> (1 skill) — <i>click to expand</i></b></summary>
+<details open>
+<summary><b>📦 Source: <code>vercel-labs/skills</code> (1 skill)</b></summary>
 <br/>
 
 | Skill Name | Path |
