@@ -67,37 +67,35 @@ def enforce_100_percent_zoom(user_data_dir: Path | None = None):
 def sync_chrome_profile(user_data_dir: Path | None = None):
     """Syncs user Chrome profile into demo recorder directory to avoid singleton locks."""
     target_dir = user_data_dir or DEFAULT_CHROME_USER_DATA_DIR
-    source_dir = DEFAULT_BASE_CHROME_DIR if (target_dir != DEFAULT_BASE_CHROME_DIR and DEFAULT_BASE_CHROME_DIR.exists()) else DEFAULT_SOURCE_CHROME_DIR
+    source_dir = DEFAULT_SOURCE_CHROME_DIR
     
-    if not target_dir.exists():
-        target_dir.mkdir(parents=True, exist_ok=True)
-        print(f"🔄 Performing initial Chrome profile sync to {target_dir}...", flush=True)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 1. Sync Local State
+    for f in ["Local State"]:
+        src_f = source_dir / f
+        tgt_f = target_dir / f
+        if src_f.exists():
+            shutil.copy2(src_f, tgt_f)
+            
+    # 2. Complete rsync of the profile directory (Cookies, Storage, Auth state)
+    p_src = source_dir / DEFAULT_CHROME_PROFILE_DIR
+    p_tgt = target_dir / DEFAULT_CHROME_PROFILE_DIR
+    if p_src.exists():
+        p_tgt.mkdir(parents=True, exist_ok=True)
         cmd = [
             "rsync", "-av", "--delete",
             "--exclude=Singleton*",
             "--exclude=*lock*",
+            "--exclude=LOCK*",
             "--exclude=*Cache*",
             "--exclude=*Crash*",
             "--exclude=BrowserMetrics*",
-            str(source_dir) + "/",
-            str(target_dir) + "/"
+            str(p_src) + "/",
+            str(p_tgt) + "/"
         ]
         subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    else:
-        # Fast sync of Local State and Profile Preferences/Cookies
-        for f in ["Local State"]:
-            src_f = source_dir / f
-            tgt_f = target_dir / f
-            if src_f.exists():
-                shutil.copy2(src_f, tgt_f)
-        p_src = source_dir / DEFAULT_CHROME_PROFILE_DIR
-        p_tgt = target_dir / DEFAULT_CHROME_PROFILE_DIR
-        p_tgt.mkdir(parents=True, exist_ok=True)
-        for item in ["Preferences", "Secure Preferences", "Cookies", "Network"]:
-            src_item = p_src / item
-            tgt_item = p_tgt / item
-            if src_item.is_file():
-                shutil.copy2(src_item, tgt_item)
+        
     enforce_100_percent_zoom(target_dir)
 
 

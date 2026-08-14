@@ -95,3 +95,17 @@ uv run --frozen pytest domains/customer_care/agents/product_warranty_claims_repa
 # Run interactively with ADK CLI
 adk run domains/customer_care/agents/product_warranty_claims_repair
 ```
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **Customer Care: Product Warranty & Claims** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](../../../../demos/gemini-enterprise/customer_care/product_warranty_claims_repair.html)  
+> 📹 **Direct MP4 Download**: [`product_warranty_claims_repair.mp4`](../../../../demos/gemini-enterprise/customer_care/product_warranty_claims_repair.mp4)
+
+```
+Turn 1: Natural language query against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```

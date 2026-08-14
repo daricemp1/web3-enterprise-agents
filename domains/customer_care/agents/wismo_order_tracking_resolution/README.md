@@ -97,3 +97,17 @@ uv run --frozen pytest domains/customer_care/agents/wismo_order_tracking_resolut
 # Run interactively with ADK CLI
 adk run domains/customer_care/agents/wismo_order_tracking_resolution
 ```
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **Customer Care: WISMO & Order Inquiries** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](../../../../demos/gemini-enterprise/customer_care/wismo_order_tracking_resolution.html)  
+> 📹 **Direct MP4 Download**: [`wismo_order_tracking_resolution.mp4`](../../../../demos/gemini-enterprise/customer_care/wismo_order_tracking_resolution.mp4)
+
+```
+Turn 1: Natural language query against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```

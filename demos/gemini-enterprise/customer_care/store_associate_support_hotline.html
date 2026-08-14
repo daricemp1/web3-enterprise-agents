@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Associate Support Hotline — Gemini Enterprise Demo Walkthrough</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --border-color: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
+      --badge-bg: #0f2744;
+      --badge-border: #1e4976;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 1080px;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--accent-blue);
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    }
+
+    video {
+      width: 100%;
+      display: block;
+      max-height: 620px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .meta-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .turns-section {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .turns-section h2 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--accent-indigo);
+    }
+
+    .turn-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .turn-list li {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .turn-list strong {
+      color: var(--text-primary);
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .btn-link:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-row">
+        <span class="badge">Retail Enterprise Agents</span>
+        <span class="badge">Customer Care & Experience Domain</span>
+        <span class="badge">Gemini Enterprise</span>
+      </div>
+      <h1>🎧 Store Associate Support Hotline</h1>
+      <p class="subtitle">
+        Authentic multi-turn interactive video recording showcasing agent @mention invocation, BigQuery conversational analytics SQL synthesis, Google Search market grounding, and visual chart artifact generation.
+      </p>
+    </header>
+
+    <div class="video-wrapper">
+      <video controls autoplay muted playsinline preload="auto">
+        <source src="store_associate_support_hotline.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Duration</span>
+        <span class="meta-value">5:45 (Normal Pacing)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Resolution</span>
+        <span class="meta-value">1080p Full HD (1920×1080)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">UI Scaling</span>
+        <span class="meta-value">1.25x High-DPI Scaled Text</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Model Runtime</span>
+        <span class="meta-value">gemini-3.5-flash (Vertex AI)</span>
+      </div>
+    </div>
+
+    <div class="turns-section">
+      <h2>📋 Multi-Turn Conversation Flow</h2>
+      <ul class="turn-list">
+        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"What is the average Mean Time to Resolve (MTTR) for critical P1 POS hardware outages by store region?"</em> — Synthesizes internal BigQuery conversational analytics query and computes KPI summary.</li>
+        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"What are the enterprise retail industry benchmarks for store helpdesk first-call resolution and POS MTTR?"</em> — Grounds analysis against external retail benchmarks and industry context.</li>
+        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"Can you render a chart of store helpdesk incident MTTR by region?"</em> — Generates and renders a custom chart visualization artifact inline.</li>
+        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create a 4-slide executive presentation summarizing the Store Associate Support Hotline analysis and recommendations above."</em> — Automatically creates a 4-slide deck and showcases each slide via the bottom thumbnail rail.</li>
+      </ul>
+    </div>
+
+    <footer>
+      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/customer_care/agents/store_associate_support_hotline" target="_blank" rel="noopener noreferrer">
+        ← View Agent Code & Documentation on GitHub
+      </a>
+      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents" target="_blank" rel="noopener noreferrer">
+        🏠 Retail Enterprise Agents Repository
+      </a>
+    </footer>
+  </div>
+</body>
+</html>

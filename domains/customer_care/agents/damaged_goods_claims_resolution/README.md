@@ -97,3 +97,17 @@ uv run --frozen pytest domains/customer_care/agents/damaged_goods_claims_resolut
 # Run interactively with ADK CLI
 adk run domains/customer_care/agents/damaged_goods_claims_resolution
 ```
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **Customer Care: Damaged Goods Claims & Recovery** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](../../../../demos/gemini-enterprise/customer_care/damaged_goods_claims_resolution.html)  
+> 📹 **Direct MP4 Download**: [`damaged_goods_claims_resolution.mp4`](../../../../demos/gemini-enterprise/customer_care/damaged_goods_claims_resolution.mp4)
+
+```
+Turn 1: Natural language query against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
