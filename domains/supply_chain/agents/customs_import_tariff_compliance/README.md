@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: Customs & Import Tariff Compliance**,
 
 ## Why This Agent Matters
 
+### Business Problem
 Importing international merchandise requires strict compliance with US Customs and Border Protection (CBP) regulations. Inaccurate Harmonized Tariff Schedule (HTS) classifications cause costly import inspection holds, punitive Section 301 tariffs, and missed duty drawback recovery funds. This agent tracks import entries, effective tariff rates, and customs hold root causes.
+
+### Target Personas
+- **Trade Compliance Directors**: Enforce Harmonized Tariff Schedule (HTS) classification accuracy.
+- **Customs Brokers**: Minimize customs clearance holds and tariff duty liabilities.
+- **Global Sourcing Leads**: Evaluate landed cost implications of country-of-origin trade policies.
 
 ---
 

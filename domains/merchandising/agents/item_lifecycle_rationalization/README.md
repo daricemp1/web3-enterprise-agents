@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Item Lifecycle & SKU Rationalization
 
 ## Why This Agent Matters
 
+### Business Problem
 SKU proliferation dilutes shelf productivity and ties up working capital in unproductive inventory. This agent tracks new product launch velocity curves across weeks 1–12, isolates SKU cannibalization effects, and automates slow-mover delisting action triggers to maintain a productive merchandise assortment.
+
+### Target Personas
+- **SKU Rationalization Leads**: Identify tail SKUs generating bottom 5% volume for planned phase-out.
+- **Category Managers**: Evaluate cannibalization risks before introducing line extensions.
+- **Inventory Controllers**: Accelerate working capital recovery from unproductive inventory.
 
 ---
 

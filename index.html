@@ -505,6 +505,10 @@
       line-height: 1.5;
       margin-bottom: 16px;
       flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     /* KPI Tags */
@@ -1217,7 +1221,7 @@
     "domain_display": "Merchandising",
     "icon": "\ud83d\udecd\ufe0f",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retailers struggle to optimize product breadth and depth across stores, risking high inventory holding costs on slow movers or lost revenue from stockouts on core items. This agent balances sales performance against shelf-space allocation to maximize sales density ($/sq ft).",
     "kpis": [],
     "prompts": [
       "What are the top 3 performing SKUs by total revenue in Men's Outerwear in July 2026?",
@@ -1316,7 +1320,7 @@
     "domain_display": "Merchandising",
     "icon": "\ud83d\udecd\ufe0f",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "End-of-season and terminal merchandise clearance represents one of the largest margin erosion risks in retail. Late or overly aggressive markdowns destroy gross margin, while delayed markdowns leave seasonal inventory stranded past season end. Optimizing clearance discount ladders (25% \u2192 40% \u2192 60% \u2192 Salvage) balances inventory velocity with gross margin protection.",
     "kpis": [],
     "prompts": [
       "What is our current markdown budget spend and clearance sell-through velocity?",
@@ -1341,7 +1345,7 @@
     "domain_display": "Merchandising",
     "icon": "\ud83d\udecd\ufe0f",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Omnichannel retailers lose customer trust when prices exceed key market competitors (Amazon, Walmart, Target), but blind price matching severely erodes gross margin. Crucially, retailers should not lower prices if competitors are out of stock. This agent links competitor price scraping feeds, stock availability alerts, and POS price-match claims to optimize price matching rules.",
     "kpis": [],
     "prompts": [
       "What is our category price index parity and competitor price gap for Men's Outerwear?",
@@ -1366,7 +1370,7 @@
     "domain_display": "Merchandising",
     "icon": "\ud83d\udecd\ufe0f",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Misaligned price reductions and promotional discounts erode gross margins without delivering meaningful volume lift. This agent analyzes promotional lift and price elasticity to help merchants design high-ROI campaigns and optimize markdown timing.",
     "kpis": [],
     "prompts": [
       "Which of our recent promotions delivered the strongest promotional sales lift percentage?",
@@ -1441,7 +1445,7 @@
     "domain_display": "Merchandising",
     "icon": "\ud83d\udecd\ufe0f",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Inventory that sits unsold in retail stores past 60\u201390 days ties up working capital, reduces stock turn, and eventually requires deep clearance markdowns. This agent provides store-level visibility into aging inventory buckets and weeks of supply to trigger proactive rebalancing or early markdowns.",
     "kpis": [],
     "prompts": [
       "What is the overall sell-through rate and aging inventory breakdown for SKU-001 in July 2026?",
@@ -1541,7 +1545,7 @@
     "domain_display": "Merchandising",
     "icon": "\ud83d\udecd\ufe0f",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Volume rebates and co-op marketing funds represent a major source of retail margin recovery, but tracking YTD tier thresholds and uncollected rebate claims across hundreds of vendors is complex and error-prone. This agent tracks vendor spend milestones to ensure merchants capture 100% of earned rebate dollars.",
     "kpis": [],
     "prompts": [
       "What is our current YTD spend, active tier, and earned rebate with Apex Outerwear?",
@@ -1691,7 +1695,7 @@
     "domain_display": "Supply Chain & Logistics",
     "icon": "\ud83d\ude9a",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Misallocating inventory between fulfillment centers and retail stores leads to costly stockout events at high-demand stores while capital remains tied up in overstocked regional distribution centers. This agent pairs real-time inventory counts with AI demand forecasting to prevent stockouts and optimize safety stock depth.",
     "kpis": [],
     "prompts": [
       "What is our current inventory position, weeks of supply, and stockout risk for Down Parka?",
@@ -1740,7 +1744,7 @@
     "domain_display": "Supply Chain & Logistics",
     "icon": "\ud83d\ude9a",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Freight disruptions across regional transit lanes increase logistics expense per mile and cause unpredictable store delivery windows. This agent tracks carrier SLA performance and lane congestion to minimize freight spend and optimize carrier routing.",
     "kpis": [],
     "prompts": [
       "What is the on-time delivery rate and average transit delay by carrier over the last 30 days?",
@@ -1815,7 +1819,7 @@
     "domain_display": "Supply Chain & Logistics",
     "icon": "\ud83d\ude9a",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "High product return rates, particularly in digital and e-commerce channels, severely erode retail gross margins and create reverse logistics bottlenecks in restocking, refurbishing, or liquidating inventory. Identifying root return reasons, accelerating restock turnaround times, and controlling return policy abuse are critical to maximizing value recovery and protecting profitability.",
     "kpis": [],
     "prompts": [
       "What is our overall return rate by channel and top return reason codes for Apparel?",
@@ -1865,7 +1869,7 @@
     "domain_display": "Supply Chain & Logistics",
     "icon": "\ud83d\ude9a",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Vendor delivery delays and short shipments disrupt downstream warehouse fulfillment and cause out-of-stock events in retail stores. This agent evaluates vendor reliability via On-Time In-Full (OTIF) delivery tracking to hold suppliers accountable and enforce SLA compliance.",
     "kpis": [],
     "prompts": [
       "What is the overall On-Time In-Full (OTIF) delivery rate for Summit Gear in July 2026?",
@@ -1890,7 +1894,7 @@
     "domain_display": "Supply Chain & Logistics",
     "icon": "\ud83d\ude9a",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Bottlenecks in distribution center dock-to-stock receiving and picking operations delay store replenishment and e-commerce fulfillment. This agent provides real-time visibility into DC inbound/outbound unit throughput, storage capacity utilization, and pick accuracy.",
     "kpis": [],
     "prompts": [
       "What is our DC inbound throughput, dock-to-stock time, and storage capacity utilization across facilities?",
@@ -1965,7 +1969,7 @@
     "domain_display": "Store Operations",
     "icon": "\ud83c\udfec",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail stores frequently misalign hourly employee shift schedules with customer foot traffic patterns, causing understaffed customer queues during peak shopping hours and overstaffed downtime during lulls. This agent aligns staffing with hourly traffic and controls department overtime.",
     "kpis": [],
     "prompts": [
       "What is the labor productivity variance and foot traffic alignment for Store 101 last week?",
@@ -1990,7 +1994,7 @@
     "domain_display": "Store Operations",
     "icon": "\ud83c\udfec",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Unidentified inventory shrinkage (theft, vendor fraud, administrative error, and damaged goods) silently erodes retail operating profit. This agent tracks monthly shrink percentages, pinpoints high-risk category losses, and detects POS register audit exceptions (e.g. unauthorized cash drawer openings or manual price overrides).",
     "kpis": [],
     "prompts": [
       "What are our monthly store shrinkage rates and top high-risk shrink categories across regions?",
@@ -2115,7 +2119,7 @@
     "domain_display": "Store Operations",
     "icon": "\ud83c\udfec",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Long curbside pickup wait times and item mispicks during store order assembly erode customer trust in omnichannel store fulfillment. This agent tracks store-level BOPIS SLA compliance, picking speed, and customer wait times to eliminate fulfillment bottlenecks.",
     "kpis": [],
     "prompts": [
       "What is our Buy-Online-Pick-Up-In-Store (BOPIS) SLA compliance and average curbside pickup wait time by store?",
@@ -2190,7 +2194,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "A thriving retail marketplace relies on third-party sellers fulfilling orders accurately, on time, and without inventory discrepancies. Poor-performing sellers inflate order defect rates, generate customer complaints, and trigger catalog sync feed latency bottlenecks. This agent enables marketplace operations and merchant relationship managers to continuously monitor seller fulfillment SLAs, enforce defect thresholds (<1%), optimize take-rate commission revenues, and identify catalog feed ingestion failures before they degrade buyer trust.",
     "kpis": [],
     "prompts": [
       "Which marketplace sellers have order defect rates exceeding our 1.0% SLA threshold?",
@@ -2215,7 +2219,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "B2B wholesale e-commerce operations struggle with protracted quote negotiation cycles, manual order entry friction, unmonitored trade credit risk exposure leading to credit hold lockouts, and inconsistent volume tier pricing adoption. This agent provides real-time visibility into quote-to-order turnaround velocity, corporate account credit exposure, and bulk purchasing trends to accelerate B2B revenue capture.",
     "kpis": [],
     "prompts": [
       "Which B2B enterprise accounts have credit utilization above 70% and what is the status of pending quotes?",
@@ -2240,7 +2244,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "E-commerce operations suffer significant revenue loss due to friction in the checkout funnel, unexpected shipping fees causing cart abandonment, and payment gateway technical failures. This agent provides real-time visibility into conversion drop-offs, payment exceptions, and promo validation bottlenecks to recover lost digital sales.",
     "kpis": [],
     "prompts": [
       "What is our cart abandonment rate and checkout step drop-off for Q3 2026?",
@@ -2265,7 +2269,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Digital promotional campaigns frequently suffer from margin erosion caused by multi-coupon stacking bugs, automated coupon-scraping browser extensions, bot dictionary attacks on checkout endpoints, and affiliate partners poaching organic buyer commissions. This agent provides real-time detection of margin-inverting promo combinations, bot injection attempts, and unauthorized affiliate attributions to protect digital gross margins.",
     "kpis": [],
     "prompts": [
       "What is the total financial loss from stacked promotional abuse and which coupon combination caused the lowest order margin?",
@@ -2290,7 +2294,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Digital retail conversion rates are acutely sensitive to web page performance and frontend responsiveness. High Largest Contentful Paint (LCP) and Interaction to Next Paint (INP) latency directly drive higher bounce rates, lower search ranking visibility, and millions in lost gross merchandise value (GMV). This agent provides continuous observability into frontend Core Web Vitals, CDN edge caching efficiency, and backend microservice error spikes to ensure friction-free shopping experiences.",
     "kpis": [],
     "prompts": [
       "What are our Core Web Vitals (LCP, INP, Good Vitals %) across mobile and desktop for PDP and Checkout pages?",
@@ -2315,7 +2319,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Native mobile apps represent the highest-LTV customer touchpoint in omnichannel retail, but user retention hinges on flawless app stability and personalized re-engagement. High crash rates, poor push notification conversion, and checkout funnel drop-offs on mobile devices erode customer loyalty and app store ratings. This agent equips digital product teams and mobile marketers with real-time analytics to safeguard the 99.9% crash-free session SLA, optimize push notification ROI, and streamline the mobile path-to-purchase.",
     "kpis": [],
     "prompts": [
       "What is our mobile app crash-free session rate and how does it differ between iOS and Android?",
@@ -2340,7 +2344,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "The Product Detail Page (PDP) is the critical conversion nexus in digital retail. E-commerce merchants lose high-intent shoppers when PDPs lack engaging rich media (360-degree spins, video demos, AR try-on) or fail to provide accurate sizing guidance, causing high bounce rates, low Add-to-Cart (ATC) conversions, and costly size-related returns. This agent monitors PDP traffic, media engagement lift, size-guide effectiveness, and review sentiment to optimize product page conversion economics.",
     "kpis": [],
     "prompts": [
       "How does rich media engagement impact Add-to-Cart (ATC) rates across our top products?",
@@ -2365,7 +2369,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Digital merchants lose billions in top-line revenue from false positive fraud declines, checkout drop-offs caused by clunky 3D Secure challenges, and unrecovered chargebacks. Conversely, overly permissive rules expose merchants to catastrophic dispute liabilities and card network penalty fines. This agent balances conversion velocity against payment fraud risk by giving risk operations and payments teams unified real-time visibility into processor authorization rates, dispute representment success, and fraud engine precision.",
     "kpis": [],
     "prompts": [
       "What is our overall payment authorization rate and breakdown by processor?",
@@ -2390,7 +2394,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Digital shoppers who use site search convert at 2-3x higher rates than category browsers. High zero-search-result query rates lead to immediate session abandonment, while unoptimized recommendation carousels miss cross-selling revenue. Personalizing banner offers and search redirects captures high-intent traffic and lifts digital revenue.",
     "kpis": [],
     "prompts": [
       "What are our site search conversion rates and top zero-result queries over the last month?",
@@ -2415,7 +2419,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "E-commerce websites lose substantial high-intent organic traffic due to unindexed product URLs, broken schema structured data disqualifying product rich snippets in Google SERPs, and technical 404/5xx crawl errors. Furthermore, inaccessible checkout experiences violate WCAG 2.1 AA / ADA / European Accessibility Act (EAA) standards, risking legal penalties and excluding shoppers with disabilities. This agent provides unified technical SEO and digital accessibility auditing to maximize organic discoverability and ensure universal user access.",
     "kpis": [],
     "prompts": [
       "What is our current WCAG accessibility compliance score across page templates and what are the primary violations?",
@@ -2440,7 +2444,7 @@
     "domain_display": "E-Commerce & Digital",
     "icon": "\ud83d\uded2",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Subscription and replenishment models (Subscribe & Save) represent high-margin recurring cash flow for modern e-commerce retailers. However, unmonitored subscriber churn, friction in delivery schedule management, and inability to re-engage paused subscribers erode Customer Lifetime Value (CLV). This agent tracks monthly recurring revenue (MRR) expansion, cohort retention curves, skip/pause behavioral patterns, and LTV:CAC unit economics to optimize subscription retention.",
     "kpis": [],
     "prompts": [
       "What is our current Monthly Recurring Revenue (MRR) and subscriber breakdown across categories?",
@@ -2465,7 +2469,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Brand equity and customer trust directly drive long-term organic retention and customer lifetime value. However, negative sentiment crises, viral social criticism, or competitor narrative shifts can rapidly erode brand perception before quarterly brand tracker surveys detect them. This agent delivers unified real-time social listening, Net Brand Sentiment Score (NBSS), competitive Share of Voice (SOV), and brand advocacy metrics.",
     "kpis": [],
     "prompts": [
       "What is our current Net Brand Sentiment Score (NBSS) and Brand NPS trend over the past 4 months?",
@@ -2490,7 +2494,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Escalating digital customer acquisition costs (CAC) across paid search and social channels threaten e-commerce unit economics. Without granular cohort margin recovery tracking and payback period calculation, retailers overspend on unprofitable acquisition channels and underfund channels with high first-order AOV and fast repeat acceleration. This agent monitors blended vs paid CAC, cohort gross margin recovery, and payback velocity.",
     "kpis": [],
     "prompts": [
       "What is our paid vs blended Customer Acquisition Cost (CAC) by channel and which channels have the fastest payback period?",
@@ -2515,7 +2519,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Direct-to-consumer messaging (Email & SMS) delivers the highest ROI of any retail marketing channel, but excessive dispatch frequency leads to subscriber fatigue, high unsubscribe rates, and domain deliverability penalties. This agent optimizes CRM lifecycle journeys, evaluates revenue per send, and monitors inbox deliverability health across email and SMS.",
     "kpis": [],
     "prompts": [
       "What is our revenue per recipient across email and SMS campaigns, and how are automated cart abandonment flows performing?",
@@ -2540,7 +2544,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Marketing departments struggle to allocate digital ad budgets effectively without real-time visibility into channel Return on Ad Spend (ROAS) and Customer Acquisition Cost (CAC). This agent evaluates campaign performance across paid channels to reallocate spend toward high-converting media.",
     "kpis": [],
     "prompts": [
       "What is our Return on Ad Spend (ROAS) across Paid Search, Social Media, Display, and Video Ads for Q3?",
@@ -2565,7 +2569,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Customer lapse is insidious in retail\u2014once a shopper crosses category-specific repurchase lapse thresholds, the cost to reactivate them increases exponentially. Without proactive ML-driven churn probability scoring and automated margin-optimized win-back offers, retailers suffer unnecessary customer decay and revenue attrition. This agent identifies at-risk cohorts and orchestrates targeted win-back campaigns.",
     "kpis": [],
     "prompts": [
       "What are our current customer churn risk distributions and which departments have the highest lapsing rates?",
@@ -2590,7 +2594,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retaining high-value customers costs significantly less than acquiring new ones, yet retail marketers lack automated visibility into customer churn risk and RFM segment migration. This agent tracks Customer Lifetime Value (CLV), loyalty tier reward redemption rates, and predictive churn risk scores to drive retention.",
     "kpis": [],
     "prompts": [
       "What is the average customer lifetime value (CLV) distribution across our loyalty tiers for 2026?",
@@ -2615,7 +2619,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Physical brick-and-mortar stores require localized digital marketing to drive in-store foot traffic, promote grand openings, and clear local overstock. Blanket national ad campaigns waste budget in under-penetrated markets. This agent analyzes store trade area demographics, geofenced mobile ad effectiveness, and in-store foot traffic lift from local digital campaigns.",
     "kpis": [],
     "prompts": [
       "What is our foot traffic lift and cost per store visit across local store digital campaigns, and which stores saw the highest promo redemptions?",
@@ -2640,7 +2644,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Influencer marketing partnerships and creator seeding often represent large upfront investments with opaque attribution. Without tracking creator promo code conversions, effective cost per acquisition (eCPA), and earned media value (EMV), retailers risk overpaying macro-influencers while under-leveraging high-converting micro-creators. This agent provides full ROI accountability for creator partnerships.",
     "kpis": [],
     "prompts": [
       "What is our effective CPA and gross sales across creator affiliate campaigns, and which follower tier delivered the highest ROAS?",
@@ -2665,7 +2669,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Siloed customer data across POS registers, mobile apps, and e-commerce websites creates fragmented shopper profiles, duplicate customer records, and blind spots in cross-channel behavior. Omnichannel shoppers who buy both in-store and online generate 3x higher annual spend, but retailers lack identity resolution to attribute cross-channel revenue lift. This agent tracks unified CDP identity resolution and omnichannel cohort velocity.",
     "kpis": [],
     "prompts": [
       "What is the annual spend multiplier of omnichannel customers compared to single-channel shoppers, and what is our store-to-web cross-shop rate?",
@@ -2690,7 +2694,7 @@
     "domain_display": "Marketing & Retail Media",
     "icon": "\ud83d\udcca",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail Media Networks (RMN) represent the fastest-growing high-margin revenue stream for modern retailers. Maximizing RMN profitability requires balancing on-site sponsored search auction clearing prices (CPC/eCPM), ad slot inventory fill rates, and CPG brand advertiser ROAS delivery. This agent monitors sponsored product auctions, publisher yield, and advertiser performance reports.",
     "kpis": [],
     "prompts": [
       "What is our Retail Media Network ad revenue and eCPM yield across placements, and what ROAS are we delivering to top CPG advertisers?",
@@ -2715,7 +2719,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail store remodel programs represent multi-million dollar capital expenditure (CAPEX) investments. Without granular tracking of budget variances, contractor milestone costs, post-remodel sales lift, and hurdle rate achievement (IRR % & payback periods), finance leadership risks overspending on underperforming formats and misallocating capital across the retail store fleet.",
     "kpis": [],
     "prompts": [
       "What is the average post-remodel sales lift percentage across stores remodeled in the last 18 months?",
@@ -2740,7 +2744,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Unmonitored corporate overhead and SG&A budget overruns directly compress retail operating profit and erode EBITDA margins. Without continuous cost center variance tracking and rolling EBITDA forecast visibility, corporate finance leadership cannot proactively curb departmental overspending or adjust headcount run rates before annual operating targets are compromised.",
     "kpis": [],
     "prompts": [
       "What is the SG&A OpEx budget vs actual variance by corporate cost center for Q2 2026?",
@@ -2765,7 +2769,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Currency exchange rate volatility introduces major unpredictability into landed cost of goods sold (COGS) for global merchandise imports. When foreign currencies appreciate against the US Dollar without adequate hedge coverage, retail enterprises experience unplanned landed cost inflation, gross margin compression, and derivative liability mark-to-market losses. This agent provides real-time visibility into open purchase order currency commitments, forward contract hedge ratios, mark-to-market valuations (ASC 815), and landed cost FX variance across product categories.",
     "kpis": [],
     "prompts": [
       "What is our total foreign exchange currency exposure on open global import purchase orders by currency?",
@@ -2790,7 +2794,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retailers issue billions of dollars annually in physical and digital gift cards, creating massive unearned revenue liabilities that sit on corporate balance sheets until cards are redeemed. Under US GAAP (ASC 606), retailers must recognize gift card breakage income proportionally as redemptions occur rather than taking lump-sum windfalls, while tracking actuarial dormancy decay curves and maintaining strict escheatment reserves for state unclaimed property laws (e.g., Delaware, New York). Failing to model dormancy decay leads to financial restatements, inaccurate earnings forecasts, and non-compliance fines.",
     "kpis": [],
     "prompts": [
       "What is the total outstanding unredeemed gift card liability balance across physical and digital cards?",
@@ -2815,7 +2819,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Unplanned promotional markdowns and vendor cost inflation dilute retail gross margins without category leadership realizing until quarterly close. This agent tracks category margin rates, cost of goods sold (COGS) variance, and markdown erosion to protect profitability targets.",
     "kpis": [],
     "prompts": [
       "What is our gross margin rate and COGS variance for Outerwear in Q2 2026?",
@@ -2840,7 +2844,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail enterprise inventory carrying values must accurately reflect Net Realizable Value (NRV) under US GAAP (ASC 330) and IFRS (IAS 2). Without granular visibility into Lower of Cost or Market (LCM) reserves, slow-moving aging stock, unrecorded shrink exposure, and cost layer variances, retailers risk sudden balance sheet write-downs, audit compliance penalties, and distorted gross margins. This agent automates inventory reserve calculations, monitors aged write-down schedules, reconciles book-to-physical shrink accruals, and tracks FIFO cost layers against current market replacement costs.",
     "kpis": [],
     "prompts": [
       "What is our total Lower of Cost or Market (LCM) valuation reserve balance by merchandise category in Q2 2026?",
@@ -2865,7 +2869,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Multi-state omnichannel retail exposes enterprises to severe tax compliance risks across 11,000+ local jurisdictions. Tracking economic nexus thresholds (post-South Dakota v. Wayfair), expired reseller exemption certificates, and evolving statutory tax rates requires real-time monitoring to avoid multi-million dollar audit penalties and unaccrued ASC 450 liability reserves.",
     "kpis": [],
     "prompts": [
       "Which states have reached or exceeded economic nexus sales and transaction thresholds this calendar year?",
@@ -2890,7 +2894,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Store-level operating expense (OpEx) overruns in labor, rent, utilities, and maintenance erode store EBITDA margins. This agent delivers four-wall store P&L transparency to hold store managers accountable to profitability targets and control regional OpEx variances.",
     "kpis": [],
     "prompts": [
       "What was the EBITDA and labor OpEx variance for Store 101 in July 2026?",
@@ -2915,7 +2919,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Fixed store lease liabilities, escalation clauses, and Common Area Maintenance (CAM) expenses represent one of the largest ongoing cash outflows for brick-and-mortar retail enterprises. When store sales decline or mall anchor tenants vacate, rigid base rent terms can drive occupancy cost burdens above sustainable thresholds (10-15% of sales). This agent empowers real estate and finance teams to track occupancy cost ratios, identify percentage rent overage obligations, proactively manage upcoming lease renewal windows, and enforce co-tenancy rent abatement remedies.",
     "kpis": [],
     "prompts": [
       "What are our total monthly occupancy costs and occupancy cost as a percentage of sales across store locations?",
@@ -2940,7 +2944,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "In complex multi-channel retail operations managing thousands of suppliers and millions of accounts payable transactions, billing discrepancies, duplicate disbursements, unearned prompt-payment discount losses, and uncollected supply chain compliance fines quietly erode net operating profit. Post-audit recovery teams frequently discover leakage quarters after cash disbursements have settled. This agent continuously audits invoice line items, identifies duplicate payment matches, monitors compliance chargebacks, and quantifies unearned discount losses to protect working capital and cash recovery.",
     "kpis": [],
     "prompts": [
       "How many potential duplicate invoice payments were flagged and what is the total dollar exposure?",
@@ -2965,7 +2969,7 @@
     "domain_display": "Finance, Real Estate & Accounting",
     "icon": "\ud83d\udcb0",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Working capital inefficiency and unmanaged cash burn create liquidity bottlenecks and increase borrowing costs. This agent provides real-time visibility into cash conversion cycles, receivables aging, vendor payment terms, and 30-day liquidity forecasts to optimize operating cash flows and capture early payment discounts.",
     "kpis": [],
     "prompts": [
       "What is our current Cash Conversion Cycle (CCC), DSO, and DPO across operating divisions?",
@@ -2990,7 +2994,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Customer service chatbots risk frustrating users through high fallback rates and poorly timed human escalations if intent recognition and sentiment tracking are not continuously monitored.",
     "kpis": [],
     "prompts": [
       "What was our chatbot session containment rate over the last 30 days compared to our 65% target?",
@@ -3015,7 +3019,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Contact center leaders struggle to balance customer satisfaction (CSAT) and First Contact Resolution (FCR) with agent handle times and labor efficiency across voice and digital queues.",
     "kpis": [],
     "prompts": [
       "What is the average First Contact Resolution (FCR %) across all queues for the past 30 days?",
@@ -3040,7 +3044,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Products damaged in shipping require immediate customer replacement without tedious paperwork, while rigorous documentation is essential to maximize freight carrier damage liability claims.",
     "kpis": [],
     "prompts": [
       "What is our total carrier damage claim recovery percentage across FedEx, UPS, and USPS over the last 30 days?",
@@ -3065,7 +3069,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Inefficient warranty claims intake and slow repair depot turnaround inflate customer dissatisfaction, while uncollected manufacturer warranty recoveries create margin leakage.",
     "kpis": [],
     "prompts": [
       "What is our total vendor warranty recovery realization percentage across all suppliers this quarter?",
@@ -3090,7 +3094,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Strict return windows alienate loyal shoppers who have legitimate return disputes, while unmonitored policy overrides lead to high appeasement costs and serial returner abuse.",
     "kpis": [],
     "prompts": [
       "What is the total concession dollar amount granted for out-of-policy return exceptions this month?",
@@ -3115,7 +3119,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Public customer complaints on social media platforms (X, Instagram, TikTok) can rapidly escalate into brand PR crises without fast triage (<15m) and secure transition to private resolution channels.",
     "kpis": [],
     "prompts": [
       "What is our average first response time across social media platforms (X, Instagram, TikTok, Facebook)?",
@@ -3140,7 +3144,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Store associates face POS register crashes, scanner freezes, and payment terminal failures during peak trading hours; delayed IT support directly causes customer checkout queues and lost sales.",
     "kpis": [],
     "prompts": [
       "What is the average Mean Time to Resolve (MTTR) for critical P1 POS hardware outages by store region?",
@@ -3165,7 +3169,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "High-Customer-Lifetime-Value (CLV) clients require high-touch, rapid-response white-glove service; delays in concierge response risk churn among top revenue contributors.",
     "kpis": [],
     "prompts": [
       "What is the SLA adherence percentage for VIP customer inquiries responded to under 5 minutes this month?",
@@ -3190,7 +3194,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retailers lack real-time visibility into unstructured customer feedback across call transcripts, chat logs, and surveys, leading to slow discovery of emerging product quality defects and negative sentiment drivers.",
     "kpis": [],
     "prompts": [
       "What are the top 3 customer complaint topics by mention volume in customer feedback over the past 30 days?",
@@ -3215,7 +3219,7 @@
     "domain_display": "Customer Care & Experience",
     "icon": "\ud83c\udfa7",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "\"Where Is My Order\" (WISMO) inquiries constitute over 40% of inbound retail customer support volume, causing support congestion and unnecessary customer friction during carrier transit delays.",
     "kpis": [],
     "prompts": [
       "What is our overall self-service deflection rate for WISMO order inquiries over the last 30 days?",
@@ -3240,7 +3244,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail sustainability and operations leaders struggle to accurately measure, allocate, and reduce Scope 1, 2, and 3 greenhouse gas (GHG) emissions across complex store networks, logistics fleets, and multi-tier supply chain lifecycles.",
     "kpis": [],
     "prompts": [
       "What is our total Scope 1 GHG emissions in metric tons across all facilities in 2026 YTD?",
@@ -3265,7 +3269,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Global supply chain risks such as forced labor, underage workers, excessive overtime, and unsafe factory conditions threaten brand reputation, customs import clearance, and ESG audit compliance.",
     "kpis": [],
     "prompts": [
       "What is the breakdown of our active suppliers by social audit rating grade (A, B, C, D)?",
@@ -3290,7 +3294,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Mandatory state packaging and textile EPR statutory fees, electronic waste compliance, and circular economy take-back programs require automated material accounting, fee optimization, and recommerce management.",
     "kpis": [],
     "prompts": [
       "What are our total EPR packaging compliance fees assessed and paid by state jurisdiction in 2026?",
@@ -3315,7 +3319,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Grocery and multi-category retailers face significant financial shrink and high landfill methane emissions from perishable food waste, markdown delays, and inefficient food bank donation pipelines.",
     "kpis": [],
     "prompts": [
       "What was our total perishable food waste shrink cost and spoiled units across stores in Q2 2026?",
@@ -3340,7 +3344,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "When safety defects, choking hazards, or chemical contaminations emerge, retailers must rapidly execute product recalls, lock point-of-sale registers, quarantine store stock, and notify consumers to prevent injuries and regulatory sanctions.",
     "kpis": [],
     "prompts": [
       "What was the average execution time in hours for stores to complete shelf quarantine for active 2026 recalls?",
@@ -3365,7 +3369,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail store footprints and distribution hubs consume massive electricity volumes, exposing the enterprise to volatile utility grid tariffs, peak demand surcharges, and high fossil fuel carbon emissions.",
     "kpis": [],
     "prompts": [
       "What is our total on-site solar energy generation in MWh and avoided utility cost in 2026 YTD?",
@@ -3390,7 +3394,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Apparel, footwear, cookware, and consumer packaging face strict regulatory bans and hazardous chemical restrictions including PFAS ('forever chemicals'), phthalates, lead, and Prop 65 warning requirements.",
     "kpis": [],
     "prompts": [
       "What is our overall RSL chemical lab testing pass rate and how many test failures occurred in Q2 2026?",
@@ -3415,7 +3419,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retailers seek to build resilient, equitable supply chains and meet corporate diversity procurement commitments by expanding spend with certified Minority, Women, Veteran, LGBTQ+, and Disability-Owned enterprises.",
     "kpis": [],
     "prompts": [
       "What is our total procurement spend with certified diverse suppliers in 2026 YTD and what percentage of total spend does it represent?",
@@ -3440,7 +3444,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retailers must navigate complex state-level Extended Producer Responsibility (EPR) laws, virgin plastic reduction targets, and consumer demand for curbside recyclable and post-consumer recycled (PCR) packaging.",
     "kpis": [],
     "prompts": [
       "What is our average post-consumer recycled (PCR) packaging content percentage across product categories?",
@@ -3465,7 +3469,7 @@
     "domain_display": "Sustainability, ESG & Compliance",
     "icon": "\ud83c\udf31",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail facilities, garden centers, commercial kitchens, and cooling towers in drought-vulnerable watersheds face escalating municipal water tariffs, mandatory reduction quotas, and water scarcity risks.",
     "kpis": [],
     "prompts": [
       "Which retail store facilities have the highest water usage intensity in gallons per square foot in 2026?",
@@ -3490,7 +3494,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-east4",
-    "description": "### Business Problem",
+    "description": "Frontline retail associate burnout, communication silos between corporate and store teams, and low employee Net Promoter Scores (eNPS) drive quiet quitting, customer dissatisfaction, and store turnover.",
     "kpis": [],
     "prompts": [
       "What was our overall Employee Net Promoter Score (eNPS) across retail stores in the latest Q2 pulse survey?",
@@ -3515,7 +3519,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-east4",
-    "description": "### Business Problem",
+    "description": "Retailers must navigate rapidly changing municipal and state minimum wage ordinances, market wage compression between new hires and tenured associates, and local competitor hourly pay premiums.",
     "kpis": [],
     "prompts": [
       "How does our entry-level cashier base wage compare against the local market median (P50) across our top 10 metropolitan areas?",
@@ -3540,7 +3544,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-east4",
-    "description": "### Business Problem",
+    "description": "Retail stores operating under Collective Bargaining Agreements (CBAs) face complex contractual seniority shift-bidding rules, mandatory wage progression schedules, and union grievance resolution deadlines.",
     "kpis": [],
     "prompts": [
       "What is our on-time resolution percentage for Step 1 and Step 2 union grievances in 2026 YTD?",
@@ -3565,7 +3569,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail store managers struggle to balance customer foot-traffic demand curves with municipal Fair Workweek statutory regulations, schedule advance notice deadlines, clopening rest periods, and shift-swap flexibility.",
     "kpis": [],
     "prompts": [
       "What percentage of store employee schedules were published with 14+ days advance notice in Q2 2026?",
@@ -3590,7 +3594,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-east4",
-    "description": "### Business Problem",
+    "description": "Q4 holiday and spring garden retail volume surges require hiring thousands of temporary frontline workers within tight windows, facing background check backlogs, applicant ghosting, and staffing deficits.",
     "kpis": [],
     "prompts": [
       "What is our current seasonal staffing fill rate percentage against our Q4 holiday hiring goal of 12,000 associates?",
@@ -3615,7 +3619,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Retail store operations suffer from high associate turnover (especially in the first 90 days), resulting in recruiting surge costs, understaffed peak shifts, and customer checkout friction.",
     "kpis": [],
     "prompts": [
       "What is the annualized store associate turnover rate across districts for 2026 YTD?",
@@ -3640,7 +3644,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-east4",
-    "description": "### Business Problem",
+    "description": "Unplanned store manager vacancies and weak assistant manager promotion benches cause store operational disruptions, declining customer service scores, and high executive search expenditures.",
     "kpis": [],
     "prompts": [
       "What is our average store manager vacancy fill time in days and internal promotion percentage in 2026?",
@@ -3665,7 +3669,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-central1",
-    "description": "### Business Problem",
+    "description": "Delays in mandatory compliance training, safety onboarding, and product knowledge certifications lead to extended time-to-productivity for new hires and exposure to regulatory non-compliance fines.",
     "kpis": [],
     "prompts": [
       "What is our enterprise completion rate for mandatory annual safety and compliance training in 2026?",
@@ -3690,7 +3694,7 @@
     "domain_display": "Human Resources & Workforce",
     "icon": "\ud83d\udc65",
     "location": "us-east4",
-    "description": "### Business Problem",
+    "description": "Workplace injuries (slips, trips, repetitive motion, backroom pallet lifting) drive up workers' compensation insurance reserves, increase OSHA recordable incident rates (TRIR), and lead to lost operational workdays.",
     "kpis": [],
     "prompts": [
       "What is our Total Recordable Incident Rate (TRIR) and DART rate across retail stores in 2026 YTD?",

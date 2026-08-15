@@ -124,3 +124,20 @@ def test_all_demo_mp4_and_html_files_exist_on_disk():
         
     assert not missing_html, f"Missing HTML demo files: {missing_html[:5]}"
     assert not missing_mp4, f"Missing MP4 demo files: {missing_mp4[:5]}"
+
+
+def test_all_100_agent_descriptions_are_clean_and_complete():
+    index_file = REPO_ROOT / "index.html"
+    content = index_file.read_text(encoding="utf-8")
+    
+    match = re.search(r"const AGENTS_DATA = (\[.*?\]);\s*\n\s*let activeDomain", content, re.DOTALL)
+    agents = json.loads(match.group(1))
+    
+    bad_descriptions = []
+    for a in agents:
+        desc = a.get("description", "").strip()
+        if desc.startswith("#") or "###" in desc or desc == "### Business Problem" or len(desc) < 40:
+            bad_descriptions.append((a["name"], a["domain"], desc))
+            
+    assert not bad_descriptions, f"Found truncated or markdown-polluted agent descriptions: {bad_descriptions}"
+

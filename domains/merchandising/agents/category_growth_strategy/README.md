@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Category Growth Strategy**, built wi
 
 ## Why This Agent Matters
 
+### Business Problem
 Optimizing category performance requires aligning SKU mix with strategic category roles (Destination, Routine, Convenience, Basket Builder). This agent analyzes chain market share vs. total addressable market (TAM), trip basket penetration rates, and emerging whitespace growth opportunities to guide category resource allocation.
+
+### Target Personas
+- **Category Strategy VPs**: Define portfolio roles across Destination, Routine, and Convenience categories.
+- **Senior Merchandisers**: Align SKU assortment breadth and pricing strategy with 3-year category growth targets.
+- **Trade Marketing Leads**: Allocate marketing spend and shelf space to high-growth subcategories.
 
 ---
 

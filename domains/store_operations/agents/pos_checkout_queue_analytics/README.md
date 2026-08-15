@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: POS & Checkout Queue Analytics**,
 
 ## Why This Agent Matters
 
+### Business Problem
 Long checkout lines are the leading driver of in-store customer cart abandonment and negative customer satisfaction. Slow cashier scan speeds and excessive self-checkout attendant interventions create severe front-end bottlenecks. This agent analyzes queue wait times, cashier items per minute (IPM), and self-checkout intervention root causes.
+
+### Target Personas
+- **Store Operations Directors**: Minimize front-end checkout wait times and queue abandonment.
+- **Front-End Managers**: Dynamically open assisted lanes based on live queue depth sensors.
+- **Labor Schedulers**: Align cashier staffing schedules with peak hourly transaction volume.
 
 ---
 

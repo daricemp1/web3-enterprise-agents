@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: Packaging & Dunnage Optimization**, b
 
 ## Why This Agent Matters
 
+### Business Problem
 Shipping empty air in oversized cartons escalates carrier dimensional weight (DIM) penalty fees, increases void-fill packaging expenses, and compromises sustainability goals. This agent tracks master carton cube utilization %, carrier DIM penalties ($), in-transit merchandise damage rates, and void-fill material costs across fulfillment centers.
+
+### Target Personas
+- **Packaging Engineering Leads**: Eliminate void space and optimize carton dimensional weight (DIM) ratios.
+- **Sustainability Directors**: Transition to 100% recyclable, biodegradable packaging materials.
+- **Logistics Cost Managers**: Reduce carrier dimensional surcharge penalties and transit damage claims.
 
 ---
 

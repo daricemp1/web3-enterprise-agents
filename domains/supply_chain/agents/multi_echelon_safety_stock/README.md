@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: Multi-Echelon Safety Stock**, built w
 
 ## Why This Agent Matters
 
+### Business Problem
 Stocking safety inventory at every node in a retail network creates wasteful inventory duplication and inflated working capital holding costs. Multi-echelon inventory optimization (MEIO) calculates the optimal balance of safety buffer stock held centrally at distribution centers versus downstream store locations to maximize order fulfillment SLAs while minimizing carrying costs.
+
+### Target Personas
+- **Inventory Network Strategists**: Balance safety stock placement between central DCs, regional hubs, and stores.
+- **Demand Planners**: Prevent bullwhip effect amplification across multi-tier replenishment nodes.
+- **Working Capital Controllers**: Reduce aggregate network safety stock while maintaining 98%+ service levels.
 
 ---
 

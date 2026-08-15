@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: Store Safety & Incident Managemen
 
 ## Why This Agent Matters
 
+### Business Problem
 Workplace injuries and customer slip-and-fall incidents represent significant human risk and multi-million dollar liability claim exposure. Fast hazard remediation and proactive safety culture prevent accidents. This agent tracks incident frequency, logs hazard correction closure hours, monitors OSHA recordables, and manages liability claim costs.
+
+### Target Personas
+- **Risk Management & Safety Directors**: Track store OSHA recordable injuries and customer slip-and-fall incidents.
+- **Store Operations Leads**: Enforce safety walk audits and hazard remediation protocols.
+- **Workers' Comp Administrators**: Reduce incident frequency, severity, and associated legal liability.
 
 ---
 

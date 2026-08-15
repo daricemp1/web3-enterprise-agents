@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: Store Cash Management & Till Bala
 
 ## Why This Agent Matters
 
+### Business Problem
 Unreconciled cash drawer overages and shortages mask cashier errors, drawer skimming, and till theft. Delayed armored car deposit reconciliation inflates store cash loss liability. This agent tracks end-of-shift drawer reconciliation variances, logs surprise till audits, and verifies bank deposit clearing.
+
+### Target Personas
+- **Store Cash Controllers**: Reconcile daily cashier till overages and shortages.
+- **Loss Prevention Managers**: Detect patterns of cashier skimming, till theft, or counterfeit tender.
+- **Store General Managers**: Accelerate end-of-day cash deposit and smart safe balancing workflows.
 
 ---
 

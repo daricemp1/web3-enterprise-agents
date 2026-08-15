@@ -8,7 +8,13 @@ An enterprise AI agent for **Merchandising: Space Planning & Micro-Merchandising
 
 ## Why This Agent Matters
 
+### Business Problem
 Linear shelf space is a physical retailer's most valuable asset. Misaligned space allocations and planogram non-compliance lead to out-of-stocks on top velocity items and margin dilution. This agent optimizes linear shelf space elasticity, fixture capacity utilization, and eye-level shelf share to maximize gross margin and revenue per square/linear foot across store clusters.
+
+### Target Personas
+- **Space Planning Managers**: Optimize linear foot allocations and eye-level shelf space distribution.
+- **Category Managers**: Maximize gross margin return on space (GMROS) across store clusters.
+- **Visual Merchandisers**: Audit planogram facing execution and fixture capacity utilization.
 
 ---
 

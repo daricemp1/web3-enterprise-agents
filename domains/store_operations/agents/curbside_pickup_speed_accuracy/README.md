@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: Curbside Pickup Speed & Accuracy*
 
 ## Why This Agent Matters
 
+### Business Problem
 Curbside pickup is a core convenience differentiator for physical retail. Long parking bay dwell times and unapproved item substitutions degrade customer loyalty and cause order cancellations. This agent tracks arrival-to-trunk delivery speed (<3 mins), substitution acceptance %, runner dispatch times, and parking bay turnover.
+
+### Target Personas
+- **E-Commerce Fulfillment Directors**: Minimize curbside customer parking bay dwell time under 3 minutes.
+- **Store Pickup Leads**: Track order picking accuracy and dispense staging speed.
+- **Customer Experience Managers**: Improve Net Promoter Score (NPS) for digital store pickup.
 
 ---
 

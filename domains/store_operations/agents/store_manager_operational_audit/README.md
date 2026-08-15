@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: Store Manager Operational Audits*
 
 ## Why This Agent Matters
 
+### Business Problem
 Consistent store operational execution across cleanliness, backroom safety, pricing accuracy, and health inspection readiness directly drives sales and brand reputation. This agent analyzes District Director 360 audit scorecards, backroom clutter safety indices, shelf price scan accuracy, and public health inspection grades.
+
+### Target Personas
+- **Regional VPs**: Benchmark store operational audit scores across cleanliness, safety, and brand standards.
+- **District Managers**: Conduct consistent 50-point store operational walk evaluations.
+- **Store Managers**: Close operational non-compliance action items within required SLA windows.
 
 ---
 

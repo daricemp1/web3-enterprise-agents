@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: DC Automation & Robotics KPIs**, buil
 
 ## Why This Agent Matters
 
+### Business Problem
 Modern distribution centers rely on automated storage and retrieval systems (ASRS), autonomous mobile robots (AMRs), and robotic goods-to-person (GTP) picking cells. System downtime or mechanical jams immediately halt outbound trailer shipping schedules. This agent monitors robotic pick rates (UPH), equipment uptime %, maintenance work orders, and mean time between failures (MTBF).
+
+### Target Personas
+- **DC Automation Engineers**: Monitor throughput, pick rates, and uptime across robotic ASRS and AGV systems.
+- **Warehouse Operations VPs**: Optimize automated pick cell bottlenecks and maintenance scheduling.
+- **Industrial Engineering Leads**: Benchmark automated robotics productivity vs. manual material handling.
 
 ---
 

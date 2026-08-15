@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: In-Store Omnichannel Returns & BO
 
 ## Why This Agent Matters
 
+### Business Problem
 Buy-Online-Return-In-Store (BORIS) accounts for over 60% of all digital retail returns. Slow return desk handling creates customer friction, while delays in restocking salable merchandise lead to markdown write-offs. This agent tracks BORIS processing times, return fraud flags, same-day shelf restock %, and salvage recovery.
+
+### Target Personas
+- **Omnichannel Operations Leads**: Streamline in-store processing of Buy-Online-Return-In-Store (BORIS).
+- **Store Asset Protection**: Identify return fraud, non-receipt returns, and fraudulent label reprints.
+- **Reverse Logistics Managers**: Accelerate disposition of returned items back to active shelf stock.
 
 ---
 

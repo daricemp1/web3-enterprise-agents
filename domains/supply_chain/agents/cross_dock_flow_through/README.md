@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: Cross-Dock & Flow-Through Velocity**,
 
 ## Why This Agent Matters
 
+### Business Problem
 Traditional warehouse put-away and picking add handling labor and inventory holding days. Cross-docking transfers inbound merchandise directly to outbound store trailers in hours. This agent monitors cross-dock turnaround dwell times, pre-distribution allocation accuracy, and trailer yard staging congestion to maximize touchless velocity.
+
+### Target Personas
+- **Cross-Dock Operations Managers**: Maximize direct dock-to-dock flow-through velocity under 24 hours.
+- **Inbound/Outbound Schedulers**: Synchronize inbound vendor deliveries with store delivery waves.
+- **Facility Operations Leads**: Eliminate put-away labor and backroom warehouse staging congestion.
 
 ---
 

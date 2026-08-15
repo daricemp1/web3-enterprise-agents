@@ -75,24 +75,33 @@ def extract_agent_metadata(agent_name: str, domain: str, reg_agent: dict, repo_r
     if readme_path.exists():
         content = readme_path.read_text(encoding="utf-8")
         
-        # 1. Extract Description from Why This Agent Matters or subtitle
-        why_match = re.search(r"##\s+(?:1\.\s+)?Why This Agent Matters.*?\n\n(.*?)(?=\n\n|\n\#\#|\Z)", content, re.DOTALL)
-        if why_match:
-            desc_candidate = why_match.group(1).strip()
-            # Clean markdown bold/links
-            desc_candidate = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", desc_candidate)
-            desc_candidate = desc_candidate.replace("**", "").replace("*", "").strip()
-            if len(desc_candidate) > 20:
-                description = desc_candidate.split("\n")[0].strip()
+        # 1. Extract Description from Business Problem or Why This Agent Matters
+        bp_match = re.search(r"###\s+Business Problem\s*\n+(.*?)(?=\n\s*###|\n\s*##|\n\s*---|\Z)", content, re.DOTALL)
+        if bp_match:
+            text = bp_match.group(1).strip()
+            lines = [l.strip() for l in text.splitlines() if l.strip() and not l.strip().startswith("#")]
+            if lines:
+                cleaned = " ".join(lines)
+                cleaned = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", cleaned).replace("**", "").replace("*", "").strip()
+                if len(cleaned) > 20:
+                    description = cleaned
+        elif "Why This Agent Matters" in content:
+            why_match = re.search(r"##\s+(?:1\.\s+)?Why This Agent Matters\s*\n+(.*?)(?=\n\s*###|\n\s*##|\n\s*---|\Z)", content, re.DOTALL)
+            if why_match:
+                text = why_match.group(1).strip()
+                lines = [l.strip() for l in text.splitlines() if l.strip() and not l.strip().startswith("#")]
+                if lines:
+                    cleaned = " ".join(lines)
+                    cleaned = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", cleaned).replace("**", "").replace("*", "").strip()
+                    if len(cleaned) > 20:
+                        description = cleaned
         else:
             # Fallback to paragraph before first section
-            p_match = re.search(r"^#\s+.*?\n\n(.*?)(?=\n\n|\n\#\#|\Z)", content, re.DOTALL | re.MULTILINE)
-            if p_match:
-                desc_candidate = p_match.group(1).strip()
-                desc_candidate = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", desc_candidate)
-                desc_candidate = desc_candidate.replace("**", "").replace("*", "").strip()
-                if len(desc_candidate) > 20:
-                    description = desc_candidate.split("\n")[0].strip()
+            ans_match = re.search(r"^(Answers questions about.*?)(?=\n\s*\n|\n\s*#|\Z)", content, re.DOTALL | re.MULTILINE)
+            if ans_match:
+                cleaned = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", ans_match.group(1).strip()).replace("**", "").replace("*", "").strip()
+                if len(cleaned) > 20:
+                    description = cleaned
                     
         # 2. Extract KPIs from KPI table
         kpi_table_match = re.search(r"\|\s*Metric\s*\|\s*Definition\s*\|\s*Target\s*\|.*?\n((?:\|.*?\n)+)", content, re.IGNORECASE)
@@ -674,6 +683,10 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
       line-height: 1.5;
       margin-bottom: 16px;
       flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }}
 
     /* KPI Tags */

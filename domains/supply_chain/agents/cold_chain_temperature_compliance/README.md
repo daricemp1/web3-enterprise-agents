@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: Cold Chain Temperature Compliance**, 
 
 ## Why This Agent Matters
 
+### Business Problem
 Perishable foods and temperature-sensitive goods degrade rapidly when reefer cold chain integrity is compromised. Uncontrolled temperature excursions result in regulatory compliance violations, unsafe product spoilage, and severe inventory shrink. This agent tracks IoT temperature sensors across transit trailers and DC coolers, flags excursion severity, and monitors remaining shelf life (RSL).
+
+### Target Personas
+- **Quality Assurance Directors**: Monitor IoT temperature telemetry across perishable transit routes.
+- **Cold Chain Logistics Leads**: Prevent thermal abuse breaches and refrigerated cargo spoilage.
+- **Compliance Officers**: Ensure FSMA and FDA food safety regulatory audit readiness.
 
 ---
 

@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Private Brand Development**, built w
 
 ## Why This Agent Matters
 
+### Business Problem
 Private label store brands represent a critical driver of retailer profitability and customer brand loyalty. This agent monitors private brand volume penetration %, gross margin premiums over national brand equivalents, and co-packer component COGS variances, empowering category managers to scale high-margin owned brand portfolios.
+
+### Target Personas
+- **Private Label Directors**: Identify high-margin national brand equivalency (NBE) expansion opportunities.
+- **Product Developers**: Benchmark private brand cost-of-goods-sold and retail price gaps.
+- **Category Managers**: Optimize private brand unit penetration and repeat repurchase loyalty.
 
 ---
 

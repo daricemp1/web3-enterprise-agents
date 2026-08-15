@@ -8,7 +8,13 @@
 
 ## Why This Agent Matters
 
+### Business Problem
 Inbound freight costs and port container dwell penalties represent millions in avoidable logistics leakage. This agent analyzes lane freight rate benchmarks ($/CWT), monitors container dwell times against free-time thresholds, and identifies demurrage charge root causes to streamline ocean and intermodal freight import corridors.
+
+### Target Personas
+- **Inbound Logistics Directors**: Optimize container utilization and minimize port demurrage penalties.
+- **Freight Sourcing Managers**: Select optimal contract vs. spot carrier modes across inbound lanes.
+- **DC Inbound Schedulers**: Coordinate dock appointments to prevent carrier wait times.
 
 ---
 

@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Size & Case Pack Optimization**, bui
 
 ## Why This Agent Matters
 
+### Business Problem
 Broken size runs and mismatched master case-pack quantities create stockouts in high-demand sizes while tying up working capital in slow-moving size multiples. This agent optimizes size curves by geographic region, monitors broken size run lost sales, and evaluates case pack replenishment alignment.
+
+### Target Personas
+- **Assortment Planners**: Optimize master carton case-pack sizes to match store sell-through velocity.
+- **Supply Chain Analysts**: Minimize broken size runs and single-unit replenishment picking costs.
+- **Store Operations Leads**: Eliminate backroom overstock from oversized case deliveries.
 
 ---
 

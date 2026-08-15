@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Seasonal Transition Planning**, buil
 
 ## Why This Agent Matters
 
+### Business Problem
 Seasonal retail programs carry steep obsolescence risk if inventory build curves and clearance markdown milestones slip. This agent coordinates planned sell-in curves against actual sell-through velocities, flags milestone execution risks, and integrates weather-correlated demand adjustments to maximize full-price realization before hard exit deadlines.
+
+### Target Personas
+- **Seasonal Planners**: Manage seasonal inventory build curves and milestone exit dates.
+- **Merchandise Allocators**: Execute early clearance discount ladders to prevent stranded carryover stock.
+- **Inventory Controllers**: Track sell-through velocity vs. seasonal target trajectory.
 
 ---
 

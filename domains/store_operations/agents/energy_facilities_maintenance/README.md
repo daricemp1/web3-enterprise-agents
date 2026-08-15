@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: Store Energy & Facilities Mainten
 
 ## Why This Agent Matters
 
+### Business Problem
 Energy consumption and facility maintenance represent major controllable store operating expenses. HVAC inefficiencies and refrigeration temperature excursions cause costly product spoilage and inflated utility bills. This agent monitors IoT refrigeration sensors, tracks work order Mean Time to Repair (MTTR), and manages facility OpEx budgets.
+
+### Target Personas
+- **Energy & Sustainability Managers**: Optimize store HVAC setpoints, lighting schedules, and peak kW demand.
+- **Facilities Operations Directors**: Track preventive maintenance SLAs across refrigeration and electrical equipment.
+- **Store Asset Managers**: Reduce store utility operating expenses and carbon footprint.
 
 ---
 

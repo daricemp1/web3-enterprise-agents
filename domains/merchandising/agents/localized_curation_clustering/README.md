@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Localized Assortment Clustering**, b
 
 ## Why This Agent Matters
 
+### Business Problem
 One-size-fits-all assortments fail to capture regional consumer preferences and local culinary affinities. This agent manages demographic store clustering, monitors local artisan vendor sales participation, and enforces localized assortment space allocation rules across store tiers.
+
+### Target Personas
+- **Regional Merchandisers**: Tailor store assortments to regional demographic and climatic profiles.
+- **Assortment Planners**: Cluster stores by customer buying patterns rather than mere geography.
+- **Inventory Allocators**: Direct localized product lines to high-propensity store clusters.
 
 ---
 

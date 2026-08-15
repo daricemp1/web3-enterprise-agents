@@ -6,7 +6,13 @@ An enterprise AI agent for **Merchandising: Trade Spend & Allowance Effectivenes
 
 ## Why This Agent Matters
 
+### Business Problem
 Trade promotion allowances represent one of the largest financial investments shared between retailers and CPG suppliers. This agent reconciles claimed vs. verified POS scan allowances, calculates net trade promotion ROI and incremental volume lift %, and isolates brand cannibalization costs to optimize vendor co-investment agreements.
+
+### Target Personas
+- **Trade Promotion Directors**: Measure return on promotional trade allowance spend.
+- **Vendor Relationship Leads**: Audit scan-down allowances and performance-contingent rebates.
+- **Financial Analysts**: Separate true incremental promotional lift from subsidization volume.
 
 ---
 

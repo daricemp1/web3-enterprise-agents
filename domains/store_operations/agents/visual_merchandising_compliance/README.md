@@ -6,7 +6,13 @@ An enterprise AI agent for **Store Operations: Planogram & Visual Merchandising 
 
 ## Why This Agent Matters
 
+### Business Problem
 Poor planogram compliance and delayed promotional signage execution cost retailers up to 4% in lost sales and cause significant vendor allowance disputes. This agent evaluates computer vision photo audits, monitors promotional signage execution deadlines, and tracks vendor endcap compliance to maintain brand standards and maximize shelf space revenue.
+
+### Target Personas
+- **Visual Merchandising Directors**: Audit in-store planogram execution and promotional signage compliance.
+- **District Managers**: Track photo audit verification scores across store networks.
+- **Store Merchandisers**: Correct out-of-spec endcap displays and displaced feature facings.
 
 ---
 

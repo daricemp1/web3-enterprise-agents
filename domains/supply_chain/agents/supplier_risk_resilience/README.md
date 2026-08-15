@@ -6,7 +6,13 @@ An enterprise AI agent for **Supply Chain: Supplier Risk & Resilience**, built w
 
 ## Why This Agent Matters
 
+### Business Problem
 Unanticipated supplier bankruptcies, single-source manufacturing bottlenecks, and geopolitical trade disruptions create severe supply chain shocks. This agent synthesizes supplier financial health scores (Altman Z-Score), sole-source component spend exposure, and disruption scenario modeling to build a resilient, multi-sourced supplier network.
+
+### Target Personas
+- **Supply Chain Risk Officers**: Assess geopolitical, financial, and operational risk across supplier networks.
+- **Procurement Directors**: Implement dual-sourcing contingency plans for single-source components.
+- **Resilience Analysts**: Simulate lead-time disruption scenarios and material shortages.
 
 ---
 

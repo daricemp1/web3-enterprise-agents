@@ -8,7 +8,13 @@
 
 ## Why This Agent Matters
 
+### Business Problem
 Last-mile delivery represents over 50% of total retail logistics fulfillment expenses. Inefficient routing, low drop density, and missed customer time windows escalate driver labor costs and erode digital delivery profitability. This agent tracks cost per drop, route stop density, delivery window SLA adherence %, and fleet telematics to optimize parcel and white-glove dispatch networks.
+
+### Target Personas
+- **Last-Mile Operations Leads**: Optimize dynamic delivery route dispatching and multi-stop density.
+- **Carrier Managers**: Enforce final-mile SLA compliance and on-time delivery commitments.
+- **Customer Experience Directors**: Reduce customer delivery exceptions and redelivery expenses.
 
 ---
 
