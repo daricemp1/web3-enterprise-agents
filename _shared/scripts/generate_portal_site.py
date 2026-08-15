@@ -1523,9 +1523,9 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
         100 Enterprise Agents across 9 Strategic Retail Domains. Powered by Google ADK, Gemini Enterprise, and BigQuery.
       </p>
       <div class="footer-links">
-        <a href="https://github.com/rajanm/retail-enterprise-agents" target="_blank" class="footer-link">GitHub Repository</a>
-        <a href="README.md" class="footer-link">Project Documentation</a>
-        <a href="ARCHITECTURE.md" class="footer-link">Architecture Reference</a>
+        <a href="https://github.com/rajanm/retail-enterprise-agents" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub Repository</a>
+        <a href="https://github.com/rajanm/retail-enterprise-agents/blob/master/README.md" target="_blank" rel="noopener noreferrer" class="footer-link">Project Documentation</a>
+        <a href="https://github.com/rajanm/retail-enterprise-agents/blob/master/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" class="footer-link">Architecture Reference</a>
       </div>
     </div>
   </footer>

@@ -84,6 +84,8 @@ def test_generated_index_html_file_exists_and_is_valid():
     assert 'id="archModal"' in content
     assert "Gemini Enterprise Agent Platform" in content
     assert "Gemini Enterprise" in content
+    assert "https://github.com/rajanm/retail-enterprise-agents/blob/master/README.md" in content
+    assert "https://github.com/rajanm/retail-enterprise-agents/blob/master/ARCHITECTURE.md" in content
 
 
 def test_all_100_agents_present_in_embedded_json():
