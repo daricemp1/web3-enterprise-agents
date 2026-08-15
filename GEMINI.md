@@ -101,7 +101,7 @@ registered with Gemini Enterprise:
   - `omnichannel_customer_cdp_insights` ("Marketing: Omnichannel CDP & Customer Identity", added 2026-08-08)
   - `geotargeted_local_marketing` ("Marketing: Geotargeted & Local Store Marketing", added 2026-08-08)
   - `brand_health_social_sentiment` ("Marketing: Brand Health & Social Sentiment", added 2026-08-08)
-- **Customer Care & Experience Domain (10 agents)** (`domains/customer_care/agents/`, added 2026-08-07):
+- **Customer Care & Experience Domain (10 of 10 agents complete)** (`domains/customer_care/agents/`, added 2026-08-07, demos recorded 2026-08-10):
   - `contact_center_agent_performance` ("Customer Care: Contact Center Performance & FCR")
   - `wismo_order_tracking_resolution` ("Customer Care: WISMO & Order Inquiries")
   - `voice_of_customer_sentiment_nlp` ("Customer Care: Voice of Customer & NLP Sentiment")
@@ -112,7 +112,7 @@ registered with Gemini Enterprise:
   - `omnichannel_social_support_desk` ("Customer Care: Social Support & Public Sentiment")
   - `store_associate_support_hotline` ("Customer Care: Store Helpdesk & POS Support")
   - `damaged_goods_claims_resolution` ("Customer Care: Damaged Goods Claims & Recovery")
-- **Sustainability, ESG & Compliance Domain (10 agents)** (`domains/sustainability_compliance/agents/`, added 2026-08-07):
+- **Sustainability, ESG & Compliance Domain (10 of 10 agents complete)** (`domains/sustainability_compliance/agents/`, added 2026-08-07, demos recorded 2026-08-10):
   - `carbon_footprint_scope_emissions` ("ESG: Carbon Footprint & Scope Emissions")
   - `food_waste_spoilage_reduction` ("ESG: Food Waste Reduction & Diversion")
   - `sustainable_packaging_circularity` ("ESG: Sustainable Packaging & Circularity")
@@ -123,7 +123,7 @@ registered with Gemini Enterprise:
   - `chemical_restricted_substances_rsl` ("ESG: Restricted Substances (RSL) & Chemical Safety")
   - `dei_supplier_diversity_spend` ("ESG: Supplier Diversity & Equity Spend")
   - `extended_producer_responsibility_epr` ("ESG: Extended Producer Responsibility (EPR) & Resale")
-- **Human Resources & Workforce Management Domain (9 agents)** (`domains/human_resources/agents/`, added 2026-08-07):
+- **Human Resources & Workforce Management Domain (9 of 9 agents complete)** (`domains/human_resources/agents/`, added 2026-08-07, demos recorded 2026-08-15):
   - `store_associate_turnover_retention` ("HR: Store Associate Turnover & Retention")
   - `workforce_scheduling_fairness` ("HR: Scheduling Fairness & Predictive Hours")
   - `training_onboarding_compliance` ("HR: Training & Onboarding Compliance")
@@ -285,12 +285,12 @@ Building a **new** agent from scratch, executing batch domain deployments, or ru
     ```
 - **Every logical agent ships its own `README.md`, templated into the scaffold** (added
   2026-07-27, enhanced 2026-07-29, updated 2026-08-10) — covers **Why This Agent Matters** (business problem & target personas), **Key Metrics Tracked** (KPI table), what it answers & sub-agent routing, **Sample Q&A Showcase** (4 standardized sections: 1. BigQuery data insights, 2. Google Search market grounding, 3. Visual chart generation, and 4. Live Multi-Turn Demo Walkthrough with 1080p video player link), authorized BigQuery tables, real example questions, tools, and local execution flags. Every scaffolded agent includes these sections via `# TODO(scaffold):` placeholders.
-- **ADK Deployment Region and Global Model Inference** (added 2026-08-03):
-  - **ADK Deployment Region (`us-central1` only)**: All ADK Agent Engine deployments (`adk deploy agent_engine`) and Gemini Enterprise assistant registrations must target **only `us-central1`** (`--region us-central1`).
-  - **Global Model Inference (`gemini-3.5-flash`)**: Agents specify `model: gemini-3.5-flash` in `root_agent.yaml`. Model inference routes to Vertex AI's `global` endpoint via `GOOGLE_CLOUD_LOCATION=global` (set in the agent's `.env` / runtime container), delivering ~30% faster turn latency across analytical and grounding queries while maintaining hosting consolidation in `us-central1`.
-- **CLI Command Conventions & Flag Formats** (added 2026-07-29):
+- **Multi-Region ADK Deployment (`_shared/table_registry.yaml` SSOT) and Global Model Inference** (added 2026-08-03, updated 2026-08-15):
+  - **ADK Deployment Regions (`us-central1`, `us-east4`)**: Agent Engine hosting containers deploy to the region designated by the `location` field in `_shared/table_registry.yaml` (the Single Source of Truth for each agent). Control plane scripts (`deploy_agent_lifecycle.py`) dynamically resolve this region for deployment (`--region <region>`), PATCH metadata updates, and deletion.
+  - **Global Model Inference (`gemini-3.5-flash`)**: Agents specify `model: gemini-3.5-flash` in `root_agent.yaml`. Model inference routes to Vertex AI's `global` endpoint via `GOOGLE_CLOUD_LOCATION=global` (set in the agent's `.env` / runtime container), delivering ~30% faster turn latency across analytical and grounding queries regardless of which regional endpoint hosts the Reasoning Engine container.
+- **CLI Command Conventions & Flag Formats** (added 2026-07-29, updated 2026-08-15):
   - **PATH Export**: Ensure `gcloud` is in `PATH` via `export PATH=$PATH:$HOME/Dev/google-cloud-sdk/bin`.
-  - **`adk deploy agent_engine`**: Deployment flags are passed directly via CLI flags (`--project <project_id> --region us-central1 --display_name "<Name>" --description "<Description>"`), not via `--config`.
+  - **`adk deploy agent_engine`**: Deployment flags are passed directly via CLI flags (`--project <project_id> --region <region> --display_name "<Name>" --description "<Description>"`), not via `--config`.
   - **`agents-cli publish gemini-enterprise`**: Use `agents-cli publish gemini-enterprise` (not `agents-cli register`). Discover active Gemini Enterprise app IDs in the project via `agents-cli publish gemini-enterprise --list --project <project_id>`.
   - **`grant_table_access.py`**: The `--table` argument uses `action="append"`, requiring repeating `--table <table_1> --table <table_2>` per table.
   - **`load_agent_data.py`**: Requires `--domain <domain> --name <agent_name> --project <project_id> --dataset retail_ent_agents`.

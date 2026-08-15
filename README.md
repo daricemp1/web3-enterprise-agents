@@ -248,7 +248,7 @@ graph TD
 ### 3-Tier Enterprise Architecture:
 
 - **Domain Layer (9 Strategic Domains)** — ownership and business boundaries (`merchandising`, `supply_chain`, `store_operations`, `e_commerce`, `marketing`, `finance`, `customer_care`, `human_resources`, `sustainability_compliance`).
-- **Logical Agent Layer (100 Agents)** — the unit of deployment. Each agent is packaged, deployed to Vertex AI Agent Engine (`us-central1`), and registered independently in Gemini Enterprise.
+- **Logical Agent Layer (100 Agents)** — the unit of deployment. Each agent is packaged, deployed to Vertex AI Agent Engine (`us-central1` or `us-east4` per `_shared/table_registry.yaml`), and registered independently in Gemini Enterprise.
 - **Sub-Agent Execution Layer** — a thin orchestrator `LlmAgent` delegates between **Data Insights** (BigQuery NL-to-SQL + CA API) and **Market Context** (Google Search grounding).
 
 Every logical agent is generated from the shared template (`_shared/templates/logical_agent/`) by `_shared/scripts/scaffold_logical_agent.py`, guaranteeing structural and behavioral consistency across all 100 agents.
@@ -263,7 +263,7 @@ models and infrastructure the agents actually *run* on — these are deliberatel
 | Design and implementation | Claude Sonnet 5, Gemini 3.5 | AI coding assistants used to design this architecture and implement the agents, scaffolding, and supporting tooling — development-time only, not part of the running system |
 | Agent inference | Gemini 3.5 Flash (global endpoint) | The model each deployed agent calls at runtime to reason, route between sub-agents, and generate responses |
 | Agent framework | Google Agent Development Kit (ADK) | Materializes each logical agent's YAML configuration into a running multi-agent program |
-| Agent runtime | Vertex AI Agent Engine (us-central1) | Hosts each deployed agent as a managed, independently scalable service in us-central1 |
+| Agent runtime | Vertex AI Agent Engine (us-central1, us-east4) | Hosts each deployed agent as a managed, independently scalable service in us-central1 or us-east4 |
 | Business-facing UI | Gemini Enterprise | Where end users discover and converse with a registered agent |
 
 ---
@@ -300,7 +300,7 @@ is scoped, and how many agents share one BigQuery dataset without colliding.
 
 | Decision | Rationale |
 | :--- | :--- |
-| **ADK deployment strictly in `us-central1` with global model inference** | All Agent Engine hosting containers and Gemini Enterprise registrations are deployed strictly in `us-central1` (`--region us-central1`), while model inference calls Vertex AI's `global` endpoint (`GOOGLE_CLOUD_LOCATION=global`), reducing turn latency by ~30% while preserving hosting consolidation. |
+| **Multi-region ADK deployment (`us-central1`, `us-east4`) with global model inference** | Agent Engine hosting containers are deployed to `us-central1` or `us-east4` as governed by `_shared/table_registry.yaml` (SSOT), while model inference routes to Vertex AI's `global` endpoint (`GOOGLE_CLOUD_LOCATION=global`), reducing turn latency by ~30% while scaling capacity across regions. |
 | Shared instructions composed at **scaffold time**, not runtime | ADK's YAML has no cross-file include. A runtime loader would work but couples every agent's behavior to one shared file at request time. Baking shared persona/safety text into each agent when it's generated keeps agents self-contained; updating the shared text only affects agents scaffolded afterward — a deliberate trade-off over silent behavior drift in already-deployed agents. |
 | **IAM is the real access boundary**, not tool configuration | `ask_data_insights` takes `table_references` from the model at call time — there's no static allowlist in the tool itself. Each agent's actual data scoping comes from its own service account's table-level BigQuery IAM (`_shared/scripts/grant_table_access.py`), not from anything in YAML. |
 | **One shared BigQuery dataset** (`retail_ent_agents`), not one per agent | Collisions are prevented structurally: every domain and agent has a fixed 4-letter id (`_shared/table_registry.yaml`), and every table is physically named `<domain_id>_<agent_id>_<table>`. Two agents can use the same logical table name without colliding, and a shared dataset is simpler to operate than N datasets. |
