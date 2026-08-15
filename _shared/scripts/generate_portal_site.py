@@ -1241,7 +1241,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
       </div>
       <div class="stat-card">
         <div class="stat-number">100%</div>
-        <div class="stat-label">Agents on Gemini Enterprise</div>
+        <div class="stat-label">Agent Demos Ready</div>
       </div>
     </div>
   </section>
