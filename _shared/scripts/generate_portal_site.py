@@ -1192,7 +1192,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
         <span class="brand-icon">🏬</span>
         <div class="brand-text">
           <span class="brand-title">Gemini Enterprise Agents for Retail</span>
-          <span class="brand-subtitle">Google ADK & Gemini Enterprise Multi-Agent Catalog</span>
+          <span class="brand-subtitle">Google ADK & Gemini Enterprise Multi-Agent Swarm</span>
         </div>
       </a>
       <div class="header-actions">
