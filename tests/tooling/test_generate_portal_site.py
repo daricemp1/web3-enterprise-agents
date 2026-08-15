@@ -82,6 +82,8 @@ def test_generated_index_html_file_exists_and_is_valid():
     assert 'id="domainPills"' in content
     assert 'id="videoModal"' in content
     assert 'id="archModal"' in content
+    assert "Gemini Enterprise Agent Platform" in content
+    assert "Gemini Enterprise" in content
 
 
 def test_all_100_agents_present_in_embedded_json():

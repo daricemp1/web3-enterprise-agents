@@ -1323,7 +1323,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
           </div>
           <div class="modal-meta-item">
             <span class="modal-meta-label">Platform UI</span>
-            <span class="modal-meta-value">Gemini Enterprise Assistant</span>
+            <span class="modal-meta-value">Gemini Enterprise</span>
           </div>
           <div class="modal-meta-item">
             <span class="modal-meta-label">Data Execution</span>
@@ -1371,7 +1371,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
               <div class="arch-layer-title">
                 <span>💬</span> Tier 1: Client & Presentation Layer
               </div>
-              <span class="arch-layer-pill">Gemini Enterprise Assistant</span>
+              <span class="arch-layer-pill">Gemini Enterprise</span>
             </div>
             <div class="arch-layer-grid">
               <div class="arch-item">
@@ -1397,7 +1397,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
               <div class="arch-layer-title">
                 <span>🧠</span> Tier 2: Orchestration & Multi-Agent Reasoning
               </div>
-              <span class="arch-layer-pill">Vertex AI Agent Engine (ADK)</span>
+              <span class="arch-layer-pill">Gemini Enterprise Agent Platform</span>
             </div>
             <div class="arch-layer-grid">
               <div class="arch-item">
