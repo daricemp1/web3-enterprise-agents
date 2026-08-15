@@ -421,17 +421,17 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
     /* Stat Counters */
     .stat-row {{
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
       max-width: 1080px;
       margin: 0 auto;
     }}
 
     .stat-card {{
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 12px;
-      padding: 16px 12px;
+      padding: 12px 10px;
       text-align: center;
       transition: transform 0.15s ease, border-color 0.15s ease;
     }}
@@ -443,17 +443,18 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
 
     .stat-number {{
       font-family: 'Google Sans', sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--text-primary);
       margin-bottom: 2px;
     }}
 
     .stat-label {{
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      line-height: 1.35;
       color: var(--text-muted);
     }}
 
@@ -1211,7 +1212,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-pill">
-      <span>🚀</span> 100 Enterprise Agents Fully Deployed (9 Strategic Domains)
+      <span>🚀</span> 100 Enterprise Agents Fully Deployed (9 Retail Domains)
     </div>
     <h1 class="hero-title">
       Gemini Enterprise Agents for <span>Retail</span>
@@ -1224,11 +1225,11 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
     <div class="stat-row">
       <div class="stat-card">
         <div class="stat-number">100</div>
-        <div class="stat-label">Deployed Agents</div>
+        <div class="stat-label">Gemini Enterprise Agents</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">9</div>
-        <div class="stat-label">Strategic Domains</div>
+        <div class="stat-label">Retail Domains</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">300+</div>
@@ -1240,7 +1241,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
       </div>
       <div class="stat-card">
         <div class="stat-number">100%</div>
-        <div class="stat-label">1080p Video Demos</div>
+        <div class="stat-label">Agents on Gemini Enterprise</div>
       </div>
     </div>
   </section>
