@@ -42,6 +42,9 @@ def test_generate_html_showcase_output(tmp_path):
     assert "<!DOCTYPE html>" in content
     assert "Cart & Checkout Analytics" in content
     assert "cart_checkout_analytics.mp4" in content
-    assert "Turn 1 (Data Insights / BigQuery)" in content
-    assert "Turn 4 (Executive Canvas Presentation)" in content
     assert "1080p Full HD" in content
+    assert 'id="demoVideo"' in content
+    assert "cart_checkout_analytics.mp4#t=10" in content
+    assert "timeupdate" in content
+    assert 'target="_blank"' not in content
+

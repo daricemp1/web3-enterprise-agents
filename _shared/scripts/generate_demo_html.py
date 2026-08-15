@@ -254,11 +254,34 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </header>
 
     <div class="video-wrapper">
-      <video controls autoplay muted playsinline preload="auto">
-        <source src="{video_filename}" type="video/mp4">
+      <video id="demoVideo" src="{video_filename}#t=10" controls autoplay muted playsinline preload="auto">
+        <source src="{video_filename}#t=10" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
     </div>
+
+    <script>
+      (function() {{
+        const video = document.getElementById('demoVideo');
+        if (!video) return;
+        let hasSeeked = false;
+
+        const seekToOffset = () => {{
+          if (!hasSeeked && video.currentTime < 10) {{
+            hasSeeked = true;
+            video.currentTime = 10;
+          }}
+        }};
+
+        video.addEventListener('loadedmetadata', seekToOffset);
+        video.addEventListener('canplay', seekToOffset);
+        video.addEventListener('timeupdate', function onFirstTick() {{
+          if (!hasSeeked && video.currentTime < 10) {{
+            seekToOffset();
+          }}
+        }});
+      }})();
+    </script>
 
     <div class="meta-grid">
       <div class="meta-item">
@@ -287,10 +310,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </div>
 
     <footer>
-      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/{domain}/agents/{agent_name}" target="_blank" rel="noopener noreferrer">
+      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/{domain}/agents/{agent_name}">
         ← View Agent Code & Documentation on GitHub
       </a>
-      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents" target="_blank" rel="noopener noreferrer">
+      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents">
         🏠 Retail Enterprise Agents Repository
       </a>
     </footer>
