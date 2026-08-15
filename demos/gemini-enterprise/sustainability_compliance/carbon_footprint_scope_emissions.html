@@ -205,23 +205,33 @@
     </header>
 
     <div class="video-wrapper">
-      <video id="demoVideo" controls autoplay muted playsinline preload="auto">
+      <video id="demoVideo" src="carbon_footprint_scope_emissions.mp4#t=10" controls autoplay muted playsinline preload="auto">
         <source src="carbon_footprint_scope_emissions.mp4#t=10" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
     </div>
 
     <script>
-      const video = document.getElementById('demoVideo');
-      if (video) {
-        const setStartTime = () => {
-          if (video.currentTime < 10) {
+      (function() {
+        const video = document.getElementById('demoVideo');
+        if (!video) return;
+        let hasSeeked = false;
+
+        const seekToOffset = () => {
+          if (!hasSeeked && video.currentTime < 10) {
+            hasSeeked = true;
             video.currentTime = 10;
           }
         };
-        video.addEventListener('loadedmetadata', setStartTime, { once: true });
-        video.addEventListener('canplay', setStartTime, { once: true });
-      }
+
+        video.addEventListener('loadedmetadata', seekToOffset);
+        video.addEventListener('canplay', seekToOffset);
+        video.addEventListener('timeupdate', function onFirstTick() {
+          if (!hasSeeked && video.currentTime < 10) {
+            seekToOffset();
+          }
+        });
+      })();
     </script>
 
     <div class="meta-grid">
