@@ -1,118 +1,107 @@
-# ESG: Extended Producer Responsibility (EPR) & Resale Agent
+# ESG: Extended Producer Responsibility (EPR) & Resale
 
-An enterprise AI agent for **ESG: Extended Producer Responsibility (EPR) & Resale**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **Total EPR Compliance Fees $** | Total statutory fees paid across state EPR packaging jurisdictions |
-| **Take-Back Volume (Tons)** | Total customer trade-in volume diverted from landfills |
-| **Recommerce Recovery Revenue $** | Gross revenue generated from resale of refurbished goods |
-| **Circular Net Profit Margin %** | Profitability of circular trade-in and resale operations |
+### Business Problem
+Mandatory state packaging and textile EPR statutory fees, electronic waste compliance, and circular economy take-back programs require automated material accounting, fee optimization, and recommerce management.
 
----
+### Target Personas
+VP of Circular Economy & Recommerce, ESG Legal Compliance Officer, Reverse Logistics Director
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - EPR state packaging fees paid, take-back program collected tonnage and rewards, refurbished textile and electronics resale inventory, or net circular recovery profit
-- **External Market Context (`market_context`)**:
-  - State EPR packaging laws (California SB 54, Colorado, Oregon, Maine), textile recycling regulations, recommerce market growth trends (ThredUp / Trove), or electronics e-waste mandates
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **State EPR Packaging Compliance Fees ($)** | `Target: Optimize fee liability` | Accrued and paid statutory producer fees across California SB 54, Oregon, Colorado, and Maine. |
+| **Customer Take-Back Collection Tonnage** | `Target: > 1,800 tons / year` | Weight of post-consumer apparel, footwear, and consumer electronics collected in-store. |
+| **Certified Pre-Owned Resale Revenue ($)** | `Target: > $14.5M / year` | Gross merchandise value (GMV) generated through authenticated circular recommerce resale channels. |
+| **Take-Back Circular Recovery Rate %** | `Target: >= 92%` | Percentage of collected post-consumer garments/electronics refurbished or fiber-recycled vs discarded. |
+| **EPR Eco-Modulated Fee Savings ($)** | `Target: > $850k in fee discounts` | Fee reductions earned through high-PCR content and lightweight curbside-recyclable packaging designs. |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/extended_producer_responsibility_epr.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/extended_producer_responsibility_epr.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Extended Producer Responsibility (EPR) & Resale
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Statutory packaging EPR compliance fee liabilities, customer garment/electronics take-back tonnage, and circular recommerce resale revenue
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What are our total EPR packaging compliance fees assessed and paid by state jurisdiction in 2026?"  
+*Response:*  
+> Based on BigQuery statutory compliance records (`esgc_eprr_state_fee_assessments`), total EPR packaging compliance fee liabilities assessed across four enacted state programs in 2026 YTD are **$1,642,800**. California SB 54 accounts for **$984,200 (59.9%)**, Oregon for **$382,100 (23.3%)**, Colorado for **$182,500 (11.1%)**, and Maine for **$94,000 (5.7%)**. Eco-modulated packaging fee discounts saved the enterprise **$218,400** due to high-PCR fiber packaging adoptions.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: California SB 54, Oregon Plastic Pollution and Recycling Modernization Act, and circular economy garment recommerce valuation models
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are the latest compliance deadlines and producer responsibility organization (PRO) fee structures under California SB 54 and Oregon EPR laws?"  
+*Response:*  
+> Under California SB 54 (CalRecycle / Circular Action Alliance PRO), producers must submit initial material baseline reports by 2026 and achieve a 100% recyclable or compostable packaging mandate by 2032. Oregon's Recycling Modernization Act enforces tiered producer fee schedules based on material recyclability scores, penalizing non-recyclable multi-layer films while granting fee reductions for certified post-consumer recycled content.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Can you render a chart showing our state packaging EPR fee liabilities alongside eco-modulated discount savings?"  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Extended Producer Responsibility (EPR) & Resale analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Extended Producer Responsibility (EPR) & Resale** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/extended_producer_responsibility_epr.html)  
+> 📹 **Direct MP4 Download**: [`extended_producer_responsibility_epr.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/extended_producer_responsibility_epr.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_epre_epr_packaging_fees_paid`
-- `esgc_epre_take_back_program_tonnage`
-- `esgc_epre_textile_electronic_resale`
-- `esgc_epre_circular_recovery_revenue`
+- `esgc_eprr_state_fee_assessments` — State-by-state packaging material weight sold, PRO base fee rates, eco-modulated discounts, and total liability.
+- `esgc_eprr_takeback_collection_logs` — Store drop-off collection volume (lbs) of apparel, footwear, and consumer electronics by store region.
+- `esgc_eprr_recommerce_resale_gmv` — Refurbished and pre-owned item resale volume, average selling price (ASP), and gross margins.
+- `esgc_eprr_material_circular_destination` — Weight of collected items routed to recommerce resale, fiber-to-fiber recycling, and certified e-waste downcycling.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "What are our total EPR packaging compliance fees assessed and paid by state jurisdiction in 2026?"
-- "What are the latest compliance deadlines and producer responsibility organization (PRO) fee structures under California SB 54 and Oregon EPR laws?"
-- "How many tons of used apparel and electronics have been collected through our customer take-back program in 2026?"
-- "How does our recommerce resale recovery margin compare to industry benchmarks from ThredUp and Trove circular retail reports?"
-- "Generate a chart of monthly circular recovery revenue and net profit."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *What are our total EPR packaging compliance fees assessed and paid by state jurisdiction in 2026?*  
-**Agent**: According to state regulatory filing logs (`esgc_epre_epr_packaging_fees_paid`), total Extended Producer Responsibility (EPR) packaging fees assessed and paid across all jurisdictions in 2026 Q1 totaled **$331,040.00**. California (SB 54) represents the largest assessment at $206,700 across rigid plastics, flexible films, and corrugate, followed by Colorado ($62,560), Oregon ($62,100), and Maine ($39,680). All compliance filings have been certified and submitted.
-
-### 2. External Market Grounding
-**User**: *What are the latest compliance deadlines and producer responsibility organization (PRO) fee structures under California SB 54 and Oregon EPR laws?*  
-**Agent**: Under California SB 54, producers must join an approved Producer Responsibility Organization (PRO like Circular Action Alliance) with statutory eco-modulated fees based on package recyclability, PCR percentage, and material toxicity. In Oregon (SB 582 Recycling Modernization Act), PRO program plans require producers to finance statewide collection infrastructure upgrades, with fee discounts of up to 40% for packaging utilizing high post-consumer recycled content.
-
-### 3. Visual Analytics Artifact
-**User**: *Generate a chart of monthly circular recovery revenue and net profit.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "What are our total EPR packaging compliance fees assessed and paid by state jurisdiction in 2026?"
+2. "What are the latest compliance deadlines and producer responsibility organization (PRO) fee structures under California SB 54 and Oregon EPR laws?"
+3. "How many tons of used apparel and electronics have been collected through our customer take-back program in 2026?"
+4. "What is the average gross margin and revenue generated from our Certified Pre-Owned recommerce store?"
+5. "Can you render a chart showing our state packaging EPR fee liabilities alongside eco-modulated discount savings?"
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/extended_producer_responsibility_epr/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/extended_producer_responsibility_epr
 ```

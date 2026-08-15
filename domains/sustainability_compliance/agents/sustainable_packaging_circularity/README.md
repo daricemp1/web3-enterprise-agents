@@ -1,118 +1,107 @@
-# ESG: Sustainable Packaging & Circularity Agent
+# ESG: Sustainable Packaging & Circularity
 
-An enterprise AI agent for **ESG: Sustainable Packaging & Circularity**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **Average PCR Content %** | Post-consumer recycled content percentage across packaging |
-| **Virgin Plastic Eliminated (Tons)** | Total tons of virgin plastic removed from supply chain |
-| **Curbside Recyclability %** | Percentage of packaging SKUs fully curbside recyclable |
-| **Reusable Tote Turns** | Average operational cycles per reusable delivery tote |
+### Business Problem
+Retailers must navigate complex state-level Extended Producer Responsibility (EPR) laws, virgin plastic reduction targets, and consumer demand for curbside recyclable and post-consumer recycled (PCR) packaging.
 
----
+### Target Personas
+Head of Packaging Engineering, Private Brand Director, ESG Compliance Officer, Sourcing Director
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Packaging material specs, PCR recycled content %, single-use plastic reduction tons, or reusable tote cycle turns and conditions
-- **External Market Context (`market_context`)**:
-  - Global Commitment (Ellen MacArthur Foundation) packaging standards, state virgin plastic tax legislation, or sustainable paper packaging innovations
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **Post-Consumer Recycled (PCR) Content %** | `Target: >= 30% average` | Average recycled material content across primary and secondary product packaging. |
+| **Virgin Plastic Reduction (Tons)** | `Target: > 450 tons eliminated` | Cumulative reduction in virgin single-use plastics compared to baseline year. |
+| **Curbside Recyclability Index %** | `Target: >= 90% compliant` | Percentage of private brand packaging certified for curbside recycling under How2Recycle. |
+| **Polybag Elimination in DCs** | `Target: >= 80% reduction` | Reduction in single-use plastic shipping polybags replaced with 100% recycled paper mailers. |
+| **State EPR Packaging Compliance Score** | `Target: 100% compliant` | Full adherence to state packaging fee filings and EPR statutory mandates (CA, OR, CO, ME). |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/sustainable_packaging_circularity.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/sustainable_packaging_circularity.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Sustainable Packaging & Circularity
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Post-consumer recycled (PCR) content percentage and single-use virgin plastic elimination progress across primary packaging
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our average post-consumer recycled (PCR) packaging content percentage across product categories?"  
+*Response:*  
+> According to BigQuery packaging registry telemetry (`esgc_spac_packaging_materials_sku`), our enterprise average PCR packaging content is **32.8%**, surpassing our 30.0% enterprise milestone. Household Essentials leads with **48.2% PCR** (driven by 100% rPET detergent and cleaning bottles), while Personal Care currently averages **21.5% PCR** due to multi-layer cosmetic pump constraints.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: State packaging Extended Producer Responsibility (EPR) statutes, How2Recycle labeling rules, and biopolymer certification standards
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are the latest state plastic bag and packaging bans enacted across the US in 2026?"  
+*Response:*  
+> As of 2026, 12 states (including California, New York, New Jersey, Washington, and Colorado) have implemented statewide single-use plastic bag prohibitions and minimum recycled content mandates. Furthermore, California SB 54 and Colorado HB 22-1355 have enacted producer responsibility regulations requiring a 25% reduction in single-use plastic packaging by 2032 and 65% curbside recyclability by 2028.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart of virgin plastic tons eliminated by product category in 2026 YTD."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Sustainable Packaging & Circularity analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Sustainable Packaging & Circularity** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/sustainable_packaging_circularity.html)  
+> 📹 **Direct MP4 Download**: [`sustainable_packaging_circularity.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/sustainable_packaging_circularity.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_spci_packaging_material_specs`
-- `esgc_spci_pcr_recycled_content_pct`
-- `esgc_spci_single_use_plastic_elimination`
-- `esgc_spci_reusable_tote_cycles`
+- `esgc_spac_packaging_materials_sku` — SKU-level packaging weight, plastic polymer type, PCR %, and recyclability status.
+- `esgc_spac_virgin_plastic_reduction` — Annual and quarterly tons of virgin plastic eliminated by product department.
+- `esgc_spac_state_epr_fees_filings` — Packaging material weight reported to state producer responsibility organizations (PROs).
+- `esgc_spac_supplier_packaging_audits` — Supplier factory certifications for recycled content and plastic reduction claims.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "What is our average post-consumer recycled (PCR) packaging content percentage across product categories?"
-- "What are the latest state plastic bag and packaging bans enacted across the US in 2026?"
-- "How many tons of virgin plastic and single-use polybags have been eliminated across distribution centers in 2026?"
-- "Compare our private brand packaging PCR percentage with Ellen MacArthur Foundation global retail averages."
-- "Provide a chart of reusable tote cycle turns across distribution centers."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *What is our average post-consumer recycled (PCR) packaging content percentage across product categories?*  
-**Agent**: Based on internal packaging specifications (`esgc_spci_pcr_recycled_content_pct`), our average primary packaging PCR content across product lines is **73.3%**, exceeding our 2026 target of 68.0%. Home Cleaning (Eco Laundry Detergent) has achieved **100% PCR HDPE**, Drinkware stands at **80.0%**, and Apparel packaging averages **75.0%**. Electronics packaging remains the lowest at 35.0% PCR, currently undergoing transition to molded mycelium and cellulose cushioning.
-
-### 2. External Market Grounding
-**User**: *What are the latest state plastic bag and packaging bans enacted across the US in 2026?*  
-**Agent**: In 2026, twelve US states (including California, Washington, New York, Colorado, and New Jersey) enforce comprehensive single-use plastic carryout bag bans and Extended Producer Responsibility (EPR) mandates. California SB 54 requires all packaging in the state to be 100% recyclable or compostable by 2032, with an interim statutory target of 30% recycled plastic content taking effect in 2026.
-
-### 3. Visual Analytics Artifact
-**User**: *Provide a chart of reusable tote cycle turns across distribution centers.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "What is our average post-consumer recycled (PCR) packaging content percentage across product categories?"
+2. "What are the latest state plastic bag and packaging bans enacted across the US in 2026?"
+3. "How many tons of virgin plastic and single-use polybags have been eliminated across distribution centers in 2026?"
+4. "Which private brand suppliers are lagging behind our 30% PCR packaging threshold in Household Cleaning?"
+5. "Show me a chart of virgin plastic tons eliminated by product category in 2026 YTD."
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/sustainable_packaging_circularity/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/sustainable_packaging_circularity
 ```

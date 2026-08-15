@@ -1,118 +1,107 @@
-# ESG: Product Safety & Recall Execution Agent
+# ESG: Product Safety & Recall Execution
 
-An enterprise AI agent for **ESG: Product Safety & Recall Execution**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **Quarantine Speed (Hours)** | Average time to achieve 100% shelf lock across stores |
-| **Customer Notification Reach %** | Percentage of affected purchasers successfully contacted |
-| **Quarantine Compliance %** | Store compliance rate in removing affected lots |
-| **Destruction Verification %** | Certified destruction of quarantined recall inventory |
+### Business Problem
+When safety defects, choking hazards, or chemical contaminations emerge, retailers must rapidly execute product recalls, lock point-of-sale registers, quarantine store stock, and notify consumers to prevent injuries and regulatory sanctions.
 
----
+### Target Personas
+VP of Quality Assurance & Safety, Retail Operations Director, General Counsel / Product Liability Lead
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Regulatory recall notices, store shelf quarantine execution hours, customer recall notification reach %, or recall stock disposition and destruction logs
-- **External Market Context (`market_context`)**:
-  - CPSC safety recall alerts, FDA food safety recall guidelines, product liability recall insurance trends, or barcode trace recall standards (GS1)
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **Store Shelf Quarantine Speed (Hours)** | `Target: < 4.0 hours` | Average time from recall publication to 100% store shelf removal and backroom lock. |
+| **POS Register Block Execution (Minutes)** | `Target: < 15 minutes` | Time elapsed to propagate barcode scan blocks across all retail checkout registers. |
+| **Direct Customer Notification Delivery %** | `Target: >= 98%` | Percentage of identified loyalty/e-commerce purchasers successfully contacted via email/SMS/app. |
+| **Total Recalled Units Recovered %** | `Target: >= 85%` | Percentage of sold defective units returned, refunded, or safely disposed of by consumers. |
+| **Regulatory Agency Filing SLA (Hours)** | `Target: < 24 hours` | Time to file mandatory Section 15(b) reports with CPSC or FDA safety portals. |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/product_safety_recall_readiness.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/product_safety_recall_readiness.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Product Safety & Recall Execution
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Regulatory product recall store shelf quarantine execution velocity (<24 hours) and customer notification reach %
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What was the average execution time in hours for stores to complete shelf quarantine for active 2026 recalls?"  
+*Response:*  
+> According to BigQuery operational quarantine telemetry (`esgc_psrr_store_quarantine_logs`), the enterprise average store shelf quarantine execution time across three active 2026 safety recalls was **2.8 hours**, well within our 4.0-hour SLA. All 340 stores completed physical shelf removal, backroom quarantine tagging, and manager portal sign-off within 5 hours of central notification.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: CPSC Fast Track recall protocols, FDA Food Safety Modernization Act (FSMA) trace rules, and recall risk management best practices
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current CPSC and FDA regulations regarding mandatory customer notification timelines for Class 1 product recalls?"  
+*Response:*  
+> Under CPSC Fast Track protocols and FDA 21 CFR Part 7 guidelines, Class 1 recalls (situations with reasonable probability of serious adverse health consequences or death) mandate immediate public press releases and direct customer notification within **24 hours**. Retailers with loyalty or online transaction records must execute direct digital notifications and provide a dedicated customer toll-free hotline and web claim portal.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart tracking store quarantine completion percentage by hour following the latest safety recall notice."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Product Safety & Recall Execution analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Product Safety & Recall Execution** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/product_safety_recall_readiness.html)  
+> 📹 **Direct MP4 Download**: [`product_safety_recall_readiness.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/product_safety_recall_readiness.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_psrr_regulatory_recall_notices`
-- `esgc_psrr_store_quarantine_execution`
-- `esgc_psrr_customer_notification_reach`
-- `esgc_psrr_disposition_destruction_logs`
+- `esgc_psrr_active_recalls` — Recall notice id, affected SKU, hazard category, issuing agency (CPSC, FDA, NHTSA), and date.
+- `esgc_psrr_store_quarantine_logs` — Store-by-store shelf lock confirmation timestamp, quarantined unit counts, and manager sign-off.
+- `esgc_psrr_pos_register_blocks` — System-wide barcode POS lock propagation status and blocked transaction logs.
+- `esgc_psrr_customer_notification_metrics` — Targeted customer outreach counts, email open rates, SMS delivery %, and refund claims.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "What was the average execution time in hours for stores to complete shelf quarantine for active 2026 recalls?"
-- "What are current CPSC and FDA regulations regarding mandatory customer notification timelines for Class 1 product recalls?"
-- "How many customer notifications were sent and what was the open rate for the recent baby gear recall?"
-- "How does our 4.2-hour average store recall execution time compare to retail industry best-in-class standards?"
-- "Generate a chart of quarantined recall units by store location."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *What was the average execution time in hours for stores to complete shelf quarantine for active 2026 recalls?*  
-**Agent**: Across all active 2026 recall events (`esgc_psrr_store_quarantine_execution`), our retail store network achieved an average shelf quarantine execution time of **3.73 hours**, well within our regulatory SLA threshold of 24 hours. Store 103 completed quarantine fastest at 2.88 hours average, while 100% of affected inventory (499 units across 5 stores) was locked at POS and transferred to secure backroom quarantine within 5 hours of CPSC notification.
-
-### 2. External Market Grounding
-**User**: *What are current CPSC and FDA regulations regarding mandatory customer notification timelines for Class 1 product recalls?*  
-**Agent**: Under Consumer Product Safety Commission (CPSC) Fast-Track recall guidelines and FDA 21 CFR Part 7 standards, retailers must issue public safety notices and direct electronic notifications to identified loyalty and omnichannel purchasers within 24 to 48 hours of recall classification. Direct electronic outreach (email/SMS/push) must achieve a documented minimum delivery rate and provide immediate contactless refund authorization.
-
-### 3. Visual Analytics Artifact
-**User**: *Generate a chart of quarantined recall units by store location.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "What was the average execution time in hours for stores to complete shelf quarantine for active 2026 recalls?"
+2. "What are current CPSC and FDA regulations regarding mandatory customer notification timelines for Class 1 product recalls?"
+3. "How many customer notifications were sent and what was the open rate for the recent baby gear recall?"
+4. "Are there any stores that have not yet submitted manager sign-off for the active recall quarantine?"
+5. "Show me a chart tracking store quarantine completion percentage by hour following the latest safety recall notice."
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/product_safety_recall_readiness/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/product_safety_recall_readiness
 ```

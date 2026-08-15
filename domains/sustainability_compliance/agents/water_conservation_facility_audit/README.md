@@ -1,118 +1,107 @@
-# ESG: Water Conservation & Facility Audits Agent
+# ESG: Water Conservation & Facility Audits
 
-An enterprise AI agent for **ESG: Water Conservation & Facility Audits**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **Water Usage Intensity (Gal/Sq.Ft)** | Water consumption normalized by facility square footage |
-| **Cooling Tower Efficiency %** | Recycled water recycling and cycles of concentration |
-| **Rainwater Harvested (Gallons)** | Total rainwater collected and reused for irrigation |
-| **High-Stress Watershed Exposure %** | Facilities located in extremely high water-stressed regions |
+### Business Problem
+Retail facilities, garden centers, commercial kitchens, and cooling towers in drought-vulnerable watersheds face escalating municipal water tariffs, mandatory reduction quotas, and water scarcity risks.
 
----
+### Target Personas
+Director of Environmental Health & Safety (EHS), Facilities Maintenance VP, Sustainability Lead
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Facility water meter logs, cooling tower cycles of concentration and efficiency, rainwater harvesting volume, or watershed water stress risk ratings
-- **External Market Context (`market_context`)**:
-  - WRI Aqueduct Water Risk Atlas data, municipal commercial water tariff hikes, retail water stewardship standards (AWS), or drought emergency water restrictions
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **Water Use Intensity (WUI in gal/sq.ft)** | `Target: < 18.0 gal/sq.ft` | Total water consumption in gallons divided by gross retail facility square footage. |
+| **High-Stress Watershed Exposure %** | `Target: < 25% facility load` | Proportion of total enterprise water consumption located in WRI High/Extremely High water stress areas. |
+| **Cooling Tower Recycling Efficiency %** | `Target: >= 80% recycled` | Percentage of HVAC cooling tower condensate and bleed-off water recycled for facility reuse. |
+| **Rainwater & Reclaimed Water Usage (Gal)** | `Target: > 4.5M gal / year` | Volume of harvested rainwater and municipal reclaimed water used for landscape irrigation. |
+| **Smart Leak Detection Response Time (Hours)** | `Target: < 2.0 hours` | Average response time to isolate and repair IoT-detected plumbing leaks and burst lines. |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/water_conservation_facility_audit.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/water_conservation_facility_audit.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Water Conservation & Facility Audits
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Facility water usage intensity (gallons/sq.ft), cooling tower water recycling efficiency, and high-stress watershed facility exposure
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "Which retail store facilities have the highest water usage intensity in gallons per square foot in 2026?"  
+*Response:*  
+> Based on BigQuery water utility records (`esgc_wcfa_facility_water_consumption`), the top facilities by Water Use Intensity are **Store-214 (Phoenix, AZ)** at **28.4 gal/sq.ft**, **Store-188 (Las Vegas, NV)** at **26.1 gal/sq.ft**, and **Store-105 (San Antonio, TX)** at **24.8 gal/sq.ft**. High intensity is driven by extensive outdoor garden center overhead watering and aging HVAC evaporative cooling towers. Upgrading to smart drip irrigation is projected to reduce consumption by 32%.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: WRI Aqueduct water risk framework benchmarks, municipal commercial drought surcharge tiers, and rainwater harvesting incentives
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are the latest municipal water conservation restrictions and tier rate hikes affecting commercial facilities in the Southwest US?"  
+*Response:*  
+> Municipal water authorities in the Colorado River basin (including Southern Nevada Water Authority and Arizona ADWR) have enacted Stage 2 commercial drought restrictions in 2026. Key mandates prohibit non-functional decorative turf irrigation, require commercial cooling tower cycles of concentration >= 5.0, and impose tiered commercial surcharges of up to 45% for consumption exceeding allocated baseline budgets.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart of total water consumption in gallons by facility type across all retail operating regions."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Water Conservation & Facility Audits analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Water Conservation & Facility Audits** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/water_conservation_facility_audit.html)  
+> 📹 **Direct MP4 Download**: [`water_conservation_facility_audit.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/water_conservation_facility_audit.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_wcfa_facility_water_meters`
-- `esgc_wcfa_cooling_tower_efficiency`
-- `esgc_wcfa_rainwater_harvesting_logs`
-- `esgc_wcfa_watershed_stress_index`
+- `esgc_wcfa_facility_water_consumption` — Monthly store water meter readings (gallons), sewer charges, and municipal water rates.
+- `esgc_wcfa_watershed_risk_classification` — WRI Aqueduct 4.0 water stress classification, drought tiers, and local municipal restrictions.
+- `esgc_wcfa_rainwater_reclaimed_systems` — Rainwater harvesting tank volumes, smart irrigation timers, and reclaimed water meters.
+- `esgc_wcfa_smart_leak_incidents` — IoT smart water meter abnormal flow alerts, estimated water lost, and repair turnaround times.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "Which retail store facilities have the highest water usage intensity in gallons per square foot in 2026?"
-- "What are the latest municipal water conservation restrictions and tier rate hikes affecting commercial facilities in the Southwest US?"
-- "How many gallons of rainwater were collected and reused for facility irrigation in 2026?"
-- "How do our water efficiency metrics for cooling towers compare to Alliance for Water Stewardship benchmarks?"
-- "Generate a chart showing water utility costs across facility types."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *Which retail store facilities have the highest water usage intensity in gallons per square foot in 2026?*  
-**Agent**: Based on facility utility metering data (`esgc_wcfa_facility_water_meters`), **Store 102 (Dallas Flagship)** exhibits the highest water usage intensity at **0.71 gallons/sq.ft** (peaking at 1.03 gal/sq.ft in June due to HVAC cooling loads in Trinity River Basin), followed by **Store 101 (Chicago)** at **0.61 gal/sq.ft**. DC-101 maintains the lowest intensity at **0.33 gal/sq.ft**, benefiting from an on-site 80% efficient closed-loop cooling tower recycling system.
-
-### 2. External Market Grounding
-**User**: *What are the latest municipal water conservation restrictions and tier rate hikes affecting commercial facilities in the Southwest US?*  
-**Agent**: Municipal water authorities across the Southwestern US (including Texas, Arizona, and Southern California) have implemented Stage 2/Stage 3 drought surcharges, increasing commercial tier-2 volumetric water rates by 18–25% for facilities exceeding seasonal conservation allocations. Authorities mandate automated blowdown controls on commercial cooling towers and ban non-recycled decorative irrigation.
-
-### 3. Visual Analytics Artifact
-**User**: *Generate a chart showing water utility costs across facility types.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "Which retail store facilities have the highest water usage intensity in gallons per square foot in 2026?"
+2. "What are the latest municipal water conservation restrictions and tier rate hikes affecting commercial facilities in the Southwest US?"
+3. "How many gallons of rainwater were collected and reused for facility irrigation in 2026?"
+4. "Which stores located in extremely high water-stress watersheds are operating without smart leak detection sensors?"
+5. "Show me a chart of total water consumption in gallons by facility type across all retail operating regions."
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/water_conservation_facility_audit/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/water_conservation_facility_audit
 ```

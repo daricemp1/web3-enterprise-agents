@@ -1,118 +1,107 @@
-# ESG: Restricted Substances (RSL) & Chemical Safety Agent
+# ESG: Restricted Substances (RSL) & Chemical Safety
 
-An enterprise AI agent for **ESG: Restricted Substances (RSL) & Chemical Safety**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **RSL Lab Test Pass Rate %** | Percentage of tested merchandise lots passing chemical safety limits |
-| **Active Certificate Coverage %** | Suppliers with valid, unexpired chemical compliance certifications |
-| **PFAS Phaseout Progress %** | Completion percentage of eliminating forever chemicals from products |
-| **Prop 65 Warning Compliance %** | Merchandise screened and compliant with warning label laws |
+### Business Problem
+Apparel, footwear, cookware, and consumer packaging face strict regulatory bans and hazardous chemical restrictions including PFAS ('forever chemicals'), phthalates, lead, and Prop 65 warning requirements.
 
----
+### Target Personas
+Product Safety & Chemical Compliance Director, QA Lab Manager, Private Brand Materials Lead
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - RSL laboratory testing results and ppm levels, vendor chemical compliance certificates, Prop 65 / REACH SVHC screenings, or hazardous chemical phaseout roadmaps
-- **External Market Context (`market_context`)**:
-  - EU REACH SVHC candidate list additions, California Proposition 65 settlement trends, PFAS phaseout bans in apparel/cookware, or OEKO-TEX standard updates
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **RSL Lab Testing Pass Rate %** | `Target: >= 98.0%` | Percentage of third-party certified lab chemical test submissions passing enterprise RSL thresholds. |
+| **PFAS Phase-Out Progress %** | `Target: 100% phased out` | Percentage of apparel, cookware, and packaging SKUs verified 100% PFAS-free by lab test. |
+| **Prop 65 Chemical Warning Rate %** | `Target: < 0.5% of SKUs` | Percentage of retail products requiring California Proposition 65 warning labels. |
+| **Third-Party Chemical Lab Cycle Time (Days)** | `Target: < 7 business days` | Turnaround time from sample submission to certified analytical test report (Intertek, TÜV SÜD). |
+| **High-Risk Chemical Supplier Audits Completed** | `Target: 100% of tier-1 mills` | Verification audits completed for textile dye houses, tanneries, and polymer compounders. |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/chemical_restricted_substances_rsl.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/chemical_restricted_substances_rsl.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Restricted Substances (RSL) & Chemical Safety
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Restricted Substances List (RSL) lab testing failure rates %, California Prop 65 warnings, and PFAS chemical phaseout schedules
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our overall RSL chemical lab testing pass rate and how many test failures occurred in Q2 2026?"  
+*Response:*  
+> According to BigQuery lab test logs (`esgc_crsl_lab_testing_results`), our overall RSL chemical testing pass rate in Q2 2026 was **98.4%** across 1,840 certified third-party lab submissions. There were **30 test failures** (16 for banned phthalates in synthetic footwear leather, 9 for trace PFAS in outdoor rainwear DWR coatings, and 5 for lead in brass zipper hardware). All 30 affected production lots were quarantined prior to distribution.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: EU REACH Candidate List SVHC updates, state-level PFAS packaging/apparel prohibitions, and AFIRM Group RSL test protocols
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are the latest substances added to the EU REACH SVHC authorization list and California Prop 65 in 2026?"  
+*Response:*  
+> In 2026, the European Chemicals Agency (ECHA) added 5 new substances of very high concern (SVHC) to the REACH Candidate List, including novel bisphenol substitutes and perfluorinated alkyl ether acids (PFAS variants). Concurrently, California OEHHA added two new industrial flame retardants to the Prop 65 list, requiring product warnings or chemical reformulation within a 12-month grace window.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Can you render a chart of RSL lab testing pass rates across apparel, footwear, cookware, and packaging categories?"  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Restricted Substances (RSL) & Chemical Safety analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Restricted Substances (RSL) & Chemical Safety** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/chemical_restricted_substances_rsl.html)  
+> 📹 **Direct MP4 Download**: [`chemical_restricted_substances_rsl.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/chemical_restricted_substances_rsl.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_crsr_rsl_testing_results`
-- `esgc_crsr_chemical_compliance_certificates`
-- `esgc_crsr_prop65_reach_screenings`
-- `esgc_crsr_hazardous_phaseout_plans`
+- `esgc_crsl_lab_testing_results` — Itemized chemical test reports, test standard, detected chemical ppm, RSL threshold, and pass/fail.
+- `esgc_crsl_pfas_phaseout_tracking` — Apparel, outerwear, cookware, and food contact packaging PFAS elimination milestones.
+- `esgc_crsl_restricted_substances_master` — Master RSL substance list (CAS numbers, AFIRM guidelines, EU REACH SVHC, Prop 65 limit ppm).
+- `esgc_crsl_supplier_chemical_declarations` — Supplier material safety data sheets (MSDS) and chemical compliance declarations.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "What is our overall RSL chemical lab testing pass rate and how many test failures occurred in Q2 2026?"
-- "What new substances were added to the EU REACH SVHC authorization list and California Prop 65 in 2026?"
-- "Which product lines are currently tracked under the PFAS chemical phaseout plan and what is their migration progress %?"
-- "How does our restricted substances testing protocol compare to AFIRM Group industry apparel safety standards?"
-- "Provide a chart of chemical compliance certificate statuses across our active vendor base."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *What is our overall RSL chemical lab testing pass rate and how many test failures occurred in Q2 2026?*  
-**Agent**: According to third-party laboratory testing results (`esgc_crsr_rsl_testing_results`), our overall RSL chemical pass rate is **100% across all tested lots** in 2026 YTD, with zero regulatory test failures. One apparel SKU (SKU-002 Recycled Jacket) detected 12.0 ppm total fluorine against the 50.0 ppm safety threshold, remaining within statutory compliance while our fluorine-free bio-based DWR phaseout reaches 85% completion.
-
-### 2. External Market Grounding
-**User**: *What new substances were added to the EU REACH SVHC authorization list and California Prop 65 in 2026?*  
-**Agent**: In 2026, the European Chemicals Agency (ECHA) added additional per- and polyfluoroalkyl substances (PFAS) and specialized oligomeric flame retardants to the REACH Candidate List of Substances of Very High Concern (SVHC), triggering supply chain notification duties above 0.1% w/w. California OEHHA updated Proposition 65 with refined Safe Harbor No Significant Risk Levels (NSRLs) for specific plasticizers and bisphenol analogues.
-
-### 3. Visual Analytics Artifact
-**User**: *Provide a chart of chemical compliance certificate statuses across our active vendor base.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "What is our overall RSL chemical lab testing pass rate and how many test failures occurred in Q2 2026?"
+2. "What new substances were added to the EU REACH SVHC authorization list and California Prop 65 in 2026?"
+3. "Which product lines are currently tracked under the PFAS chemical phaseout plan and what is their migration progress %?"
+4. "Identify any textile suppliers with recurring azo dye or heavy metal test failures in the last 6 months."
+5. "Can you render a chart of RSL lab testing pass rates across apparel, footwear, cookware, and packaging categories?"
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/chemical_restricted_substances_rsl/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/chemical_restricted_substances_rsl
 ```

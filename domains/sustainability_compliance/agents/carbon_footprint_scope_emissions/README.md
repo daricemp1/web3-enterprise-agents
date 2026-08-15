@@ -1,118 +1,107 @@
-# ESG: Carbon Footprint & Scope Emissions Agent
+# ESG: Carbon Footprint & Scope Emissions
 
-An enterprise AI agent for **ESG: Carbon Footprint & Scope Emissions**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **Total GHG Emissions (CO2e)** | Total Scope 1 + 2 + 3 carbon emissions in metric tons |
-| **Net-Zero Progress %** | YTD reduction vs baseline target |
-| **Scope 2 Renewable Factor** | RECs and clean energy grid abatement |
-| **Scope 3 Carbon Intensity** | MT CO2e per million dollars spend |
+### Business Problem
+Retail sustainability and operations leaders struggle to accurately measure, allocate, and reduce Scope 1, 2, and 3 greenhouse gas (GHG) emissions across complex store networks, logistics fleets, and multi-tier supply chain lifecycles.
 
----
+### Target Personas
+Chief Sustainability Officer (CSO), ESG Reporting Director, Supply Chain VP, Facilities Energy Manager
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Scope 1 direct fleet/facility emissions, Scope 2 grid electricity emissions, Scope 3 supply chain lifecycle emissions, net-zero reduction targets, or carbon intensity per dollar
-- **External Market Context (`market_context`)**:
-  - SBTi (Science Based Targets initiative) reporting guidelines, SEC climate disclosure rules, carbon credit market pricing, or CDP benchmarking standards
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **Total GHG Carbon Footprint (MT CO2e)** | `Target: <= 3,200 MT YTD` | Direct Scope 1 fleet combustion + Scope 2 electricity + Scope 3 supply chain footprint. |
+| **Scope 1 Fleet & Facility Emissions** | `Target: < 3,100 MT` | Direct fossil fuel combustion from transportation fleet and facility natural gas. |
+| **Scope 2 Market-Based Electricity** | `Target: <= 1,450 MT` | Purchased electricity emissions offset by renewable energy credits (RECs). |
+| **Scope 3 Category 1 Supply Chain Intensity** | `Target: < 2.5 MT/$M spend` | Cradle-to-gate carbon intensity across purchased retail product categories. |
+| **Net-Zero Science-Based Target Progress** | `Target: >= 92% adherence` | Annual emission reduction trajectory aligned with SBTi 1.5°C pathways. |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/carbon_footprint_scope_emissions.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/carbon_footprint_scope_emissions.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Carbon Footprint & Scope Emissions
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Scope 1/2/3 greenhouse gas emissions breakdown (metric tons CO2e) vs net-zero trajectory
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our total Scope 1 GHG emissions in metric tons across all facilities in 2026 YTD?"  
+*Response:*  
+> Based on internal BigQuery facility telemetry (`esgc_cfse_scope1_fleet_facilities`), our total Scope 1 direct greenhouse gas emissions across all retail stores and distribution centers for 2026 YTD (January through June) are **3,030.7 metric tons of CO2e**. Distribution centers account for 85.3% of direct emissions (primarily fleet logistics diesel and natural gas heating), with DC-101 generating 1,415.7 MT CO2e and DC-102 generating 1,120.5 MT CO2e.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: Science Based Targets initiative (SBTi) retail sector decarbonization guidance and SEC climate disclosure rules
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are the latest SEC and European CSRD climate disclosure guidelines for retail Scope 3 reporting?"  
+*Response:*  
+> According to official SEC climate disclosure rulings and the European Corporate Sustainability Reporting Directive (CSRD / ESRS E1), retail enterprises operating in or exporting to the EU must disclose material Scope 3 value chain emissions. Key retail requirements include calculating Category 1 (Purchased Goods & Services) and Category 4 (Upstream Transportation) using primary supplier carbon accounting, verified under Science Based Targets initiative (SBTi) net-zero criteria.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart of monthly Scope 2 electricity emissions and renewable energy credits applied in 2026."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Carbon Footprint & Scope Emissions analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Carbon Footprint & Scope Emissions** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/carbon_footprint_scope_emissions.html)  
+> 📹 **Direct MP4 Download**: [`carbon_footprint_scope_emissions.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/carbon_footprint_scope_emissions.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_cfse_scope1_fleet_facilities`
-- `esgc_cfse_scope2_electricity_grid`
-- `esgc_cfse_scope3_supply_chain_lifecycle`
-- `esgc_cfse_net_zero_targets`
+- `esgc_cfse_scope1_fleet_facilities` — Facility-level direct emissions, fleet fuel consumption, and heating combustion data.
+- `esgc_cfse_scope2_electricity_grid` — Store and DC electricity consumption (kWh), regional grid emissions factors, and RECs.
+- `esgc_cfse_scope3_supply_chain_lifecycle` — Purchased goods Category 1 spend-based and activity-based lifecycle emissions.
+- `esgc_cfse_net_zero_targets` — Annual decarbonization target milestones, baseline year baselines, and SBTi trajectory.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "What is our total Scope 1 GHG emissions in metric tons across all facilities in 2026 YTD?"
-- "What are the latest SEC and European CSRD climate disclosure guidelines for retail Scope 3 reporting?"
-- "Which product category has the highest Scope 3 supply chain carbon intensity per dollar of spend in 2026?"
-- "How do our net-zero carbon reduction targets compare to leading retail peer commitments under SBTi?"
-- "Show me a chart of monthly Scope 2 electricity emissions and renewable energy credits applied in 2026."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *What is our total Scope 1 GHG emissions in metric tons across all facilities in 2026 YTD?*  
-**Agent**: Based on internal BigQuery facility telemetry (`esgc_cfse_scope1_fleet_facilities`), our total Scope 1 direct greenhouse gas emissions across all retail stores and distribution centers for 2026 YTD (January through June) are **3,030.7 metric tons of CO2e**. Distribution centers account for 85.3% of direct emissions (primarily fleet logistics diesel and natural gas heating), with DC-101 generating 1,415.7 MT CO2e and DC-102 generating 1,120.5 MT CO2e.
-
-### 2. External Market Grounding
-**User**: *What are the latest SEC and European CSRD climate disclosure guidelines for retail Scope 3 reporting?*  
-**Agent**: According to official SEC climate disclosure rulings and the European Corporate Sustainability Reporting Directive (CSRD / ESRS E1), retail enterprises operating in or exporting to the EU must disclose material Scope 3 value chain emissions. Key retail requirements include calculating Category 1 (Purchased Goods & Services) and Category 4 (Upstream Transportation) using primary supplier carbon accounting, verified under Science Based Targets initiative (SBTi) net-zero criteria.
-
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart of monthly Scope 2 electricity emissions and renewable energy credits applied in 2026.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "What is our total Scope 1 GHG emissions in metric tons across all facilities in 2026 YTD?"
+2. "What are the latest SEC and European CSRD climate disclosure guidelines for retail Scope 3 reporting?"
+3. "Which product category has the highest Scope 3 supply chain carbon intensity per dollar of spend in 2026?"
+4. "How do our net-zero carbon reduction targets compare to leading retail peer commitments under SBTi?"
+5. "Show me a chart of monthly Scope 2 electricity emissions and renewable energy credits applied in 2026."
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/carbon_footprint_scope_emissions/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/carbon_footprint_scope_emissions
 ```

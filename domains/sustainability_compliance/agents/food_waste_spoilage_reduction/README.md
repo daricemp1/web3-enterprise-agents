@@ -1,118 +1,107 @@
-# ESG: Food Waste Reduction & Diversion Agent
+# ESG: Food Waste Reduction & Diversion
 
-An enterprise AI agent for **ESG: Food Waste Reduction & Diversion**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail executives and ESG leaders require real-time visibility into sustainability metrics, regulatory disclosures, and operational compliance to achieve net-zero targets, avoid statutory penalties, and enhance brand equity. This agent unifies internal operational telemetry (emissions, waste, renewable energy, supplier audits) with external market intelligence and global environmental standards.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description |
-| :--- | :--- |
-| **Food Waste Diversion Rate %** | Percentage of organic waste diverted from landfills |
-| **Dynamic Markdown Rescue $** | Revenue recovered from near-expiry items |
-| **Food Bank Donations (lbs)** | Total pounds of edible surplus donated |
-| **Meals Provided** | Estimated equivalent meals generated from food donations |
+### Business Problem
+Grocery and multi-category retailers face significant financial shrink and high landfill methane emissions from perishable food waste, markdown delays, and inefficient food bank donation pipelines.
 
----
+### Target Personas
+VP of Fresh Merchandising, Sustainability Director, Store Operations VP, Community Relations Lead
 
-## What It Answers & Sub-Agent Routing
-
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Perishable food spoilage logs, dynamic markdown rescue revenue, food bank donation weights (lbs) and meals, or compost and landfill diversion rates
-- **External Market Context (`market_context`)**:
-  - USDA food waste reduction goals, ReFED food waste benchmarks, dynamic markdowns technology trends, or food donation liability protection regulations (Bill Emerson Act)
-- **Synthesized Responses**:
-  - Blends internal performance data with external market trends, standards, and benchmarks.
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
+| :--- | :--- | :--- |
+| **Perishable Food Waste Shrink Cost** | `Target: < $1.2M / quarter` | Total retail inventory write-off from spoiled perishables and expired goods. |
+| **Food Waste Diversion Rate %** | `Target: >= 85%` | Percentage of unsold food diverted to charity donations, animal feed, or composting. |
+| **Dynamic Markdown Rescue Revenue** | `Target: > $450k / quarter` | Incremental gross revenue captured through timely AI dynamic markdown markdowns. |
+| **Meals Donated to Food Banks** | `Target: > 500,000 meals YTD` | Equivalent meals generated through Feeding America partner charity donations. |
+| **Landfill Methane Avoidance (MT CO2e)** | `Target: > 1,200 MT` | Greenhouse gas emissions prevented by diverting organic waste from municipal landfills. |
 
 ---
 
-### 4. Live Multi-Turn Demo Walkthrough
+## 2. What It Answers & Sub-Agent Routing
 
-An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail ESG benchmarks, statutory regulations, environmental frameworks, and industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
-> 📺 **Watch Full HD 1080p Video Recording**:
-> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/food_waste_spoilage_reduction.html)
-> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/food_waste_spoilage_reduction.mp4)
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Retail ESG Executive
-    participant Agent as ESG: Food Waste Reduction & Diversion
-    participant Canvas as Gemini Enterprise Canvas
+## 3. Sample Q&A Showcase
 
-    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
-    User->>Agent: Prompt 1: Perishable grocery food waste shrink % and dynamic markdown rescue dollar savings across product categories
-    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What was our total perishable food waste shrink cost and spoiled units across stores in Q2 2026?"  
+*Response:*  
+> Based on BigQuery inventory records (`esgc_fwsr_spoilage_by_department`), total perishable food waste shrink across all stores in Q2 2026 was **$1,084,250** across **412,890 spoiled units**. Fresh Produce accounted for $462,100 (42.6%), followed by Dairy & Prepared Foods ($318,400) and Fresh Meat/Seafood ($303,750). Dynamic markdown interventions recovered an estimated $382,000 in revenue that would have otherwise resulted in total loss.
 
-    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
-    User->>Agent: Prompt 2: EPA 2030 food loss reduction goals, grocery donation liability protections, and commercial organics diversion mandates
-    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current best practices and retail case studies for AI-driven dynamic markdown pricing in fresh grocery?"  
+*Response:*  
+> Recent retail case studies (FMI / ReFED 2026) show that computer-vision and shelf-life aware dynamic markdown pricing models reduce perishable food waste by **28% to 35%** while increasing recovered margin by **18%**. Best practices involve automated 2-tier discounting (30% off at 48 hours to expiry, 50% off at 24 hours) combined with digital electronic shelf label (ESL) updates and customer app notifications for local flash-sales.
 
-    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
-    User->>Agent: Prompt 3: Render chart for key sustainability metrics
-    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Can you render a chart of monthly food waste diversion tonnage broken down by donations, composting, and landfill?"  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
-    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
-    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Food Waste Reduction & Diversion analysis, key KPIs, and strategic recommendations
-    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
-    User->>Canvas: Switch to Canvas Mode & paste deck content
-    Canvas-->>User: Renders interactive 4-slide executive presentation
+---
+
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
+
+Watch the deployed **ESG: Food Waste Reduction & Diversion** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/food_waste_spoilage_reduction.html)  
+> 📹 **Direct MP4 Download**: [`food_waste_spoilage_reduction.mp4`](../../../../demos/gemini-enterprise/sustainability_compliance/food_waste_spoilage_reduction.mp4)
+
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
 ```
 
-## Authorized BigQuery Tables
+---
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+## 4. Authorized BigQuery Tables
 
-- `esgc_fwsr_perishable_spoilage_logs`
-- `esgc_fwsr_dynamic_markdown_rescues`
-- `esgc_fwsr_food_bank_donations_lbs`
-- `esgc_fwsr_compost_landfill_diversion`
+- `esgc_fwsr_spoilage_by_department` — Daily perishable waste, shrink cost, and spoiled weight by store department.
+- `esgc_fwsr_dynamic_markdown_performance` — Dynamic discount execution, sell-through velocity, and recovered gross margin.
+- `esgc_fwsr_donation_compost_diversion` — Pounds of food donated to food banks vs sent to commercial composting facilities.
+- `esgc_fwsr_epa_diversion_benchmarks` — EPA 2030 food loss reduction goals and store-level diversion compliance.
 
 ---
 
-## Example Questions
+## 5. Example Questions
 
-- "What was our total perishable food waste shrink cost and spoiled units across stores in Q2 2026?"
-- "What are current best practices and retail case studies for AI-driven dynamic markdown pricing in fresh grocery?"
-- "How many total pounds of food and estimated meals were donated to charity partners in 2026 YTD?"
-- "How does our 85% landfill diversion rate compare to EPA Food Recovery Challenge benchmarks for grocery retailers?"
-- "Generate a chart showing monthly composted tons versus landfill tons across our store network."
-
----
-
-## Sample Q&A Showcase
-
-### 1. Internal BigQuery Data Insights
-**User**: *What was our total perishable food waste shrink cost and spoiled units across stores in Q2 2026?*  
-**Agent**: According to store perishable shrink logs (`esgc_fwsr_perishable_spoilage_logs`), total perishable food waste across all 5 stores in Q2 2026 was **777 units** representing **$3,074.50 in shrink cost**. Fresh Produce and Bakery accounted for 64% of spoiled volume, while dynamic freshness markdowns successfully rescued 1,273 near-expiry units, recovering **$4,500.80 in revenue** and diverting 2,245 lbs of edible food from waste streams.
-
-### 2. External Market Grounding
-**User**: *What are current best practices and retail case studies for AI-driven dynamic markdown pricing in fresh grocery?*  
-**Agent**: Retail industry benchmarks from ReFED and FMI indicate that AI-powered dynamic freshness markdowns reduce grocery perishable food waste by 28% to 40% while capturing 15-22% incremental gross profit. Leading grocers deploy algorithmic price ladders (e.g. 20% off at T-2 days, 50% off at T-1 day) integrated with digital electronic shelf labels (ESL) to clear inventory prior to food bank donation deadlines.
-
-### 3. Visual Analytics Artifact
-**User**: *Generate a chart showing monthly composted tons versus landfill tons across our store network.*  
-**Agent**: Rendered chart artifact `sample_chart.png` illustrating performance metrics.
-
-![Sample Performance Visualization](sample_chart.png)
+1. "What was our total perishable food waste shrink cost and spoiled units across stores in Q2 2026?"
+2. "What are current best practices and retail case studies for AI-driven dynamic markdown pricing in fresh grocery?"
+3. "How many total pounds of food and estimated meals were donated to charity partners in 2026 YTD?"
+4. "Which store district has the lowest composting diversion rate % in fresh bakery and produce?"
+5. "Can you render a chart of monthly food waste diversion tonnage broken down by donations, composting, and landfill?"
 
 ---
 
-## How to Run & Test
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/sustainability_compliance/agents/food_waste_spoilage_reduction/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/sustainability_compliance/agents/food_waste_spoilage_reduction
 ```
