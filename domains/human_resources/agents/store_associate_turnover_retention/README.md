@@ -1,89 +1,107 @@
-# HR: Store Associate Turnover & Retention Agent
+# HR: Store Associate Turnover & Retention
 
-An enterprise AI agent for **HR: Store Associate Turnover & Retention**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Retail store operations depend on frontline stability. High associate turnover disrupts customer service, increases overtime expenses, and creates continuous hiring and training churn. This agent provides store and regional leadership with immediate visibility into annualized turnover rates, 90-day new hire cohort retention curves, and qualitative exit interview sentiment topics, enabling proactive retention interventions before key staffing shortages occur.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description | Target Benchmark |
+### Business Problem
+Retail store operations suffer from high associate turnover (especially in the first 90 days), resulting in recruiting surge costs, understaffed peak shifts, and customer checkout friction.
+
+### Target Personas
+Chief Human Resources Officer (CHRO), VP of Retail Operations, District HR Managers, Store General Managers
+
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
 | :--- | :--- | :--- |
-| **Annualized Associate Turnover Rate (%)** | Total associate terminations divided by average active headcount annualized | < 40.0% |
-| **90-Day New Hire Retention Rate (%)** | Percentage of new store associates remaining employed past day 90 | > 75.0% |
-| **Voluntary vs. Involuntary Term Ratio** | Breakdown of associate resignations vs. performance/policy terminations | > 70% Voluntary |
-| **Top Exit Driver Sentiment Score** | Weighted frequency of primary departure reasons from exit surveys | Monitor Spikes |
+| **Annualized Associate Turnover Rate %** | `Target: < 45.0%` | Total associate terminations annualized divided by average active store headcount. |
+| **90-Day Associate Retention Cohort %** | `Target: >= 78.0%` | Percentage of newly hired store associates reaching 90 days of tenure without voluntary exit. |
+| **Voluntary vs Involuntary Exit Ratio** | `Target: > 3.5x voluntary` | Ratio of voluntary employee resignations compared to operational/policy discharges. |
+| **Associate Replacement Recruiting Cost** | `Target: < $4,200 / hire` | Total recruiting, onboarding, and training cost per replaced frontline associate. |
+| **Exit Interview Pay & Scheduling Dissatisfaction %** | `Target: < 22.0%` | Percentage of exiting associates citing irregular hours or pay rates as primary departure reasons. |
 
 ---
 
-## What It Answers & Sub-Agent Routing
+## 2. What It Answers & Sub-Agent Routing
 
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Store-level headcount rosters, termination events, 90-day retention cohorts, and exit interview survey topic counts.
-- **External Market Context (`market_context`)**:
-  - Retail industry turnover benchmarks (NRF, BLS JOLTS reports) and frontline retention best practices.
-- **Synthesized Responses**:
-  - Blends internal store turnover statistics with national retail labor benchmarks to pinpoint store-level retention anomalies.
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail labor market benchmarks, statutory wage/Fair Workweek regulations, BLS statistics, and HR industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
 ---
 
-## Authorized BigQuery Tables
+## 3. Sample Q&A Showcase
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is the annualized store associate turnover rate across districts for 2026 YTD?"  
+*Response:*  
+> Based on BigQuery employee roster and separation telemetry (`hrwm_satr_associate_terminations`), our enterprise annualized store associate turnover rate for 2026 YTD is **41.2%**, beating our <45.0% enterprise threshold. District 4 (Midwest Metro) experienced the lowest turnover at **32.8%**, while District 9 (Southeast Coastal) had the highest at **51.4%**, driven by seasonal resort wage competition.
 
-- `hrwm_satr_headcount_rosters`
-- `hrwm_satr_associate_terminations`
-- `hrwm_satr_90_day_retention_cohorts`
-- `hrwm_satr_exit_interview_topics`
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current US Bureau of Labor Statistics (BLS) retail sector quit rate benchmarks and turnover trends?"  
+*Response:*  
+> According to the latest US Bureau of Labor Statistics (BLS) Job Openings and Labor Turnover Survey (JOLTS 2026), the retail trade sector maintains an average monthly quit rate of **2.9% to 3.2%**, translating to an annualized voluntary frontline turnover benchmark of **48% to 54%** across mass merchandisers and department stores. Retailers providing predictable scheduling and wage transparency average 12 percentage points lower turnover.
 
----
-
-## Example Questions
-
-- "What is our current store associate headcount and annualized turnover rate across Store 101 and Store 102 in 2026 YTD?"
-- "What is the 90-day retention rate for Q1 2026 new hire cohorts across our retail districts?"
-- "What are the primary exit interview reasons cited by departing retail store associates in 2026?"
-- "What are current retail industry benchmarks for frontline store associate annual turnover and 90-day retention according to NRF and BLS data?"
-- "Show me a chart of annualized turnover rates by store department for 2026 YTD."
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Can you render a chart of 90-day associate retention rates across our top 5 operating districts in 2026?"  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
 ---
 
-## Sample Q&A Showcase
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
-### 1. Internal BigQuery Data Insights
-**User**: *What is our current store associate headcount and annualized turnover rate across Store 101 and Store 102 in 2026 YTD?*  
-**Agent**: Based on `retail_ent_agents.hrwm_satr_headcount_rosters` and `hrwm_satr_associate_terminations`:
-- **Store 101 (Northeast Flagship)**: Active headcount of **142 associates** with 27 terminations YTD, resulting in an annualized turnover rate of **38.0%** (favorable vs. company target of 42.0%).
-- **Store 102 (Metro Supercenter)**: Active headcount of **188 associates** with 42 terminations YTD, yielding an annualized turnover rate of **44.7%** (+2.7% vs. target). Front-End cashier roles accounted for 54% of exits.
+Watch the deployed **HR: Store Associate Turnover & Retention** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
 
-### 2. External Market Grounding
-**User**: *What are current retail industry benchmarks for frontline store associate annual turnover and 90-day retention according to NRF and BLS data?*  
-**Agent**: According to recent National Retail Federation (NRF) and Bureau of Labor Statistics (BLS) retail trade reports:
-- Frontline retail store associate annualized turnover averages between **55% and 65%** across big-box and specialty retail.
-- 90-day new hire drop-off rates typically exceed **30%**, with industry median 90-day retention holding around **68%–72%**.
-- Key drivers include schedule predictability, compensation competitiveness, and initial 30-day onboarding support.
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/human_resources/store_associate_turnover_retention.html)  
+> 📹 **Direct MP4 Download**: [`store_associate_turnover_retention.mp4`](../../../../demos/gemini-enterprise/human_resources/store_associate_turnover_retention.mp4)
 
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart of annualized turnover rates by store department for 2026 YTD.*  
-**Agent**: Generated department-level turnover comparison:
-
-![Sample Performance Visualization](sample_chart.png)
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
 
 ---
 
-## How to Run & Test
+## 4. Authorized BigQuery Tables
+
+- `hrwm_satr_headcount_rosters` — Active store employee headcount by store, job role, department, employment status, and hire date.
+- `hrwm_satr_associate_terminations` — Employee separation records, departure date, tenure months, exit reason category, and eligible for rehire status.
+- `hrwm_satr_90_day_retention_cohorts` — Monthly hiring cohorts tracked at 30, 60, and 90-day retention milestones.
+- `hrwm_satr_exit_interview_topics` — NLP-categorized associate exit survey responses, manager relationship sentiment, and wage satisfaction scores.
+
+---
+
+## 5. Example Questions
+
+1. "What is the annualized store associate turnover rate across districts for 2026 YTD?"
+2. "What are current US Bureau of Labor Statistics (BLS) retail sector quit rate benchmarks and turnover trends?"
+3. "Which retail job roles (Cashier, Stocker, Department Lead) have the lowest 90-day retention cohort percentage?"
+4. "What are the top three primary exit reasons reported in associate exit interviews over the past six months?"
+5. "Can you render a chart of 90-day associate retention rates across our top 5 operating districts in 2026?"
+
+---
+
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/human_resources/agents/store_associate_turnover_retention/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/human_resources/agents/store_associate_turnover_retention
 ```

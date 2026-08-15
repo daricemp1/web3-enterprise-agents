@@ -1,90 +1,107 @@
-# HR: Workplace Safety & Workers' Comp Agent
+# HR: Workplace Safety & Workers' Comp
 
-An enterprise AI agent for **HR: Workplace Safety & Workers' Comp**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Maintaining frontline safety protects associates and prevents escalating workers' compensation claims and OSHA penalties. Slips, trips, repetitive motion strains, and material handling injuries directly inflate insurance reserves and lower store productivity. This agent provides EHS leadership and store managers with automated tracking of Total Recordable Incident Rate (TRIR), DART rates, workers' comp claims $, and store safety audit scores.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description | Target Benchmark |
+### Business Problem
+Workplace injuries (slips, trips, repetitive motion, backroom pallet lifting) drive up workers' compensation insurance reserves, increase OSHA recordable incident rates (TRIR), and lead to lost operational workdays.
+
+### Target Personas
+VP of Environmental Health & Safety (EHS), Workers' Comp Risk Manager, Store Safety Committee Chairs, Operations VPs
+
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
 | :--- | :--- | :--- |
-| **Total Recordable Incident Rate (TRIR)** | Total OSHA-recordable injuries per 100 full-time equivalent (FTE) workers | < 2.50 per 100 FTEs |
-| **Days Away, Restricted, or Transferred (DART)** | Rate of lost-time or modified-duty injury cases per 100 FTEs | < 1.20 per 100 FTEs |
-| **Total Workers' Comp Claims Cost ($)** | Incurred and reserved financial cost of store injury claims | Under Budget ($) |
-| **Store Safety Audit Compliance (%)** | Monthly safety walkthrough and hazard inspection score | >= 95.0% |
+| **Total Recordable Incident Rate (TRIR)** | `Target: < 2.2 per 100 FTE` | Annualized OSHA recordable injuries and illnesses per 200,000 associate work hours. |
+| **Days Away, Restricted, or Transferred (DART)** | `Target: < 1.4 per 100 FTE` | Work-related injury cases resulting in lost workdays, job transfer, or medical work restrictions. |
+| **Workers' Comp Total Incurred Incurred Losses ($)** | `Target: < $3.2M / year` | Total medical expenses, indemnity payments, and open case insurance loss reserves. |
+| **Average Days to Return-to-Work (RTW)** | `Target: < 18.0 days` | Average days required to transition injured associates into modified light-duty or full duty. |
+| **Store Safety Audit Hazard Remediation SLA** | `Target: < 48 hours` | Time elapsed to remediate physical store and DC safety hazard inspection findings. |
 
 ---
 
-## What It Answers & Sub-Agent Routing
+## 2. What It Answers & Sub-Agent Routing
 
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Store incident logs, OSHA 300 logs, workers' compensation claims dollars, and facility safety inspection audits.
-- **External Market Context (`market_context`)**:
-  - BLS Survey of Occupational Injuries and Illnesses (SOII) retail benchmarks, OSHA reporting standards, and ergonomics guidelines.
-- **Synthesized Responses**:
-  - Identifies elevated store risk profiles and recommends targeted ergonomics and material handling interventions.
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail labor market benchmarks, statutory wage/Fair Workweek regulations, BLS statistics, and HR industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
 ---
 
-## Authorized BigQuery Tables
+## 3. Sample Q&A Showcase
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our Total Recordable Incident Rate (TRIR) and DART rate across retail stores in 2026 YTD?"  
+*Response:*  
+> Based on BigQuery OSHA 300 logs (`hrwm_wswc_osha_recordable_logs`), our enterprise Total Recordable Incident Rate (TRIR) for 2026 YTD is **1.92 per 100 FTEs**, outperforming our 2.20 safety target and the retail industry average (3.10). Our DART rate is **1.18 per 100 FTEs**, down 14% year-over-year following the rollout of mechanized pallet lifts in distribution centers.
 
-- `hrwm_wswc_workplace_incidents`
-- `hrwm_wswc_osha_300_logs`
-- `hrwm_wswc_workers_comp_claims`
-- `hrwm_wswc_safety_audit_scores`
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current OSHA retail industry injury rate benchmarks for general merchandise and grocery stores?"  
+*Response:*  
+> According to US BLS and OSHA Workplace Injury and Illness reporting (2026), the retail trade sector averages a TRIR of **3.1 to 3.4 recordable injuries per 100 FTEs**, with supermarket and grocery store formats averaging higher at **3.8 to 4.2** due to heavy material handling in stockrooms and commercial food prep. Top-quartile safety leaders maintain TRIR rates below **2.0** through automated lift-assists and ergonomic footwear mandates.
 
----
-
-## Example Questions
-
-- "What is our enterprise TRIR and DART rate across store formats for 2026 YTD?"
-- "What were the total workers' comp claims costs and average cost per claim by injury cause in Q1?"
-- "Which stores have safety audit scores below 90% and open corrective action items?"
-- "What are current BLS retail sector benchmarks for TRIR and DART in supermarkets and general merchandise stores?"
-- "Show me a chart comparing TRIR and DART rates across store formats for 2026 YTD."
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart of monthly OSHA recordable incident counts compared against our annual safety reduction target."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
 ---
 
-## Sample Q&A Showcase
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
-### 1. Internal BigQuery Data Insights
-**User**: *What is our enterprise TRIR and DART rate across store formats for 2026 YTD?*  
-**Agent**: Querying `retail_ent_agents.hrwm_wswc_osha_300_logs` and `hrwm_wswc_workplace_incidents`:
-- **Enterprise Fleet Average**: **TRIR of 1.98** and **DART of 0.96** per 100 FTEs (favorable vs. company threshold of 2.50).
-- **Supercenter Format**: TRIR 2.40 / DART 1.20 (material handling and backroom lifting strains accounted for 62% of incidents).
-- **Urban Express Format**: TRIR 1.10 / DART 0.50.
+Watch the deployed **HR: Workplace Safety & Workers' Comp** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
 
-### 2. External Market Grounding
-**User**: *What are current BLS retail sector benchmarks for TRIR and DART in supermarkets and general merchandise stores?*  
-**Agent**: According to the latest U.S. Bureau of Labor Statistics (BLS) Occupational Injuries and Illnesses report for NAICS 452 (General Merchandise) and NAICS 445 (Food and Beverage Stores):
-- Supermarket / Grocery Store average TRIR is **3.8 cases per 100 FTEs**, with an average DART rate of **2.4**.
-- General Merchandise stores average a TRIR of **3.1** and DART of **1.9**.
-- Top incident causes remain overexertion in lifting/lowering and same-level slips/falls.
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/human_resources/workplace_safety_workers_comp.html)  
+> 📹 **Direct MP4 Download**: [`workplace_safety_workers_comp.mp4`](../../../../demos/gemini-enterprise/human_resources/workplace_safety_workers_comp.mp4)
 
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart comparing TRIR and DART rates across store formats for 2026 YTD.*  
-**Agent**: Visual comparison of incident rates across store archetypes:
-
-![Sample Performance Visualization](sample_chart.png)
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
 
 ---
 
-## How to Run & Test
+## 4. Authorized BigQuery Tables
+
+- `hrwm_wswc_osha_recordable_logs` — OSHA 300 log incident entries, incident date, body part, injury nature, store location, and root cause.
+- `hrwm_wswc_lost_workday_cases` — DART case tracking, lost workdays count, restricted duty days, and modified-duty assignment logs.
+- `hrwm_wswc_workers_comp_claims` — Workers' compensation claim numbers, paid medical costs, paid indemnity, outstanding reserves, and TPA status.
+- `hrwm_wswc_safety_audit_compliance` — Quarterly store physical safety inspection scores, identified slip/fall hazards, and remediation closure dates.
+
+---
+
+## 5. Example Questions
+
+1. "What is our Total Recordable Incident Rate (TRIR) and DART rate across retail stores in 2026 YTD?"
+2. "What are current OSHA retail industry injury rate benchmarks for general merchandise and grocery stores?"
+3. "What are the top three injury categories (e.g., material handling, slip/trip/fall) by total incurred workers' comp cost?"
+4. "How many open workers' comp claims currently have an active return-to-work modified duty plan?"
+5. "Show me a chart of monthly OSHA recordable incident counts compared against our annual safety reduction target."
+
+---
+
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/human_resources/agents/workplace_safety_workers_comp/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/human_resources/agents/workplace_safety_workers_comp
 ```

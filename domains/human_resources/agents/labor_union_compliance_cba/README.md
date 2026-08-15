@@ -1,90 +1,107 @@
-# HR: Labor Union & CBA Compliance Agent
+# HR: Labor Union & CBA Compliance
 
-An enterprise AI agent for **HR: Labor Union & CBA Compliance**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Operating union-represented retail stores requires strict compliance with Collective Bargaining Agreements (CBAs). Missed grievance filing deadlines, improper seniority shift allocation, or unresolved labor disputes result in costly arbitration penalties and strained labor relations. This agent monitors grievance logs, contractual SLA timelines, seniority bidding compliance, and shop steward interaction audits.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description | Target Benchmark |
+### Business Problem
+Retail stores operating under Collective Bargaining Agreements (CBAs) face complex contractual seniority shift-bidding rules, mandatory wage progression schedules, and union grievance resolution deadlines.
+
+### Target Personas
+VP of Labor Relations, Chief Labor Counsel, Field HR Directors, Union Store Directors
+
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
 | :--- | :--- | :--- |
-| **Grievance Resolution SLA Compliance (%)** | CBA grievances resolved within contractual timeline stages (Step 1-3) | >= 95.0% |
-| **Open Grievance Volume (#)** | Total active open labor grievances across union store locations | < 10 per local |
-| **Seniority Shift Bidding Compliance (%)** | Scheduled shifts allocated strictly according to contractual seniority rosters | 100.0% |
-| **Arbitration Escalation Rate (%)** | Percent of grievances escalating to binding external arbitration | < 2.0% |
+| **Union Grievance Resolution SLA Rate %** | `Target: >= 95.0% on-time` | Percentage of Step 1 and Step 2 union grievances resolved or scheduled within mandatory CBA timeline (typically 14 days). |
+| **Seniority Shift-Bidding Compliance %** | `Target: 100% compliant` | Adherence to CBA seniority roster rankings during semi-annual shift schedule and vacation bid awards. |
+| **Open Arbitration & Unfair Labor Practice (ULP) Cases** | `Target: < 3 cases` | Number of formal disputes escalated to third-party arbitration or NLRB administrative hearings. |
+| **CBA Wage Progression Execution Accuracy %** | `Target: >= 99.8%` | Payroll accuracy in applying contractually mandated tenure step-rate wage increases on anniversary dates. |
+| **Joint Labor-Management Committee Attendance %** | `Target: 100% attended` | Completion rate of mandatory monthly store labor-management committee dialogue sessions. |
 
 ---
 
-## What It Answers & Sub-Agent Routing
+## 2. What It Answers & Sub-Agent Routing
 
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Active grievance logs, contractual timeline milestone tracking, seniority shift bid records, and arbitration logs.
-- **External Market Context (`market_context`)**:
-  - National Labor Relations Board (NLRB) retail rulings, UFCW / Teamsters CBA precedent patterns, and statutory labor laws.
-- **Synthesized Responses**:
-  - Flags potential grievance SLA breaches and ensures consistent CBA interpretation across union retail facilities.
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail labor market benchmarks, statutory wage/Fair Workweek regulations, BLS statistics, and HR industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
 ---
 
-## Authorized BigQuery Tables
+## 3. Sample Q&A Showcase
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our on-time resolution percentage for Step 1 and Step 2 union grievances in 2026 YTD?"  
+*Response:*  
+> Based on labor relations tracking in BigQuery (`hrwm_lucc_grievance_resolution_slas`), our on-time resolution rate for Step 1 and Step 2 union grievances across 48 unionized store locations in 2026 YTD is **96.8%** (91 of 94 grievances resolved within CBA contract deadlines). Average time to Step 1 resolution was 7.2 days against a 14-day contractual SLA.
 
-- `hrwm_lucc_cba_grievance_logs`
-- `hrwm_lucc_grievance_sla_tracking`
-- `hrwm_lucc_seniority_shift_bidding`
-- `hrwm_lucc_arbitration_records`
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current National Labor Relations Board (NLRB) regulatory rulings regarding retail store union election rules and CBA notice periods?"  
+*Response:*  
+> Under current NLRB frameworks (including the Cemex standard and updated representation rules), employers must respond to union representation petitions within accelerated timeframes and avoid unfair labor practices during organizing drives. Under standard LMRA Section 8(d) rules, parties must provide written notice at least 60 days prior to CBA expiration before instituting unilateral terms or economic actions.
 
----
-
-## Example Questions
-
-- "What is our current open grievance count and resolution SLA compliance percentage by union local?"
-- "Are there any Step 2 or Step 3 grievances currently within 5 days of contractual SLA expiration?"
-- "What is our seniority shift bidding audit compliance rate across union-represented store locations?"
-- "What are standard CBA timelines and best practices for Step 1 through Step 3 grievance resolution in retail agreements?"
-- "Show me a chart of grievance volume and resolution SLA compliance by union local."
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart of union grievances filed by category (Seniority, Overtime, Discipline, Scheduling) across all unionized stores."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
 ---
 
-## Sample Q&A Showcase
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
-### 1. Internal BigQuery Data Insights
-**User**: *What is our current open grievance count and resolution SLA compliance percentage by union local?*  
-**Agent**: Querying `retail_ent_agents.hrwm_lucc_cba_grievance_logs` and `hrwm_lucc_grievance_sla_tracking`:
-- **Overall Union Portfolio**: **59 total grievances** logged YTD across 5 union locals with **92.4% overall SLA resolution compliance**.
-- **Teamsters Local 55**: 7 grievances, **98.0% SLA compliance** (average resolution in 11.2 days).
-- **UFCW Local 204**: 19 grievances, **82.0% SLA compliance** (2 Step 2 scheduling grievances currently under joint review).
+Watch the deployed **HR: Labor Union & CBA Compliance** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
 
-### 2. External Market Grounding
-**User**: *What are standard CBA timelines and best practices for Step 1 through Step 3 grievance resolution in retail agreements?*  
-**Agent**: Standard retail collective bargaining agreements (e.g., UFCW Master Agreements) typically structure:
-- **Step 1 (Immediate Supervisor)**: Filing within 14 calendar days of incident; supervisor response within 7–10 days.
-- **Step 2 (HR / Store Leadership)**: Formal meeting within 10 days of Step 1 appeal; written answer within 10 days.
-- **Step 3 (Corporate Labor Relations & Union Leadership)**: Meeting within 30 days prior to arbitration submission.
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/human_resources/labor_union_compliance_cba.html)  
+> 📹 **Direct MP4 Download**: [`labor_union_compliance_cba.mp4`](../../../../demos/gemini-enterprise/human_resources/labor_union_compliance_cba.mp4)
 
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart of grievance volume and resolution SLA compliance by union local.*  
-**Agent**: Union local grievance and SLA compliance distribution:
-
-![Sample Performance Visualization](sample_chart.png)
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
 
 ---
 
-## How to Run & Test
+## 4. Authorized BigQuery Tables
+
+- `hrwm_lucc_cba_agreements` — Active collective bargaining agreement master records, local union chapter id (UFCW, RWDSU), expiration date, and wage scales.
+- `hrwm_lucc_union_grievance_logs` — Grievance tracking records, grievance category (Discipline, Overtime, Seniority, Work Assignment), filing date, and step status.
+- `hrwm_lucc_grievance_resolution_slas` — Grievance milestone timestamps, response deadlines, settlement terms, and arbitrator assignment.
+- `hrwm_lucc_seniority_shift_bids` — Annual and semi-annual shift bid award logs, employee seniority hire dates, and bid preference matches.
+
+---
+
+## 5. Example Questions
+
+1. "What is our on-time resolution percentage for Step 1 and Step 2 union grievances in 2026 YTD?"
+2. "What are current National Labor Relations Board (NLRB) regulatory rulings regarding retail store union election rules and CBA notice periods?"
+3. "How many open union grievances are currently active across UFCW-represented store locations?"
+4. "Are there any pending seniority shift-bid disputes in our grocery and meat departments?"
+5. "Show me a chart of union grievances filed by category (Seniority, Overtime, Discipline, Scheduling) across all unionized stores."
+
+---
+
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/human_resources/agents/labor_union_compliance_cba/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/human_resources/agents/labor_union_compliance_cba
 ```

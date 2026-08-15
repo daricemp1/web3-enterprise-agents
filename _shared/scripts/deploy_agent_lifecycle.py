@@ -114,6 +114,8 @@ def resolve_agent_config(
     if resolved_app and not resolved_app.startswith("projects/"):
         resolved_app = f"projects/{resolved_proj}/locations/global/collections/default_collection/engines/{resolved_app}"
     
+    resolved_region = agent_meta.get("location", "us-central1")
+    
     return AgentDeployConfig(
         domain=domain,
         agent_name=agent_name,
@@ -121,7 +123,7 @@ def resolve_agent_config(
         display_name=display_name,
         description=description,
         project_id=resolved_proj,
-        region="us-central1",
+        region=resolved_region,
         gemini_enterprise_app_id=resolved_app,
         agent_dir=agent_dir
     )
@@ -200,7 +202,8 @@ class GcpControlPlaneClient:
 
     def delete_reasoning_engine(self, engine_resource_name: str, project_id: str) -> bool:
         """Deletes a Vertex AI Reasoning Engine."""
-        region = "us-central1"
+        match = re.search(r"locations/([^/]+)/", engine_resource_name)
+        region = match.group(1) if match else "us-central1"
         url = f"https://{region}-aiplatform.googleapis.com/v1beta1/{engine_resource_name}?force=true"
         try:
             resp = requests.delete(url, headers=self._headers(project_id), timeout=30)
@@ -211,7 +214,8 @@ class GcpControlPlaneClient:
 
     def update_reasoning_engine(self, engine_resource_name: str, display_name: str, description: str, project_id: str) -> bool:
         """Updates display name and description on a Vertex AI Reasoning Engine."""
-        region = "us-central1"
+        match = re.search(r"locations/([^/]+)/", engine_resource_name)
+        region = match.group(1) if match else "us-central1"
         url = f"https://{region}-aiplatform.googleapis.com/v1beta1/{engine_resource_name}?updateMask=displayName,description"
         payload = {
             "displayName": display_name,
@@ -341,8 +345,10 @@ class AgentLifecycleEngine:
                     encoding="utf-8"
                 )
 
+        adk_candidate = REPO_ROOT / ".venv" / "bin" / "adk"
+        adk_cmd = str(adk_candidate) if adk_candidate.exists() else (shutil.which("adk") or "adk")
         cmd = [
-            "uv", "run", "--frozen", "adk", "deploy", "agent_engine",
+            adk_cmd, "deploy", "agent_engine",
             "--project", config.project_id,
             "--region", config.region,
             "--display_name", config.display_name,
@@ -379,8 +385,10 @@ class AgentLifecycleEngine:
 
     def publish_ge(self, config: AgentDeployConfig, reasoning_engine_id: str) -> None:
         """Publishes the deployed reasoning engine to Gemini Enterprise."""
+        agents_cli_candidate = Path.home() / ".local" / "bin" / "agents-cli"
+        agents_cli_cmd = str(agents_cli_candidate) if agents_cli_candidate.exists() else (shutil.which("agents-cli") or "agents-cli")
         cmd = [
-            "agents-cli", "publish", "gemini-enterprise",
+            agents_cli_cmd, "publish", "gemini-enterprise",
             "--registration-type", "adk",
             "--agent-runtime-id", reasoning_engine_id,
             "--gemini-enterprise-app-id", config.gemini_enterprise_app_id,
@@ -391,8 +399,10 @@ class AgentLifecycleEngine:
 
     def record_demo(self, config: AgentDeployConfig, speed: str = "normal", resolution: str = "1080p") -> None:
         """Invokes the Playwright demo recorder engine."""
+        python_candidate = REPO_ROOT / ".venv" / "bin" / "python3"
+        python_cmd = str(python_candidate) if python_candidate.exists() else "python3"
         cmd = [
-            "uv", "run", "python", "_shared/scripts/record_agent_demo.py",
+            python_cmd, str(REPO_ROOT / "_shared" / "scripts" / "record_agent_demo.py"),
             "--domain", config.domain,
             "--name", config.agent_name,
             "--speed", speed,
@@ -464,8 +474,19 @@ class AgentLifecycleEngine:
             if isinstance(resp, str):
                 chunks.append(resp)
             elif isinstance(resp, dict):
-                content = resp.get("content") or resp.get("text") or resp.get("message") or str(resp)
-                chunks.append(str(content))
+                if "text" in resp:
+                    chunks.append(resp["text"])
+                elif "content" in resp:
+                    c = resp["content"]
+                    if isinstance(c, dict) and "parts" in c:
+                        parts = c["parts"]
+                        chunks.append("".join(p.get("text", "") for p in parts if isinstance(p, dict)))
+                    else:
+                        chunks.append(str(c))
+                elif "message" in resp:
+                    chunks.append(str(resp["message"]))
+                else:
+                    chunks.append(str(resp))
             elif hasattr(resp, "text"):
                 chunks.append(resp.text)
             elif hasattr(resp, "content"):
@@ -616,7 +637,7 @@ def main(argv: list[str] | None = None) -> int:
     all_results: list[dict] = []
     
     # Pre-fetch control plane state once upfront for fast audit
-    cached_engines: list[dict] | None = None
+    cached_engines_by_region: dict[str, list[dict]] = {}
     cached_cards: list[dict] | None = None
     
     for domain, ag_name in targets:
@@ -642,12 +663,12 @@ def main(argv: list[str] | None = None) -> int:
             continue
 
         # 1. Audit
-        if cached_engines is None or not args.audit_only:
-            cached_engines = client.list_reasoning_engines(config.project_id, config.region)
+        if config.region not in cached_engines_by_region or not args.audit_only:
+            cached_engines_by_region[config.region] = client.list_reasoning_engines(config.project_id, config.region)
         if cached_cards is None or not args.audit_only:
             cached_cards = client.list_ge_agents(config.gemini_enterprise_app_id, config.project_id)
             
-        all_engines = cached_engines
+        all_engines = cached_engines_by_region[config.region]
         all_cards = cached_cards
         matched = engine.match_resources(config, all_engines, all_cards)
         num_engines = len(matched["matching_engines"])

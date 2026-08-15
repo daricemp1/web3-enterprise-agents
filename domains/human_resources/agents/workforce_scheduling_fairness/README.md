@@ -1,90 +1,107 @@
-# HR: Scheduling Fairness & Predictive Hours Agent
+# HR: Scheduling Fairness & Predictive Hours
 
-An enterprise AI agent for **HR: Scheduling Fairness & Predictive Hours**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Fair scheduling and predictive work hours directly influence associate retention, morale, and statutory compliance. Municipal and state Fair Workweek regulations require 14-day advance schedule posting and mandate premium pay for last-minute cancellations or clopening shifts (closing followed immediately by opening with less than 11 hours rest). This agent monitors schedule publication lead times, shift swap fulfillment, and clopening violations across the store fleet.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description | Target Benchmark |
+### Business Problem
+Retail store managers struggle to balance customer foot-traffic demand curves with municipal Fair Workweek statutory regulations, schedule advance notice deadlines, clopening rest periods, and shift-swap flexibility.
+
+### Target Personas
+VP of Workforce Management, Retail Labor Compliance Director, Store Operations Directors, Store Schedulers
+
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
 | :--- | :--- | :--- |
-| **Schedule Publication Lead Time (Days)** | Days in advance store shifts are published before the workweek begins | >= 14.0 Days |
-| **Fair Workweek Compliance Rate (%)** | Percent of shifts published and maintained without statutory penalty | >= 98.0% |
-| **Clopening Violations Count (#)** | Number of shifts with < 11 hours rest between consecutive store days | 0 Violations |
-| **Shift Swap Fulfillment Rate (%)** | Associate-initiated shift exchange requests successfully matched | >= 90.0% |
+| **Fair Workweek 14-Day Advance Notice %** | `Target: >= 96.0%` | Percentage of employee weekly shift schedules published at least 14 days prior to shift start. |
+| **Clopening Shift Violations (<11h rest)** | `Target: 0 incidents` | Number of back-to-back closing and opening shifts scheduled without required 11-hour rest window. |
+| **Predictability Pay Penalty Liability ($)** | `Target: < $15,000 / quarter` | Statutory employer penalty fees incurred due to employer-initiated last-minute schedule alterations. |
+| **Peer Shift-Swap Fulfillment Rate %** | `Target: >= 88.0%` | Percentage of associate shift-trade requests successfully picked up and approved prior to shift start. |
+| **Core Part-Time Scheduled Hours Variance** | `Target: < 10% variance` | Consistency of weekly scheduled hours awarded to core part-time associates week-over-week. |
 
 ---
 
-## What It Answers & Sub-Agent Routing
+## 2. What It Answers & Sub-Agent Routing
 
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Published store schedules, fair workweek compliance logs, shift swap requests, and clopening violation records.
-- **External Market Context (`market_context`)**:
-  - Municipal and state Fair Workweek regulations (e.g., Seattle, Chicago, NYC, California), statutory predictability pay rules, and industry workforce scheduling trends.
-- **Synthesized Responses**:
-  - Connects internal scheduling metrics with statutory compliance standards to flag potential labor penalty liabilities.
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail labor market benchmarks, statutory wage/Fair Workweek regulations, BLS statistics, and HR industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
 ---
 
-## Authorized BigQuery Tables
+## 3. Sample Q&A Showcase
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What percentage of store employee schedules were published with 14+ days advance notice in Q2 2026?"  
+*Response:*  
+> Based on scheduling audit records in BigQuery (`hrwm_wsfa_published_schedules`), **96.8%** of store shift schedules across all retail regions were published with 14 or more days advance notice in Q2 2026. Stores in Fair Workweek regulated jurisdictions (NYC, Chicago, Los Angeles) achieved **99.2% compliance**, reducing predictability pay penalty liability to just $8,450 for the quarter.
 
-- `hrwm_wsfa_published_schedules`
-- `hrwm_wsfa_fair_workweek_compliance`
-- `hrwm_wsfa_shift_swap_fulfillment`
-- `hrwm_wsfa_clopening_violations`
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are the specific statutory penalty rules and rest period mandates under the New York City Fair Workweek Law?"  
+*Response:*  
+> Under the NYC Fair Workweek Law (Admin Code § 20-1201), retail employers must provide written schedules at least 14 days in advance. Last-minute schedule changes incur mandatory predictability pay ranging from $15 (shift change with <14 days notice) to $75 (shift cancellation with <24 hours notice). Clopening shifts (closing and opening shifts separated by less than 11 hours) are prohibited without written employee consent and require a mandatory $100 premium payment.
 
----
-
-## Example Questions
-
-- "What is our average schedule posting advance notice lead time across stores for the past 4 weeks?"
-- "How many clopening violations were recorded in District 3 last month, and what was the associated penalty cost?"
-- "What is the shift swap fulfillment rate for part-time retail associates across store departments?"
-- "What are the statutory Fair Workweek advance scheduling notice requirements and predictability pay rules in California and Chicago?"
-- "Show me a chart of schedule lead time versus clopening violations by store location."
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Show me a chart of 14-day schedule advance notice compliance percentages across all retail regions."  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
 ---
 
-## Sample Q&A Showcase
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
-### 1. Internal BigQuery Data Insights
-**User**: *What is our average schedule posting advance notice lead time across stores for the past 4 weeks?*  
-**Agent**: Analyzing `retail_ent_agents.hrwm_wsfa_published_schedules`:
-- Across all 24 retail stores, the fleet-wide average schedule lead time is **15.2 days**, surpassing the 14-day Fair Workweek statutory requirement.
-- **Top Compliant Stores**: Store 106 (17.5 days) and Store 101 (16.2 days).
-- **At-Risk Stores**: Store 105 averaged **10.2 days** (-3.8 days under threshold), generating 19 predictability pay premium notifications.
+Watch the deployed **HR: Scheduling Fairness & Predictive Hours** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
 
-### 2. External Market Grounding
-**User**: *What are the statutory Fair Workweek advance scheduling notice requirements and predictability pay rules in California and Chicago?*  
-**Agent**: Under Fair Workweek labor ordinances in jurisdictions such as Chicago and major California cities (e.g., San Francisco, Los Angeles, Berkeley):
-- Employers with 100+ retail workers must provide written work schedules at least **14 days in advance**.
-- Schedule changes made within 14 days require **Predictability Pay** (typically 1 hour of regular pay for employer-initiated changes, or 50% pay for cancelled shifts).
-- Mandatory rest periods between shifts require at least **11 hours** (or 1.25x premium pay if the associate consents to a clopening shift).
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/human_resources/workforce_scheduling_fairness.html)  
+> 📹 **Direct MP4 Download**: [`workforce_scheduling_fairness.mp4`](../../../../demos/gemini-enterprise/human_resources/workforce_scheduling_fairness.mp4)
 
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart of schedule lead time versus clopening violations by store location.*  
-**Agent**: Generated lead time and clopening violation analysis:
-
-![Sample Performance Visualization](sample_chart.png)
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
 
 ---
 
-## How to Run & Test
+## 4. Authorized BigQuery Tables
+
+- `hrwm_wsfa_published_schedules` — Weekly published employee work schedules, shift start/end timestamps, published date, and assigned department.
+- `hrwm_wsfa_fair_workweek_compliance` — Fair Workweek ordinance tracking (NYC, Chicago, Seattle, LA), advance notice days, and audit status.
+- `hrwm_wsfa_shift_swap_fulfillment` — Mobile associate shift swap requests, marketplace claim timestamps, manager approvals, and fulfillment rates.
+- `hrwm_wsfa_clopening_violations` — Identified clopening shift pairs, inter-shift rest hours (<11 hours), and premium pay disbursement logs.
+
+---
+
+## 5. Example Questions
+
+1. "What percentage of store employee schedules were published with 14+ days advance notice in Q2 2026?"
+2. "What are the specific statutory penalty rules and rest period mandates under the New York City Fair Workweek Law?"
+3. "How many clopening shift violations occurred across metropolitan stores in the last 60 days?"
+4. "What is our peer-to-peer shift swap fulfillment rate in the mobile associate app?"
+5. "Show me a chart of 14-day schedule advance notice compliance percentages across all retail regions."
+
+---
+
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/human_resources/agents/workforce_scheduling_fairness/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/human_resources/agents/workforce_scheduling_fairness
 ```

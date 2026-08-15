@@ -1,89 +1,107 @@
-# HR: Training & Onboarding Compliance Agent
+# HR: Training & Onboarding Compliance
 
-An enterprise AI agent for **HR: Training & Onboarding Compliance**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Frontline execution in grocery, deli, logistics, and store operations requires rigorous certification compliance and rapid speed-to-productivity. Lapsed OSHA safety, food handler, or powered industrial equipment certifications create legal liabilities, while prolonged onboarding slows store productivity. This agent audits mandatory certifications, LMS completion rates, and new hire time-to-productivity across store teams.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description | Target Benchmark |
+### Business Problem
+Delays in mandatory compliance training, safety onboarding, and product knowledge certifications lead to extended time-to-productivity for new hires and exposure to regulatory non-compliance fines.
+
+### Target Personas
+Chief Learning Officer, Retail Training & Development Director, District Human Resources Managers, Store Trainers
+
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
 | :--- | :--- | :--- |
-| **Mandatory Certification Compliance (%)** | Associates with 100% active food safety, OSHA, and equipment credentials | 100.0% |
-| **LMS Required Course Completion (%)** | Timely completion of mandatory corporate and compliance modules | >= 95.0% |
-| **Time-to-Productivity (Days)** | Average days from hire date until associate reaches full operational standard | <= 14.0 Days |
-| **Certification Expiration Pipeline (#)** | Certifications expiring within 30/60 days requiring immediate renewal | 0 Expired |
+| **Mandatory Safety & Compliance Completion %** | `Target: >= 98.0%` | Percentage of store associates completing annual required safety, anti-harassment, and OSHA modules within SLA. |
+| **New Hire Time-to-Productivity (Days)** | `Target: < 14.0 days` | Average days elapsed from associate hire date to completion of core job pathway and first unassisted solo shift. |
+| **Forklift & Equipment Certification Pass %** | `Target: >= 95.0%` | Percentage of warehouse and backroom logistics associates holding active, verified power equipment certifications. |
+| **Digital Micro-Learning Course Engagement %** | `Target: >= 82.0%` | Associate participation rate in mobile micro-learning modules on new product launches and POS features. |
+| **Overdue Training Course Incident Count** | `Target: < 25 enterprise-wide` | Total number of active associate training courses past mandatory completion deadline. |
 
 ---
 
-## What It Answers & Sub-Agent Routing
+## 2. What It Answers & Sub-Agent Routing
 
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - LMS completion records, mandatory certifications, time-to-productivity tracking, and compliance audit logs.
-- **External Market Context (`market_context`)**:
-  - FDA Food Safety Modernization Act (FSMA) standards, OSHA workplace safety training mandates, and retail training benchmarks.
-- **Synthesized Responses**:
-  - Correlates training velocity and certification compliance with store audit pass rates and frontline productivity.
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail labor market benchmarks, statutory wage/Fair Workweek regulations, BLS statistics, and HR industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
 ---
 
-## Authorized BigQuery Tables
+## 3. Sample Q&A Showcase
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our enterprise completion rate for mandatory annual safety and compliance training in 2026?"  
+*Response:*  
+> According to BigQuery LMS learning telemetry (`hrwm_tocl_lms_course_completions`), our enterprise completion rate for mandatory annual safety and compliance training stands at **98.6%** across 18,400 active store associates. Food Handler and Active Threat certifications achieved 100% completion across all culinary and front-of-store teams.
 
-- `hrwm_tocp_lms_course_completions`
-- `hrwm_tocp_mandatory_certifications`
-- `hrwm_tocp_time_to_productivity_days`
-- `hrwm_tocp_safety_audit_compliance`
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current OSHA and state compliance guidelines regarding mandatory workplace safety certification renewal intervals?"  
+*Response:*  
+> Under OSHA general industry standards (29 CFR 1910) and California Title 8, employers must conduct annual refresher training for hazard communication (HazCom), bloodborne pathogens, and emergency evacuation. Powered industrial truck (forklift) operators must undergo triennial recertification and formal performance evaluation every 3 years or immediately following a safety incident or observed unsafe operation.
 
----
-
-## Example Questions
-
-- "What is the current mandatory certification compliance rate across grocery, bakery, and deli departments?"
-- "Which stores currently have associates with expired or near-expiration food safety credentials?"
-- "What is the average time-to-productivity in days for new front-end cashiers versus warehouse stockers?"
-- "What are OSHA and FDA mandatory training compliance standards for commercial retail grocery and powered pallet jack operators?"
-- "Show me a chart of mandatory certification compliance and time-to-productivity by department role."
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Can you render a chart showing training module completion percentages across our top 5 store departments?"  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
 ---
 
-## Sample Q&A Showcase
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
-### 1. Internal BigQuery Data Insights
-**User**: *What is the current mandatory certification compliance rate across grocery, bakery, and deli departments?*  
-**Agent**: Querying `retail_ent_agents.hrwm_tocp_mandatory_certifications` and `hrwm_tocp_safety_audit_compliance`:
-- **Bakery & Deli**: **98.6% compliance** across 340 certified food handlers (4 renewals pending in Store 103).
-- **Fresh Grocery & Produce**: **99.2% compliance** on temperature monitoring and sanitation certifications.
-- **Store Leadership & Leads**: **100.0% compliance** on ServSafe Manager and Powered Industrial Truck (PIT) certifications.
+Watch the deployed **HR: Training & Onboarding Compliance** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
 
-### 2. External Market Grounding
-**User**: *What are OSHA and FDA mandatory training compliance standards for commercial retail grocery and powered pallet jack operators?*  
-**Agent**: Regulatory frameworks mandate:
-- **OSHA 29 CFR 1910.178**: Powered industrial truck (forklift/walkie-stacker) operators must receive formal classroom training, practical demonstrations, and triennial workplace evaluation prior to equipment operation.
-- **FDA Food Code §2-102.12**: Each retail food establishment must employ at least one certified food protection manager on-site during operational hours to maintain health inspection compliance.
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/human_resources/training_onboarding_compliance.html)  
+> 📹 **Direct MP4 Download**: [`training_onboarding_compliance.mp4`](../../../../demos/gemini-enterprise/human_resources/training_onboarding_compliance.mp4)
 
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart of mandatory certification compliance and time-to-productivity by department role.*  
-**Agent**: Visual breakdown of role-based compliance and onboarding duration:
-
-![Sample Performance Visualization](sample_chart.png)
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
 
 ---
 
-## How to Run & Test
+## 4. Authorized BigQuery Tables
+
+- `hrwm_tocl_lms_course_completions` — LMS course enrollment records, module name, completion status, test scores, and completion timestamp.
+- `hrwm_tocl_mandatory_certifications` — Required statutory compliance certifications (OSHA, Food Handler, TIPS, Anti-Harassment) and renewal dates.
+- `hrwm_tocl_time_to_productivity_days` — New hire onboarding milestones, mentor sign-off dates, and days elapsed to first standalone shift.
+- `hrwm_tocl_safety_training_records` — Material safety, fire drill, active threat, and equipment operation training compliance logs.
+
+---
+
+## 5. Example Questions
+
+1. "What is our enterprise completion rate for mandatory annual safety and compliance training in 2026?"
+2. "What are current OSHA and state compliance guidelines regarding mandatory workplace safety certification renewal intervals?"
+3. "What is the average time-to-productivity in days for newly onboarded frontline department specialists?"
+4. "Which retail store locations have more than five overdue mandatory training certifications?"
+5. "Can you render a chart showing training module completion percentages across our top 5 store departments?"
+
+---
+
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/human_resources/agents/training_onboarding_compliance/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/human_resources/agents/training_onboarding_compliance
 ```

@@ -1,88 +1,107 @@
-# HR: Store Leadership Bench & Succession Agent
+# HR: Store Leadership Bench & Succession
 
-An enterprise AI agent for **HR: Store Leadership Bench & Succession**, built with Google ADK for Gemini Enterprise.
-
----
-
-## Why This Agent Matters
-
-Store Manager vacancies directly degrade retail store profitability, associate retention, and operational execution. Having a qualified pipeline of Assistant Store Managers (ASMs) ready for promotion minimizes store manager vacancy downtime and costly external recruitment. This agent evaluates leadership readiness scores, 9-box talent matrix distributions, succession coverage ratios, and store manager vacancy durations.
+Part of the **Retail Enterprise Agents** platform for Gemini Enterprise.
 
 ---
 
-## Key Metrics Tracked
+## 1. Why This Agent Matters
 
-| Metric | Business Description | Target Benchmark |
+### Business Problem
+Unplanned store manager vacancies and weak assistant manager promotion benches cause store operational disruptions, declining customer service scores, and high executive search expenditures.
+
+### Target Personas
+VP of Talent Management, Retail Succession Planning Director, Regional VPs, District Operations Managers
+
+### Key Metrics Tracked
+| Metric | Benchmark / Target | Business Impact |
 | :--- | :--- | :--- |
-| **Store Manager Bench Readiness (%)** | Percentage of ASMs evaluated as 'Ready Now' (Readiness Score >= 80) | >= 75.0% |
-| **Store Manager Vacancy Duration (Days)** | Average calendar days required to fill an open Store Manager position | <= 21.0 Days |
-| **Internal Leadership Promotion Rate (%)** | Percent of Store Manager vacancies filled through internal promotion | >= 70.0% |
-| **Succession Bench Coverage Ratio** | Average number of qualified internal candidates identified per store | >= 2.0 candidates |
+| **Store Manager Vacancy Fill Time (Days)** | `Target: < 21.0 days` | Average days required to identify, promote, or hire a qualified store general manager replacement. |
+| **Internal Store Manager Promotion Rate %** | `Target: >= 75.0%` | Percentage of store manager vacancies filled via internal bench promotion vs external recruiting. |
+| **Bench Readiness Ratio (Ready Now/Ready 1Yr)** | `Target: >= 2.0 candidates/store` | Number of qualified assistant managers and department leads assessed as 'Ready Now' for GM roles. |
+| **First-Year Promoted Manager Retention %** | `Target: >= 88.0%` | Retention and performance rating sustainability of newly promoted store managers after 12 months. |
+| **High-Potential Leadership Development Enrollment** | `Target: > 350 leaders` | Number of active frontline assistant managers enrolled in retail leadership development pathways. |
 
 ---
 
-## What It Answers & Sub-Agent Routing
+## 2. What It Answers & Sub-Agent Routing
 
-The orchestrator routes user questions to specialized sub-agents:
-
-- **Internal BigQuery Data (`data_insights`)**:
-  - Leadership bench evaluations, 9-box performance/potential ratings, open manager vacancy logs, and internal promotion history.
-- **External Market Context (`market_context`)**:
-  - Retail leadership turnover trends, executive succession benchmarks, and leadership development frameworks.
-- **Synthesized Responses**:
-  - Identifies leadership succession vulnerabilities across retail districts before critical store manager vacancies occur.
+### Sub-Agent Architecture
+- **`data_insights`**: Queries internal BigQuery tables using the BigQuery Conversational Analytics API (`ask_data_insights`, `forecast`, `analyze_contribution`, `detect_anomalies`) and generates visual data charts via `render_chart`.
+- **`market_context`**: Leverages Google Search grounding for external retail labor market benchmarks, statutory wage/Fair Workweek regulations, BLS statistics, and HR industry standards.
+- **`root_agent`**: Orchestrates routing between internal analytics and external market intelligence.
 
 ---
 
-## Authorized BigQuery Tables
+## 3. Sample Q&A Showcase
 
-All tables reside in the `retail_ent_agents` BigQuery dataset:
+### Example 1: Internal Analytics (Data Insights)
+*Question:* "What is our average store manager vacancy fill time in days and internal promotion percentage in 2026?"  
+*Response:*  
+> According to BigQuery talent management records (`hrwm_smbs_store_manager_vacancy_days`), our average store manager vacancy fill time in 2026 YTD is **16.4 days**, well within our 21-day target. Furthermore, **78.2% of store manager vacancies were filled through internal bench promotion**, saving an estimated $420,000 in executive agency recruiting fees.
 
-- `hrwm_smbs_leadership_bench_rosters`
-- `hrwm_smbs_9_box_talent_evaluations`
-- `hrwm_smbs_store_manager_vacancies`
-- `hrwm_smbs_internal_promotions`
+### Example 2: Market Grounding (Market Context)
+*Question:* "What are current executive talent management benchmarks for retail leadership bench strength and 9-box succession readiness?"  
+*Response:*  
+> According to the Retail Industry Leaders Association (RILA) and Gartner HR Talent Research (2026), best-in-class multi-unit retailers target a **2.0x bench ratio** (at least two 'Ready Now' or 'Ready in 1 Year' successor candidates per store leadership role). Top-quartile organizations achieve **70% to 80% internal promotion rates** for general managers and demonstrate 24% higher first-year store EBITDA stability compared to retailers reliant on external hiring.
 
----
-
-## Example Questions
-
-- "What is the current percentage of Assistant Store Managers evaluated as 'Ready Now' for promotion across Region West?"
-- "What is our average Store Manager vacancy duration in days, and how does internal promotion speed compare to external hires?"
-- "Which store districts currently have zero qualified succession candidates on their Store Manager bench?"
-- "What are retail industry best practices and benchmarks for Store Manager internal promotion rates and vacancy fill times?"
-- "Show me a chart comparing leadership bench readiness with store manager vacancy duration by region."
+### Example 3: Chart Visualization (`sample_chart.png`)
+*Question:* "Can you render a chart showing the store manager talent bench readiness distribution (Ready Now, 1 Year, 2 Years) by region?"  
+*Generated Visual Artifact:*  
+![Sample Chart](sample_chart.png)
 
 ---
 
-## Sample Q&A Showcase
+### 4. Live Multi-Turn Demo Walkthrough (Gemini Enterprise)
 
-### 1. Internal BigQuery Data Insights
-**User**: *What is the current percentage of Assistant Store Managers evaluated as 'Ready Now' for promotion across Region West?*  
-**Agent**: Based on `retail_ent_agents.hrwm_smbs_leadership_bench_rosters` and `hrwm_smbs_9_box_talent_evaluations`:
-- **Region West**: **88.5% of ASMs** (23 of 26 evaluated) hold a readiness score >= 80, maintaining the highest bench strength across the company.
-- **Average Store Manager Vacancy Fill Time**: **14.5 days** in Region West (vs. enterprise average of 23.2 days), with 85% of positions filled via internal promotion.
+Watch the deployed **HR: Store Leadership Bench & Succession** execute a live multi-turn analytical reasoning session in Gemini Enterprise:
 
-### 2. External Market Grounding
-**User**: *What are retail industry best practices and benchmarks for Store Manager internal promotion rates and vacancy fill times?*  
-**Agent**: Research from retail leadership advisory firms and industry benchmarks indicates:
-- Top-performing retail organizations maintain **70%–80% internal promotion rates** for Store Manager positions.
-- External Store Manager onboarding carries a **40% higher 12-month failure rate** and takes an average of **45–60 days** to fill versus **15–25 days** for internal bench promotions.
+> 📺 **Interactive Demo Player**: [Open Full HD Video Player (1080p)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/human_resources/store_manager_bench_succession.html)  
+> 📹 **Direct MP4 Download**: [`store_manager_bench_succession.mp4`](../../../../demos/gemini-enterprise/human_resources/store_manager_bench_succession.mp4)
 
-### 3. Visual Analytics Artifact
-**User**: *Show me a chart comparing leadership bench readiness with store manager vacancy duration by region.*  
-**Agent**: Visual correlation of bench readiness and vacancy duration:
-
-![Sample Performance Visualization](sample_chart.png)
+```
+Turn 1: Quantitative analysis against BigQuery Conversational Analytics
+Turn 2: Grounded real-time external retail search & regulatory synthesis
+Turn 3: Visual matplotlib trend chart generation
+Turn 4: Interactive executive slide presentation generated in Gemini Enterprise Canvas
+```
 
 ---
 
-## How to Run & Test
+## 4. Authorized BigQuery Tables
+
+- `hrwm_smbs_manager_performance_ratings` — Annual store manager performance appraisal scores, 9-box talent grid placements, and store EBITDA metrics.
+- `hrwm_smbs_bench_readiness_pipeline` — Assistant manager bench assessments, readiness horizon (Ready Now, Ready 1-2 Yrs), and mentor assignments.
+- `hrwm_smbs_internal_promotion_rates` — Historical store leadership promotion records, prior role, promotion date, store tier, and retention.
+- `hrwm_smbs_store_manager_vacancy_days` — Open GM requisition timestamps, vacancy duration, interim manager assignments, and recruiting source.
+
+---
+
+## 5. Example Questions
+
+1. "What is our average store manager vacancy fill time in days and internal promotion percentage in 2026?"
+2. "What are current executive talent management benchmarks for retail leadership bench strength and 9-box succession readiness?"
+3. "How many assistant managers are currently designated as 'Ready Now' for Store General Manager promotion in the West Region?"
+4. "What is the 12-month retention rate for newly promoted internal store managers compared to external hires?"
+5. "Can you render a chart showing the store manager talent bench readiness distribution (Ready Now, 1 Year, 2 Years) by region?"
+
+---
+
+## 6. Tools & Architecture
+
+- **`ask_data_insights`**: BigQuery Conversational Analytics natural language to SQL.
+- **`render_chart`**: BigQuery SQL to Matplotlib PNG visual rendering.
+- **`google_search`**: Google Search market context grounding.
+- **LLM Inference**: `gemini-3.5-flash` with `GOOGLE_CLOUD_LOCATION=global`.
+- **Runtime Engine**: Vertex AI Agent Engine (`us-central1`).
+
+---
+
+## 7. Run Locally
 
 ```bash
-# 1. Run unit tests
+# Run unit tests
 uv run --frozen pytest domains/human_resources/agents/store_manager_bench_succession/tests/unit -v
 
-# 2. Run local interactive adk chat
+# Run interactively with ADK CLI
 adk run domains/human_resources/agents/store_manager_bench_succession
 ```
