@@ -134,9 +134,22 @@ class GcpControlPlaneClient:
         self._token = token
 
     def get_token(self) -> str:
-        """Acquires GCP OAuth2 Bearer token using Google Application Default Credentials (ADC)."""
+        """Acquires fresh GCP OAuth2 Bearer token using gcloud or Google Application Default Credentials (ADC)."""
         if self._token:
             return self._token
+        gcloud_candidate = Path.home() / "Dev" / "google-cloud-sdk" / "bin" / "gcloud"
+        gcloud_cmd = shutil.which("gcloud") or (str(gcloud_candidate) if gcloud_candidate.exists() else None)
+        if gcloud_cmd and Path(gcloud_cmd).exists():
+            try:
+                res = subprocess.run(
+                    [gcloud_cmd, "auth", "print-access-token"],
+                    capture_output=True, text=True, check=True
+                )
+                tok = res.stdout.strip()
+                if tok:
+                    return tok
+            except Exception:
+                pass
         try:
             import google.auth
             import google.auth.transport.requests
@@ -145,9 +158,7 @@ class GcpControlPlaneClient:
             )
             auth_req = google.auth.transport.requests.Request()
             credentials.refresh(auth_req)
-            self._token = credentials.token
-            if self._token:
-                return self._token
+            return credentials.token
         except Exception as e:
             raise RuntimeError(
                 f"Failed to acquire Google Application Default Credentials (ADC): {e}\n"

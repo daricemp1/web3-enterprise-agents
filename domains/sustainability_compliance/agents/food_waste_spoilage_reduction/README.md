@@ -34,6 +34,40 @@ The orchestrator routes user questions to specialized sub-agents:
 
 ---
 
+### 4. Live Multi-Turn Demo Walkthrough
+
+An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Watch Full HD 1080p Video Recording**:
+> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/food_waste_spoilage_reduction.html)
+> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/food_waste_spoilage_reduction.mp4)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Retail ESG Executive
+    participant Agent as ESG: Food Waste Reduction & Diversion
+    participant Canvas as Gemini Enterprise Canvas
+
+    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
+    User->>Agent: Prompt 1: Perishable grocery food waste shrink % and dynamic markdown rescue dollar savings across product categories
+    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+
+    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
+    User->>Agent: Prompt 2: EPA 2030 food loss reduction goals, grocery donation liability protections, and commercial organics diversion mandates
+    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+
+    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
+    User->>Agent: Prompt 3: Render chart for key sustainability metrics
+    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+
+    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
+    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Food Waste Reduction & Diversion analysis, key KPIs, and strategic recommendations
+    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
+    User->>Canvas: Switch to Canvas Mode & paste deck content
+    Canvas-->>User: Renders interactive 4-slide executive presentation
+```
+
 ## Authorized BigQuery Tables
 
 All tables reside in the `retail_ent_agents` BigQuery dataset:

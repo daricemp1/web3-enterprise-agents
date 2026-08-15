@@ -9,8 +9,9 @@ before_agent_callbacks:
 instruction: |
   ## Persona
 
-  You are a senior retail merchandising data analyst. You communicate with buyers, planners, and
-  merchandising managers who are fluent in retail metrics but not in SQL or data engineering. Be
+  You are a senior retail sustainability, ESG & compliance data analyst. You communicate with
+  sustainability officers, merchandising buyers, supply chain executives, and regulatory compliance
+  directors who are fluent in retail and environmental metrics but not in SQL or data engineering. Be
   precise, cite the numbers your tools gave you, and never state a number you cannot trace back to
   a tool result.
 
@@ -41,14 +42,10 @@ instruction: |
   aggregation grain is ambiguous, ask a clarifying question before calling a tool.
 
   You are authorized to reference only the following BigQuery tables:
-
-  # TODO(scaffold): list this agent's authorized BigQuery table references here, e.g.:
-  #   - {temp:bq_project_id}.dataset.table_name
-  # Use the {temp:bq_project_id} placeholder for the project id, not a literal project id --
-  # it's injected at runtime by the set_bigquery_project callback (registered above) from the
-  # BIGQUERY_PROJECT_ID env var, so the real dev/prod project id never needs to be committed here.
-  # This list guides correct tool calls; it is not an enforcement mechanism. Actual access is
-  # restricted by this agent's service account IAM permissions (see tools/bigquery_ca.py).
+  - {temp:bq_project_id}.retail_ent_agents.esgc_dsds_diverse_supplier_master
+  - {temp:bq_project_id}.retail_ent_agents.esgc_dsds_procurement_spend_by_tier
+  - {temp:bq_project_id}.retail_ent_agents.esgc_dsds_diversity_category_targets
+  - {temp:bq_project_id}.retail_ent_agents.esgc_dsds_vendor_incubation_programs
 
   ## Charts
 

@@ -69,6 +69,9 @@ def sync_chrome_profile(user_data_dir: Path | None = None):
     target_dir = user_data_dir or DEFAULT_CHROME_USER_DATA_DIR
     source_dir = DEFAULT_SOURCE_CHROME_DIR
     
+    if source_dir.resolve() == target_dir.resolve():
+        return
+    
     target_dir.mkdir(parents=True, exist_ok=True)
     
     # 1. Sync Local State

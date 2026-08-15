@@ -34,6 +34,40 @@ The orchestrator routes user questions to specialized sub-agents:
 
 ---
 
+### 4. Live Multi-Turn Demo Walkthrough
+
+An end-to-end multi-turn analytical reasoning session in Gemini Enterprise:
+
+> 📺 **Watch Full HD 1080p Video Recording**:
+> - [🎬 Interactive Demo Player](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/water_conservation_facility_audit.html)
+> - [⬇️ Direct Video File (.mp4)](https://rajanm.github.io/retail-enterprise-agents/demos/gemini-enterprise/sustainability_compliance/water_conservation_facility_audit.mp4)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Retail ESG Executive
+    participant Agent as ESG: Water Conservation & Facility Audits
+    participant Canvas as Gemini Enterprise Canvas
+
+    Note over User,Agent: Turn 1: Quantitative Data Insights (BigQuery)
+    User->>Agent: Prompt 1: Facility water usage intensity (gallons/sq.ft), cooling tower water recycling efficiency, and high-stress watershed facility exposure
+    Agent-->>User: Synthesized metric breakdown grounded in authorized BigQuery tables
+
+    Note over User,Agent: Turn 2: Real-time External Grounding (Google Search)
+    User->>Agent: Prompt 2: WRI Aqueduct water risk framework benchmarks, municipal commercial drought surcharge tiers, and rainwater harvesting incentives
+    Agent-->>User: Grounded market, regulatory & ESG framework analysis
+
+    Note over User,Agent: Turn 3: Visual Chart Generation (Matplotlib)
+    User->>Agent: Prompt 3: Render chart for key sustainability metrics
+    Agent-->>User: Executable SQL query + Matplotlib PNG chart visualization
+
+    Note over User,Canvas: Turn 4: Executive Presentation Deck (Canvas Mode)
+    User->>Agent: Prompt 4: 4-slide executive presentation summarizing the Water Conservation & Facility Audits analysis, key KPIs, and strategic recommendations
+    Agent-->>User: Multi-slide markdown deck with KPIs, findings & actions
+    User->>Canvas: Switch to Canvas Mode & paste deck content
+    Canvas-->>User: Renders interactive 4-slide executive presentation
+```
+
 ## Authorized BigQuery Tables
 
 All tables reside in the `retail_ent_agents` BigQuery dataset:
