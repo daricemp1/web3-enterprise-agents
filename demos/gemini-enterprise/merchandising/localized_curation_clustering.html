@@ -22,6 +22,7 @@
       --bg-card: #1e293b;
       --bg-surface: #0f172a;
       --border-color: #334155;
+      --border-faint: rgba(255, 255, 255, 0.14);
       --border-subtle: #1e293b;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
@@ -38,8 +39,9 @@
       --bg-primary: #f8fafc;
       --bg-card: #ffffff;
       --bg-surface: #f1f5f9;
-      --border-color: #e2e8f0;
-      --border-subtle: #cbd5e1;
+      --border-color: #cbd5e1;
+      --border-faint: #cbd5e1;
+      --border-subtle: #e2e8f0;
       --text-primary: #0f172a;
       --text-secondary: #475569;
       --text-muted: #64748b;
@@ -73,7 +75,7 @@
       max-width: 1080px;
       width: 100%;
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 16px;
       padding: 28px;
       box-shadow: var(--shadow);
@@ -86,7 +88,7 @@
       align-items: center;
       margin-bottom: 20px;
       padding-bottom: 14px;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-faint);
     }
 
     .nav-back-link {
@@ -171,6 +173,7 @@
       position: relative;
       width: 100%;
       background: #000;
+      border: 1px solid var(--border-faint);
       border-radius: 12px;
       overflow: hidden;
       margin: 20px 0;
@@ -188,7 +191,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 10px;
       padding: 16px;
       margin-bottom: 24px;
@@ -215,7 +218,7 @@
 
     .turns-section {
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 24px;

@@ -26,6 +26,7 @@
       --bg-surface: #0f172a;
       --bg-input: #0f172a;
       --border-color: #334155;
+      --border-faint: rgba(255, 255, 255, 0.14);
       --border-subtle: #1e293b;
       --border-focus: #38bdf8;
       --text-primary: #f8fafc;
@@ -57,8 +58,9 @@
       --bg-card-hover: #f8fafc;
       --bg-surface: #f1f5f9;
       --bg-input: #ffffff;
-      --border-color: #e2e8f0;
-      --border-subtle: #cbd5e1;
+      --border-color: #cbd5e1;
+      --border-faint: #cbd5e1;
+      --border-subtle: #e2e8f0;
       --border-focus: #0284c7;
       --text-primary: #0f172a;
       --text-secondary: #475569;
@@ -289,7 +291,7 @@
     /* Search & Filter Toolbar */
     .toolbar {
       background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 28px;
@@ -321,7 +323,7 @@
     .search-input {
       width: 100%;
       background: var(--bg-input);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 10px;
       padding: 12px 14px 12px 42px;
       font-size: 0.95rem;
@@ -363,7 +365,7 @@
 
     .domain-btn {
       background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       color: var(--text-secondary);
       padding: 8px 14px;
       border-radius: 9999px;
@@ -429,7 +431,7 @@
 
     .agent-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-faint);
       border-radius: 14px;
       padding: 22px;
       display: flex;
