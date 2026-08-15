@@ -67,7 +67,7 @@ def test_generated_index_html_file_exists_and_is_valid():
     # Verify core HTML structure
     assert "<!DOCTYPE html>" in content
     assert '<html lang="en" data-theme="dark">' in content
-    assert "Retail Enterprise AI Agents" in content
+    assert "Gemini Enterprise Agents for Retail" in content
     assert "100 Enterprise Agents Fully Deployed" in content
     
     # Verify dual-theme CSS variables

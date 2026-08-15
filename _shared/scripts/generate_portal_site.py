@@ -181,8 +181,8 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retail Enterprise AI Agents — 100 Agent Catalog & Live Demo Showcase</title>
-  <meta name="description" content="Explore 100 specialized autonomous AI agents for retail enterprise operations, built on Google ADK, Gemini Enterprise, and BigQuery Conversational Analytics.">
+  <title>Gemini Enterprise Agents for Retail — 100 Multi-Agent Catalog</title>
+  <meta name="description" content="Explore 100 specialized Gemini Enterprise Agents for retail enterprise operations, built on Google ADK, Gemini Enterprise, and BigQuery Conversational Analytics.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1029,37 +1029,93 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
       gap: 12px;
     }}
 
-    /* Architecture Modal Specific */
-    .arch-diagram-box {{
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
+    /* Architecture Blueprint Visual Component */
+    .arch-flow-container {{
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
       margin-bottom: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      line-height: 1.6;
-      color: var(--text-secondary);
-      overflow-x: auto;
     }}
 
-    .arch-tier {{
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-color);
+    .arch-layer-card {{
+      background: var(--bg-surface);
+      border: 1px solid var(--border-faint);
+      border-radius: 12px;
+      padding: 16px 18px;
     }}
 
-    .arch-tier:last-child {{
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
+    .arch-layer-header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
     }}
 
-    .arch-tier-title {{
+    .arch-layer-title {{
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
       font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }}
+
+    .arch-layer-pill {{
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
       color: var(--accent-blue);
-      margin-bottom: 6px;
-      font-size: 0.95rem;
+      font-family: 'JetBrains Mono', monospace;
+    }}
+
+    .arch-layer-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }}
+
+    .arch-item {{
+      background: var(--bg-card);
+      border: 1px solid var(--border-faint);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }}
+
+    .arch-item strong {{
+      display: block;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+      font-size: 0.84rem;
+    }}
+
+    .arch-subagents-row {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }}
+
+    @media (max-width: 640px) {{
+      .arch-subagents-row {{
+        grid-template-columns: 1fr;
+      }}
+    }}
+
+    .arch-arrow {{
+      text-align: center;
+      color: var(--accent-blue);
+      font-size: 1.1rem;
+      line-height: 1;
+      margin: -6px 0;
+      opacity: 0.85;
     }}
 
     /* Footer */
@@ -1134,8 +1190,8 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
       <a href="index.html" class="brand-logo">
         <span class="brand-icon">🏬</span>
         <div class="brand-text">
-          <span class="brand-title">Retail Enterprise AI Agents</span>
-          <span class="brand-subtitle">Gemini Enterprise & Google ADK Multi-Agent Catalog</span>
+          <span class="brand-title">Gemini Enterprise Agents for Retail</span>
+          <span class="brand-subtitle">Google ADK & Gemini Enterprise Multi-Agent Catalog</span>
         </div>
       </a>
       <div class="header-actions">
@@ -1158,7 +1214,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
       <span>🚀</span> 100 Enterprise Agents Fully Deployed (9 Strategic Domains)
     </div>
     <h1 class="hero-title">
-      Autonomous AI Agents for <span>Retail Enterprise Operations</span>
+      Gemini Enterprise Agents for <span>Retail</span>
     </h1>
     <p class="hero-desc">
       A declarative, multi-agent platform powered by Google Agent Development Kit (ADK), Gemini Enterprise, and BigQuery Conversational Analytics. Real-time quantitative querying against 300+ enterprise retail datasets, grounded with external Google Search market intelligence.
@@ -1297,54 +1353,155 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
 
   <!-- Architecture Blueprint Modal -->
   <div class="modal-backdrop" id="archModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: 1020px;">
       <div class="modal-header">
         <div class="modal-title-wrap">
           <h2 class="modal-title">📐 Retail Enterprise Multi-Agent Architecture</h2>
-          <span style="font-size:0.8rem; color:var(--text-secondary);">3-Tier Google ADK & Gemini Enterprise Topology</span>
+          <span style="font-size:0.8rem; color:var(--text-secondary);">Enterprise 4-Tier Google ADK & Gemini Enterprise Topology</span>
         </div>
         <button class="modal-close" id="archCloseBtn" aria-label="Close architecture modal">✕</button>
       </div>
       <div class="modal-body">
-        <div class="arch-diagram-box">
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ 1. CLIENT / USER INTERACTION LAYER (Gemini Enterprise)                                 │
-│    • Discovery Engine Assistant Card Registration                                      │
-│    • Real-time Streaming Response Synchronization                                      │
-│    • Gemini Enterprise Canvas Interactive Slide Decks                                  │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-                                            │
-                                            ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ 2. ORCHESTRATION & REASONING ENGINE (Vertex AI Agent Engine)                           │
-│    • Multi-Region Hosting: us-central1 & us-east4 containers (SSOT table_registry.yaml)│
-│    • Model Inference: Gemini 3.5 Flash via global endpoint (GOOGLE_CLOUD_LOCATION=global)│
-│    • Lifecycle Callbacks: set_current_date & set_bigquery_project (IAM scoped)        │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-                     │                                            │
-                     ▼                                            ▼
-┌──────────────────────────────────────────┐ ┌──────────────────────────────────────────┐
-│ 3A. DATA INSIGHTS SUB-AGENT              │ │ 3B. MARKET CONTEXT SUB-AGENT             │
-│ • BigQuery Conversational Analytics API  │ │ • Google Search Built-in Grounding Tool  │
-│ • Table-level IAM Scoped Access          │ │ • External Market Benchmarks (BLS/OSHA)  │
-│ • Matplotlib Chart Generator (render_chart)│ │ • Competitor Intel & Trend Context      │
-└──────────────────────────────────────────┘ └──────────────────────────────────────────┘
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ 4. ENTERPRISE DATA LAKEHOUSE (Google Cloud BigQuery)                                    │
-│    • Dataset: retail_ent_agents                                                        │
-│    • 300+ Partitioned / Clustered Tables with Structurally Isolated Namespace:        │
-│      `<domain_id>_<agent_id>_<table_name>`                                            │
-└────────────────────────────────────────────────────────────────────────────────────────┘
+
+        <div class="arch-flow-container">
+          <!-- Tier 1 -->
+          <div class="arch-layer-card">
+            <div class="arch-layer-header">
+              <div class="arch-layer-title">
+                <span>💬</span> Tier 1: Client & Presentation Layer
+              </div>
+              <span class="arch-layer-pill">Gemini Enterprise Assistant</span>
+            </div>
+            <div class="arch-layer-grid">
+              <div class="arch-item">
+                <strong>Discovery Engine Assistant</strong>
+                100 Registered Enterprise Agents searchable via natural language chat
+              </div>
+              <div class="arch-item">
+                <strong>Real-Time SSE Streaming</strong>
+                Live multi-turn token streaming & dynamic markdown formatting
+              </div>
+              <div class="arch-item">
+                <strong>Gemini Canvas Presentations</strong>
+                Automated 4-slide executive decks generated directly from queries
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">▼</div>
+
+          <!-- Tier 2 -->
+          <div class="arch-layer-card">
+            <div class="arch-layer-header">
+              <div class="arch-layer-title">
+                <span>🧠</span> Tier 2: Orchestration & Multi-Agent Reasoning
+              </div>
+              <span class="arch-layer-pill">Vertex AI Agent Engine (ADK)</span>
+            </div>
+            <div class="arch-layer-grid">
+              <div class="arch-item">
+                <strong>Declarative ADK Framework</strong>
+                Zero-boilerplate root orchestrators (`root_agent.yaml`)
+              </div>
+              <div class="arch-item">
+                <strong>Multi-Region Hosting</strong>
+                `us-central1` & `us-east4` hosting containers with auto-scaling
+              </div>
+              <div class="arch-item">
+                <strong>Global Model Inference</strong>
+                `gemini-3.5-flash` with low latency via global inference endpoint
+              </div>
+              <div class="arch-item">
+                <strong>Lifecycle Callbacks</strong>
+                IAM token scoping, date injection & dataset context binding
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">▼</div>
+
+          <!-- Tier 3: Parallel Sub-Agents -->
+          <div class="arch-subagents-row">
+            <div class="arch-layer-card" style="border-top: 3px solid var(--accent-emerald);">
+              <div class="arch-layer-header">
+                <div class="arch-layer-title" style="font-size:0.95rem;">
+                  <span>📊</span> Sub-Agent 3A: BigQuery Data Insights
+                </div>
+                <span class="arch-layer-pill" style="color:var(--accent-emerald); background:var(--kpi-bg); border-color:var(--kpi-border);">Conversational Analytics</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div class="arch-item">
+                  <strong>Natural Language to SQL Engine</strong>
+                  Conversational Analytics API executes parameterized SQL directly
+                </div>
+                <div class="arch-item">
+                  <strong>Built-in ML Models</strong>
+                  BigQuery forecasting, anomaly detection & contribution analysis
+                </div>
+                <div class="arch-item">
+                  <strong>Matplotlib Chart Generator</strong>
+                  Serverless visual chart rendering (`render_chart`)
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-layer-card" style="border-top: 3px solid var(--accent-blue);">
+              <div class="arch-layer-header">
+                <div class="arch-layer-title" style="font-size:0.95rem;">
+                  <span>🌐</span> Sub-Agent 3B: Market Context & Grounding
+                </div>
+                <span class="arch-layer-pill">Google Search Grounding</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div class="arch-item">
+                  <strong>Real-Time Web Grounding</strong>
+                  Live Google Search verification for fresh industry trends
+                </div>
+                <div class="arch-item">
+                  <strong>External Benchmarks</strong>
+                  BLS labor, OSHA safety, FDA compliance & NRF retail statistics
+                </div>
+                <div class="arch-item">
+                  <strong>Competitor Intelligence</strong>
+                  Live market pricing, promotional tracking & consumer sentiment
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-arrow">▼</div>
+
+          <!-- Tier 4 -->
+          <div class="arch-layer-card" style="border-top: 3px solid var(--accent-indigo);">
+            <div class="arch-layer-header">
+              <div class="arch-layer-title">
+                <span>🗄️</span> Tier 4: Enterprise Retail Data Lakehouse
+              </div>
+              <span class="arch-layer-pill" style="color:var(--region-text); background:var(--region-bg); border-color:var(--region-border);">Google Cloud BigQuery</span>
+            </div>
+            <div class="arch-layer-grid">
+              <div class="arch-item">
+                <strong>Enterprise Dataset</strong>
+                `retail_ent_agents` multi-tenant retail schema
+              </div>
+              <div class="arch-item">
+                <strong>300+ Partitioned Tables</strong>
+                Structured namespace: `&lt;domain_id&gt;_&lt;agent_id&gt;_&lt;table_name&gt;`
+              </div>
+              <div class="arch-item">
+                <strong>IAM Table Allowlisting</strong>
+                Strict per-agent service account dataset authorization
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="modal-turns">
-          <h3>Key Architectural Advantages</h3>
+          <h3>🚀 Key Architectural Pillars</h3>
           <ul class="modal-turns-list">
-            <li><strong>Declarative ADK YAML:</strong> Agents are configured as data models, enabling rapid domain scaling and zero-boilerplate tool binding.</li>
-            <li><strong>Global Model Low Latency:</strong> Global `gemini-3.5-flash` inference cuts analytical turn latency by ~30% compared to localized regional model queues.</li>
-            <li><strong>Isolated Structural Security:</strong> BigQuery table IAM enforces strict table allowlists per agent service account, preventing cross-domain data leakage.</li>
+            <li><strong>Declarative ADK Architecture:</strong> Zero-code orchestrator models bind BigQuery tools and Google Search tools with strict domain separation.</li>
+            <li><strong>Global Low-Latency Inference:</strong> `gemini-3.5-flash` global routing delivers ~30% faster time-to-first-token than regional clusters.</li>
+            <li><strong>Dual Sub-Agent Pattern:</strong> Quantitative BigQuery queries and qualitative market grounding execute in specialized sub-agent contexts for hallucination-free answers.</li>
           </ul>
         </div>
       </div>
@@ -1359,7 +1516,7 @@ def build_portal_html(agents_data: list[dict], domains_data: dict) -> str:
     <div class="footer-inner">
       <div class="brand-logo" style="justify-content: center;">
         <span class="brand-icon">🏬</span>
-        <span class="brand-title">Retail Enterprise AI Agents</span>
+        <span class="brand-title">Gemini Enterprise Agents for Retail</span>
       </div>
       <p class="footer-text">
         100 Enterprise Agents across 9 Strategic Retail Domains. Powered by Google ADK, Gemini Enterprise, and BigQuery.
