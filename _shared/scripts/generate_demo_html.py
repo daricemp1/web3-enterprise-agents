@@ -3,8 +3,8 @@
 generate_demo_html.py — Standalone HTML Demo Video Showcase Generator
 
 Generates high-fidelity, responsive HTML5 video showcase pages for recorded agent demo MP4s
-matching the standard Gemini Enterprise demo player design (dark mode, badge row, metadata grid,
-multi-turn conversation flow breakdown, and GitHub links).
+matching the standard Gemini Enterprise demo player design (dual light/dark theme, navigation bar,
+badge row, metadata grid, multi-turn conversation flow breakdown, and GitHub links).
 
 Usage:
     uv run python _shared/scripts/generate_demo_html.py --name cart_checkout_analytics
@@ -28,11 +28,11 @@ DOMAIN_ICONS = {
     "supply_chain": "🚚",
     "store_operations": "🏬",
     "e_commerce": "🛒",
-    "finance": "💰",
     "marketing": "📊",
+    "finance": "💰",
     "customer_care": "🎧",
-    "human_resources": "👥",
     "sustainability_compliance": "🌱",
+    "human_resources": "👥",
 }
 
 DOMAIN_TITLES = {
@@ -40,30 +40,64 @@ DOMAIN_TITLES = {
     "supply_chain": "Supply Chain & Logistics Domain",
     "store_operations": "Store Operations Domain",
     "e_commerce": "E-Commerce Domain",
-    "finance": "Finance, Real Estate & Accounting Domain",
     "marketing": "Marketing & Retail Media Domain",
+    "finance": "Finance, Real Estate & Accounting Domain",
     "customer_care": "Customer Care & Experience Domain",
-    "human_resources": "Human Resources & Workforce Domain",
     "sustainability_compliance": "Sustainability, ESG & Compliance Domain",
+    "human_resources": "Human Resources & Workforce Domain",
 }
 
 HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{page_title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script>
+    // Synchronous theme initialization to prevent Flash of Unstyled Content (FOUC)
+    (function() {{
+      const savedTheme = localStorage.getItem('retail_agents_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }})();
+  </script>
+
   <style>
-    :root {{
+    :root, [data-theme="dark"] {{
       --bg-primary: #0f172a;
       --bg-card: #1e293b;
+      --bg-surface: #0f172a;
       --border-color: #334155;
+      --border-subtle: #1e293b;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
+      --text-muted: #64748b;
       --accent-blue: #38bdf8;
       --accent-indigo: #818cf8;
-      --badge-bg: #0f2744;
-      --badge-border: #1e4976;
+      --badge-bg: rgba(56, 189, 248, 0.12);
+      --badge-border: rgba(56, 189, 248, 0.28);
+      --badge-text: #38bdf8;
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }}
+
+    [data-theme="light"] {{
+      --bg-primary: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-surface: #f1f5f9;
+      --border-color: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-blue: #0284c7;
+      --accent-indigo: #6366f1;
+      --badge-bg: #e0f2fe;
+      --badge-border: #bae6fd;
+      --badge-text: #0284c7;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
     }}
 
     * {{
@@ -73,14 +107,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     body {{
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 32px 16px;
+      padding: 24px 16px 40px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }}
 
     .container {{
@@ -90,7 +125,52 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       border: 1px solid var(--border-color);
       border-radius: 16px;
       padding: 28px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      box-shadow: var(--shadow);
+    }}
+
+    /* Top Nav Bar */
+    .top-nav {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }}
+
+    .nav-back-link {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }}
+
+    .nav-back-link:hover {{
+      text-decoration: underline;
+    }}
+
+    .theme-toggle-btn {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }}
+
+    .theme-toggle-btn:hover {{
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
     }}
 
     header {{
@@ -116,10 +196,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       border-radius: 9999px;
       background: var(--badge-bg);
       border: 1px solid var(--badge-border);
-      color: var(--accent-blue);
+      color: var(--badge-text);
     }}
 
     h1 {{
+      font-family: 'Google Sans', sans-serif;
       font-size: 1.65rem;
       font-weight: 700;
       color: var(--text-primary);
@@ -155,7 +236,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
-      background: #0f172a;
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: 10px;
       padding: 16px;
@@ -170,7 +251,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     .meta-label {{
       font-size: 0.75rem;
-      color: var(--text-secondary);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }}
@@ -182,7 +263,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     .turns-section {{
-      background: #0f172a;
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: 10px;
       padding: 20px;
@@ -190,6 +271,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     .turns-section h2 {{
+      font-family: 'Google Sans', sans-serif;
       font-size: 1.1rem;
       margin-bottom: 12px;
       color: var(--accent-indigo);
@@ -234,13 +316,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
 
     .btn-link:hover {{
-      color: #7dd3fc;
       text-decoration: underline;
     }}
   </style>
 </head>
 <body>
   <div class="container">
+    <nav class="top-nav">
+      <a class="nav-back-link" href="../../../index.html">
+        <span>←</span> Back to All Enterprise Agents
+      </a>
+      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle light/dark theme">
+        <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
+      </button>
+    </nav>
+
     <header>
       <div class="badge-row">
         <span class="badge">Retail Enterprise Agents</span>
@@ -279,6 +369,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           if (!hasSeeked && video.currentTime < 10) {{
             seekToOffset();
           }}
+        }});
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        function updateThemeUI(theme) {{
+          if (theme === 'light') {{
+            themeIcon.textContent = '🌙';
+            themeText.textContent = 'Dark';
+          }} else {{
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Light';
+          }}
+        }}
+
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        updateThemeUI(currentTheme);
+
+        themeToggleBtn.addEventListener('click', () => {{
+          const current = document.documentElement.getAttribute('data-theme') || 'dark';
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('retail_agents_theme', next);
+          updateThemeUI(next);
         }});
       }})();
     </script>
