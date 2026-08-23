@@ -372,26 +372,31 @@ def build_portal_html(agents_data: list[dict]) -> str:
     .no-results {{ grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: 14px; display: none; }}
     .no-results-icon {{ font-size: 3rem; margin-bottom: 12px; }}
     
-    /* Video Modal */
-    .modal-backdrop {{ position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }}
-    .modal-dialog {{ background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: 16px; width: 100%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); overflow: hidden; }}
-    .modal-header {{ display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; border-bottom: 1px solid var(--border-color); }}
-    .modal-close {{ background: none; border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer; }}
-    .modal-close:hover {{ color: var(--text-primary); }}
-    .modal-body {{ padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }}
-    .modal-video-wrapper {{ position: relative; width: 100%; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 16 / 9; }}
-    .modal-video {{ width: 100%; height: 100%; object-fit: contain; }}
-    .modal-meta-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; }}
-    .modal-meta-item {{ display: flex; flex-direction: column; gap: 2px; }}
-    .modal-meta-label {{ font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; }}
-    .modal-meta-value {{ font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }}
-    .modal-sequence-box {{ background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }}
-    .modal-sequence-title {{ font-size: 0.85rem; font-weight: 700; color: var(--accent-indigo); margin-bottom: 8px; }}
-    .modal-turns-list {{ list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }}
+    /* Video Modal matching Retail layout exactly */
+    .modal-backdrop {{ position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(8px); }}
+    .modal-dialog {{ background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: 18px; width: 100%; max-width: 1200px; max-height: 94vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); overflow: hidden; }}
+    .modal-header {{ display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 28px 18px; border-bottom: 1px solid var(--border-color); }}
+    .modal-header-left {{ display: flex; flex-direction: column; gap: 8px; }}
+    .modal-badges-row {{ display: flex; gap: 8px; align-items: center; }}
+    .modal-title {{ font-family: 'Google Sans', sans-serif; font-size: 1.55rem; font-weight: 700; color: var(--text-primary); line-height: 1.25; }}
+    .modal-close {{ width: 36px; height: 36px; border-radius: 8px; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-color); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; cursor: pointer; transition: all 0.15s ease; }}
+    .modal-close:hover {{ background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-focus); }}
+    .modal-body {{ padding: 24px 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }}
+    .modal-video-wrapper {{ position: relative; width: 100%; background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); aspect-ratio: 16 / 9; }}
+    .modal-video {{ width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }}
+    .modal-meta-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 22px; }}
+    .modal-meta-item {{ display: flex; flex-direction: column; gap: 4px; }}
+    .modal-meta-label {{ font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }}
+    .modal-meta-value {{ font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }}
+    .modal-sequence-box {{ background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 10px; padding: 22px 24px; }}
+    .modal-sequence-title {{ font-size: 0.95rem; font-weight: 700; color: var(--accent-indigo); margin-bottom: 12px; }}
+    .modal-turns-list {{ list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55; }}
     .modal-turns-list strong {{ color: var(--text-primary); }}
-    .modal-footer {{ padding: 14px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }}
-    .btn-download {{ padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); text-decoration: none; border: 1px solid var(--border-color); }}
-    .btn-open-showcase {{ padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; color: #0f172a; background: var(--accent-blue); text-decoration: none; }}
+    .modal-footer {{ padding: 18px 28px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 12px; background: var(--bg-card); }}
+    .btn-download {{ display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); text-decoration: none; border: 1px solid var(--border-color); background: var(--bg-surface); transition: all 0.15s ease; }}
+    .btn-download:hover {{ border-color: var(--border-focus); color: var(--accent-blue); }}
+    .btn-open-showcase {{ display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; color: #0f172a; background: var(--accent-blue); text-decoration: none; transition: all 0.15s ease; }}
+    .btn-open-showcase:hover {{ background: var(--accent-blue-hover); color: #ffffff; }}
     
     /* Footer */
     .site-footer {{ margin-top: auto; padding: 32px 24px; background: var(--bg-secondary); border-top: 1px solid var(--border-faint); text-align: center; }}
