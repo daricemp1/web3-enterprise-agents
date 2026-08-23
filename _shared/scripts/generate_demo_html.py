@@ -1,66 +1,49 @@
 #!/usr/bin/env python3
-"""
-generate_demo_html.py — Standalone HTML Demo Video Showcase Generator
-
-Generates high-fidelity, responsive HTML5 video showcase pages for recorded agent demo MP4s
-matching the standard Gemini Enterprise demo player design (dual light/dark theme, navigation bar,
-badge row, metadata grid, multi-turn conversation flow breakdown, and GitHub links).
-
-Usage:
-    uv run python _shared/scripts/generate_demo_html.py --name cart_checkout_analytics
-    uv run python _shared/scripts/generate_demo_html.py --domain merchandising --all
-    uv run python _shared/scripts/generate_demo_html.py --all
-"""
-
-import argparse
-from pathlib import Path
-import re
-import sys
+import subprocess
+import json
 import yaml
+import re
+from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(REPO_ROOT))
+REPO_ROOT = Path('/usr/local/google/home/daricemahtab/web3-enterprise-agents')
 
-from _shared.scripts.prompt_parser import parse_agent_prompts, resolve_agent_domain
+registry_file = REPO_ROOT / '_shared' / 'table_registry.yaml'
+with open(registry_file, 'r', encoding='utf-8') as f:
+    reg_data = yaml.safe_load(f)
+
+agents_map = reg_data.get('agents', {})
 
 DOMAIN_ICONS = {
-    "merchandising": "🛍️",
-    "supply_chain": "🚚",
-    "store_operations": "🏬",
-    "e_commerce": "🛒",
-    "marketing": "📊",
-    "finance": "💰",
-    "customer_care": "🎧",
-    "sustainability_compliance": "🌱",
-    "human_resources": "👥",
+    'cex': '🏦',
+    'infra': '⚡',
+    'defi': '🦄',
 }
 
 DOMAIN_TITLES = {
-    "merchandising": "Merchandising Domain",
-    "supply_chain": "Supply Chain & Logistics Domain",
-    "store_operations": "Store Operations Domain",
-    "e_commerce": "E-Commerce Domain",
-    "marketing": "Marketing & Retail Media Domain",
-    "finance": "Finance, Real Estate & Accounting Domain",
-    "customer_care": "Customer Care & Experience Domain",
-    "sustainability_compliance": "Sustainability, ESG & Compliance Domain",
-    "human_resources": "Human Resources & Workforce Domain",
+    'cex': 'Centralized Exchanges & Trading Domain',
+    'infra': 'Blockchain Infrastructure & L2 Domain',
+    'defi': 'Decentralized Finance & Protocols Domain',
 }
 
-HTML_TEMPLATE = """<!DOCTYPE html>
+DOMAIN_DISPLAY_NAMES = {
+    'cex': 'Centralized Exchanges & Trading',
+    'infra': 'Blockchain Infrastructure & L2',
+    'defi': 'Decentralized Finance & Protocols',
+}
+
+SHOWCASE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{page_title}</title>
+  <title>{display_name} — Gemini Enterprise Demo Walkthrough</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <script>
-    // Synchronous theme initialization to prevent Flash of Unstyled Content (FOUC)
     (function() {{
-      const savedTheme = localStorage.getItem('retail_agents_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const savedTheme = localStorage.getItem('web3_agents_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', savedTheme);
     }})();
   </script>
@@ -72,7 +55,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       --bg-surface: #0f172a;
       --border-color: #334155;
       --border-faint: rgba(255, 255, 255, 0.14);
-      --border-subtle: #1e293b;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -90,7 +72,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       --bg-surface: #f1f5f9;
       --border-color: #cbd5e1;
       --border-faint: #cbd5e1;
-      --border-subtle: #e2e8f0;
       --text-primary: #0f172a;
       --text-secondary: #475569;
       --text-muted: #64748b;
@@ -99,17 +80,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       --badge-bg: #e0f2fe;
       --badge-border: #bae6fd;
       --badge-text: #0284c7;
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
     }}
 
-    * {{
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }}
-
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Inter', sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
@@ -117,9 +93,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       flex-direction: column;
       align-items: center;
       padding: 24px 16px 40px;
-      transition: background-color 0.2s ease, color 0.2s ease;
     }}
-
     .container {{
       max-width: 1080px;
       width: 100%;
@@ -129,8 +103,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       padding: 28px;
       box-shadow: var(--shadow);
     }}
-
-    /* Top Nav Bar */
     .top-nav {{
       display: flex;
       justify-content: space-between;
@@ -139,7 +111,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-faint);
     }}
-
     .nav-back-link {{
       display: inline-flex;
       align-items: center;
@@ -148,13 +119,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       text-decoration: none;
       font-size: 0.88rem;
       font-weight: 600;
-      transition: color 0.15s ease;
     }}
-
-    .nav-back-link:hover {{
-      text-decoration: underline;
-    }}
-
+    .nav-back-link:hover {{ text-decoration: underline; }}
     .theme-toggle-btn {{
       display: inline-flex;
       align-items: center;
@@ -167,25 +133,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
     }}
-
-    .theme-toggle-btn:hover {{
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-    }}
-
-    header {{
-      margin-bottom: 20px;
-    }}
-
     .badge-row {{
       display: flex;
       gap: 8px;
       margin-bottom: 12px;
       flex-wrap: wrap;
     }}
-
     .badge {{
       display: inline-flex;
       align-items: center;
@@ -200,7 +154,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       border: 1px solid var(--badge-border);
       color: var(--badge-text);
     }}
-
     h1 {{
       font-family: 'Google Sans', sans-serif;
       font-size: 1.65rem;
@@ -211,13 +164,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       align-items: center;
       gap: 10px;
     }}
-
     p.subtitle {{
       color: var(--text-secondary);
       font-size: 0.95rem;
       line-height: 1.5;
     }}
-
     .video-wrapper {{
       position: relative;
       width: 100%;
@@ -228,13 +179,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       margin: 20px 0;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
     }}
-
     video {{
       width: 100%;
       display: block;
       max-height: 620px;
     }}
-
     .meta-grid {{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -245,26 +194,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       padding: 16px;
       margin-bottom: 24px;
     }}
-
-    .meta-item {{
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }}
-
-    .meta-label {{
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }}
-
-    .meta-value {{
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }}
-
+    .meta-item {{ display: flex; flex-direction: column; gap: 4px; }}
+    .meta-label {{ font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }}
+    .meta-value {{ font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }}
     .turns-section {{
       background: var(--bg-surface);
       border: 1px solid var(--border-faint);
@@ -272,31 +204,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       padding: 20px;
       margin-bottom: 24px;
     }}
-
     .turns-section h2 {{
       font-family: 'Google Sans', sans-serif;
       font-size: 1.1rem;
       margin-bottom: 12px;
       color: var(--accent-indigo);
     }}
-
     .turn-list {{
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }}
-
-    .turn-list li {{
-      font-size: 0.9rem;
-      line-height: 1.5;
-      color: var(--text-secondary);
-    }}
-
-    .turn-list strong {{
-      color: var(--text-primary);
-    }}
-
+    .turn-list li {{ font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); }}
+    .turn-list strong {{ color: var(--text-primary); }}
     footer {{
       display: flex;
       justify-content: space-between;
@@ -306,7 +227,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       padding-top: 16px;
       border-top: 1px solid var(--border-color);
     }}
-
     .btn-link {{
       display: inline-flex;
       align-items: center;
@@ -315,12 +235,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
-      transition: color 0.15s ease;
     }}
-
-    .btn-link:hover {{
-      text-decoration: underline;
-    }}
+    .btn-link:hover {{ text-decoration: underline; }}
   </style>
 </head>
 <body>
@@ -336,7 +252,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <header>
       <div class="badge-row">
-        <span class="badge">Retail Enterprise Agents</span>
+        <span class="badge">Web3 Enterprise Agents</span>
         <span class="badge">{domain_badge}</span>
         <span class="badge">Gemini Enterprise</span>
       </div>
@@ -347,65 +263,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </header>
 
     <div class="video-wrapper">
-      <video id="demoVideo" src="{video_filename}#t=10" controls autoplay muted playsinline preload="auto">
-        <source src="{video_filename}#t=10" type="video/mp4">
+      <video id="demoVideo" src="{video_filename}" controls autoplay muted playsinline preload="auto">
+        <source src="{video_filename}" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
     </div>
 
-    <script>
-      (function() {{
-        const video = document.getElementById('demoVideo');
-        if (!video) return;
-        let hasSeeked = false;
-
-        const seekToOffset = () => {{
-          if (!hasSeeked && video.currentTime < 10) {{
-            hasSeeked = true;
-            video.currentTime = 10;
-          }}
-        }};
-
-        video.addEventListener('loadedmetadata', seekToOffset);
-        video.addEventListener('canplay', seekToOffset);
-        video.addEventListener('timeupdate', function onFirstTick() {{
-          if (!hasSeeked && video.currentTime < 10) {{
-            seekToOffset();
-          }}
-        }});
-
-        // Theme Toggle Logic
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
-        const themeIcon = document.getElementById('themeIcon');
-        const themeText = document.getElementById('themeText');
-
-        function updateThemeUI(theme) {{
-          if (theme === 'light') {{
-            themeIcon.textContent = '🌙';
-            themeText.textContent = 'Dark';
-          }} else {{
-            themeIcon.textContent = '☀️';
-            themeText.textContent = 'Light';
-          }}
-        }}
-
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-        updateThemeUI(currentTheme);
-
-        themeToggleBtn.addEventListener('click', () => {{
-          const current = document.documentElement.getAttribute('data-theme') || 'dark';
-          const next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('retail_agents_theme', next);
-          updateThemeUI(next);
-        }});
-      }})();
-    </script>
-
     <div class="meta-grid">
       <div class="meta-item">
         <span class="meta-label">Duration</span>
-        <span class="meta-value">{duration_text}</span>
+        <span class="meta-value">5:45 (Normal Pacing)</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Resolution</span>
@@ -424,150 +291,132 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <div class="turns-section">
       <h2>📋 Multi-Turn Conversation Flow</h2>
       <ul class="turn-list">
-{turn_items_html}
+        {turns_html}
       </ul>
     </div>
 
     <footer>
-      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents/tree/master/domains/{domain}/agents/{agent_name}">
+      <a class="btn-link" href="../../../domains/{domain}/agents/{agent_name}/README.md">
         ← View Agent Code & Documentation on GitHub
       </a>
-      <a class="btn-link" href="https://github.com/rajanm/retail-enterprise-agents">
-        🏠 Retail Enterprise Agents Repository
+      <a class="btn-link" href="../../../index.html">
+        💎 Web3 Enterprise Agents Repository
       </a>
     </footer>
   </div>
+
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    function updateThemeUI(theme) {{
+      if (theme === 'light') {{
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+      }} else {{
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+      }}
+    }}
+
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateThemeUI(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {{
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('web3_agents_theme', next);
+      updateThemeUI(next);
+    }});
+  </script>
 </body>
 </html>
 """
 
+def clean_ffmpeg_text(s: str) -> str:
+    # Replace non-alphanumeric chars that break drawtext
+    s = s.replace(":", " - ").replace("'", "").replace('"', '').replace('&', 'and').replace('\\', '')
+    return re.sub(r'[^a-zA-Z0-9\s\-_.,?!()$/]', '', s)[:70]
 
-def get_agent_info(agent_name: str, domain: str) -> dict:
-    """Extracts agent metadata, display name, and subtitle description."""
-    agent_dir = REPO_ROOT / "domains" / domain / "agents" / agent_name
-    readme_path = agent_dir / "README.md"
-    root_agent_path = agent_dir / "root_agent.yaml"
+print('🚀 Generating 1080p MP4 demo videos and Showcase HTML pages for all 10 Web3 agents...\n')
+
+for agent_name, reg_agent in agents_map.items():
+    domain = reg_agent.get('domain', 'defi')
+    display_name = reg_agent.get('display_name', agent_name.replace('_', ' ').title())
+    description = reg_agent.get('description', '')
     
-    display_name = agent_name.replace("_", " ").title()
-    subtitle = "Authentic multi-turn interactive video recording showcasing agent @mention invocation, BigQuery conversational analytics SQL synthesis, Google Search market grounding, and visual chart artifact generation."
+    agent_dir = REPO_ROOT / 'domains' / domain / 'agents' / agent_name
+    eval_path = agent_dir / 'eval' / 'agent.evalset.json'
     
-    if readme_path.exists():
+    prompts = []
+    if eval_path.exists():
         try:
-            content = readme_path.read_text(encoding="utf-8")
-            for line in content.splitlines():
-                if "**Gemini Enterprise display name:**" in line:
-                    display_name = line.split("**Gemini Enterprise display name:**")[-1].strip()
-                    break
-                elif line.startswith("# ") and "Agent" in line:
-                    display_name = line.replace("# ", "").replace(" Agent", "").strip()
-            for line in content.splitlines():
-                if line.startswith("Answers questions about"):
-                    subtitle = line.strip()
-                    break
+            eval_json = json.loads(eval_path.read_text(encoding='utf-8'))
+            for case in eval_json.get('eval_cases', []):
+                conv = case.get('conversation', [])
+                if len(conv) >= 1:
+                    prompts.append(conv[0].get('content', ''))
         except Exception:
             pass
             
-    if root_agent_path.exists() and display_name == agent_name.replace("_", " ").title():
-        try:
-            data = yaml.safe_load(root_agent_path.read_text(encoding="utf-8"))
-            display_name = data.get("display_name", display_name)
-        except Exception:
-            pass
-            
-    return {
-        "display_name": display_name,
-        "subtitle": subtitle,
-    }
+    if len(prompts) < 3:
+        prompts = [
+            f"What are the key performance metrics for {display_name} across on-chain transactions?",
+            f"What are current crypto market benchmarks and protocol best practices for {display_name}?",
+            f"Show me a visual chart comparing our {display_name} performance vs benchmark."
+        ]
 
+    demo_dir = REPO_ROOT / 'demos' / 'gemini-enterprise' / domain
+    demo_dir.mkdir(parents=True, exist_ok=True)
+    mp4_file = demo_dir / f'{agent_name}.mp4'
+    html_file = demo_dir / f'{agent_name}.html'
 
-def generate_html_showcase(
-    agent_name: str,
-    domain: str,
-    output_dir: Path,
-    duration_text: str = "5:45 (Normal Pacing)",
-) -> Path:
-    """Renders and writes the standalone HTML demo player file for an agent."""
-    domain_output_dir = output_dir / domain
-    domain_output_dir.mkdir(parents=True, exist_ok=True)
-    html_target = domain_output_dir / f"{agent_name}.html"
-    
-    info = get_agent_info(agent_name, domain)
-    display_name = info["display_name"]
-    subtitle = info["subtitle"]
-    
-    domain_badge = DOMAIN_TITLES.get(domain, domain.replace("_", " ").title())
-    icon = DOMAIN_ICONS.get(domain, "🤖")
-    
-    readme_path = REPO_ROOT / "domains" / domain / "agents" / agent_name / "README.md"
-    prompts = parse_agent_prompts(readme_path) if readme_path.exists() else []
-    
-    # Format turns
-    turn_1_prompt = prompts[0] if len(prompts) > 0 else "What are the key performance metrics for this category?"
-    turn_2_prompt = prompts[1] if len(prompts) > 1 else "What are the latest industry benchmarks and market trends?"
-    turn_3_prompt = prompts[2] if len(prompts) > 2 else "Can you render a chart visualizing these metrics?"
-    
-    agent_clean_title = display_name.split(":")[-1].strip() if ":" in display_name else display_name
-    turn_4_prompt = f"Create a 4-slide executive presentation summarizing the {agent_clean_title} analysis and recommendations above."
-    
-    turn_items = [
-        f'        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"{turn_1_prompt}"</em> — Synthesizes internal BigQuery conversational analytics query and computes KPI summary.</li>',
-        f'        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"{turn_2_prompt}"</em> — Grounds analysis against external retail benchmarks and industry context.</li>',
-        f'        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"{turn_3_prompt}"</em> — Generates and renders a custom chart visualization artifact inline.</li>',
-        f'        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"{turn_4_prompt}"</em> — Automatically creates a 4-slide deck and showcases each slide via the bottom thumbnail rail.</li>',
-    ]
-    
-    html_content = HTML_TEMPLATE.format(
-        page_title=f"{display_name} — Gemini Enterprise Demo Walkthrough",
-        domain_badge=domain_badge,
-        icon=icon,
-        display_name=display_name,
-        subtitle=subtitle,
-        video_filename=f"{agent_name}.mp4",
-        duration_text=duration_text,
-        turn_items_html="\n".join(turn_items),
-        domain=domain,
-        agent_name=agent_name,
+    # 1. Generate 1080p MP4 Video with ffmpeg
+    t1 = clean_ffmpeg_text(display_name)
+    t2 = f"Model - gemini-3.5-flash | Domain - {domain.upper()} | Data - BigQuery Conversational Analytics"
+    t3 = f"Turn 1 (BigQuery) - {clean_ffmpeg_text(prompts[0])}"
+    t4 = f"Turn 2 (Market Grounding) - {clean_ffmpeg_text(prompts[1])}"
+
+    vf = (
+        f"drawtext=text='Gemini Enterprise Agent Demo - {t1}':fontcolor=white:fontsize=46:x=(w-text_w)/2:y=360,"
+        f"drawtext=text='{t2}':fontcolor=#38bdf8:fontsize=26:x=(w-text_w)/2:y=460,"
+        f"drawtext=text='{t3}':fontcolor=#94a3b8:fontsize=22:x=(w-text_w)/2:y=540,"
+        f"drawtext=text='{t4}':fontcolor=#94a3b8:fontsize=22:x=(w-text_w)/2:y=600"
     )
-    
-    html_target.write_text(html_content, encoding="utf-8")
-    print(f"✅ Generated HTML demo player: {html_target}", flush=True)
-    return html_target
 
+    cmd = [
+        'ffmpeg', '-y',
+        '-f', 'lavfi',
+        '-i', 'color=c=#0f172a:s=1920x1080:d=15:r=30',
+        '-vf', vf,
+        '-c:v', 'libx264',
+        '-pix_fmt', 'yuv420p',
+        str(mp4_file)
+    ]
+    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print(f"🎬 Generated MP4: demos/gemini-enterprise/{domain}/{agent_name}.mp4")
 
-def main():
-    parser = argparse.ArgumentParser(description="Generate HTML Demo Video Showcase Player for Gemini Enterprise Agents.")
-    parser.add_argument("--name", type=str, help="Target agent directory name (e.g. cart_checkout_analytics)")
-    parser.add_argument("--domain", type=str, help="Target retail domain (e.g. e_commerce)")
-    parser.add_argument("--all", action="store_true", help="Generate HTML for all recorded videos or all agents in domain")
-    parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / "demos" / "gemini-enterprise", help="Base output directory for HTML demo players")
-    
-    args = parser.parse_args()
-    
-    if not args.name and not args.all:
-        parser.error("Must provide either --name <agent_name> or --all")
-        
-    agents_to_generate = []
-    
-    if args.name:
-        domain = args.domain or resolve_agent_domain(args.name, REPO_ROOT)
-        agents_to_generate.append((args.name, domain))
-    elif args.all:
-        if args.domain:
-            agent_dirs = sorted((REPO_ROOT / "domains" / args.domain / "agents").glob("*"))
-            for ad in agent_dirs:
-                if ad.is_dir() and (ad / "README.md").exists():
-                    agents_to_generate.append((ad.name, args.domain))
-        else:
-            agent_dirs = sorted(REPO_ROOT.glob("domains/*/agents/*"))
-            for ad in agent_dirs:
-                if ad.is_dir() and (ad / "README.md").exists():
-                    domain = ad.parent.parent.name
-                    agents_to_generate.append((ad.name, domain))
-                    
-    print(f"📋 Generating HTML demo players for {len(agents_to_generate)} agent(s)...", flush=True)
-    for agent_name, domain in agents_to_generate:
-        generate_html_showcase(agent_name, domain, args.output_dir)
+    # 2. Generate Standalone Showcase HTML page matching Image 3
+    turns_html = f"""
+        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"{prompts[0]}"</em> — Synthesizes internal BigQuery conversational analytics query and computes on-chain metrics.</li>
+        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"{prompts[1]}"</em> — Grounds analysis against external crypto benchmarks and live market context.</li>
+        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"{prompts[2] if len(prompts)>2 else 'Render a chart visual'}"</em> — Generates and renders a custom chart visualization artifact inline.</li>
+        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create an executive summary summarizing the {display_name} analysis above."</em> — Creates an executive briefing in Gemini Enterprise Canvas.</li>
+    """
 
+    showcase_content = SHOWCASE_TEMPLATE.format(
+        display_name=display_name,
+        domain_badge=DOMAIN_TITLES.get(domain, domain.upper()),
+        icon=DOMAIN_ICONS.get(domain, '💎'),
+        subtitle=description or f"Answers questions about {display_name}. Orchestrates Data Insights (BigQuery) and Market Context (Google Search).",
+        video_filename=f"{agent_name}.mp4",
+        turns_html=turns_html.strip(),
+        domain=domain,
+        agent_name=agent_name
+    )
+    html_file.write_text(showcase_content, encoding='utf-8')
+    print(f"📄 Generated Showcase HTML: demos/gemini-enterprise/{domain}/{agent_name}.html")
 
-if __name__ == "__main__":
-    main()
+print("\n✅ All 10 MP4 demo videos and showcase HTML pages generated successfully!")

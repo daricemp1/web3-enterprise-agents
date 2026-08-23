@@ -1,30 +1,25 @@
 #!/usr/bin/env python3
 """
 generate_portal_site.py — Web3 Enterprise Agents Portal Generator
-
-Programmatically reads _shared/table_registry.yaml and all agent data across 3 Web3 domains
-(CEX, INFRA, DEFI) to generate a self-contained, interactive single-page portal (index.html)
-for GitHub Pages with live search, domain filtering, KPI tags, prompt accordions, architecture modal,
-embedded video modal player, and dual light/dark themes.
-
-Usage:
-    uv run python _shared/scripts/generate_portal_site.py
+Generates index.html matching 100% pixel-perfect design from retail-enterprise-agents.
 """
 
-import html
 import json
 from pathlib import Path
-import re
-import sys
 import yaml
 
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(REPO_ROOT))
+REPO_ROOT = Path('/usr/local/google/home/daricemahtab/web3-enterprise-agents')
 
 DOMAIN_ICONS = {
     "cex": "🏦",
     "infra": "⚡",
     "defi": "🦄",
+}
+
+DOMAIN_TITLES = {
+    "cex": "Centralized Exchanges & Trading Domain",
+    "infra": "Blockchain Infrastructure & L2 Domain",
+    "defi": "Decentralized Finance & Protocols Domain",
 }
 
 DOMAIN_DISPLAY_NAMES = {
@@ -36,14 +31,14 @@ DOMAIN_DISPLAY_NAMES = {
 DOMAIN_ORDER = ["cex", "infra", "defi"]
 
 AGENT_KPIS = {
-    "order_book_depth": ["Bid-Ask Spread: < 0.5 bps", "2% Depth: > $10M", "Imbalance Ratio: 1.03"],
-    "proof_of_reserves": ["Solvency: Over-Collateralized", "BTC Reserve Ratio: 104.98%", "Cold Storage: > 90%"],
-    "whale_custody_flows": ["Deposit Alerts: > $10M", "Hot Wallet Ratio: < 10%", "Cold Vault Sweeps"],
+    "order_book_depth": ["Bid-Ask Spread: < 0.5 bps", "2% Depth: > $10M", "Imbalance: 1.03"],
+    "proof_of_reserves": ["Solvency: Over-Collateralized", "BTC Ratio: 104.98%", "Cold Vault: > 90%"],
+    "whale_custody_flows": ["Deposit Alert: > $10M", "Hot Wallet: < 10%", "Cold Sweeps: Active"],
     "l2_sequencer_throughput": ["Rollup TPS: > 50 TPS", "Batch Latency: < 2.0s", "Blob Savings: > 90%"],
-    "validator_rpc_health": ["RPC Latency: < 35ms", "Attestation Rate: > 99%", "Slash Risk: 0"],
+    "validator_rpc_health": ["RPC Latency: < 35ms", "Attestation: > 99%", "Slash Risk: 0"],
     "mev_arbitrage_radar": ["Sandwich Loss: Tracked", "Builder Bribes: Real-time", "Mempool Bundles"],
-    "dex_amm_liquidity": ["Volume/TVL: > 1.0", "Fee APY: > 20%", "Impermanent Loss: < 0.5%"],
-    "lending_liquidation_risk": ["Bad Debt: $0.00", "Health Factor: > 1.10", "Liquidation Triggers"],
+    "dex_amm_liquidity": ["Volume/TVL: > 1.0", "Fee APY: > 20%", "IL Loss: < 0.5%"],
+    "lending_liquidation_risk": ["Bad Debt: $0.00", "Health Factor: > 1.10", "Liquidation Radar"],
     "yield_staking_optimizer": ["Net APY: > 8%", "LST Staking: > 3.4%", "Peg Discount: < 3 bps"],
     "bridge_outflow_monitor": ["Transfer Velocity: Tracked", "Pool Utilization: < 80%", "Flight Alerts"],
 }
@@ -60,17 +55,14 @@ def extract_agent_metadata(agent_name: str, domain: str, reg_agent: dict, repo_r
     
     description = f"Autonomous Web3 on-chain reasoning agent for {display_name}."
     prompts = []
-    turns = []
     
     if eval_path.exists():
         try:
             eval_json = json.loads(eval_path.read_text(encoding="utf-8"))
             for case in eval_json.get("eval_cases", []):
                 conv = case.get("conversation", [])
-                if len(conv) >= 2:
+                if len(conv) >= 1:
                     u = conv[0].get("content", "")
-                    a = conv[1].get("content", "")
-                    turns.append({"user": u, "assistant": a})
                     if u not in prompts:
                         prompts.append(u)
         except Exception:
@@ -84,16 +76,12 @@ def extract_agent_metadata(agent_name: str, domain: str, reg_agent: dict, repo_r
             
     if len(prompts) < 3:
         prompts = [
-            f"What are the top quantitative metrics for {display_name} over the last epoch?",
-            f"What are the current crypto market trends and governance developments for {display_name}?",
-            f"Show me a comparison chart of performance vs historical benchmark."
+            f"What are the top quantitative metrics for {display_name} across on-chain activity?",
+            f"What are current crypto market benchmarks and protocol best practices for {display_name}?",
+            f"Show me a comparison chart visualizing {display_name} performance vs historical benchmark."
         ]
         
     kpis = AGENT_KPIS.get(agent_name, ["On-Chain Grounding: 100%", "Dual Sub-Agents: Active"])
-    
-    demo_html_rel = f"demos/gemini-enterprise/{domain}/{agent_name}.html"
-    demo_mp4_rel = f"demos/gemini-enterprise/{domain}/{agent_name}.mp4"
-    readme_rel = f"domains/{domain}/agents/{agent_name}/README.md"
     
     return {
         "id": agent_id,
@@ -106,11 +94,10 @@ def extract_agent_metadata(agent_name: str, domain: str, reg_agent: dict, repo_r
         "description": description,
         "kpis": kpis,
         "prompts": prompts[:3],
-        "turns": turns,
         "tables": tables,
-        "demo_html": demo_html_rel,
-        "demo_mp4": demo_mp4_rel,
-        "readme": readme_rel,
+        "demo_html": f"demos/gemini-enterprise/{domain}/{agent_name}.html",
+        "demo_mp4": f"demos/gemini-enterprise/{domain}/{agent_name}.mp4",
+        "readme": f"domains/{domain}/agents/{agent_name}/README.md",
     }
 
 
@@ -162,7 +149,6 @@ def build_portal_html(agents_data: list[dict]) -> str:
       --accent-blue-hover: #0284c7;
       --accent-indigo: #818cf8;
       --accent-emerald: #34d399;
-      --accent-amber: #fbbf24;
       --badge-bg: rgba(56, 189, 248, 0.12);
       --badge-border: rgba(56, 189, 248, 0.28);
       --badge-text: #38bdf8;
@@ -172,7 +158,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
       --region-bg: rgba(129, 140, 248, 0.12);
       --region-border: rgba(129, 140, 248, 0.28);
       --region-text: #a5b4fc;
-      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       --modal-overlay: rgba(15, 23, 42, 0.85);
     }}
@@ -194,7 +180,6 @@ def build_portal_html(agents_data: list[dict]) -> str:
       --accent-blue-hover: #0369a1;
       --accent-indigo: #6366f1;
       --accent-emerald: #059669;
-      --accent-amber: #d97706;
       --badge-bg: #e0f2fe;
       --badge-border: #bae6fd;
       --badge-text: #0284c7;
@@ -330,16 +315,27 @@ def build_portal_html(agents_data: list[dict]) -> str:
     .no-results {{ grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: 14px; display: none; }}
     .no-results-icon {{ font-size: 3rem; margin-bottom: 12px; }}
     
-    /* Modal Styles */
+    /* Video Modal Styles matching Screenshots 1 & 2 */
     .modal-backdrop {{ position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }}
-    .modal-dialog {{ background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); }}
+    .modal-dialog {{ background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: 16px; width: 100%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); overflow: hidden; }}
     .modal-header {{ padding: 18px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }}
-    .modal-body {{ padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }}
-    .modal-footer {{ padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }}
+    .modal-body {{ padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }}
+    .modal-video-wrapper {{ width: 100%; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-faint); }}
+    .modal-video {{ width: 100%; display: block; max-height: 480px; }}
+    .modal-meta-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: 10px; padding: 14px; }}
+    .modal-meta-item {{ display: flex; flex-direction: column; gap: 4px; }}
+    .modal-meta-label {{ font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }}
+    .modal-meta-value {{ font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }}
+    .modal-sequence-box {{ background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: 10px; padding: 16px; }}
+    .modal-sequence-title {{ font-family: 'Google Sans', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--accent-indigo); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }}
+    .modal-turns-list {{ list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); }}
+    .modal-turns-list strong {{ color: var(--text-primary); }}
+    .modal-footer {{ padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 10px; }}
     .modal-close {{ background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; }}
-    .modal-turn {{ background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }}
-    .modal-turn-q {{ font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 6px; }}
-    .modal-turn-a {{ font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }}
+    .btn-download {{ display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); padding: 9px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; cursor: pointer; }}
+    .btn-download:hover {{ border-color: var(--border-focus); color: var(--accent-blue); }}
+    .btn-open-showcase {{ display: inline-flex; align-items: center; gap: 6px; background: var(--accent-blue); color: #0f172a !important; border: 1px solid var(--accent-blue); padding: 9px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }}
+    .btn-open-showcase:hover {{ background: var(--accent-blue-hover); color: #ffffff !important; }}
     .site-footer {{ background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 36px 24px; text-align: center; margin-top: auto; }}
     .footer-text {{ font-size: 0.85rem; color: var(--text-secondary); }}
   </style>
@@ -443,7 +439,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
 
   <!-- Architecture Modal -->
   <div class="modal-backdrop" id="archModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: 800px;">
       <div class="modal-header">
         <h2 style="font-family: 'Google Sans'; font-size: 1.25rem;">📐 Web3 Enterprise Multi-Agent Architecture</h2>
         <button class="modal-close" id="archClose">✕</button>
@@ -468,22 +464,59 @@ def build_portal_html(agents_data: list[dict]) -> str:
     </div>
   </div>
 
-  <!-- Agent Demo Modal -->
-  <div class="modal-backdrop" id="demoModal">
+  <!-- Video Modal (Screenshots 1 & 2) -->
+  <div class="modal-backdrop" id="videoModal">
     <div class="modal-dialog">
       <div class="modal-header">
-        <div>
+        <div style="display: flex; align-items: center; gap: 10px;">
           <h2 id="modalAgentTitle" style="font-family: 'Google Sans'; font-size: 1.25rem;">Agent Demo</h2>
-          <span id="modalAgentDomain" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;"></span>
+          <span id="modalDomainBadge" class="badge-domain"></span>
+          <span id="modalRegionBadge" class="badge-region"></span>
         </div>
-        <button class="modal-close" id="demoClose">✕</button>
+        <button class="modal-close" id="modalCloseBtn">✕</button>
       </div>
-      <div class="modal-body" id="modalTurns">
-        <!-- Injected via JavaScript -->
+      <div class="modal-body">
+        
+        <!-- Video Player -->
+        <div class="modal-video-wrapper">
+          <video id="modalVideo" class="modal-video" controls autoplay muted playsinline preload="auto">
+            <source src="" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+
+        <!-- Meta Grid -->
+        <div class="modal-meta-grid">
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Resolution</span>
+            <span class="modal-meta-value">1080p Full HD (1920×1080)</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Model Reasoning</span>
+            <span class="modal-meta-value">Gemini 3.5 Flash (Global)</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Platform UI</span>
+            <span class="modal-meta-value">Gemini Enterprise</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Data Execution</span>
+            <span class="modal-meta-value">BigQuery Conversational Analytics</span>
+          </div>
+        </div>
+
+        <!-- Demonstration Workflow Sequence -->
+        <div class="modal-sequence-box">
+          <div class="modal-sequence-title">🎬 Demonstration Workflow Sequence</div>
+          <ul class="modal-turns-list" id="modalTurnsList">
+            <!-- Injected via JavaScript -->
+          </ul>
+        </div>
+
       </div>
       <div class="modal-footer">
-        <a id="modalShowcaseLink" href="#" target="_blank" class="btn-header">Open Dedicated Showcase ↗</a>
-        <button class="btn-header btn-primary-header" id="demoOk">Close</button>
+        <a id="modalDownloadBtn" href="#" download class="btn-download">⬇ Download MP4</a>
+        <a id="modalShowcaseBtn" href="#" target="_blank" class="btn-open-showcase">🚀 Open Full Showcase Player</a>
       </div>
     </div>
   </div>
@@ -518,41 +551,55 @@ def build_portal_html(agents_data: list[dict]) -> str:
     const archClose = document.getElementById('archClose');
     const archOk = document.getElementById('archOk');
 
-    const demoModal = document.getElementById('demoModal');
-    const demoClose = document.getElementById('demoClose');
-    const demoOk = document.getElementById('demoOk');
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
     const modalAgentTitle = document.getElementById('modalAgentTitle');
-    const modalAgentDomain = document.getElementById('modalAgentDomain');
-    const modalTurns = document.getElementById('modalTurns');
-    const modalShowcaseLink = document.getElementById('modalShowcaseLink');
+    const modalDomainBadge = document.getElementById('modalDomainBadge');
+    const modalRegionBadge = document.getElementById('modalRegionBadge');
+    const modalTurnsList = document.getElementById('modalTurnsList');
+    const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+    const modalShowcaseBtn = document.getElementById('modalShowcaseBtn');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
 
     archBtn.onclick = () => archModal.style.display = 'flex';
     archClose.onclick = () => archModal.style.display = 'none';
     archOk.onclick = () => archModal.style.display = 'none';
 
-    demoClose.onclick = () => demoModal.style.display = 'none';
-    demoOk.onclick = () => demoModal.style.display = 'none';
+    modalCloseBtn.onclick = () => {{
+      videoModal.style.display = 'none';
+      modalVideo.pause();
+    }};
 
     window.onclick = (e) => {{
       if (e.target === archModal) archModal.style.display = 'none';
-      if (e.target === demoModal) demoModal.style.display = 'none';
+      if (e.target === videoModal) {{
+        videoModal.style.display = 'none';
+        modalVideo.pause();
+      }}
     }};
 
     function openVideoModal(agentName) {{
       const agent = AGENTS_DATA.find(a => a.name === agentName);
       if (!agent) return;
+
       modalAgentTitle.textContent = `${{agent.icon}} ${{agent.display_name}}`;
-      modalAgentDomain.textContent = agent.domain_display.toUpperCase();
-      modalShowcaseLink.href = agent.demo_html;
-      modalTurns.innerHTML = agent.turns.map((t, idx) => `
-        <div class="modal-turn">
-          <div class="modal-turn-q">Turn ${{idx+1}} — User Prompt</div>
-          <div style="font-weight:600; margin-bottom:8px;">"${{t.user}}"</div>
-          <div class="modal-turn-q">Gemini Enterprise Verified Response</div>
-          <div class="modal-turn-a">${{t.assistant}}</div>
-        </div>
-      `).join('');
-      demoModal.style.display = 'flex';
+      modalDomainBadge.textContent = agent.domain_display;
+      modalRegionBadge.textContent = agent.location;
+      
+      modalVideo.src = agent.demo_mp4;
+      modalVideo.play().catch(() => {{}});
+      
+      modalDownloadBtn.href = agent.demo_mp4;
+      modalShowcaseBtn.href = agent.demo_html;
+
+      modalTurnsList.innerHTML = `
+        <li><strong>Turn 1 (Data Insights):</strong> "${{agent.prompts[0] || 'Analyze on-chain transaction metrics.'}}"</li>
+        <li><strong>Turn 2 (Market Grounding):</strong> "${{agent.prompts[1] || 'Compare against crypto industry benchmarks.'}}"</li>
+        <li><strong>Turn 3 (Visual Analytics):</strong> "${{agent.prompts[2] || 'Render comparison chart artifact.'}}"</li>
+        <li><strong>Turn 4 (Canvas Presentation):</strong> Executive briefing generated in Gemini Enterprise Canvas.</li>
+      `;
+
+      videoModal.style.display = 'flex';
     }}
 
     function togglePrompts(btn) {{

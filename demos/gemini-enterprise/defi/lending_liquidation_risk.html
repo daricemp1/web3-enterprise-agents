@@ -3,59 +3,303 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEFI: Lending Health & Liquidation Risk — Gemini Enterprise Agent Demo</title>
+  <title>DEFI: Lending Health & Liquidation Risk — Gemini Enterprise Demo Walkthrough</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('web3_agents_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+
   <style>
     :root, [data-theme="dark"] {
-      --bg-primary: #0b0f19;
+      --bg-primary: #0f172a;
       --bg-card: #1e293b;
+      --bg-surface: #0f172a;
       --border-color: #334155;
+      --border-faint: rgba(255, 255, 255, 0.14);
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
+      --text-muted: #64748b;
       --accent-blue: #38bdf8;
+      --accent-indigo: #818cf8;
       --badge-bg: rgba(56, 189, 248, 0.12);
       --badge-border: rgba(56, 189, 248, 0.28);
       --badge-text: #38bdf8;
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-surface: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-faint: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-blue: #0284c7;
+      --accent-indigo: #6366f1;
+      --badge-bg: #e0f2fe;
+      --badge-border: #bae6fd;
+      --badge-text: #0284c7;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 24px; line-height: 1.5; }
-    .container { max-width: 1000px; margin: 0 auto; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .back-btn { color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-    .agent-title { font-family: 'Google Sans', sans-serif; font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
-    .domain-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); font-size: 0.8rem; font-weight: 600; margin-bottom: 16px; }
-    .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
-    .turn { margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-    .turn:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .turn-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 6px; }
-    .user-msg { background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-blue); padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-weight: 500; }
-    .agent-msg { color: var(--text-secondary); line-height: 1.6; padding-left: 12px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 40px;
+    }
+    .container {
+      max-width: 1080px;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-faint);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-faint);
+    }
+    .nav-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    .nav-back-link:hover { text-decoration: underline; }
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
+    }
+    h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border: 1px solid var(--border-faint);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    }
+    video {
+      width: 100%;
+      display: block;
+      max-height: 620px;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-faint);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .meta-value { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+    .turns-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-faint);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .turns-section h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--accent-indigo);
+    }
+    .turn-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .turn-list li { font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); }
+    .turn-list strong { color: var(--text-primary); }
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .btn-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <a href="../../../index.html" class="back-btn">← Back to Agent Catalog</a>
-      <span class="domain-badge">Decentralized Finance & Protocols</span>
+    <nav class="top-nav">
+      <a class="nav-back-link" href="../../../index.html">
+        <span>←</span> Back to All Enterprise Agents
+      </a>
+      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle light/dark theme">
+        <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
+      </button>
+    </nav>
+
+    <header>
+      <div class="badge-row">
+        <span class="badge">Web3 Enterprise Agents</span>
+        <span class="badge">Decentralized Finance & Protocols Domain</span>
+        <span class="badge">Gemini Enterprise</span>
+      </div>
+      <h1>🦄 DEFI: Lending Health & Liquidation Risk</h1>
+      <p class="subtitle">
+        Monitors money market borrowing utilization, collateral health factor distributions, and identifies collateral positions approaching liquidation thresholds.
+      </p>
+    </header>
+
+    <div class="video-wrapper">
+      <video id="demoVideo" src="lending_liquidation_risk.mp4" controls autoplay muted playsinline preload="auto">
+        <source src="lending_liquidation_risk.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
     </div>
-    <h1 class="agent-title">🦄 DEFI: Lending Health & Liquidation Risk</h1>
-    <p style="color: var(--text-secondary); margin-bottom: 24px;">Monitors money market borrowing utilization, collateral health factor distributions, and identifies collateral positions approaching liquidation thresholds. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).</p>
-    <div class="card">
-      <h2 style="font-family: 'Google Sans'; font-size: 1.2rem; margin-bottom: 16px; color: var(--text-primary);">Verified Multi-Turn Conversation</h2>
-      <div class="turn">
-        <div class="turn-label">Turn 1 — User Prompt</div>
-        <div class="user-msg">"Which position is closest to liquidation and what is its health factor?"</div>
-        <div class="turn-label">Gemini Enterprise Synthesized Response</div>
-        <div class="agent-msg">Position POS-8901 on Aave v3 is highest risk with a health factor of 1.09 ($18.5M wstETH collateral against $14.2M USDC debt), liquidating if ETH falls to $3,120.00.</div>
-      </div><div class="turn">
-        <div class="turn-label">Turn 2 — User Prompt</div>
-        <div class="user-msg">"How much volume was liquidated across Aave v3 on August 1?"</div>
-        <div class="turn-label">Gemini Enterprise Synthesized Response</div>
-        <div class="agent-msg">$3,450,000.00 USD was successfully liquidated on Aave v3 with zero bad debt incurred and $172,500.00 in liquidator bonuses.</div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Duration</span>
+        <span class="meta-value">5:45 (Normal Pacing)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Resolution</span>
+        <span class="meta-value">1080p Full HD (1920×1080)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">UI Scaling</span>
+        <span class="meta-value">1.25x High-DPI Scaled Text</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Model Runtime</span>
+        <span class="meta-value">gemini-3.5-flash (Vertex AI)</span>
       </div>
     </div>
+
+    <div class="turns-section">
+      <h2>📋 Multi-Turn Conversation Flow</h2>
+      <ul class="turn-list">
+        <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"What are the key performance metrics for DEFI: Lending Health & Liquidation Risk across on-chain transactions?"</em> — Synthesizes internal BigQuery conversational analytics query and computes on-chain metrics.</li>
+        <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"What are current crypto market benchmarks and protocol best practices for DEFI: Lending Health & Liquidation Risk?"</em> — Grounds analysis against external crypto benchmarks and live market context.</li>
+        <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"Show me a visual chart comparing our DEFI: Lending Health & Liquidation Risk performance vs benchmark."</em> — Generates and renders a custom chart visualization artifact inline.</li>
+        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create an executive summary summarizing the DEFI: Lending Health & Liquidation Risk analysis above."</em> — Creates an executive briefing in Gemini Enterprise Canvas.</li>
+      </ul>
+    </div>
+
+    <footer>
+      <a class="btn-link" href="../../../domains/defi/agents/lending_liquidation_risk/README.md">
+        ← View Agent Code & Documentation on GitHub
+      </a>
+      <a class="btn-link" href="../../../index.html">
+        💎 Web3 Enterprise Agents Repository
+      </a>
+    </footer>
   </div>
+
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    function updateThemeUI(theme) {
+      if (theme === 'light') {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+      } else {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateThemeUI(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('web3_agents_theme', next);
+      updateThemeUI(next);
+    });
+  </script>
 </body>
 </html>

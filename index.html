@@ -34,7 +34,6 @@
       --accent-blue-hover: #0284c7;
       --accent-indigo: #818cf8;
       --accent-emerald: #34d399;
-      --accent-amber: #fbbf24;
       --badge-bg: rgba(56, 189, 248, 0.12);
       --badge-border: rgba(56, 189, 248, 0.28);
       --badge-text: #38bdf8;
@@ -44,7 +43,7 @@
       --region-bg: rgba(129, 140, 248, 0.12);
       --region-border: rgba(129, 140, 248, 0.28);
       --region-text: #a5b4fc;
-      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       --modal-overlay: rgba(15, 23, 42, 0.85);
     }
@@ -66,7 +65,6 @@
       --accent-blue-hover: #0369a1;
       --accent-indigo: #6366f1;
       --accent-emerald: #059669;
-      --accent-amber: #d97706;
       --badge-bg: #e0f2fe;
       --badge-border: #bae6fd;
       --badge-text: #0284c7;
@@ -202,16 +200,27 @@
     .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: 14px; display: none; }
     .no-results-icon { font-size: 3rem; margin-bottom: 12px; }
     
-    /* Modal Styles */
+    /* Video Modal Styles matching Screenshots 1 & 2 */
     .modal-backdrop { position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
-    .modal-dialog { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); }
+    .modal-dialog { background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: 16px; width: 100%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); overflow: hidden; }
     .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-    .modal-body { padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+    .modal-body { padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
+    .modal-video-wrapper { width: 100%; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-faint); }
+    .modal-video { width: 100%; display: block; max-height: 480px; }
+    .modal-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: 10px; padding: 14px; }
+    .modal-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .modal-meta-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .modal-meta-value { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+    .modal-sequence-box { background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: 10px; padding: 16px; }
+    .modal-sequence-title { font-family: 'Google Sans', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--accent-indigo); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .modal-turns-list { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); }
+    .modal-turns-list strong { color: var(--text-primary); }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
     .modal-close { background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; }
-    .modal-turn { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }
-    .modal-turn-q { font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 6px; }
-    .modal-turn-a { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+    .btn-download { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); padding: 9px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+    .btn-download:hover { border-color: var(--border-focus); color: var(--accent-blue); }
+    .btn-open-showcase { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-blue); color: #0f172a !important; border: 1px solid var(--accent-blue); padding: 9px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+    .btn-open-showcase:hover { background: var(--accent-blue-hover); color: #ffffff !important; }
     .site-footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 36px 24px; text-align: center; margin-top: auto; }
     .footer-text { font-size: 0.85rem; color: var(--text-secondary); }
   </style>
@@ -319,7 +328,7 @@
 
   <!-- Architecture Modal -->
   <div class="modal-backdrop" id="archModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: 800px;">
       <div class="modal-header">
         <h2 style="font-family: 'Google Sans'; font-size: 1.25rem;">📐 Web3 Enterprise Multi-Agent Architecture</h2>
         <button class="modal-close" id="archClose">✕</button>
@@ -344,22 +353,59 @@
     </div>
   </div>
 
-  <!-- Agent Demo Modal -->
-  <div class="modal-backdrop" id="demoModal">
+  <!-- Video Modal (Screenshots 1 & 2) -->
+  <div class="modal-backdrop" id="videoModal">
     <div class="modal-dialog">
       <div class="modal-header">
-        <div>
+        <div style="display: flex; align-items: center; gap: 10px;">
           <h2 id="modalAgentTitle" style="font-family: 'Google Sans'; font-size: 1.25rem;">Agent Demo</h2>
-          <span id="modalAgentDomain" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;"></span>
+          <span id="modalDomainBadge" class="badge-domain"></span>
+          <span id="modalRegionBadge" class="badge-region"></span>
         </div>
-        <button class="modal-close" id="demoClose">✕</button>
+        <button class="modal-close" id="modalCloseBtn">✕</button>
       </div>
-      <div class="modal-body" id="modalTurns">
-        <!-- Injected via JavaScript -->
+      <div class="modal-body">
+        
+        <!-- Video Player -->
+        <div class="modal-video-wrapper">
+          <video id="modalVideo" class="modal-video" controls autoplay muted playsinline preload="auto">
+            <source src="" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+
+        <!-- Meta Grid -->
+        <div class="modal-meta-grid">
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Resolution</span>
+            <span class="modal-meta-value">1080p Full HD (1920×1080)</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Model Reasoning</span>
+            <span class="modal-meta-value">Gemini 3.5 Flash (Global)</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Platform UI</span>
+            <span class="modal-meta-value">Gemini Enterprise</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Data Execution</span>
+            <span class="modal-meta-value">BigQuery Conversational Analytics</span>
+          </div>
+        </div>
+
+        <!-- Demonstration Workflow Sequence -->
+        <div class="modal-sequence-box">
+          <div class="modal-sequence-title">🎬 Demonstration Workflow Sequence</div>
+          <ul class="modal-turns-list" id="modalTurnsList">
+            <!-- Injected via JavaScript -->
+          </ul>
+        </div>
+
       </div>
       <div class="modal-footer">
-        <a id="modalShowcaseLink" href="#" target="_blank" class="btn-header">Open Dedicated Showcase ↗</a>
-        <button class="btn-header btn-primary-header" id="demoOk">Close</button>
+        <a id="modalDownloadBtn" href="#" download class="btn-download">⬇ Download MP4</a>
+        <a id="modalShowcaseBtn" href="#" target="_blank" class="btn-open-showcase">🚀 Open Full Showcase Player</a>
       </div>
     </div>
   </div>
@@ -386,22 +432,12 @@
     "kpis": [
       "Bid-Ask Spread: < 0.5 bps",
       "2% Depth: > $10M",
-      "Imbalance Ratio: 1.03"
+      "Imbalance: 1.03"
     ],
     "prompts": [
-      "What are the top quantitative metrics for CEX: Order Book Depth & Spread Analytics over the last epoch?",
-      "What are the current crypto market trends and governance developments for CEX: Order Book Depth & Spread Analytics?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "Which exchange and pair offered the highest 2% bid depth on August 2, 2026?",
-        "assistant": "On August 2, 2026, Binance BTC/USDT had the highest 2% bid depth at $15,100,000 USD (with an ask depth of $14,900,000 USD and a tight spread of 0.42 bps)."
-      },
-      {
-        "user": "What was the recorded slippage on the $1.2M BTC/USDT trade on August 2?",
-        "assistant": "The $1,200,000 USD sell trade on Binance BTC/USDT incurred a slippage of 2.30 bps at an executed price of $65,135.00."
-      }
+      "What are the top quantitative metrics for CEX: Order Book Depth & Spread Analytics across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for CEX: Order Book Depth & Spread Analytics?",
+      "Show me a comparison chart visualizing CEX: Order Book Depth & Spread Analytics performance vs historical benchmark."
     ],
     "tables": [
       "snapshots",
@@ -422,23 +458,13 @@
     "description": "Audits on-chain wallet reserve assets versus exchange customer liability balances, verifying collateralization ratios and solvency margins. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
     "kpis": [
       "Solvency: Over-Collateralized",
-      "BTC Reserve Ratio: 104.98%",
-      "Cold Storage: > 90%"
+      "BTC Ratio: 104.98%",
+      "Cold Vault: > 90%"
     ],
     "prompts": [
-      "What are the top quantitative metrics for CEX: Proof of Reserves & Solvency over the last epoch?",
-      "What are the current crypto market trends and governance developments for CEX: Proof of Reserves & Solvency?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "What is the current proof-of-reserves ratio for BTC and ETH in the August 1, 2026 audit?",
-        "assistant": "In the August 1, 2026 audit, BTC has a reserve ratio of 104.98% (48,500 BTC reserve vs 46,200 BTC liabilities) and ETH has a reserve ratio of 105.48% (385,000 ETH reserve vs 365,000 ETH liabilities)."
-      },
-      {
-        "user": "How much of total BTC reserves are held in cold storage?",
-        "assistant": "94.5% of total BTC reserves are held in BitGo cold storage custody."
-      }
+      "What are the top quantitative metrics for CEX: Proof of Reserves & Solvency across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for CEX: Proof of Reserves & Solvency?",
+      "Show me a comparison chart visualizing CEX: Proof of Reserves & Solvency performance vs historical benchmark."
     ],
     "tables": [
       "wallet_balances",
@@ -458,24 +484,14 @@
     "location": "us-central1",
     "description": "Tracks large on-chain deposit/withdrawal flows, hot and cold storage rebalancing, and exchange reserve drawdowns across major assets. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
     "kpis": [
-      "Deposit Alerts: > $10M",
-      "Hot Wallet Ratio: < 10%",
-      "Cold Vault Sweeps"
+      "Deposit Alert: > $10M",
+      "Hot Wallet: < 10%",
+      "Cold Sweeps: Active"
     ],
     "prompts": [
-      "What are the top quantitative metrics for CEX: Whale Inflows & Custody Transfers over the last epoch?",
-      "What are the current crypto market trends and governance developments for CEX: Whale Inflows & Custody Transfers?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "What was the largest whale deposit recorded on August 1, 2026?",
-        "assistant": "The largest whale deposit on August 1, 2026 was 1,500 BTC ($96,375,000 USD) deposited to Coinbase by Institutional Fund A."
-      },
-      {
-        "user": "How much BTC was swept from hot to cold storage on August 1?",
-        "assistant": "3,000 BTC was rebalanced from Hot-Wallet-01 to Cold-Vault-03, keeping hot wallet ratio at 5.5%."
-      }
+      "What are the top quantitative metrics for CEX: Whale Inflows & Custody Transfers across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for CEX: Whale Inflows & Custody Transfers?",
+      "Show me a comparison chart visualizing CEX: Whale Inflows & Custody Transfers performance vs historical benchmark."
     ],
     "tables": [
       "large_transfers",
@@ -500,19 +516,9 @@
       "Blob Savings: > 90%"
     ],
     "prompts": [
-      "What are the top quantitative metrics for INFRA: L2 Sequencer & Blob Gas Throughput over the last epoch?",
-      "What are the current crypto market trends and governance developments for INFRA: L2 Sequencer & Blob Gas Throughput?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "Which L2 rollup processed the highest TPS on August 2, 2026?",
-        "assistant": "Base achieved the highest throughput at 65.28 TPS (235,000 transactions) with a batch latency of 1.1 seconds."
-      },
-      {
-        "user": "What were the calldata cost savings achieved by Base using EIP-4844 blobs on August 2?",
-        "assistant": "Base saved 93.1% in data availability costs by submitting 3,820 blobs for 2.10 ETH ($7,393.68 USD) in L1 settlement costs."
-      }
+      "What are the top quantitative metrics for INFRA: L2 Sequencer & Blob Gas Throughput across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for INFRA: L2 Sequencer & Blob Gas Throughput?",
+      "Show me a comparison chart visualizing INFRA: L2 Sequencer & Blob Gas Throughput performance vs historical benchmark."
     ],
     "tables": [
       "block_metrics",
@@ -533,23 +539,13 @@
     "description": "Tracks distributed RPC node endpoint latencies, validator uptime, attestation rates, and consensus slash risk events. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
     "kpis": [
       "RPC Latency: < 35ms",
-      "Attestation Rate: > 99%",
+      "Attestation: > 99%",
       "Slash Risk: 0"
     ],
     "prompts": [
-      "What are the top quantitative metrics for INFRA: RPC Latency & Validator Health over the last epoch?",
-      "What are the current crypto market trends and governance developments for INFRA: RPC Latency & Validator Health?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "Which RPC provider had the lowest latency in us-east-1 on August 1, 2026?",
-        "assistant": "Alchemy had the lowest average latency in us-east-1 at 28.5 ms (p99 of 85.0 ms and 0.02% error rate)."
-      },
-      {
-        "user": "Were any validator groups flagged with elevated slashing or missed block risk?",
-        "assistant": "Solo-Stakers-Group-B was flagged with ELEVATED risk due to 3 missed blocks and a sub-optimal attestation rate of 96.40%."
-      }
+      "What are the top quantitative metrics for INFRA: RPC Latency & Validator Health across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for INFRA: RPC Latency & Validator Health?",
+      "Show me a comparison chart visualizing INFRA: RPC Latency & Validator Health performance vs historical benchmark."
     ],
     "tables": [
       "node_uptime",
@@ -574,19 +570,9 @@
       "Mempool Bundles"
     ],
     "prompts": [
-      "What are the top quantitative metrics for INFRA: MEV & Sandwich Attack Radar over the last epoch?",
-      "What are the current crypto market trends and governance developments for INFRA: MEV & Sandwich Attack Radar?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "What was the highest profit MEV bundle extracted in recent blocks?",
-        "assistant": "A sandwich bundle in block 20450145 extracted $8,920.00 USD in profit via titan builder, paying a 1.20 ETH builder bribe."
-      },
-      {
-        "user": "What was the victim loss on the Uniswap v3 sandwich attack on August 1?",
-        "assistant": "The victim incurred $840.50 USD in slippage loss on the Uniswap v3 WETH/USDC 0.05% pool, yielding $710.20 USD net attacker profit."
-      }
+      "What are the top quantitative metrics for INFRA: MEV & Sandwich Attack Radar across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for INFRA: MEV & Sandwich Attack Radar?",
+      "Show me a comparison chart visualizing INFRA: MEV & Sandwich Attack Radar performance vs historical benchmark."
     ],
     "tables": [
       "bundles",
@@ -608,22 +594,12 @@
     "kpis": [
       "Volume/TVL: > 1.0",
       "Fee APY: > 20%",
-      "Impermanent Loss: < 0.5%"
+      "IL Loss: < 0.5%"
     ],
     "prompts": [
-      "What are the top quantitative metrics for DEFI: AMM Liquidity & Impermanent Loss over the last epoch?",
-      "What are the current crypto market trends and governance developments for DEFI: AMM Liquidity & Impermanent Loss?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "Which liquidity pool demonstrates the highest capital efficiency and fee APY?",
-        "assistant": "Uniswap v3 ETH/USDC 0.05% has the highest capital efficiency at 1.45 ($210M 24h volume on $145M TVL) generating a 26.4% fee APY."
-      },
-      {
-        "user": "What were the total trading fees collected by the ETH/USDC 0.05% pool on August 2, 2026?",
-        "assistant": "On August 2, 2026, the pool generated $112,500.00 USD in LP fees on $225,000,000 USD in daily volume."
-      }
+      "What are the top quantitative metrics for DEFI: AMM Liquidity & Impermanent Loss across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for DEFI: AMM Liquidity & Impermanent Loss?",
+      "Show me a comparison chart visualizing DEFI: AMM Liquidity & Impermanent Loss performance vs historical benchmark."
     ],
     "tables": [
       "pools",
@@ -645,22 +621,12 @@
     "kpis": [
       "Bad Debt: $0.00",
       "Health Factor: > 1.10",
-      "Liquidation Triggers"
+      "Liquidation Radar"
     ],
     "prompts": [
-      "What are the top quantitative metrics for DEFI: Lending Health & Liquidation Risk over the last epoch?",
-      "What are the current crypto market trends and governance developments for DEFI: Lending Health & Liquidation Risk?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "Which position is closest to liquidation and what is its health factor?",
-        "assistant": "Position POS-8901 on Aave v3 is highest risk with a health factor of 1.09 ($18.5M wstETH collateral against $14.2M USDC debt), liquidating if ETH falls to $3,120.00."
-      },
-      {
-        "user": "How much volume was liquidated across Aave v3 on August 1?",
-        "assistant": "$3,450,000.00 USD was successfully liquidated on Aave v3 with zero bad debt incurred and $172,500.00 in liquidator bonuses."
-      }
+      "What are the top quantitative metrics for DEFI: Lending Health & Liquidation Risk across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for DEFI: Lending Health & Liquidation Risk?",
+      "Show me a comparison chart visualizing DEFI: Lending Health & Liquidation Risk performance vs historical benchmark."
     ],
     "tables": [
       "collateral_positions",
@@ -685,19 +651,9 @@
       "Peg Discount: < 3 bps"
     ],
     "prompts": [
-      "What are the top quantitative metrics for DEFI: Liquid Staking & Yield Optimizer over the last epoch?",
-      "What are the current crypto market trends and governance developments for DEFI: Liquid Staking & Yield Optimizer?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "What is the highest yielding stablecoin vault with over $100M TVL?",
-        "assistant": "The Curve sUSDe/USDC Pool offers the highest yield at 17.30% Net APY (13.10% base + 4.20% rewards) on $120M TVL."
-      },
-      {
-        "user": "What is the current annual staking reward rate for Lido stETH?",
-        "assistant": "Lido stETH yields 3.42% annual staking rewards with 9,850,000 ETH staked and a tight peg discount of 2.0 bps."
-      }
+      "What are the top quantitative metrics for DEFI: Liquid Staking & Yield Optimizer across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for DEFI: Liquid Staking & Yield Optimizer?",
+      "Show me a comparison chart visualizing DEFI: Liquid Staking & Yield Optimizer performance vs historical benchmark."
     ],
     "tables": [
       "pool_apys",
@@ -722,19 +678,9 @@
       "Flight Alerts"
     ],
     "prompts": [
-      "What are the top quantitative metrics for DEFI: Cross-Chain Bridge & Outflow Monitor over the last epoch?",
-      "What are the current crypto market trends and governance developments for DEFI: Cross-Chain Bridge & Outflow Monitor?",
-      "Show me a comparison chart of performance vs historical benchmark."
-    ],
-    "turns": [
-      {
-        "user": "Which bridge recorded the highest volume to Arbitrum on August 2, 2026?",
-        "assistant": "Across Protocol processed $46,800,000 USD (1,980 transfers) from Ethereum to Arbitrum on August 2, 2026."
-      },
-      {
-        "user": "What is the current liquidity utilization of Stargate on Base?",
-        "assistant": "Stargate has a 79.17% pool utilization on Base with $48,000,000 USD available liquidity in normal status."
-      }
+      "What are the top quantitative metrics for DEFI: Cross-Chain Bridge & Outflow Monitor across on-chain activity?",
+      "What are current crypto market benchmarks and protocol best practices for DEFI: Cross-Chain Bridge & Outflow Monitor?",
+      "Show me a comparison chart visualizing DEFI: Cross-Chain Bridge & Outflow Monitor performance vs historical benchmark."
     ],
     "tables": [
       "transfer_events",
@@ -765,41 +711,55 @@
     const archClose = document.getElementById('archClose');
     const archOk = document.getElementById('archOk');
 
-    const demoModal = document.getElementById('demoModal');
-    const demoClose = document.getElementById('demoClose');
-    const demoOk = document.getElementById('demoOk');
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
     const modalAgentTitle = document.getElementById('modalAgentTitle');
-    const modalAgentDomain = document.getElementById('modalAgentDomain');
-    const modalTurns = document.getElementById('modalTurns');
-    const modalShowcaseLink = document.getElementById('modalShowcaseLink');
+    const modalDomainBadge = document.getElementById('modalDomainBadge');
+    const modalRegionBadge = document.getElementById('modalRegionBadge');
+    const modalTurnsList = document.getElementById('modalTurnsList');
+    const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+    const modalShowcaseBtn = document.getElementById('modalShowcaseBtn');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
 
     archBtn.onclick = () => archModal.style.display = 'flex';
     archClose.onclick = () => archModal.style.display = 'none';
     archOk.onclick = () => archModal.style.display = 'none';
 
-    demoClose.onclick = () => demoModal.style.display = 'none';
-    demoOk.onclick = () => demoModal.style.display = 'none';
+    modalCloseBtn.onclick = () => {
+      videoModal.style.display = 'none';
+      modalVideo.pause();
+    };
 
     window.onclick = (e) => {
       if (e.target === archModal) archModal.style.display = 'none';
-      if (e.target === demoModal) demoModal.style.display = 'none';
+      if (e.target === videoModal) {
+        videoModal.style.display = 'none';
+        modalVideo.pause();
+      }
     };
 
     function openVideoModal(agentName) {
       const agent = AGENTS_DATA.find(a => a.name === agentName);
       if (!agent) return;
+
       modalAgentTitle.textContent = `${agent.icon} ${agent.display_name}`;
-      modalAgentDomain.textContent = agent.domain_display.toUpperCase();
-      modalShowcaseLink.href = agent.demo_html;
-      modalTurns.innerHTML = agent.turns.map((t, idx) => `
-        <div class="modal-turn">
-          <div class="modal-turn-q">Turn ${idx+1} — User Prompt</div>
-          <div style="font-weight:600; margin-bottom:8px;">"${t.user}"</div>
-          <div class="modal-turn-q">Gemini Enterprise Verified Response</div>
-          <div class="modal-turn-a">${t.assistant}</div>
-        </div>
-      `).join('');
-      demoModal.style.display = 'flex';
+      modalDomainBadge.textContent = agent.domain_display;
+      modalRegionBadge.textContent = agent.location;
+      
+      modalVideo.src = agent.demo_mp4;
+      modalVideo.play().catch(() => {});
+      
+      modalDownloadBtn.href = agent.demo_mp4;
+      modalShowcaseBtn.href = agent.demo_html;
+
+      modalTurnsList.innerHTML = `
+        <li><strong>Turn 1 (Data Insights):</strong> "${agent.prompts[0] || 'Analyze on-chain transaction metrics.'}"</li>
+        <li><strong>Turn 2 (Market Grounding):</strong> "${agent.prompts[1] || 'Compare against crypto industry benchmarks.'}"</li>
+        <li><strong>Turn 3 (Visual Analytics):</strong> "${agent.prompts[2] || 'Render comparison chart artifact.'}"</li>
+        <li><strong>Turn 4 (Canvas Presentation):</strong> Executive briefing generated in Gemini Enterprise Canvas.</li>
+      `;
+
+      videoModal.style.display = 'flex';
     }
 
     function togglePrompts(btn) {
