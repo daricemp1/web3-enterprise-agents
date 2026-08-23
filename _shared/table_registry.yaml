@@ -18,8 +18,8 @@ agents:
     description: Analyzes bid-ask spread efficiency, top-of-book depth, order book
       imbalance, and slippage across major spot and perpetual trading pairs.
     tables:
-    - cex_ob_depth_snapshots
-    - cex_ob_depth_trades
+    - snapshots
+    - trades
   proof_of_reserves:
     domain: cex
     agent_id: por
@@ -27,8 +27,8 @@ agents:
     description: Audits on-chain wallet reserve assets versus exchange customer liability
       balances, verifying collateralization ratios and solvency margins.
     tables:
-    - cex_por_wallet_balances
-    - cex_por_user_liabilities
+    - wallet_balances
+    - user_liabilities
   whale_custody_flows:
     domain: cex
     agent_id: custody
@@ -36,8 +36,8 @@ agents:
     description: Tracks large on-chain deposit/withdrawal flows, hot and cold storage
       rebalancing, and exchange reserve drawdowns across major assets.
     tables:
-    - cex_custody_large_transfers
-    - cex_custody_hot_cold_rebalance
+    - large_transfers
+    - hot_cold_rebalance
   l2_sequencer_throughput:
     domain: infra
     agent_id: l2_seq
@@ -45,8 +45,8 @@ agents:
     description: Monitors Layer-2 rollup sequencing transaction rates (TPS), EIP-4844
       blob gas usage, batch verification intervals, and L1 settlement costs.
     tables:
-    - infr_l2_seq_block_metrics
-    - infr_l2_seq_blob_gas
+    - block_metrics
+    - blob_gas
   validator_rpc_health:
     domain: infra
     agent_id: rpc_val
@@ -54,8 +54,8 @@ agents:
     description: Tracks distributed RPC node endpoint latencies, validator uptime,
       attestation rates, and consensus slash risk events.
     tables:
-    - infr_rpc_val_node_uptime
-    - infr_rpc_val_slash_alerts
+    - node_uptime
+    - slash_alerts
   mev_arbitrage_radar:
     domain: infra
     agent_id: mev
@@ -63,8 +63,8 @@ agents:
     description: Detects maximal extractable value (MEV) activities including sandwich
       trades, cross-DEX spatial arbitrage, and private mempool bundle volumes.
     tables:
-    - infr_mev_bundles
-    - infr_mev_sandwich_trades
+    - bundles
+    - sandwich_trades
   dex_amm_liquidity:
     domain: defi
     agent_id: amm_liq
@@ -72,8 +72,8 @@ agents:
     description: Analyzes automated market maker (AMM) pool depths, 24-hour volume-to-TVL
       ratios, fee generation, and historical impermanent loss.
     tables:
-    - defi_amm_liq_pools
-    - defi_amm_liq_swap_history
+    - pools
+    - swap_history
   lending_liquidation_risk:
     domain: defi
     agent_id: lending
@@ -81,8 +81,8 @@ agents:
     description: Monitors money market borrowing utilization, collateral health factor
       distributions, and identifies collateral positions approaching liquidation thresholds.
     tables:
-    - defi_lending_collateral_positions
-    - defi_lending_bad_debt_alerts
+    - collateral_positions
+    - bad_debt_alerts
   yield_staking_optimizer:
     domain: defi
     agent_id: yield_opt
@@ -90,8 +90,8 @@ agents:
     description: Compares liquid staking token (LST) yields, reward distribution APRs,
       and optimizes risk-adjusted capital deployment across yield vaults.
     tables:
-    - defi_yield_opt_pool_apys
-    - defi_yield_opt_staking_rewards
+    - pool_apys
+    - staking_rewards
   bridge_outflow_monitor:
     domain: defi
     agent_id: bridge
@@ -99,5 +99,5 @@ agents:
     description: Tracks cross-chain bridge transfer velocity, lock-and-mint vs burn
       liquidity imbalances, and alerts on anomalous multi-chain capital flight.
     tables:
-    - defi_bridge_transfer_events
-    - defi_bridge_pool_liquidity
+    - transfer_events
+    - pool_liquidity
