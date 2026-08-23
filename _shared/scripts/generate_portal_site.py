@@ -526,14 +526,16 @@ def build_portal_html(agents_data: list[dict]) -> str:
     </div>
   </div>
 
-  <!-- Video Modal -->
+  <!-- Video Modal matching Retail Layout Exactly -->
   <div class="modal-backdrop" id="videoModal">
     <div class="modal-dialog">
       <div class="modal-header">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <h2 id="modalAgentTitle" style="font-family: 'Google Sans'; font-size: 1.25rem;">Agent Demo</h2>
-          <span id="modalDomainBadge" class="badge-domain"></span>
-          <span id="modalRegionBadge" class="badge-region"></span>
+        <div class="modal-header-left">
+          <div class="modal-badges-row">
+            <span id="modalDomainBadge" class="badge-domain"></span>
+            <span id="modalRegionBadge" class="badge-region"></span>
+          </div>
+          <h2 id="modalAgentTitle" class="modal-title">Agent Demo</h2>
         </div>
         <button class="modal-close" id="modalCloseBtn">✕</button>
       </div>

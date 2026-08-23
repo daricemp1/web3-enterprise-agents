@@ -95,7 +95,7 @@ SHOWCASE_TEMPLATE = """<!DOCTYPE html>
       padding: 24px 16px 40px;
     }}
     .container {{
-      max-width: 1080px;
+      max-width: 1160px;
       width: 100%;
       background: var(--bg-card);
       border: 1px solid var(--border-faint);
@@ -182,7 +182,7 @@ SHOWCASE_TEMPLATE = """<!DOCTYPE html>
     video {{
       width: 100%;
       display: block;
-      max-height: 620px;
+      max-height: 680px;
     }}
     .meta-grid {{
       display: grid;
