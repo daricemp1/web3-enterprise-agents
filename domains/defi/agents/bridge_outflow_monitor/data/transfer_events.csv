@@ -1,0 +1,5 @@
+tx_date,bridge_name,source_chain,dest_chain,asset,volume_usd,tx_count
+2026-08-01,Across Protocol,Ethereum,Arbitrum,USDC,42500000.0,1850
+2026-08-01,Stargate (LayerZero),Ethereum,Base,USDC,38000000.0,2200
+2026-08-01,Wormhole NTT,Solana,Ethereum,WETH,19500000.0,640
+2026-08-02,Across Protocol,Ethereum,Arbitrum,USDC,46800000.0,1980

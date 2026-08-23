@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "defi_yield_staking_optimizer_eval",
+  "display_name": "DEFI: Liquid Staking & Yield Optimizer",
+  "eval_cases": [
+    {
+      "eval_id": "yield_staking_optimizer_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What is the highest yielding stablecoin vault with over $100M TVL?"
+        },
+        {
+          "role": "assistant",
+          "content": "The Curve sUSDe/USDC Pool offers the highest yield at 17.30% Net APY (13.10% base + 4.20% rewards) on $120M TVL."
+        }
+      ]
+    },
+    {
+      "eval_id": "yield_staking_optimizer_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What is the current annual staking reward rate for Lido stETH?"
+        },
+        {
+          "role": "assistant",
+          "content": "Lido stETH yields 3.42% annual staking rewards with 9,850,000 ETH staked and a tight peg discount of 2.0 bps."
+        }
+      ]
+    }
+  ]
+}

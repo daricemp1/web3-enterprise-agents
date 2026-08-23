@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "infra_validator_rpc_health_eval",
+  "display_name": "INFRA: RPC Latency & Validator Health",
+  "eval_cases": [
+    {
+      "eval_id": "validator_rpc_health_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Which RPC provider had the lowest latency in us-east-1 on August 1, 2026?"
+        },
+        {
+          "role": "assistant",
+          "content": "Alchemy had the lowest average latency in us-east-1 at 28.5 ms (p99 of 85.0 ms and 0.02% error rate)."
+        }
+      ]
+    },
+    {
+      "eval_id": "validator_rpc_health_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Were any validator groups flagged with elevated slashing or missed block risk?"
+        },
+        {
+          "role": "assistant",
+          "content": "Solo-Stakers-Group-B was flagged with ELEVATED risk due to 3 missed blocks and a sub-optimal attestation rate of 96.40%."
+        }
+      ]
+    }
+  ]
+}

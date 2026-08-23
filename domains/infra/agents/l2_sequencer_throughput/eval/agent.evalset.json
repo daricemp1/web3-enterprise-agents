@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "infra_l2_sequencer_throughput_eval",
+  "display_name": "INFRA: L2 Sequencer & Blob Gas Throughput",
+  "eval_cases": [
+    {
+      "eval_id": "l2_sequencer_throughput_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Which L2 rollup processed the highest TPS on August 2, 2026?"
+        },
+        {
+          "role": "assistant",
+          "content": "Base achieved the highest throughput at 65.28 TPS (235,000 transactions) with a batch latency of 1.1 seconds."
+        }
+      ]
+    },
+    {
+      "eval_id": "l2_sequencer_throughput_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What were the calldata cost savings achieved by Base using EIP-4844 blobs on August 2?"
+        },
+        {
+          "role": "assistant",
+          "content": "Base saved 93.1% in data availability costs by submitting 3,820 blobs for 2.10 ETH ($7,393.68 USD) in L1 settlement costs."
+        }
+      ]
+    }
+  ]
+}

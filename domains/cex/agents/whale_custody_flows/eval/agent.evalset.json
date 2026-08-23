@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "cex_whale_custody_flows_eval",
+  "display_name": "CEX: Whale Inflows & Custody Transfers",
+  "eval_cases": [
+    {
+      "eval_id": "whale_custody_flows_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What was the largest whale deposit recorded on August 1, 2026?"
+        },
+        {
+          "role": "assistant",
+          "content": "The largest whale deposit on August 1, 2026 was 1,500 BTC ($96,375,000 USD) deposited to Coinbase by Institutional Fund A."
+        }
+      ]
+    },
+    {
+      "eval_id": "whale_custody_flows_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "How much BTC was swept from hot to cold storage on August 1?"
+        },
+        {
+          "role": "assistant",
+          "content": "3,000 BTC was rebalanced from Hot-Wallet-01 to Cold-Vault-03, keeping hot wallet ratio at 5.5%."
+        }
+      ]
+    }
+  ]
+}

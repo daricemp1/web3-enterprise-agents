@@ -1,0 +1,4 @@
+date,rollup_name,blobs_submitted,blob_fee_eth,calldata_savings_pct,l1_cost_usd
+2026-08-01,Base,3450,1.85,92.4,6382.96
+2026-08-01,Arbitrum One,2850,1.52,91.8,5244.38
+2026-08-02,Base,3820,2.10,93.1,7393.68

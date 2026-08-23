@@ -1,0 +1,4 @@
+block_number,builder_name,searcher_address,bribe_fee_eth,extracted_profit_usd,strategy
+20450120,beaverbuild,0x3333...4444,0.45,3250.0,SPATIAL_ARBITRAGE
+20450145,titan builder,0x7777...8888,1.20,8920.0,SANDWICH
+20450180,rsync-builder,0x5555...6666,0.85,5400.0,LIQUIDATION

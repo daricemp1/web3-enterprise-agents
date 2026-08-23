@@ -1,0 +1,4 @@
+audit_date,asset,on_chain_balance,usd_value,cold_storage_pct,custodian
+2026-08-01,BTC,48500.0,3116125000.0,94.5,BitGo
+2026-08-01,ETH,385000.0,1328346250.0,92.0,Coinbase Custody
+2026-08-01,USDT,2450000000.0,2450000000.0,88.5,Multi-Sig Reserve

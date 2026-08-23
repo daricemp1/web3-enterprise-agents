@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "defi_bridge_outflow_monitor_eval",
+  "display_name": "DEFI: Cross-Chain Bridge & Outflow Monitor",
+  "eval_cases": [
+    {
+      "eval_id": "bridge_outflow_monitor_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Which bridge recorded the highest volume to Arbitrum on August 2, 2026?"
+        },
+        {
+          "role": "assistant",
+          "content": "Across Protocol processed $46,800,000 USD (1,980 transfers) from Ethereum to Arbitrum on August 2, 2026."
+        }
+      ]
+    },
+    {
+      "eval_id": "bridge_outflow_monitor_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What is the current liquidity utilization of Stargate on Base?"
+        },
+        {
+          "role": "assistant",
+          "content": "Stargate has a 79.17% pool utilization on Base with $48,000,000 USD available liquidity in normal status."
+        }
+      ]
+    }
+  ]
+}

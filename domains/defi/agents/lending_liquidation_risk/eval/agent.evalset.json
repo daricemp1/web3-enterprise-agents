@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "defi_lending_liquidation_risk_eval",
+  "display_name": "DEFI: Lending Health & Liquidation Risk",
+  "eval_cases": [
+    {
+      "eval_id": "lending_liquidation_risk_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Which position is closest to liquidation and what is its health factor?"
+        },
+        {
+          "role": "assistant",
+          "content": "Position POS-8901 on Aave v3 is highest risk with a health factor of 1.09 ($18.5M wstETH collateral against $14.2M USDC debt), liquidating if ETH falls to $3,120.00."
+        }
+      ]
+    },
+    {
+      "eval_id": "lending_liquidation_risk_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "How much volume was liquidated across Aave v3 on August 1?"
+        },
+        {
+          "role": "assistant",
+          "content": "$3,450,000.00 USD was successfully liquidated on Aave v3 with zero bad debt incurred and $172,500.00 in liquidator bonuses."
+        }
+      ]
+    }
+  ]
+}

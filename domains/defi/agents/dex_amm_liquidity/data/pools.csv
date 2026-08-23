@@ -1,0 +1,4 @@
+pool_name,dex,tvl_usd,volume_24h_usd,fee_apy_pct,capital_efficiency_ratio
+Uniswap v3 ETH/USDC 0.05%,Uniswap v3,145000000.0,210000000.0,26.4,1.45
+Uniswap v3 WBTC/ETH 0.30%,Uniswap v3,85000000.0,42000000.0,18.0,0.49
+Curve TriCrypto usdc/weth/wbtc,Curve,110000000.0,38000000.0,12.6,0.35

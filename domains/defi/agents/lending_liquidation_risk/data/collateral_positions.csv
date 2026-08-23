@@ -1,0 +1,4 @@
+position_id,protocol,collateral_asset,borrow_asset,collateral_usd,borrow_usd,health_factor,liquidation_price_eth
+POS-8901,Aave v3,wstETH,USDC,18500000.0,14200000.0,1.09,3120.0
+POS-8902,Aave v3,WBTC,USDT,24000000.0,16000000.0,1.25,54800.0
+POS-8903,Compound v3,ETH,USDC,9500000.0,6200000.0,1.32,2650.0

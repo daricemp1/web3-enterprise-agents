@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "cex_order_book_depth_eval",
+  "display_name": "CEX: Order Book Depth & Spread Analytics",
+  "eval_cases": [
+    {
+      "eval_id": "order_book_depth_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Which exchange and pair offered the highest 2% bid depth on August 2, 2026?"
+        },
+        {
+          "role": "assistant",
+          "content": "On August 2, 2026, Binance BTC/USDT had the highest 2% bid depth at $15,100,000 USD (with an ask depth of $14,900,000 USD and a tight spread of 0.42 bps)."
+        }
+      ]
+    },
+    {
+      "eval_id": "order_book_depth_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What was the recorded slippage on the $1.2M BTC/USDT trade on August 2?"
+        },
+        {
+          "role": "assistant",
+          "content": "The $1,200,000 USD sell trade on Binance BTC/USDT incurred a slippage of 2.30 bps at an executed price of $65,135.00."
+        }
+      ]
+    }
+  ]
+}

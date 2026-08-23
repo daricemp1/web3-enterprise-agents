@@ -1,0 +1,4 @@
+date,provider,region,avg_latency_ms,p99_latency_ms,error_rate_pct,sync_status
+2026-08-01,Alchemy,us-east-1,28.5,85.0,0.02,HEALTHY
+2026-08-01,QuickNode,us-east-1,31.2,92.4,0.04,HEALTHY
+2026-08-01,Infura,eu-central-1,42.0,115.6,0.05,HEALTHY

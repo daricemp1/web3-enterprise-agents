@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "defi_dex_amm_liquidity_eval",
+  "display_name": "DEFI: AMM Liquidity & Impermanent Loss",
+  "eval_cases": [
+    {
+      "eval_id": "dex_amm_liquidity_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Which liquidity pool demonstrates the highest capital efficiency and fee APY?"
+        },
+        {
+          "role": "assistant",
+          "content": "Uniswap v3 ETH/USDC 0.05% has the highest capital efficiency at 1.45 ($210M 24h volume on $145M TVL) generating a 26.4% fee APY."
+        }
+      ]
+    },
+    {
+      "eval_id": "dex_amm_liquidity_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What were the total trading fees collected by the ETH/USDC 0.05% pool on August 2, 2026?"
+        },
+        {
+          "role": "assistant",
+          "content": "On August 2, 2026, the pool generated $112,500.00 USD in LP fees on $225,000,000 USD in daily volume."
+        }
+      ]
+    }
+  ]
+}

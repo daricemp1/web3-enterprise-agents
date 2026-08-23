@@ -1,0 +1,32 @@
+{
+  "eval_set_id": "infra_mev_arbitrage_radar_eval",
+  "display_name": "INFRA: MEV & Sandwich Attack Radar",
+  "eval_cases": [
+    {
+      "eval_id": "mev_arbitrage_radar_case_1",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What was the highest profit MEV bundle extracted in recent blocks?"
+        },
+        {
+          "role": "assistant",
+          "content": "A sandwich bundle in block 20450145 extracted $8,920.00 USD in profit via titan builder, paying a 1.20 ETH builder bribe."
+        }
+      ]
+    },
+    {
+      "eval_id": "mev_arbitrage_radar_case_2",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "What was the victim loss on the Uniswap v3 sandwich attack on August 1?"
+        },
+        {
+          "role": "assistant",
+          "content": "The victim incurred $840.50 USD in slippage loss on the Uniswap v3 WETH/USDC 0.05% pool, yielding $710.20 USD net attacker profit."
+        }
+      ]
+    }
+  ]
+}

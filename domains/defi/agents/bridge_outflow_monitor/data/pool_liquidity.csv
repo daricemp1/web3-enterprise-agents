@@ -1,0 +1,3 @@
+date,bridge_name,chain,available_liquidity_usd,utilization_pct,rebalance_status
+2026-08-01,Across Protocol,Arbitrum,65000000.0,65.38,NORMAL
+2026-08-01,Stargate (LayerZero),Base,48000000.0,79.17,NORMAL

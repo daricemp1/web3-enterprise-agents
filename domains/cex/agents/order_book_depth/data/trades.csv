@@ -1,0 +1,5 @@
+timestamp,exchange,pair,trade_size_usd,executed_price,slippage_bps,taker_side
+2026-08-01 14:22:05,Binance,BTC/USDT,250000.0,64252.10,0.25,BUY
+2026-08-01 15:45:12,Coinbase,BTC/USD,500000.0,64261.20,0.96,BUY
+2026-08-02 09:10:33,Binance,ETH/USDT,180000.0,3522.40,0.45,BUY
+2026-08-02 18:30:19,Binance,BTC/USDT,1200000.0,65135.00,2.30,SELL

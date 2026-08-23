@@ -1,0 +1,3 @@
+date,protocol,total_liquidated_usd,liquidator_bonus_usd,bad_debt_usd
+2026-08-01,Aave v3,3450000.0,172500.0,0.0
+2026-08-02,Compound v3,1200000.0,60000.0,0.0

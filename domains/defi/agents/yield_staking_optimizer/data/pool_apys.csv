@@ -1,0 +1,4 @@
+vault_name,protocol,asset,base_apy_pct,reward_apr_pct,net_apy_pct,tvl_usd
+Aave USDC Prime Vault,Aave v3,USDC,6.20,2.10,8.30,450000000.0
+Morpho Blue USDe Collateral,Morpho,USDe,11.40,3.50,14.90,180000000.0
+Curve sUSDe/USDC Pool,Curve,sUSDe-USDC,13.10,4.20,17.30,120000000.0
