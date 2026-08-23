@@ -18,13 +18,14 @@
 
   <style>
     :root, [data-theme="dark"] {
-      --bg-primary: #0b0f19;
-      --bg-secondary: #111827;
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
       --bg-card: #1e293b;
       --bg-card-hover: #243248;
-      --bg-surface: #0b0f19;
-      --bg-input: #0b0f19;
+      --bg-surface: #0f172a;
+      --bg-input: #0f172a;
       --border-color: #334155;
+      --border-faint: rgba(255, 255, 255, 0.14);
       --border-focus: #38bdf8;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
@@ -33,12 +34,19 @@
       --accent-blue-hover: #0284c7;
       --accent-indigo: #818cf8;
       --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
       --badge-bg: rgba(56, 189, 248, 0.12);
       --badge-border: rgba(56, 189, 248, 0.28);
       --badge-text: #38bdf8;
-      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      --kpi-bg: rgba(52, 211, 153, 0.1);
+      --kpi-border: rgba(52, 211, 153, 0.25);
+      --kpi-text: #34d399;
+      --region-bg: rgba(129, 140, 248, 0.12);
+      --region-border: rgba(129, 140, 248, 0.28);
+      --region-text: #a5b4fc;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      --modal-overlay: rgba(11, 15, 25, 0.85);
+      --modal-overlay: rgba(15, 23, 42, 0.85);
     }
 
     [data-theme="light"] {
@@ -49,6 +57,7 @@
       --bg-surface: #f1f5f9;
       --bg-input: #ffffff;
       --border-color: #cbd5e1;
+      --border-faint: #cbd5e1;
       --border-focus: #0284c7;
       --text-primary: #0f172a;
       --text-secondary: #475569;
@@ -57,9 +66,16 @@
       --accent-blue-hover: #0369a1;
       --accent-indigo: #6366f1;
       --accent-emerald: #059669;
+      --accent-amber: #d97706;
       --badge-bg: #e0f2fe;
       --badge-border: #bae6fd;
       --badge-text: #0284c7;
+      --kpi-bg: #d1fae5;
+      --kpi-border: #a7f3d0;
+      --kpi-text: #065f46;
+      --region-bg: #e0e7ff;
+      --region-border: #c7d2fe;
+      --region-text: #4338ca;
       --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       --modal-overlay: rgba(15, 23, 42, 0.6);
@@ -135,44 +151,56 @@
     .stat-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px 20px; text-align: center; }
     .stat-number { font-family: 'Google Sans', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--accent-blue); }
     .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; font-weight: 500; }
-    .main-container { max-width: 1360px; margin: 0 auto; padding: 0 24px 64px; width: 100%; flex: 1; }
-    .toolbar { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px 20px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px; }
-    .search-row { display: flex; width: 100%; }
-    .search-input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
-    .search-icon { position: absolute; left: 16px; font-size: 1.1rem; pointer-events: none; color: var(--text-muted); }
-    .search-input { width: 100%; padding: 12px 42px 12px 46px; font-size: 0.95rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-primary); outline: none; }
-    .search-input:focus { border-color: var(--border-focus); }
-    .domain-pills { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .domain-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; cursor: pointer; }
-    .domain-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: #0f172a; font-weight: 700; }
-    .domain-count { background: rgba(0, 0, 0, 0.2); padding: 2px 7px; border-radius: 9999px; font-size: 0.75rem; }
-    .results-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-secondary); }
-    .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
+    .main-container { max-width: 1360px; margin: 0 auto; padding: 24px; width: 100%; flex: 1; }
+    .toolbar { background: var(--bg-secondary); border: 1px solid var(--border-faint); border-radius: 14px; padding: 18px; margin-bottom: 28px; box-shadow: var(--shadow-card); }
+    .search-row { display: flex; gap: 12px; margin-bottom: 16px; position: relative; }
+    .search-input-wrapper { position: relative; flex: 1; }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1rem; pointer-events: none; }
+    .search-input { width: 100%; background: var(--bg-input); border: 1px solid var(--border-faint); border-radius: 10px; padding: 12px 14px 12px 42px; font-size: 0.95rem; color: var(--text-primary); font-family: inherit; outline: none; }
+    .search-input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
+    .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 4px; display: none; }
+    .domain-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .domain-btn { background: var(--bg-surface); border: 1px solid var(--border-faint); color: var(--text-secondary); padding: 8px 14px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .domain-btn.active { background: var(--accent-blue); color: #0f172a; border-color: var(--accent-blue); font-weight: 700; }
+    .domain-count { font-size: 0.72rem; padding: 2px 6px; border-radius: 9999px; background: rgba(0, 0, 0, 0.15); font-family: 'JetBrains Mono', monospace; }
+    .results-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 4px; }
+    .results-count { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
+    .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 20px; }
     .agent-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
+      border: 1px solid var(--border-faint);
+      border-radius: 14px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
       box-shadow: var(--shadow-card);
-      transition: all 0.2s ease;
-      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
     }
-    .agent-card:hover { transform: translateY(-2px); border-color: var(--border-focus); background: var(--bg-card-hover); }
-    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .card-icon-title { display: flex; gap: 12px; align-items: center; }
-    .agent-icon { font-size: 1.75rem; }
-    .agent-name { font-family: 'Google Sans', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
-    .agent-domain-badge { font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); font-weight: 600; }
-    .agent-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; flex: 1; }
-    .tables-section { font-size: 0.75rem; color: var(--text-muted); }
-    .table-tag { display: inline-block; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 2px 6px; border-radius: 4px; margin: 2px 4px 2px 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
-    .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-color); }
-    .card-btn { flex: 1; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-align: center; text-decoration: none; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
-    .card-btn:hover { border-color: var(--border-focus); color: var(--accent-blue); }
-    .card-btn-primary { background: var(--accent-blue); color: #0f172a !important; border-color: var(--accent-blue); font-weight: 700; }
+    .agent-card:hover { transform: translateY(-3px); border-color: var(--border-focus); box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.35); }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px; }
+    .card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .badge-domain { display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); }
+    .badge-region { display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: var(--region-bg); border: 1px solid var(--region-border); color: var(--region-text); font-family: 'JetBrains Mono', monospace; }
+    .card-title { font-family: 'Google Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; line-height: 1.35; }
+    .card-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .kpi-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .kpi-pill { font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: var(--kpi-bg); border: 1px solid var(--kpi-border); color: var(--kpi-text); display: inline-flex; align-items: center; gap: 4px; }
+    .prompts-container { border-top: 1px solid var(--border-color); padding-top: 12px; margin-bottom: 16px; }
+    .prompts-toggle { background: none; border: none; color: var(--text-secondary); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: space-between; width: 100%; cursor: pointer; padding: 2px 0; }
+    .prompts-toggle:hover { color: var(--accent-blue); }
+    .prompts-list { margin-top: 8px; display: none; flex-direction: column; gap: 6px; }
+    .prompts-list.open { display: flex; }
+    .prompt-item { font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-surface); padding: 6px 10px; border-radius: 6px; border-left: 3px solid var(--accent-indigo); line-height: 1.4; font-style: italic; }
+    .card-actions { display: flex; gap: 8px; align-items: center; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-color); }
+    .btn-watch { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--accent-blue); color: #0f172a; padding: 9px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.15s ease; }
+    .btn-watch:hover { background: var(--accent-blue-hover); color: #ffffff; transform: translateY(-1px); }
+    .btn-showcase { display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: var(--bg-surface); color: var(--text-primary); padding: 9px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none; border: 1px solid var(--border-color); transition: all 0.15s ease; }
+    .btn-showcase:hover { border-color: var(--border-focus); color: var(--accent-blue); }
+    .btn-doc { display: inline-flex; align-items: center; justify-content: center; background: none; color: var(--text-muted); padding: 8px; border-radius: 8px; font-size: 1rem; text-decoration: none; border: 1px solid transparent; transition: all 0.15s ease; }
+    .btn-doc:hover { color: var(--text-primary); border-color: var(--border-color); background: var(--bg-surface); }
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: 14px; display: none; }
+    .no-results-icon { font-size: 3rem; margin-bottom: 12px; }
     
     /* Modal Styles */
     .modal-backdrop { position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
@@ -249,6 +277,7 @@
         <div class="search-input-wrapper">
           <span class="search-icon">🔍</span>
           <input type="text" id="searchInput" class="search-input" placeholder="Search 10 agents by name, KPI (e.g. TPS, APY, TVL), question, or BigQuery table..." autocomplete="off">
+          <button id="searchClear" class="search-clear">✕</button>
         </div>
       </div>
 
@@ -277,6 +306,13 @@
     <!-- Agent Grid -->
     <div class="agent-grid" id="agentGrid">
       <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- No Results Fallback -->
+    <div class="no-results" id="noResults">
+      <div class="no-results-icon">🔎</div>
+      <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">No Matching Web3 Agents Found</div>
+      <p style="color: var(--text-secondary);">Try refining your search keyword or switching domain filter tabs.</p>
     </div>
 
   </main>
@@ -322,7 +358,7 @@
         <!-- Injected via JavaScript -->
       </div>
       <div class="modal-footer">
-        <a id="modalStandaloneLink" href="#" target="_blank" class="btn-header">Open Standalone Page ↗</a>
+        <a id="modalShowcaseLink" href="#" target="_blank" class="btn-header">Open Dedicated Showcase ↗</a>
         <button class="btn-header btn-primary-header" id="demoOk">Close</button>
       </div>
     </div>
@@ -347,9 +383,15 @@
     "icon": "\ud83c\udfe6",
     "location": "us-central1",
     "description": "Analyzes bid-ask spread efficiency, top-of-book depth, order book imbalance, and slippage across major spot and perpetual trading pairs. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Bid-Ask Spread: < 0.5 bps",
+      "2% Depth: > $10M",
+      "Imbalance Ratio: 1.03"
+    ],
     "prompts": [
-      "Which exchange and pair offered the highest 2% bid depth on August 2, 2026?",
-      "What was the recorded slippage on the $1.2M BTC/USDT trade on August 2?"
+      "What are the top quantitative metrics for CEX: Order Book Depth & Spread Analytics over the last epoch?",
+      "What are the current crypto market trends and governance developments for CEX: Order Book Depth & Spread Analytics?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -378,9 +420,15 @@
     "icon": "\ud83c\udfe6",
     "location": "us-central1",
     "description": "Audits on-chain wallet reserve assets versus exchange customer liability balances, verifying collateralization ratios and solvency margins. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Solvency: Over-Collateralized",
+      "BTC Reserve Ratio: 104.98%",
+      "Cold Storage: > 90%"
+    ],
     "prompts": [
-      "What is the current proof-of-reserves ratio for BTC and ETH in the August 1, 2026 audit?",
-      "How much of total BTC reserves are held in cold storage?"
+      "What are the top quantitative metrics for CEX: Proof of Reserves & Solvency over the last epoch?",
+      "What are the current crypto market trends and governance developments for CEX: Proof of Reserves & Solvency?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -409,9 +457,15 @@
     "icon": "\ud83c\udfe6",
     "location": "us-central1",
     "description": "Tracks large on-chain deposit/withdrawal flows, hot and cold storage rebalancing, and exchange reserve drawdowns across major assets. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Deposit Alerts: > $10M",
+      "Hot Wallet Ratio: < 10%",
+      "Cold Vault Sweeps"
+    ],
     "prompts": [
-      "What was the largest whale deposit recorded on August 1, 2026?",
-      "How much BTC was swept from hot to cold storage on August 1?"
+      "What are the top quantitative metrics for CEX: Whale Inflows & Custody Transfers over the last epoch?",
+      "What are the current crypto market trends and governance developments for CEX: Whale Inflows & Custody Transfers?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -440,9 +494,15 @@
     "icon": "\u26a1",
     "location": "us-central1",
     "description": "Monitors Layer-2 rollup sequencing transaction rates (TPS), EIP-4844 blob gas usage, batch verification intervals, and L1 settlement costs. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Rollup TPS: > 50 TPS",
+      "Batch Latency: < 2.0s",
+      "Blob Savings: > 90%"
+    ],
     "prompts": [
-      "Which L2 rollup processed the highest TPS on August 2, 2026?",
-      "What were the calldata cost savings achieved by Base using EIP-4844 blobs on August 2?"
+      "What are the top quantitative metrics for INFRA: L2 Sequencer & Blob Gas Throughput over the last epoch?",
+      "What are the current crypto market trends and governance developments for INFRA: L2 Sequencer & Blob Gas Throughput?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -471,9 +531,15 @@
     "icon": "\u26a1",
     "location": "us-central1",
     "description": "Tracks distributed RPC node endpoint latencies, validator uptime, attestation rates, and consensus slash risk events. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "RPC Latency: < 35ms",
+      "Attestation Rate: > 99%",
+      "Slash Risk: 0"
+    ],
     "prompts": [
-      "Which RPC provider had the lowest latency in us-east-1 on August 1, 2026?",
-      "Were any validator groups flagged with elevated slashing or missed block risk?"
+      "What are the top quantitative metrics for INFRA: RPC Latency & Validator Health over the last epoch?",
+      "What are the current crypto market trends and governance developments for INFRA: RPC Latency & Validator Health?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -502,9 +568,15 @@
     "icon": "\u26a1",
     "location": "us-central1",
     "description": "Detects maximal extractable value (MEV) activities including sandwich trades, cross-DEX spatial arbitrage, and private mempool bundle volumes. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Sandwich Loss: Tracked",
+      "Builder Bribes: Real-time",
+      "Mempool Bundles"
+    ],
     "prompts": [
-      "What was the highest profit MEV bundle extracted in recent blocks?",
-      "What was the victim loss on the Uniswap v3 sandwich attack on August 1?"
+      "What are the top quantitative metrics for INFRA: MEV & Sandwich Attack Radar over the last epoch?",
+      "What are the current crypto market trends and governance developments for INFRA: MEV & Sandwich Attack Radar?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -533,9 +605,15 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Analyzes automated market maker (AMM) pool depths, 24-hour volume-to-TVL ratios, fee generation, and historical impermanent loss. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Volume/TVL: > 1.0",
+      "Fee APY: > 20%",
+      "Impermanent Loss: < 0.5%"
+    ],
     "prompts": [
-      "Which liquidity pool demonstrates the highest capital efficiency and fee APY?",
-      "What were the total trading fees collected by the ETH/USDC 0.05% pool on August 2, 2026?"
+      "What are the top quantitative metrics for DEFI: AMM Liquidity & Impermanent Loss over the last epoch?",
+      "What are the current crypto market trends and governance developments for DEFI: AMM Liquidity & Impermanent Loss?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -564,9 +642,15 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Monitors money market borrowing utilization, collateral health factor distributions, and identifies collateral positions approaching liquidation thresholds. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Bad Debt: $0.00",
+      "Health Factor: > 1.10",
+      "Liquidation Triggers"
+    ],
     "prompts": [
-      "Which position is closest to liquidation and what is its health factor?",
-      "How much volume was liquidated across Aave v3 on August 1?"
+      "What are the top quantitative metrics for DEFI: Lending Health & Liquidation Risk over the last epoch?",
+      "What are the current crypto market trends and governance developments for DEFI: Lending Health & Liquidation Risk?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -595,9 +679,15 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Compares liquid staking token (LST) yields, reward distribution APRs, and optimizes risk-adjusted capital deployment across yield vaults. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Net APY: > 8%",
+      "LST Staking: > 3.4%",
+      "Peg Discount: < 3 bps"
+    ],
     "prompts": [
-      "What is the highest yielding stablecoin vault with over $100M TVL?",
-      "What is the current annual staking reward rate for Lido stETH?"
+      "What are the top quantitative metrics for DEFI: Liquid Staking & Yield Optimizer over the last epoch?",
+      "What are the current crypto market trends and governance developments for DEFI: Liquid Staking & Yield Optimizer?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -626,9 +716,15 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Tracks cross-chain bridge transfer velocity, lock-and-mint vs burn liquidity imbalances, and alerts on anomalous multi-chain capital flight. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
+    "kpis": [
+      "Transfer Velocity: Tracked",
+      "Pool Utilization: < 80%",
+      "Flight Alerts"
+    ],
     "prompts": [
-      "Which bridge recorded the highest volume to Arbitrum on August 2, 2026?",
-      "What is the current liquidity utilization of Stargate on Base?"
+      "What are the top quantitative metrics for DEFI: Cross-Chain Bridge & Outflow Monitor over the last epoch?",
+      "What are the current crypto market trends and governance developments for DEFI: Cross-Chain Bridge & Outflow Monitor?",
+      "Show me a comparison chart of performance vs historical benchmark."
     ],
     "turns": [
       {
@@ -654,8 +750,10 @@
     let searchQuery = '';
 
     const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
     const domainPills = document.getElementById('domainPills');
     const agentGrid = document.getElementById('agentGrid');
+    const noResults = document.getElementById('noResults');
     const resultsCount = document.getElementById('resultsCount');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
@@ -673,7 +771,7 @@
     const modalAgentTitle = document.getElementById('modalAgentTitle');
     const modalAgentDomain = document.getElementById('modalAgentDomain');
     const modalTurns = document.getElementById('modalTurns');
-    const modalStandaloneLink = document.getElementById('modalStandaloneLink');
+    const modalShowcaseLink = document.getElementById('modalShowcaseLink');
 
     archBtn.onclick = () => archModal.style.display = 'flex';
     archClose.onclick = () => archModal.style.display = 'none';
@@ -687,10 +785,12 @@
       if (e.target === demoModal) demoModal.style.display = 'none';
     };
 
-    function openAgentDemo(agent) {
+    function openVideoModal(agentName) {
+      const agent = AGENTS_DATA.find(a => a.name === agentName);
+      if (!agent) return;
       modalAgentTitle.textContent = `${agent.icon} ${agent.display_name}`;
       modalAgentDomain.textContent = agent.domain_display.toUpperCase();
-      modalStandaloneLink.href = agent.demo_html;
+      modalShowcaseLink.href = agent.demo_html;
       modalTurns.innerHTML = agent.turns.map((t, idx) => `
         <div class="modal-turn">
           <div class="modal-turn-q">Turn ${idx+1} — User Prompt</div>
@@ -702,53 +802,120 @@
       demoModal.style.display = 'flex';
     }
 
+    function togglePrompts(btn) {
+      const list = btn.nextElementSibling;
+      const icon = btn.querySelector('.toggle-icon');
+      if (list.classList.contains('open')) {
+        list.classList.remove('open');
+        icon.textContent = '▼';
+      } else {
+        list.classList.add('open');
+        icon.textContent = '▲';
+      }
+    }
+
+    function htmlEscape(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
     function renderAgents() {
       const query = searchQuery.toLowerCase().trim();
-      const filtered = AGENTS_DATA.filter(a => {
-        const matchesDomain = activeDomain === 'all' || a.domain === activeDomain;
+      const filtered = AGENTS_DATA.filter(agent => {
+        const matchesDomain = activeDomain === 'all' || agent.domain === activeDomain;
         if (!matchesDomain) return false;
         if (!query) return true;
-        return (
-          a.display_name.toLowerCase().includes(query) ||
-          a.description.toLowerCase().includes(query) ||
-          a.domain_display.toLowerCase().includes(query) ||
-          a.tables.some(t => t.toLowerCase().includes(query)) ||
-          a.prompts.some(p => p.toLowerCase().includes(query))
-        );
+
+        const textPool = [
+          agent.display_name,
+          agent.name,
+          agent.domain_display,
+          agent.description,
+          agent.location,
+          ...(agent.kpis || []),
+          ...(agent.prompts || []),
+          ...(agent.tables || [])
+        ].join(' ').toLowerCase();
+
+        return textPool.includes(query);
       });
 
       resultsCount.innerHTML = `Showing <strong>${filtered.length}</strong> of ${AGENTS_DATA.length} enterprise agents`;
 
-      agentGrid.innerHTML = filtered.map((a, idx) => `
-        <div class="agent-card" onclick="openAgentDemo(AGENTS_DATA[${AGENTS_DATA.indexOf(a)}])">
-          <div class="card-header">
-            <div class="card-icon-title">
-              <span class="agent-icon">${a.icon}</span>
-              <div>
-                <h3 class="agent-name">${a.display_name}</h3>
+      if (filtered.length === 0) {
+        agentGrid.innerHTML = '';
+        noResults.style.display = 'block';
+        return;
+      }
+
+      noResults.style.display = 'none';
+
+      agentGrid.innerHTML = filtered.map(agent => {
+        const kpiPills = (agent.kpis || []).map(kpi => 
+          `<span class="kpi-pill">🎯 ${htmlEscape(kpi)}</span>`
+        ).join('');
+
+        const promptItems = (agent.prompts || []).map((prompt) => 
+          `<div class="prompt-item">"${htmlEscape(prompt)}"</div>`
+        ).join('');
+
+        return `
+          <div class="agent-card" data-agent-id="${agent.id}">
+            <div class="card-top">
+              <div class="card-badges">
+                <span class="badge-domain">${agent.icon} ${htmlEscape(agent.domain_display)}</span>
+                <span class="badge-region">${agent.location}</span>
               </div>
             </div>
-            <span class="agent-domain-badge">${a.domain_display}</span>
-          </div>
+            <h3 class="card-title">${htmlEscape(agent.display_name)}</h3>
+            <p class="card-desc">${htmlEscape(agent.description)}</p>
 
-          <p class="agent-desc">${a.description}</p>
+            ${kpiPills ? `<div class="kpi-row">${kpiPills}</div>` : ''}
 
-          <div class="tables-section">
-            <div style="font-weight:600; margin-bottom:4px;">BigQuery Tables:</div>
-            ${a.tables.map(t => `<span class="table-tag">${t}</span>`).join('')}
-          </div>
+            ${promptItems ? `
+              <div class="prompts-container">
+                <button class="prompts-toggle" onclick="togglePrompts(this)">
+                  <span>💬 Sample Business Questions (${agent.prompts.length})</span>
+                  <span class="toggle-icon">▼</span>
+                </button>
+                <div class="prompts-list">
+                  ${promptItems}
+                </div>
+              </div>
+            ` : ''}
 
-          <div class="card-actions" onclick="event.stopPropagation()">
-            <button class="card-btn card-btn-primary" onclick="openAgentDemo(AGENTS_DATA[${AGENTS_DATA.indexOf(a)}])">Watch Verified Demo</button>
-            <a class="card-btn" href="${a.demo_html}" target="_blank">Standalone Page ↗</a>
+            <div class="card-actions">
+              <button class="btn-watch" onclick="openVideoModal('${agent.name}')">
+                <span>🎬</span> Watch Demo
+              </button>
+              <a href="${agent.demo_html}" target="_blank" rel="noopener noreferrer" class="btn-showcase" title="Open Dedicated Showcase Player">
+                <span>📄</span> Showcase
+              </a>
+              <a href="${agent.readme}" target="_blank" rel="noopener noreferrer" class="btn-doc" title="View Technical README">
+                <span>📖</span>
+              </a>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
+      searchClear.style.display = searchQuery ? 'block' : 'none';
       renderAgents();
+    });
+
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      searchClear.style.display = 'none';
+      renderAgents();
+      searchInput.focus();
     });
 
     domainPills.addEventListener('click', (e) => {
