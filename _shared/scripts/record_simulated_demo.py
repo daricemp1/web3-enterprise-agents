@@ -96,7 +96,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
 
   /* Sidebar */
   .sidebar {{
-    width: 260px;
+    width: 320px;
     height: 1080px;
     background: #f8fafc;
     border-right: 1px solid #e2e8f0;
@@ -131,7 +131,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     gap: 12px;
     padding: 10px 14px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 500;
     color: #475569;
     cursor: pointer;
@@ -184,7 +184,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     margin-bottom: 28px;
   }}
   .dir-title {{
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 600;
     color: #0f172a;
   }}
@@ -194,14 +194,14 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     border: none;
     border-radius: 20px;
     padding: 10px 22px;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
   }}
   .search-bar-box {{
     width: 100%;
-    max-width: 820px;
-    height: 52px;
+    max-width: 960px;
+    height: 62px;
     border: 1px solid #cbd5e1;
     border-radius: 28px;
     display: flex;
@@ -213,21 +213,21 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     box-shadow: 0 2px 6px rgba(0,0,0,0.03);
   }}
   .search-text {{
-    font-size: 16px;
+    font-size: 20px;
     color: #1e293b;
     flex: 1;
   }}
   .dir-section-title {{
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     color: #64748b;
     margin-bottom: 16px;
   }}
   .agent-card {{
-    width: 320px;
+    width: 440px;
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 16px;
+    border-radius: 18px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     cursor: pointer;
@@ -250,7 +250,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     margin-bottom: 14px;
   }}
   .agent-card-title {{
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     color: #0f172a;
     margin-bottom: 6px;
@@ -318,7 +318,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     color: #0f172a;
     padding: 14px 20px;
     border-radius: 20px 20px 4px 20px;
-    font-size: 15px;
+    font-size: 18px;
     max-width: 750px;
     line-height: 1.5;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
@@ -343,7 +343,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
   }}
   .agent-content {{
     flex: 1;
-    font-size: 14.5px;
+    font-size: 18px;
     line-height: 1.6;
     color: #334155;
   }}
@@ -375,7 +375,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     width: 100%;
     border-collapse: collapse;
     margin: 14px 0;
-    font-size: 13.5px;
+    font-size: 20px;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #e2e8f0;
@@ -421,7 +421,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
   }}
   .prompt-input-text {{
     flex: 1;
-    font-size: 15px;
+    font-size: 18px;
     color: #1e293b;
   }}
   .prompt-btn {{
@@ -434,13 +434,13 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
   }}
 
   /* Split Canvas Mode */
   .canvas-pane {{
-    width: 620px;
+    width: 740px;
     height: 1080px;
     background: #f8fafc;
     border-left: 1px solid #e2e8f0;
