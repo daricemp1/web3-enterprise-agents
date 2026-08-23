@@ -16,7 +16,8 @@ agents:
     agent_id: ob_depth
     display_name: 'CEX: Order Book Depth & Spread Analytics'
     description: Analyzes bid-ask spread efficiency, top-of-book depth, order book
-      imbalance, and slippage across major spot and perpetual trading pairs.
+      imbalance, and slippage across major spot and perpetual trading pairs to optimize
+      institutional order routing.
     tables:
     - snapshots
     - trades
@@ -24,8 +25,9 @@ agents:
     domain: cex
     agent_id: por
     display_name: 'CEX: Proof of Reserves & Solvency'
-    description: Audits on-chain wallet reserve assets versus exchange customer liability
-      balances, verifying collateralization ratios and solvency margins.
+    description: Verifies centralized exchange collateralization by comparing on-chain
+      wallet holdings against declared customer liabilities in real-time to alert
+      on solvency drift.
     tables:
     - wallet_balances
     - user_liabilities
@@ -33,8 +35,8 @@ agents:
     domain: cex
     agent_id: custody
     display_name: 'CEX: Whale Inflows & Custody Transfers'
-    description: Tracks large on-chain deposit/withdrawal flows, hot and cold storage
-      rebalancing, and exchange reserve drawdowns across major assets.
+    description: Tracks institutional deposits, treasury movements, and exchange hot/cold
+      wallet rebalancing to detect large-scale liquidity shifts before market impact.
     tables:
     - large_transfers
     - hot_cold_rebalance
@@ -42,8 +44,9 @@ agents:
     domain: infra
     agent_id: l2_seq
     display_name: 'INFRA: L2 Sequencer & Blob Gas Throughput'
-    description: Monitors Layer-2 rollup sequencing transaction rates (TPS), EIP-4844
-      blob gas usage, batch verification intervals, and L1 settlement costs.
+    description: Monitors Layer-2 rollup sequencer health, transaction batch compression,
+      EIP-4844 blob gas consumption, and L1 settlement costs to ensure uninterrupted
+      network throughput.
     tables:
     - block_metrics
     - blob_gas
@@ -51,8 +54,9 @@ agents:
     domain: infra
     agent_id: rpc_val
     display_name: 'INFRA: RPC Latency & Validator Health'
-    description: Tracks distributed RPC node endpoint latencies, validator uptime,
-      attestation rates, and consensus slash risk events.
+    description: Evaluates global RPC node latency, block proposal sync, validator
+      attestation effectiveness, and peer counts to prevent consensus degradation
+      and slashing.
     tables:
     - node_uptime
     - slash_alerts
@@ -60,8 +64,9 @@ agents:
     domain: infra
     agent_id: mev
     display_name: 'INFRA: MEV & Sandwich Attack Radar'
-    description: Detects maximal extractable value (MEV) activities including sandwich
-      trades, cross-DEX spatial arbitrage, and private mempool bundle volumes.
+    description: Identifies frontrunning, sandwich attacks, backrunning arbitrage,
+      and block builder priority fees to protect liquidity pools and traders from
+      predatory MEV extraction.
     tables:
     - bundles
     - sandwich_trades
@@ -70,7 +75,8 @@ agents:
     agent_id: amm_liq
     display_name: 'DEFI: AMM Liquidity & Impermanent Loss'
     description: Analyzes automated market maker (AMM) pool depths, 24-hour volume-to-TVL
-      ratios, fee generation, and historical impermanent loss.
+      ratios, fee generation, and impermanent loss to optimize liquidity provider
+      yield.
     tables:
     - pools
     - swap_history
@@ -78,8 +84,9 @@ agents:
     domain: defi
     agent_id: lending
     display_name: 'DEFI: Lending Health & Liquidation Risk'
-    description: Monitors money market borrowing utilization, collateral health factor
-      distributions, and identifies collateral positions approaching liquidation thresholds.
+    description: Tracks collateralization ratios, borrow utilization rates, health
+      factor distributions, and impending underwater positions across major decentralized
+      lending markets.
     tables:
     - collateral_positions
     - bad_debt_alerts
@@ -88,7 +95,7 @@ agents:
     agent_id: yield_opt
     display_name: 'DEFI: Liquid Staking & Yield Optimizer'
     description: Compares liquid staking token (LST) yields, reward distribution APRs,
-      and optimizes risk-adjusted capital deployment across yield vaults.
+      and peg discounts to optimize risk-adjusted capital deployment across DeFi vaults.
     tables:
     - pool_apys
     - staking_rewards

@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""
-generate_portal_site.py — Web3 Enterprise Agents Portal Generator
-Generates index.html matching 100% pixel-perfect design from retail-enterprise-agents.
-"""
+"""Generates the single-page responsive Web3 Agent Catalog with full parity to retail-enterprise-agents."""
 
 import json
-from pathlib import Path
 import yaml
+from pathlib import Path
 
 REPO_ROOT = Path('/usr/local/google/home/daricemahtab/web3-enterprise-agents')
+
+DOMAIN_ORDER = ["cex", "infra", "defi"]
+
+DOMAIN_NAMES = {
+    "cex": "Centralized Exchanges & Trading",
+    "infra": "Blockchain Infrastructure & L2",
+    "defi": "Decentralized Finance & Protocols",
+}
 
 DOMAIN_ICONS = {
     "cex": "🏦",
@@ -16,85 +21,77 @@ DOMAIN_ICONS = {
     "defi": "🦄",
 }
 
-DOMAIN_TITLES = {
-    "cex": "Centralized Exchanges & Trading Domain",
-    "infra": "Blockchain Infrastructure & L2 Domain",
-    "defi": "Decentralized Finance & Protocols Domain",
+DOMAIN_BADGE_SHORT = {
+    "cex": "🏦 CEX",
+    "infra": "⚡ INFRA",
+    "defi": "🦄 DEFI",
 }
 
-DOMAIN_DISPLAY_NAMES = {
-    "cex": "Centralized Exchanges & Trading",
-    "infra": "Blockchain Infrastructure & L2",
-    "defi": "Decentralized Finance & Protocols",
+DOMAIN_COLORS = {
+    "cex": "#38bdf8",
+    "infra": "#818cf8",
+    "defi": "#34d399",
 }
 
-DOMAIN_ORDER = ["cex", "infra", "defi"]
 
-AGENT_KPIS = {
-    "order_book_depth": ["Bid-Ask Spread: < 0.5 bps", "2% Depth: > $10M", "Imbalance: 1.03"],
-    "proof_of_reserves": ["Solvency: Over-Collateralized", "BTC Ratio: 104.98%", "Cold Vault: > 90%"],
-    "whale_custody_flows": ["Deposit Alert: > $10M", "Hot Wallet: < 10%", "Cold Sweeps: Active"],
-    "l2_sequencer_throughput": ["Rollup TPS: > 50 TPS", "Batch Latency: < 2.0s", "Blob Savings: > 90%"],
-    "validator_rpc_health": ["RPC Latency: < 35ms", "Attestation: > 99%", "Slash Risk: 0"],
-    "mev_arbitrage_radar": ["Sandwich Loss: Tracked", "Builder Bribes: Real-time", "Mempool Bundles"],
-    "dex_amm_liquidity": ["Volume/TVL: > 1.0", "Fee APY: > 20%", "IL Loss: < 0.5%"],
-    "lending_liquidation_risk": ["Bad Debt: $0.00", "Health Factor: > 1.10", "Liquidation Radar"],
-    "yield_staking_optimizer": ["Net APY: > 8%", "LST Staking: > 3.4%", "Peg Discount: < 3 bps"],
-    "bridge_outflow_monitor": ["Transfer Velocity: Tracked", "Pool Utilization: < 80%", "Flight Alerts"],
-}
+def load_all_agents():
+    registry_file = REPO_ROOT / "_shared" / "table_registry.yaml"
+    with open(registry_file, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
 
-def extract_agent_metadata(agent_name: str, domain: str, reg_agent: dict, repo_root: Path) -> dict:
-    agent_dir = repo_root / "domains" / domain / "agents" / agent_name
-    readme_path = agent_dir / "README.md"
-    eval_path = agent_dir / "eval" / "agent.evalset.json"
-    
-    display_name = reg_agent.get("display_name", agent_name.replace("_", " ").title())
-    location = reg_agent.get("location", "us-central1")
-    tables = reg_agent.get("tables", [])
-    agent_id = reg_agent.get("agent_id", agent_name[:4])
-    
-    description = f"Autonomous Web3 on-chain reasoning agent for {display_name}."
-    prompts = []
-    
-    if eval_path.exists():
-        try:
-            eval_json = json.loads(eval_path.read_text(encoding="utf-8"))
-            for case in eval_json.get("eval_cases", []):
-                conv = case.get("conversation", [])
-                if len(conv) >= 1:
-                    u = conv[0].get("content", "")
-                    if u not in prompts:
-                        prompts.append(u)
-        except Exception:
-            pass
-            
-    if readme_path.exists():
-        content = readme_path.read_text(encoding="utf-8")
-        lines = [l.strip() for l in content.splitlines() if l.strip() and not l.strip().startswith("#") and not l.strip().startswith("**Domain:")]
-        if lines:
-            description = lines[0]
-            
-    if len(prompts) < 3:
-        prompts = [
-            f"What are the top quantitative metrics for {display_name} across on-chain activity?",
-            f"What are current crypto market benchmarks and protocol best practices for {display_name}?",
-            f"Show me a comparison chart visualizing {display_name} performance vs historical benchmark."
-        ]
+    raw_agents = data.get("agents", {})
+    agents_list = []
+
+    for name, agent in raw_agents.items():
+        domain = agent.get("domain", "defi")
+        display_name = agent.get("display_name", name.replace("_", " ").title())
+        description = agent.get("description", "")
         
-    kpis = AGENT_KPIS.get(agent_name, ["On-Chain Grounding: 100%", "Dual Sub-Agents: Active"])
-    
+        # Load sample prompts
+        agent_dir = REPO_ROOT / "domains" / domain / "agents" / name
+        eval_file = agent_dir / "eval" / "agent.evalset.json"
+        prompts = []
+        if eval_file.exists():
+            try:
+                eval_data = json.loads(eval_file.read_text(encoding="utf-8"))
+                for case in eval_data.get("eval_cases", []):
+                    conv = case.get("conversation", [])
+                    if conv and len(conv) >= 1:
+                        prompts.append(conv[0].get("content", ""))
+            except Exception:
+                pass
+
+        if len(prompts) < 3:
+            prompts = [
+                f"What are the top quantitative metrics for {display_name} across on-chain activity?",
+                f"What are current crypto market benchmarks and protocol best practices for {display_name}?",
+                f"Show me a comparison chart visualizing {display_name} performance vs historical benchmark.",
+            ]
+
+        agents_list.append(
+            format_agent_entry(name, agent, domain, display_name, description, prompts)
+        )
+
+    agents_list.sort(key=lambda a: (DOMAIN_ORDER.index(a["domain"]) if a["domain"] in DOMAIN_ORDER else 99, a["name"]))
+    return agents_list
+
+
+def format_agent_entry(agent_name, agent, domain, display_name, description, prompts):
+    clean_title = display_name.split(":")[-1].strip() if ":" in display_name else display_name
     return {
-        "id": agent_id,
+        "id": agent_name[:8],
         "name": agent_name,
         "display_name": display_name,
+        "clean_title": clean_title,
         "domain": domain,
-        "domain_display": DOMAIN_DISPLAY_NAMES.get(domain, domain.upper()),
+        "domain_display": DOMAIN_NAMES.get(domain, domain.upper()),
+        "domain_badge_short": DOMAIN_BADGE_SHORT.get(domain, domain.upper()),
         "icon": DOMAIN_ICONS.get(domain, "💎"),
-        "location": location,
+        "color": DOMAIN_COLORS.get(domain, "#38bdf8"),
+        "location": "us-central1",
         "description": description,
-        "kpis": kpis,
         "prompts": prompts[:3],
-        "tables": tables,
+        "tables": agent.get("tables", []),
         "demo_html": f"demos/gemini-enterprise/{domain}/{agent_name}.html",
         "demo_mp4": f"demos/gemini-enterprise/{domain}/{agent_name}.mp4",
         "readme": f"domains/{domain}/agents/{agent_name}/README.md",
@@ -119,7 +116,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web3 Agent Catalog — 10 Multi-Agent Suite</title>
-  <meta name="description" content="Explore 10 specialized Web3 Agent Catalog on-chain analytics, CEX trading, infrastructure & DeFi operations, built on Google ADK, Gemini Enterprise, and BigQuery Conversational Analytics.">
+  <meta name="description" content="Explore 10 specialized Web3 Agents for on-chain analytics, CEX trading, infrastructure & DeFi operations, built on Google ADK, Vertex AI, and BigQuery Conversational Analytics.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -133,45 +130,42 @@ def build_portal_html(agents_data: list[dict]) -> str:
 
   <style>
     :root, [data-theme="dark"] {{
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --bg-card: #1e293b;
-      --bg-card-hover: #243248;
-      --bg-surface: #0f172a;
-      --bg-input: #0f172a;
-      --border-color: #334155;
-      --border-faint: rgba(255, 255, 255, 0.14);
+      --bg-primary: #0b1120;
+      --bg-secondary: #111c30;
+      --bg-card: #152238;
+      --bg-card-hover: #1c2c47;
+      --bg-surface: #0b1120;
+      --bg-input: #0b1120;
+      --border-color: #23334d;
+      --border-faint: rgba(255, 255, 255, 0.08);
       --border-focus: #38bdf8;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
       --accent-blue: #38bdf8;
-      --accent-blue-hover: #0284c7;
+      --accent-blue-hover: #0ea5e9;
       --accent-indigo: #818cf8;
       --accent-emerald: #34d399;
-      --badge-bg: rgba(56, 189, 248, 0.12);
-      --badge-border: rgba(56, 189, 248, 0.28);
-      --badge-text: #38bdf8;
-      --kpi-bg: rgba(52, 211, 153, 0.1);
-      --kpi-border: rgba(52, 211, 153, 0.25);
-      --kpi-text: #34d399;
-      --region-bg: rgba(129, 140, 248, 0.12);
-      --region-border: rgba(129, 140, 248, 0.28);
-      --region-text: #a5b4fc;
+      --badge-bg: rgba(45, 212, 191, 0.12);
+      --badge-border: rgba(45, 212, 191, 0.28);
+      --badge-text: #2dd4bf;
+      --region-bg: rgba(167, 139, 250, 0.12);
+      --region-border: rgba(167, 139, 250, 0.28);
+      --region-text: #a78bfa;
       --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      --modal-overlay: rgba(15, 23, 42, 0.85);
+      --modal-overlay: rgba(11, 17, 32, 0.82);
     }}
 
     [data-theme="light"] {{
       --bg-primary: #f8fafc;
-      --bg-secondary: #ffffff;
+      --bg-secondary: #f1f5f9;
       --bg-card: #ffffff;
       --bg-card-hover: #f8fafc;
       --bg-surface: #f1f5f9;
       --bg-input: #ffffff;
-      --border-color: #cbd5e1;
-      --border-faint: #cbd5e1;
+      --border-color: #e2e8f0;
+      --border-faint: #e2e8f0;
       --border-focus: #0284c7;
       --text-primary: #0f172a;
       --text-secondary: #475569;
@@ -180,17 +174,14 @@ def build_portal_html(agents_data: list[dict]) -> str:
       --accent-blue-hover: #0369a1;
       --accent-indigo: #6366f1;
       --accent-emerald: #059669;
-      --badge-bg: #e0f2fe;
-      --badge-border: #bae6fd;
-      --badge-text: #0284c7;
-      --kpi-bg: #d1fae5;
-      --kpi-border: #a7f3d0;
-      --kpi-text: #065f46;
-      --region-bg: #e0e7ff;
-      --region-border: #c7d2fe;
-      --region-text: #4338ca;
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
-      --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --badge-bg: #ccfbf1;
+      --badge-border: #99f6e4;
+      --badge-text: #0f766e;
+      --region-bg: #ede9fe;
+      --region-border: #ddd6fe;
+      --region-text: #6d28d9;
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
       --modal-overlay: rgba(15, 23, 42, 0.6);
     }}
 
@@ -204,9 +195,11 @@ def build_portal_html(agents_data: list[dict]) -> str:
       flex-direction: column;
       line-height: 1.5;
     }}
+
+    /* Global Header */
     .site-header {{
       background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-faint);
       position: sticky;
       top: 0;
       z-index: 40;
@@ -243,6 +236,8 @@ def build_portal_html(agents_data: list[dict]) -> str:
     }}
     .btn-header:hover {{ background: var(--bg-surface); border-color: var(--border-focus); color: var(--accent-blue); }}
     .btn-primary-header {{ background: var(--accent-blue); color: #0f172a !important; border-color: var(--accent-blue); font-weight: 700; }}
+    
+    /* Hero Section */
     .hero {{ padding: 48px 24px 32px; max-width: 1360px; margin: 0 auto; width: 100%; text-align: center; }}
     .hero-pill {{
       display: inline-flex;
@@ -264,6 +259,8 @@ def build_portal_html(agents_data: list[dict]) -> str:
     .stat-card {{ background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px 20px; text-align: center; }}
     .stat-number {{ font-family: 'Google Sans', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--accent-blue); }}
     .stat-label {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; font-weight: 500; }}
+    
+    /* Main Layout */
     .main-container {{ max-width: 1360px; margin: 0 auto; padding: 24px; width: 100%; flex: 1; }}
     .toolbar {{ background: var(--bg-secondary); border: 1px solid var(--border-faint); border-radius: 14px; padding: 18px; margin-bottom: 28px; box-shadow: var(--shadow-card); }}
     .search-row {{ display: flex; gap: 12px; margin-bottom: 16px; position: relative; }}
@@ -276,67 +273,128 @@ def build_portal_html(agents_data: list[dict]) -> str:
     .domain-btn {{ background: var(--bg-surface); border: 1px solid var(--border-faint); color: var(--text-secondary); padding: 8px 14px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }}
     .domain-btn.active {{ background: var(--accent-blue); color: #0f172a; border-color: var(--accent-blue); font-weight: 700; }}
     .domain-count {{ font-size: 0.72rem; padding: 2px 6px; border-radius: 9999px; background: rgba(0, 0, 0, 0.15); font-family: 'JetBrains Mono', monospace; }}
+    
     .results-bar {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 4px; }}
-    .results-count {{ font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }}
-    .agent-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 20px; }}
+    .results-count {{ font-size: 0.95rem; font-weight: 500; color: var(--text-secondary); }}
+    .results-count strong {{ color: var(--text-primary); font-weight: 700; }}
+
+    /* Agent Card Grid matching Retail parity */
+    .agent-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 24px; }}
     .agent-card {{
       background: var(--bg-card);
       border: 1px solid var(--border-faint);
-      border-radius: 14px;
-      padding: 22px;
+      border-radius: 16px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow-card);
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       position: relative;
     }}
-    .agent-card:hover {{ transform: translateY(-3px); border-color: var(--border-focus); box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.35); }}
-    .card-top {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px; }}
-    .card-badges {{ display: flex; gap: 6px; flex-wrap: wrap; }}
-    .badge-domain {{ display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); }}
-    .badge-region {{ display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: var(--region-bg); border: 1px solid var(--region-border); color: var(--region-text); font-family: 'JetBrains Mono', monospace; }}
-    .card-title {{ font-family: 'Google Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; line-height: 1.35; }}
-    .card-desc {{ font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }}
-    .kpi-row {{ display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }}
-    .kpi-pill {{ font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: var(--kpi-bg); border: 1px solid var(--kpi-border); color: var(--kpi-text); display: inline-flex; align-items: center; gap: 4px; }}
-    .prompts-container {{ border-top: 1px solid var(--border-color); padding-top: 12px; margin-bottom: 16px; }}
-    .prompts-toggle {{ background: none; border: none; color: var(--text-secondary); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: space-between; width: 100%; cursor: pointer; padding: 2px 0; }}
+    .agent-card:hover {{ transform: translateY(-3px); border-color: var(--border-focus); box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.45); }}
+    
+    .card-top {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 8px; }}
+    .card-badges {{ display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }}
+    .badge-domain {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
+    }}
+    .badge-region {{
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--region-bg);
+      border: 1px solid var(--region-border);
+      color: var(--region-text);
+      font-family: 'JetBrains Mono', monospace;
+    }}
+    
+    .card-title {{ font-family: 'Google Sans', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; line-height: 1.35; }}
+    .card-desc {{ font-size: 0.9rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 20px; flex: 1; }}
+    
+    .prompts-container {{ border-top: 1px solid var(--border-color); padding-top: 14px; margin-bottom: 20px; }}
+    .prompts-toggle {{ background: none; border: none; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; justify-content: space-between; width: 100%; cursor: pointer; padding: 2px 0; }}
     .prompts-toggle:hover {{ color: var(--accent-blue); }}
-    .prompts-list {{ margin-top: 8px; display: none; flex-direction: column; gap: 6px; }}
+    .prompts-list {{ margin-top: 10px; display: none; flex-direction: column; gap: 8px; }}
     .prompts-list.open {{ display: flex; }}
-    .prompt-item {{ font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-surface); padding: 6px 10px; border-radius: 6px; border-left: 3px solid var(--accent-indigo); line-height: 1.4; font-style: italic; }}
-    .card-actions {{ display: flex; gap: 8px; align-items: center; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-color); }}
-    .btn-watch {{ flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--accent-blue); color: #0f172a; padding: 9px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.15s ease; }}
+    .prompt-item {{ font-size: 0.82rem; color: var(--text-secondary); background: var(--bg-surface); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--accent-indigo); line-height: 1.45; font-style: italic; }}
+    
+    .card-actions {{ display: flex; gap: 10px; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); }}
+    .btn-watch {{
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--accent-blue);
+      color: #0f172a;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }}
     .btn-watch:hover {{ background: var(--accent-blue-hover); color: #ffffff; transform: translateY(-1px); }}
-    .btn-showcase {{ display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: var(--bg-surface); color: var(--text-primary); padding: 9px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; text-decoration: none; border: 1px solid var(--border-color); transition: all 0.15s ease; }}
+    .btn-showcase {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-color);
+      transition: all 0.15s ease;
+    }}
     .btn-showcase:hover {{ border-color: var(--border-focus); color: var(--accent-blue); }}
-    .btn-doc {{ display: inline-flex; align-items: center; justify-content: center; background: none; color: var(--text-muted); padding: 8px; border-radius: 8px; font-size: 1rem; text-decoration: none; border: 1px solid transparent; transition: all 0.15s ease; }}
+    .btn-doc {{ display: inline-flex; align-items: center; justify-content: center; background: none; color: var(--text-muted); padding: 10px; border-radius: 8px; font-size: 1.1rem; text-decoration: none; border: 1px solid transparent; transition: all 0.15s ease; }}
     .btn-doc:hover {{ color: var(--text-primary); border-color: var(--border-color); background: var(--bg-surface); }}
     .no-results {{ grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: 14px; display: none; }}
     .no-results-icon {{ font-size: 3rem; margin-bottom: 12px; }}
     
-    /* Video Modal Styles matching Screenshots 1 & 2 */
+    /* Video Modal */
     .modal-backdrop {{ position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }}
     .modal-dialog {{ background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: 16px; width: 100%; max-width: 900px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); overflow: hidden; }}
-    .modal-header {{ padding: 18px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }}
-    .modal-body {{ padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }}
-    .modal-video-wrapper {{ width: 100%; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-faint); }}
-    .modal-video {{ width: 100%; display: block; max-height: 480px; }}
-    .modal-meta-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: 10px; padding: 14px; }}
-    .modal-meta-item {{ display: flex; flex-direction: column; gap: 4px; }}
-    .modal-meta-label {{ font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }}
+    .modal-header {{ display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; border-bottom: 1px solid var(--border-color); }}
+    .modal-close {{ background: none; border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer; }}
+    .modal-close:hover {{ color: var(--text-primary); }}
+    .modal-body {{ padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }}
+    .modal-video-wrapper {{ position: relative; width: 100%; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); aspect-ratio: 16 / 9; }}
+    .modal-video {{ width: 100%; height: 100%; object-fit: contain; }}
+    .modal-meta-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; }}
+    .modal-meta-item {{ display: flex; flex-direction: column; gap: 2px; }}
+    .modal-meta-label {{ font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; }}
     .modal-meta-value {{ font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }}
-    .modal-sequence-box {{ background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: 10px; padding: 16px; }}
-    .modal-sequence-title {{ font-family: 'Google Sans', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--accent-indigo); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }}
-    .modal-turns-list {{ list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: var(--text-secondary); }}
+    .modal-sequence-box {{ background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }}
+    .modal-sequence-title {{ font-size: 0.85rem; font-weight: 700; color: var(--accent-indigo); margin-bottom: 8px; }}
+    .modal-turns-list {{ list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }}
     .modal-turns-list strong {{ color: var(--text-primary); }}
-    .modal-footer {{ padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; align-items: center; gap: 10px; }}
-    .modal-close {{ background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; }}
-    .btn-download {{ display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-primary); padding: 9px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; cursor: pointer; }}
-    .btn-download:hover {{ border-color: var(--border-focus); color: var(--accent-blue); }}
-    .btn-open-showcase {{ display: inline-flex; align-items: center; gap: 6px; background: var(--accent-blue); color: #0f172a !important; border: 1px solid var(--accent-blue); padding: 9px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }}
-    .btn-open-showcase:hover {{ background: var(--accent-blue-hover); color: #ffffff !important; }}
-    .site-footer {{ background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 36px 24px; text-align: center; margin-top: auto; }}
+    .modal-footer {{ padding: 14px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }}
+    .btn-download {{ padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); text-decoration: none; border: 1px solid var(--border-color); }}
+    .btn-open-showcase {{ padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; color: #0f172a; background: var(--accent-blue); text-decoration: none; }}
+    
+    /* Footer */
+    .site-footer {{ margin-top: auto; padding: 32px 24px; background: var(--bg-secondary); border-top: 1px solid var(--border-faint); text-align: center; }}
     .footer-text {{ font-size: 0.85rem; color: var(--text-secondary); }}
   </style>
 </head>
@@ -410,29 +468,33 @@ def build_portal_html(agents_data: list[dict]) -> str:
         <button class="domain-btn active" data-domain="all">
           <span>🌐</span> All Domains <span class="domain-count">{total_agents}</span>
         </button>
-        {"".join([f'''<button class="domain-btn" data-domain="{d}">
-          <span>{DOMAIN_ICONS[d]}</span> {DOMAIN_DISPLAY_NAMES[d]} <span class="domain-count">{domain_counts.get(d, 0)}</span>
-        </button>''' for d in DOMAIN_ORDER])}
+        <button class="domain-btn" data-domain="cex">
+          <span>🏦</span> Centralized Exchanges <span class="domain-count">{domain_counts.get('cex', 0)}</span>
+        </button>
+        <button class="domain-btn" data-domain="infra">
+          <span>⚡</span> L2 Infrastructure <span class="domain-count">{domain_counts.get('infra', 0)}</span>
+        </button>
+        <button class="domain-btn" data-domain="defi">
+          <span>🦄</span> DeFi Protocols <span class="domain-count">{domain_counts.get('defi', 0)}</span>
+        </button>
       </div>
     </section>
 
-    <!-- Results Header -->
+    <!-- Results Status Bar -->
     <div class="results-bar">
-      <div class="results-count" id="resultsCount">
-        Showing <strong>{total_agents}</strong> of {total_agents} enterprise agents
-      </div>
+      <div class="results-count" id="resultsCount">Showing <strong>{total_agents}</strong> of {total_agents} enterprise agents</div>
     </div>
 
-    <!-- Agent Grid -->
+    <!-- Agent Card Grid -->
     <div class="agent-grid" id="agentGrid">
       <!-- Injected via JavaScript -->
     </div>
 
-    <!-- No Results Fallback -->
+    <!-- No Results State -->
     <div class="no-results" id="noResults">
       <div class="no-results-icon">🔎</div>
-      <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">No Matching Web3 Agents Found</div>
-      <p style="color: var(--text-secondary);">Try refining your search keyword or switching domain filter tabs.</p>
+      <h3>No matching Web3 agents found</h3>
+      <p>Try searching for different keywords, token metrics, or clearing domain filters.</p>
     </div>
 
   </main>
@@ -447,7 +509,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
       <div class="modal-body">
         <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h3 style="color: var(--accent-blue); margin-bottom: 8px;">Tier 1: Presentation & Orchestration</h3>
-          <p style="font-size: 0.9rem; color: var(--text-secondary);">Web3 Agent UI routes user prompts to root <code>LlmAgent</code> (powered by <code>gemini-3.5-flash</code>).</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Web3 Multi-Agent Interface routes user prompts to root <code>LlmAgent</code> (powered by <code>gemini-3.5-flash</code>).</p>
         </div>
         <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h3 style="color: var(--accent-indigo); margin-bottom: 8px;">Tier 2: Dual Sub-Agent Reasoning</h3>
@@ -464,7 +526,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
     </div>
   </div>
 
-  <!-- Video Modal (Screenshots 1 & 2) -->
+  <!-- Video Modal -->
   <div class="modal-backdrop" id="videoModal">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -583,7 +645,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
       if (!agent) return;
 
       modalAgentTitle.textContent = `${{agent.icon}} ${{agent.display_name}}`;
-      modalDomainBadge.textContent = agent.domain_display;
+      modalDomainBadge.textContent = agent.domain_badge_short;
       modalRegionBadge.textContent = agent.location;
       
       modalVideo.src = agent.demo_mp4;
@@ -605,7 +667,9 @@ def build_portal_html(agents_data: list[dict]) -> str:
     function togglePrompts(btn) {{
       const list = btn.nextElementSibling;
       const icon = btn.querySelector('.toggle-icon');
-      if (list.classList.contains('open')) {{
+      const isOpen = list.classList.contains('open');
+      
+      if (isOpen) {{
         list.classList.remove('open');
         icon.textContent = '▼';
       }} else {{
@@ -615,8 +679,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
     }}
 
     function htmlEscape(str) {{
-      if (!str) return '';
-      return String(str)
+      return String(str || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -624,9 +687,10 @@ def build_portal_html(agents_data: list[dict]) -> str:
     }}
 
     function renderAgents() {{
-      const query = searchQuery.toLowerCase().trim();
+      const query = searchQuery.trim().toLowerCase();
+
       const filtered = AGENTS_DATA.filter(agent => {{
-        const matchesDomain = activeDomain === 'all' || agent.domain === activeDomain;
+        const matchesDomain = (activeDomain === 'all' || agent.domain === activeDomain);
         if (!matchesDomain) return false;
         if (!query) return true;
 
@@ -634,9 +698,9 @@ def build_portal_html(agents_data: list[dict]) -> str:
           agent.display_name,
           agent.name,
           agent.domain_display,
+          agent.domain_badge_short,
           agent.description,
           agent.location,
-          ...(agent.kpis || []),
           ...(agent.prompts || []),
           ...(agent.tables || [])
         ].join(' ').toLowerCase();
@@ -655,10 +719,6 @@ def build_portal_html(agents_data: list[dict]) -> str:
       noResults.style.display = 'none';
 
       agentGrid.innerHTML = filtered.map(agent => {{
-        const kpiPills = (agent.kpis || []).map(kpi => 
-          `<span class="kpi-pill">🎯 ${{htmlEscape(kpi)}}</span>`
-        ).join('');
-
         const promptItems = (agent.prompts || []).map((prompt) => 
           `<div class="prompt-item">"${{htmlEscape(prompt)}}"</div>`
         ).join('');
@@ -667,14 +727,12 @@ def build_portal_html(agents_data: list[dict]) -> str:
           <div class="agent-card" data-agent-id="${{agent.id}}">
             <div class="card-top">
               <div class="card-badges">
-                <span class="badge-domain">${{agent.icon}} ${{htmlEscape(agent.domain_display)}}</span>
+                <span class="badge-domain">${{agent.domain_badge_short}}</span>
                 <span class="badge-region">${{agent.location}}</span>
               </div>
             </div>
             <h3 class="card-title">${{htmlEscape(agent.display_name)}}</h3>
             <p class="card-desc">${{htmlEscape(agent.description)}}</p>
-
-            ${{kpiPills ? `<div class="kpi-row">${{kpiPills}}</div>` : ''}}
 
             ${{promptItems ? `
               <div class="prompts-container">
@@ -753,22 +811,11 @@ def build_portal_html(agents_data: list[dict]) -> str:
 """
 
 def main():
-    repo_root = REPO_ROOT
-    registry_file = repo_root / "_shared" / "table_registry.yaml"
-    with open(registry_file, "r", encoding="utf-8") as f:
-        reg_data = yaml.safe_load(f)
-        
-    agents_map = reg_data.get("agents", {})
-    agents_data = []
-    
-    for agent_name, reg_agent in agents_map.items():
-        domain = reg_agent.get("domain", "defi")
-        meta = extract_agent_metadata(agent_name, domain, reg_agent, repo_root)
-        agents_data.append(meta)
-        
-    html_output = build_portal_html(agents_data)
-    (repo_root / "index.html").write_text(html_output, encoding="utf-8")
-    print(f"✓ Generated complete index.html with {len(agents_data)} agents across {len(DOMAIN_ORDER)} domains!")
+    agents = load_all_agents()
+    html = build_portal_html(agents)
+    out_file = REPO_ROOT / "index.html"
+    out_file.write_text(html, encoding="utf-8")
+    print(f"✓ Generated complete index.html with {len(agents)} agents across {len(DOMAIN_ORDER)} domains matching Retail parity!")
 
 if __name__ == "__main__":
     main()
