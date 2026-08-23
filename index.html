@@ -25,8 +25,6 @@
       --bg-surface: #0b0f19;
       --bg-input: #0b0f19;
       --border-color: #334155;
-      --border-faint: rgba(255, 255, 255, 0.14);
-      --border-subtle: #1e293b;
       --border-focus: #38bdf8;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
@@ -35,17 +33,10 @@
       --accent-blue-hover: #0284c7;
       --accent-indigo: #818cf8;
       --accent-emerald: #34d399;
-      --accent-amber: #fbbf24;
       --badge-bg: rgba(56, 189, 248, 0.12);
       --badge-border: rgba(56, 189, 248, 0.28);
       --badge-text: #38bdf8;
-      --kpi-bg: rgba(52, 211, 153, 0.1);
-      --kpi-border: rgba(52, 211, 153, 0.25);
-      --kpi-text: #34d399;
-      --region-bg: rgba(129, 140, 248, 0.12);
-      --region-border: rgba(129, 140, 248, 0.28);
-      --region-text: #a5b4fc;
-      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       --modal-overlay: rgba(11, 15, 25, 0.85);
     }
@@ -58,8 +49,6 @@
       --bg-surface: #f1f5f9;
       --bg-input: #ffffff;
       --border-color: #cbd5e1;
-      --border-faint: #cbd5e1;
-      --border-subtle: #e2e8f0;
       --border-focus: #0284c7;
       --text-primary: #0f172a;
       --text-secondary: #475569;
@@ -68,31 +57,23 @@
       --accent-blue-hover: #0369a1;
       --accent-indigo: #6366f1;
       --accent-emerald: #059669;
-      --accent-amber: #d97706;
       --badge-bg: #e0f2fe;
       --badge-border: #bae6fd;
       --badge-text: #0284c7;
-      --kpi-bg: #d1fae5;
-      --kpi-border: #a7f3d0;
-      --kpi-text: #065f46;
-      --region-bg: #e0e7ff;
-      --region-border: #c7d2fe;
-      --region-text: #4338ca;
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
       --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       --modal-overlay: rgba(15, 23, 42, 0.6);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Inter', sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       line-height: 1.5;
-      transition: background-color 0.2s ease, color 0.2s ease;
     }
     .site-header {
       background: var(--bg-secondary);
@@ -111,21 +92,9 @@
       align-items: center;
       gap: 16px;
     }
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-primary);
-    }
-    .brand-icon { font-size: 1.6rem; line-height: 1; }
-    .brand-text { display: flex; flex-direction: column; }
-    .brand-title {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
+    .brand-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+    .brand-icon { font-size: 1.6rem; }
+    .brand-title { font-family: 'Google Sans', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
     .brand-subtitle { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
     .btn-header {
@@ -143,24 +112,9 @@
       color: var(--text-primary);
       transition: all 0.15s ease;
     }
-    .btn-header:hover {
-      background: var(--bg-surface);
-      border-color: var(--border-focus);
-      color: var(--accent-blue);
-    }
-    .btn-primary-header {
-      background: var(--accent-blue);
-      color: #0f172a !important;
-      border-color: var(--accent-blue);
-      font-weight: 700;
-    }
-    .hero {
-      padding: 48px 24px 32px;
-      max-width: 1360px;
-      margin: 0 auto;
-      width: 100%;
-      text-align: center;
-    }
+    .btn-header:hover { background: var(--bg-surface); border-color: var(--border-focus); color: var(--accent-blue); }
+    .btn-primary-header { background: var(--accent-blue); color: #0f172a !important; border-color: var(--accent-blue); font-weight: 700; }
+    .hero { padding: 48px 24px 32px; max-width: 1360px; margin: 0 auto; width: 100%; text-align: center; }
     .hero-pill {
       display: inline-flex;
       align-items: center;
@@ -174,132 +128,26 @@
       font-weight: 600;
       margin-bottom: 20px;
     }
-    .hero-title {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 2.75rem;
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-      color: var(--text-primary);
-    }
-    .hero-title span {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-indigo) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-desc {
-      max-width: 780px;
-      margin: 0 auto 36px;
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      max-width: 1000px;
-      margin: 0 auto 40px;
-    }
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 16px 20px;
-      text-align: center;
-    }
-    .stat-number {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      line-height: 1.2;
-    }
+    .hero-title { font-family: 'Google Sans', sans-serif; font-size: 2.75rem; font-weight: 700; margin-bottom: 16px; }
+    .hero-title span { background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-indigo) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-desc { max-width: 780px; margin: 0 auto 36px; font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; }
+    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto 40px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px 20px; text-align: center; }
+    .stat-number { font-family: 'Google Sans', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--accent-blue); }
     .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; font-weight: 500; }
-    .main-container {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 0 24px 64px;
-      width: 100%;
-      flex: 1;
-    }
-    .toolbar {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px 20px;
-      margin-bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+    .main-container { max-width: 1360px; margin: 0 auto; padding: 0 24px 64px; width: 100%; flex: 1; }
+    .toolbar { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px 20px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px; }
     .search-row { display: flex; width: 100%; }
     .search-input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
     .search-icon { position: absolute; left: 16px; font-size: 1.1rem; pointer-events: none; color: var(--text-muted); }
-    .search-input {
-      width: 100%;
-      padding: 12px 42px 12px 46px;
-      font-size: 0.95rem;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: var(--bg-input);
-      color: var(--text-primary);
-      outline: none;
-      transition: all 0.15s ease;
-    }
-    .search-input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
-    .search-clear {
-      position: absolute;
-      right: 14px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 1rem;
-      display: none;
-    }
+    .search-input { width: 100%; padding: 12px 42px 12px 46px; font-size: 0.95rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-input); color: var(--text-primary); outline: none; }
+    .search-input:focus { border-color: var(--border-focus); }
     .domain-pills { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .domain-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background: var(--bg-card);
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .domain-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
-    .domain-btn.active {
-      background: var(--accent-blue);
-      border-color: var(--accent-blue);
-      color: #0f172a;
-      font-weight: 700;
-    }
-    .domain-count {
-      background: rgba(0, 0, 0, 0.2);
-      padding: 2px 7px;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-    }
-    .results-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-    .agent-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 20px;
-    }
+    .domain-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; cursor: pointer; }
+    .domain-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: #0f172a; font-weight: 700; }
+    .domain-count { background: rgba(0, 0, 0, 0.2); padding: 2px 7px; border-radius: 9999px; font-size: 0.75rem; }
+    .results-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-secondary); }
+    .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
     .agent-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -307,81 +155,36 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       box-shadow: var(--shadow-card);
       transition: all 0.2s ease;
+      cursor: pointer;
     }
-    .agent-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-focus);
-      background: var(--bg-card-hover);
-    }
+    .agent-card:hover { transform: translateY(-2px); border-color: var(--border-focus); background: var(--bg-card-hover); }
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .card-icon-title { display: flex; gap: 12px; align-items: center; }
     .agent-icon { font-size: 1.75rem; }
-    .agent-name {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-    .agent-domain-badge {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: var(--badge-bg);
-      border: 1px solid var(--badge-border);
-      color: var(--badge-text);
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .agent-desc {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      flex: 1;
-    }
+    .agent-name { font-family: 'Google Sans', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+    .agent-domain-badge { font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); font-weight: 600; }
+    .agent-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; flex: 1; }
     .tables-section { font-size: 0.75rem; color: var(--text-muted); }
-    .table-tag {
-      display: inline-block;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin: 2px 4px 2px 0;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-secondary);
-    }
-    .prompts-container {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .prompt-label { font-size: 0.75rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 6px; }
-    .prompt-item {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-      line-height: 1.4;
-      display: flex;
-      gap: 6px;
-    }
-    .no-results {
-      text-align: center;
-      padding: 60px 20px;
-      display: none;
-    }
-    .no-results-icon { font-size: 3rem; margin-bottom: 12px; }
-    .no-results-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
-    .site-footer {
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
-      padding: 36px 24px;
-      margin-top: auto;
-      text-align: center;
-    }
-    .footer-inner { max-width: 1360px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .table-tag { display: inline-block; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 2px 6px; border-radius: 4px; margin: 2px 4px 2px 0; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
+    .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-color); }
+    .card-btn { flex: 1; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-align: center; text-decoration: none; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+    .card-btn:hover { border-color: var(--border-focus); color: var(--accent-blue); }
+    .card-btn-primary { background: var(--accent-blue); color: #0f172a !important; border-color: var(--accent-blue); font-weight: 700; }
+    
+    /* Modal Styles */
+    .modal-backdrop { position: fixed; inset: 0; background: var(--modal-overlay); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
+    .modal-dialog { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; width: 100%; max-width: 800px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-modal); }
+    .modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+    .modal-close { background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; }
+    .modal-turn { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }
+    .modal-turn-q { font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 6px; }
+    .modal-turn-a { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+    .site-footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 36px 24px; text-align: center; margin-top: auto; }
     .footer-text { font-size: 0.85rem; color: var(--text-secondary); }
   </style>
 </head>
@@ -398,9 +201,8 @@
         </div>
       </a>
       <div class="header-actions">
-        <button id="themeToggleBtn" class="btn-header" aria-label="Toggle Light/Dark Theme">
-          <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
-        </button>
+        <button id="archBtn" class="btn-header"><span>📐</span> Architecture Blueprint</button>
+        <button id="themeToggleBtn" class="btn-header"><span id="themeIcon">☀️</span> <span id="themeText">Light</span></button>
       </div>
     </div>
   </header>
@@ -408,7 +210,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-pill">
-      <span>🚀</span> 10 Enterprise Web3 Agents Fully Configured across 3 Domains
+      <span>🚀</span> 10 Enterprise Web3 Agents Fully Deployed across 3 Domains
     </div>
     <h1 class="hero-title">
       Gemini Enterprise Agents for <span>Web3</span>
@@ -447,7 +249,6 @@
         <div class="search-input-wrapper">
           <span class="search-icon">🔍</span>
           <input type="text" id="searchInput" class="search-input" placeholder="Search 10 agents by name, KPI (e.g. TPS, APY, TVL), question, or BigQuery table..." autocomplete="off">
-          <button id="searchClear" class="search-clear" aria-label="Clear search">✕</button>
         </div>
       </div>
 
@@ -478,29 +279,63 @@
       <!-- Injected via JavaScript -->
     </div>
 
-    <!-- No Results Fallback -->
-    <div class="no-results" id="noResults">
-      <div class="no-results-icon">🔎</div>
-      <div class="no-results-title">No Matching Web3 Agents Found</div>
-      <p class="no-results-desc">Try refining your search keyword or switching domain filter tabs.</p>
-    </div>
-
   </main>
+
+  <!-- Architecture Modal -->
+  <div class="modal-backdrop" id="archModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 style="font-family: 'Google Sans'; font-size: 1.25rem;">📐 Web3 Enterprise Multi-Agent Architecture</h2>
+        <button class="modal-close" id="archClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <h3 style="color: var(--accent-blue); margin-bottom: 8px;">Tier 1: Presentation & Orchestration</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Gemini Enterprise Canvas UI routes user prompts to root <code>LlmAgent</code> (powered by <code>gemini-3.5-flash</code>).</p>
+        </div>
+        <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <h3 style="color: var(--accent-indigo); margin-bottom: 8px;">Tier 2: Dual Sub-Agent Reasoning</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">• <strong>Data Insights Sub-Agent:</strong> BigQuery Conversational Analytics API (NL-to-SQL, forecasting, anomalies).<br>• <strong>Market Context Sub-Agent:</strong> Google Search grounding for live token prices & protocol news.</p>
+        </div>
+        <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <h3 style="color: var(--accent-emerald); margin-bottom: 8px;">Tier 3: Enterprise Web3 Data Lakehouse</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">GCP BigQuery project <code>gcda-apac-sc.web3_enterprise_agents</code> hosting 20 partitioned tables across CEX, INFRA, and DEFI.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-header btn-primary-header" id="archOk">Close Blueprint</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Demo Modal -->
+  <div class="modal-backdrop" id="demoModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalAgentTitle" style="font-family: 'Google Sans'; font-size: 1.25rem;">Agent Demo</h2>
+          <span id="modalAgentDomain" style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;"></span>
+        </div>
+        <button class="modal-close" id="demoClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalTurns">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <a id="modalStandaloneLink" href="#" target="_blank" class="btn-header">Open Standalone Page ↗</a>
+        <button class="btn-header btn-primary-header" id="demoOk">Close</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Site Footer -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="brand-logo" style="justify-content: center;">
-        <span class="brand-icon">🌐</span>
-        <span class="brand-title">Gemini Enterprise Agents for Web3</span>
-      </div>
-      <p class="footer-text">
-        10 Enterprise Agents across 3 Strategic Web3 Domains (CEX, INFRA, DEFI). Powered by Google ADK, Gemini Enterprise, and BigQuery.
-      </p>
-    </div>
+    <p class="footer-text">
+      10 Enterprise Agents across 3 Strategic Web3 Domains (CEX, INFRA, DEFI). Powered by Google ADK, Gemini Enterprise, and BigQuery.
+    </p>
   </footer>
 
-  <!-- Embedded JSON Data & Client Application Script -->
+  <!-- Client Script -->
   <script>
     const AGENTS_DATA = [
   {
@@ -512,10 +347,19 @@
     "icon": "\ud83c\udfe6",
     "location": "us-central1",
     "description": "Analyzes bid-ask spread efficiency, top-of-book depth, order book imbalance, and slippage across major spot and perpetual trading pairs. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "Which exchange and pair offered the highest 2% bid depth on August 2, 2026?",
       "What was the recorded slippage on the $1.2M BTC/USDT trade on August 2?"
+    ],
+    "turns": [
+      {
+        "user": "Which exchange and pair offered the highest 2% bid depth on August 2, 2026?",
+        "assistant": "On August 2, 2026, Binance BTC/USDT had the highest 2% bid depth at $15,100,000 USD (with an ask depth of $14,900,000 USD and a tight spread of 0.42 bps)."
+      },
+      {
+        "user": "What was the recorded slippage on the $1.2M BTC/USDT trade on August 2?",
+        "assistant": "The $1,200,000 USD sell trade on Binance BTC/USDT incurred a slippage of 2.30 bps at an executed price of $65,135.00."
+      }
     ],
     "tables": [
       "snapshots",
@@ -534,10 +378,19 @@
     "icon": "\ud83c\udfe6",
     "location": "us-central1",
     "description": "Audits on-chain wallet reserve assets versus exchange customer liability balances, verifying collateralization ratios and solvency margins. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "What is the current proof-of-reserves ratio for BTC and ETH in the August 1, 2026 audit?",
       "How much of total BTC reserves are held in cold storage?"
+    ],
+    "turns": [
+      {
+        "user": "What is the current proof-of-reserves ratio for BTC and ETH in the August 1, 2026 audit?",
+        "assistant": "In the August 1, 2026 audit, BTC has a reserve ratio of 104.98% (48,500 BTC reserve vs 46,200 BTC liabilities) and ETH has a reserve ratio of 105.48% (385,000 ETH reserve vs 365,000 ETH liabilities)."
+      },
+      {
+        "user": "How much of total BTC reserves are held in cold storage?",
+        "assistant": "94.5% of total BTC reserves are held in BitGo cold storage custody."
+      }
     ],
     "tables": [
       "wallet_balances",
@@ -556,10 +409,19 @@
     "icon": "\ud83c\udfe6",
     "location": "us-central1",
     "description": "Tracks large on-chain deposit/withdrawal flows, hot and cold storage rebalancing, and exchange reserve drawdowns across major assets. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "What was the largest whale deposit recorded on August 1, 2026?",
       "How much BTC was swept from hot to cold storage on August 1?"
+    ],
+    "turns": [
+      {
+        "user": "What was the largest whale deposit recorded on August 1, 2026?",
+        "assistant": "The largest whale deposit on August 1, 2026 was 1,500 BTC ($96,375,000 USD) deposited to Coinbase by Institutional Fund A."
+      },
+      {
+        "user": "How much BTC was swept from hot to cold storage on August 1?",
+        "assistant": "3,000 BTC was rebalanced from Hot-Wallet-01 to Cold-Vault-03, keeping hot wallet ratio at 5.5%."
+      }
     ],
     "tables": [
       "large_transfers",
@@ -578,10 +440,19 @@
     "icon": "\u26a1",
     "location": "us-central1",
     "description": "Monitors Layer-2 rollup sequencing transaction rates (TPS), EIP-4844 blob gas usage, batch verification intervals, and L1 settlement costs. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "Which L2 rollup processed the highest TPS on August 2, 2026?",
       "What were the calldata cost savings achieved by Base using EIP-4844 blobs on August 2?"
+    ],
+    "turns": [
+      {
+        "user": "Which L2 rollup processed the highest TPS on August 2, 2026?",
+        "assistant": "Base achieved the highest throughput at 65.28 TPS (235,000 transactions) with a batch latency of 1.1 seconds."
+      },
+      {
+        "user": "What were the calldata cost savings achieved by Base using EIP-4844 blobs on August 2?",
+        "assistant": "Base saved 93.1% in data availability costs by submitting 3,820 blobs for 2.10 ETH ($7,393.68 USD) in L1 settlement costs."
+      }
     ],
     "tables": [
       "block_metrics",
@@ -600,10 +471,19 @@
     "icon": "\u26a1",
     "location": "us-central1",
     "description": "Tracks distributed RPC node endpoint latencies, validator uptime, attestation rates, and consensus slash risk events. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "Which RPC provider had the lowest latency in us-east-1 on August 1, 2026?",
       "Were any validator groups flagged with elevated slashing or missed block risk?"
+    ],
+    "turns": [
+      {
+        "user": "Which RPC provider had the lowest latency in us-east-1 on August 1, 2026?",
+        "assistant": "Alchemy had the lowest average latency in us-east-1 at 28.5 ms (p99 of 85.0 ms and 0.02% error rate)."
+      },
+      {
+        "user": "Were any validator groups flagged with elevated slashing or missed block risk?",
+        "assistant": "Solo-Stakers-Group-B was flagged with ELEVATED risk due to 3 missed blocks and a sub-optimal attestation rate of 96.40%."
+      }
     ],
     "tables": [
       "node_uptime",
@@ -622,10 +502,19 @@
     "icon": "\u26a1",
     "location": "us-central1",
     "description": "Detects maximal extractable value (MEV) activities including sandwich trades, cross-DEX spatial arbitrage, and private mempool bundle volumes. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "What was the highest profit MEV bundle extracted in recent blocks?",
       "What was the victim loss on the Uniswap v3 sandwich attack on August 1?"
+    ],
+    "turns": [
+      {
+        "user": "What was the highest profit MEV bundle extracted in recent blocks?",
+        "assistant": "A sandwich bundle in block 20450145 extracted $8,920.00 USD in profit via titan builder, paying a 1.20 ETH builder bribe."
+      },
+      {
+        "user": "What was the victim loss on the Uniswap v3 sandwich attack on August 1?",
+        "assistant": "The victim incurred $840.50 USD in slippage loss on the Uniswap v3 WETH/USDC 0.05% pool, yielding $710.20 USD net attacker profit."
+      }
     ],
     "tables": [
       "bundles",
@@ -644,10 +533,19 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Analyzes automated market maker (AMM) pool depths, 24-hour volume-to-TVL ratios, fee generation, and historical impermanent loss. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "Which liquidity pool demonstrates the highest capital efficiency and fee APY?",
       "What were the total trading fees collected by the ETH/USDC 0.05% pool on August 2, 2026?"
+    ],
+    "turns": [
+      {
+        "user": "Which liquidity pool demonstrates the highest capital efficiency and fee APY?",
+        "assistant": "Uniswap v3 ETH/USDC 0.05% has the highest capital efficiency at 1.45 ($210M 24h volume on $145M TVL) generating a 26.4% fee APY."
+      },
+      {
+        "user": "What were the total trading fees collected by the ETH/USDC 0.05% pool on August 2, 2026?",
+        "assistant": "On August 2, 2026, the pool generated $112,500.00 USD in LP fees on $225,000,000 USD in daily volume."
+      }
     ],
     "tables": [
       "pools",
@@ -666,10 +564,19 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Monitors money market borrowing utilization, collateral health factor distributions, and identifies collateral positions approaching liquidation thresholds. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "Which position is closest to liquidation and what is its health factor?",
       "How much volume was liquidated across Aave v3 on August 1?"
+    ],
+    "turns": [
+      {
+        "user": "Which position is closest to liquidation and what is its health factor?",
+        "assistant": "Position POS-8901 on Aave v3 is highest risk with a health factor of 1.09 ($18.5M wstETH collateral against $14.2M USDC debt), liquidating if ETH falls to $3,120.00."
+      },
+      {
+        "user": "How much volume was liquidated across Aave v3 on August 1?",
+        "assistant": "$3,450,000.00 USD was successfully liquidated on Aave v3 with zero bad debt incurred and $172,500.00 in liquidator bonuses."
+      }
     ],
     "tables": [
       "collateral_positions",
@@ -688,10 +595,19 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Compares liquid staking token (LST) yields, reward distribution APRs, and optimizes risk-adjusted capital deployment across yield vaults. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "What is the highest yielding stablecoin vault with over $100M TVL?",
       "What is the current annual staking reward rate for Lido stETH?"
+    ],
+    "turns": [
+      {
+        "user": "What is the highest yielding stablecoin vault with over $100M TVL?",
+        "assistant": "The Curve sUSDe/USDC Pool offers the highest yield at 17.30% Net APY (13.10% base + 4.20% rewards) on $120M TVL."
+      },
+      {
+        "user": "What is the current annual staking reward rate for Lido stETH?",
+        "assistant": "Lido stETH yields 3.42% annual staking rewards with 9,850,000 ETH staked and a tight peg discount of 2.0 bps."
+      }
     ],
     "tables": [
       "pool_apys",
@@ -710,10 +626,19 @@
     "icon": "\ud83e\udd84",
     "location": "us-central1",
     "description": "Tracks cross-chain bridge transfer velocity, lock-and-mint vs burn liquidity imbalances, and alerts on anomalous multi-chain capital flight. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).",
-    "kpis": [],
     "prompts": [
       "Which bridge recorded the highest volume to Arbitrum on August 2, 2026?",
       "What is the current liquidity utilization of Stargate on Base?"
+    ],
+    "turns": [
+      {
+        "user": "Which bridge recorded the highest volume to Arbitrum on August 2, 2026?",
+        "assistant": "Across Protocol processed $46,800,000 USD (1,980 transfers) from Ethereum to Arbitrum on August 2, 2026."
+      },
+      {
+        "user": "What is the current liquidity utilization of Stargate on Base?",
+        "assistant": "Stargate has a 79.17% pool utilization on Base with $48,000,000 USD available liquidity in normal status."
+      }
     ],
     "tables": [
       "transfer_events",
@@ -729,14 +654,53 @@
     let searchQuery = '';
 
     const searchInput = document.getElementById('searchInput');
-    const searchClear = document.getElementById('searchClear');
     const domainPills = document.getElementById('domainPills');
     const agentGrid = document.getElementById('agentGrid');
-    const noResults = document.getElementById('noResults');
     const resultsCount = document.getElementById('resultsCount');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
     const themeText = document.getElementById('themeText');
+
+    // Modals
+    const archModal = document.getElementById('archModal');
+    const archBtn = document.getElementById('archBtn');
+    const archClose = document.getElementById('archClose');
+    const archOk = document.getElementById('archOk');
+
+    const demoModal = document.getElementById('demoModal');
+    const demoClose = document.getElementById('demoClose');
+    const demoOk = document.getElementById('demoOk');
+    const modalAgentTitle = document.getElementById('modalAgentTitle');
+    const modalAgentDomain = document.getElementById('modalAgentDomain');
+    const modalTurns = document.getElementById('modalTurns');
+    const modalStandaloneLink = document.getElementById('modalStandaloneLink');
+
+    archBtn.onclick = () => archModal.style.display = 'flex';
+    archClose.onclick = () => archModal.style.display = 'none';
+    archOk.onclick = () => archModal.style.display = 'none';
+
+    demoClose.onclick = () => demoModal.style.display = 'none';
+    demoOk.onclick = () => demoModal.style.display = 'none';
+
+    window.onclick = (e) => {
+      if (e.target === archModal) archModal.style.display = 'none';
+      if (e.target === demoModal) demoModal.style.display = 'none';
+    };
+
+    function openAgentDemo(agent) {
+      modalAgentTitle.textContent = `${agent.icon} ${agent.display_name}`;
+      modalAgentDomain.textContent = agent.domain_display.toUpperCase();
+      modalStandaloneLink.href = agent.demo_html;
+      modalTurns.innerHTML = agent.turns.map((t, idx) => `
+        <div class="modal-turn">
+          <div class="modal-turn-q">Turn ${idx+1} — User Prompt</div>
+          <div style="font-weight:600; margin-bottom:8px;">"${t.user}"</div>
+          <div class="modal-turn-q">Gemini Enterprise Verified Response</div>
+          <div class="modal-turn-a">${t.assistant}</div>
+        </div>
+      `).join('');
+      demoModal.style.display = 'flex';
+    }
 
     function renderAgents() {
       const query = searchQuery.toLowerCase().trim();
@@ -755,15 +719,8 @@
 
       resultsCount.innerHTML = `Showing <strong>${filtered.length}</strong> of ${AGENTS_DATA.length} enterprise agents`;
 
-      if (filtered.length === 0) {
-        agentGrid.innerHTML = '';
-        noResults.style.display = 'block';
-        return;
-      }
-
-      noResults.style.display = 'none';
-      agentGrid.innerHTML = filtered.map(a => `
-        <div class="agent-card">
+      agentGrid.innerHTML = filtered.map((a, idx) => `
+        <div class="agent-card" onclick="openAgentDemo(AGENTS_DATA[${AGENTS_DATA.indexOf(a)}])">
           <div class="card-header">
             <div class="card-icon-title">
               <span class="agent-icon">${a.icon}</span>
@@ -781,13 +738,9 @@
             ${a.tables.map(t => `<span class="table-tag">${t}</span>`).join('')}
           </div>
 
-          <div class="prompts-container">
-            <div class="prompt-label">Example Prompts:</div>
-            ${a.prompts.map(p => `
-              <div class="prompt-item">
-                <span>💬</span> <span>${p}</span>
-              </div>
-            `).join('')}
+          <div class="card-actions" onclick="event.stopPropagation()">
+            <button class="card-btn card-btn-primary" onclick="openAgentDemo(AGENTS_DATA[${AGENTS_DATA.indexOf(a)}])">Watch Verified Demo</button>
+            <a class="card-btn" href="${a.demo_html}" target="_blank">Standalone Page ↗</a>
           </div>
         </div>
       `).join('');
@@ -795,14 +748,6 @@
 
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
-      searchClear.style.display = searchQuery ? 'block' : 'none';
-      renderAgents();
-    });
-
-    searchClear.addEventListener('click', () => {
-      searchInput.value = '';
-      searchQuery = '';
-      searchClear.style.display = 'none';
       renderAgents();
     });
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INFRA: MEV & Sandwich Attack Radar — Gemini Enterprise Agent Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="dark"] {
+      --bg-primary: #0b0f19;
+      --bg-card: #1e293b;
+      --border-color: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-blue: #38bdf8;
+      --badge-bg: rgba(56, 189, 248, 0.12);
+      --badge-border: rgba(56, 189, 248, 0.28);
+      --badge-text: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 24px; line-height: 1.5; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-btn { color: var(--accent-blue); text-decoration: none; font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .agent-title { font-family: 'Google Sans', sans-serif; font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
+    .domain-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--badge-bg); border: 1px solid var(--badge-border); color: var(--badge-text); font-size: 0.8rem; font-weight: 600; margin-bottom: 16px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .turn { margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+    .turn:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .turn-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 6px; }
+    .user-msg { background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-blue); padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-weight: 500; }
+    .agent-msg { color: var(--text-secondary); line-height: 1.6; padding-left: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="../../../index.html" class="back-btn">← Back to Agent Catalog</a>
+      <span class="domain-badge">Blockchain Infrastructure & L2</span>
+    </div>
+    <h1 class="agent-title">⚡ INFRA: MEV & Sandwich Attack Radar</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 24px;">Detects maximal extractable value (MEV) activities including sandwich trades, cross-DEX spatial arbitrage, and private mempool bundle volumes. Orchestrates two sub-agents: **Data Insights** (BigQuery Conversational Analytics API, forecasting, anomalies) and **Market Context** (Google Search grounding).</p>
+    <div class="card">
+      <h2 style="font-family: 'Google Sans'; font-size: 1.2rem; margin-bottom: 16px; color: var(--text-primary);">Verified Multi-Turn Conversation</h2>
+      <div class="turn">
+        <div class="turn-label">Turn 1 — User Prompt</div>
+        <div class="user-msg">"What was the highest profit MEV bundle extracted in recent blocks?"</div>
+        <div class="turn-label">Gemini Enterprise Synthesized Response</div>
+        <div class="agent-msg">A sandwich bundle in block 20450145 extracted $8,920.00 USD in profit via titan builder, paying a 1.20 ETH builder bribe.</div>
+      </div><div class="turn">
+        <div class="turn-label">Turn 2 — User Prompt</div>
+        <div class="user-msg">"What was the victim loss on the Uniswap v3 sandwich attack on August 1?"</div>
+        <div class="turn-label">Gemini Enterprise Synthesized Response</div>
+        <div class="agent-msg">The victim incurred $840.50 USD in slippage loss on the Uniswap v3 WETH/USDC 0.05% pool, yielding $710.20 USD net attacker profit.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
