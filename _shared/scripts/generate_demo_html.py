@@ -36,7 +36,7 @@ SHOWCASE_TEMPLATE = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{display_name} — Gemini Enterprise Demo Walkthrough</title>
+  <title>{display_name} — Web3 Agent Demo Walkthrough</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -254,7 +254,7 @@ SHOWCASE_TEMPLATE = """<!DOCTYPE html>
       <div class="badge-row">
         <span class="badge">Web3 Enterprise Agents</span>
         <span class="badge">{domain_badge}</span>
-        <span class="badge">Gemini Enterprise</span>
+        <span class="badge">Vertex AI & BigQuery</span>
       </div>
       <h1>{icon} {display_name}</h1>
       <p class="subtitle">
@@ -373,37 +373,13 @@ for agent_name, reg_agent in agents_map.items():
     mp4_file = demo_dir / f'{agent_name}.mp4'
     html_file = demo_dir / f'{agent_name}.html'
 
-    # 1. Generate 1080p MP4 Video with ffmpeg
-    t1 = clean_ffmpeg_text(display_name)
-    t2 = f"Model - gemini-3.5-flash | Domain - {domain.upper()} | Data - BigQuery Conversational Analytics"
-    t3 = f"Turn 1 (BigQuery) - {clean_ffmpeg_text(prompts[0])}"
-    t4 = f"Turn 2 (Market Grounding) - {clean_ffmpeg_text(prompts[1])}"
+    # Standalone Showcase HTML page matching Image 3
 
-    vf = (
-        f"drawtext=text='Gemini Enterprise Agent Demo - {t1}':fontcolor=white:fontsize=46:x=(w-text_w)/2:y=360,"
-        f"drawtext=text='{t2}':fontcolor=#38bdf8:fontsize=26:x=(w-text_w)/2:y=460,"
-        f"drawtext=text='{t3}':fontcolor=#94a3b8:fontsize=22:x=(w-text_w)/2:y=540,"
-        f"drawtext=text='{t4}':fontcolor=#94a3b8:fontsize=22:x=(w-text_w)/2:y=600"
-    )
-
-    cmd = [
-        'ffmpeg', '-y',
-        '-f', 'lavfi',
-        '-i', 'color=c=#0f172a:s=1920x1080:d=15:r=30',
-        '-vf', vf,
-        '-c:v', 'libx264',
-        '-pix_fmt', 'yuv420p',
-        str(mp4_file)
-    ]
-    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    print(f"🎬 Generated MP4: demos/gemini-enterprise/{domain}/{agent_name}.mp4")
-
-    # 2. Generate Standalone Showcase HTML page matching Image 3
     turns_html = f"""
         <li><strong>Turn 1 (Data Insights / BigQuery):</strong> <em>"{prompts[0]}"</em> — Synthesizes internal BigQuery conversational analytics query and computes on-chain metrics.</li>
         <li><strong>Turn 2 (Market Context / Google Search):</strong> <em>"{prompts[1]}"</em> — Grounds analysis against external crypto benchmarks and live market context.</li>
         <li><strong>Turn 3 (Visual Artifact / Matplotlib):</strong> <em>"{prompts[2] if len(prompts)>2 else 'Render a chart visual'}"</em> — Generates and renders a custom chart visualization artifact inline.</li>
-        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create an executive summary summarizing the {display_name} analysis above."</em> — Creates an executive briefing in Gemini Enterprise Canvas.</li>
+        <li><strong>Turn 4 (Executive Canvas Presentation):</strong> <em>"Create an executive summary summarizing the {display_name} analysis above."</em> — Creates an executive briefing in interactive Canvas mode.</li>
     """
 
     showcase_content = SHOWCASE_TEMPLATE.format(

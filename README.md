@@ -1,16 +1,16 @@
 # Web3 Enterprise Agents
 
-> **Google Agent Development Kit (ADK) Agents for Gemini Enterprise**  
+> **Google Agent Development Kit (ADK) Agents for Web3**  
 > 10 Declarative On-Chain & Market Intelligence Agents across 3 Strategic Web3 Domains (**CEX**, **INFRA**, **DEFI**).
 
 ---
 
 ## 🌟 System Overview
 
-**Web3 Enterprise Agents** is an enterprise-grade AI assistant ecosystem powered by the **Google Agent Development Kit (ADK)** for **Gemini Enterprise**. It provides protocol founders, liquidity managers, risk officers, and DeFi traders with autonomous, natural-language business intelligence grounded in **Google BigQuery on-chain data** and **Google Search live market intelligence**.
+**Web3 Enterprise Agents** is an enterprise-grade AI assistant ecosystem powered by the **Google Agent Development Kit (ADK)** for **Web3 Enterprise Intelligence**. It provides protocol founders, liquidity managers, risk officers, and DeFi traders with autonomous, natural-language business intelligence grounded in **Google BigQuery on-chain data** and **Google Search live market intelligence**.
 
 ```
-User Prompt (Gemini Enterprise)
+User Prompt (Web3 Agent Platform)
        │
        ▼
 Root Orchestrator Agent (LlmAgent / gemini-3.5-flash)

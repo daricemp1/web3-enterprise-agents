@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""High-Fidelity Gemini Enterprise UI Demo Video Recorder for Web3 Enterprise Agents.
+"""High-Fidelity Web3 Agent UI Demo Video Recorder for Web3 Enterprise Agents.
 
-Generates pixel-perfect 1080p MP4 screen recordings of the Gemini Enterprise interface:
+Generates pixel-perfect 1080p MP4 screen recordings of the Web3 Agent Catalog interface:
 - Left sidebar with navigation, agents, and recent chats.
 - Agents search & card selection from "From your organization".
 - Multi-turn conversation flow:
     Turn 1: BigQuery Conversational Analytics NL-to-SQL synthesis and tabular metrics.
     Turn 2: Google Search grounding with market benchmarks and citations.
     Turn 3: High-resolution visual chart artifact.
-    Turn 4: Split-screen Gemini Enterprise Canvas 4-slide presentation deck.
+    Turn 4: Split-screen Web3 Agent Catalog Canvas 4-slide presentation deck.
 - Smooth mouse movements, scrolling, and slide transitions.
 """
 
@@ -65,7 +65,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gemini Enterprise - {display_name}</title>
+<title>Web3 Agent Catalog - {display_name}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -508,7 +508,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
     <svg width="24" height="24" viewBox="0 0 24 24">
       <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#1a73e8"/>
     </svg>
-    <span class="logo-text">Web3 Enterprise</span>
+    <span class="logo-text">Web3 Agent Catalog</span>
   </div>
 
   <div class="nav-group">
@@ -593,7 +593,7 @@ def generate_gemini_enterprise_html(agent_name: str, reg_agent: dict) -> str:
           <span style="font-size:16px;">📊</span>
           <span style="font-weight:700; font-size:15px; color:#0f172a;">Executive Briefing Deck</span>
         </div>
-        <span style="font-size:12px; color:#0284c7; font-weight:600; background:#e0f2fe; padding:4px 8px; border-radius:6px;">Gemini Canvas</span>
+        <span style="font-size:12px; color:#0284c7; font-weight:600; background:#e0f2fe; padding:4px 8px; border-radius:6px;">Web3 Canvas</span>
       </div>
 
       <div class="canvas-slide-stage" id="canvasSlideStage">
@@ -858,7 +858,7 @@ async def record_agent_video(agent_name: str, reg_agent: dict):
     
     from playwright.async_api import async_playwright
     
-    print(f"🎬 Recording 1080p Gemini Enterprise UI walkthrough for: [{domain}] {agent_name}...")
+    print(f"🎬 Recording 1080p Web3 Agent UI walkthrough for: [{domain}] {agent_name}...")
     
     async with async_playwright() as p:
         browser = await p.chromium.launch(

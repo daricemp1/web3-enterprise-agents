@@ -118,8 +118,8 @@ def build_portal_html(agents_data: list[dict]) -> str:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gemini Enterprise Agents for Web3 — 10 Multi-Agent Catalog</title>
-  <meta name="description" content="Explore 10 specialized Gemini Enterprise Agents for Web3 on-chain analytics, CEX trading, infrastructure & DeFi operations, built on Google ADK, Gemini Enterprise, and BigQuery Conversational Analytics.">
+  <title>Web3 Agent Catalog — 10 Multi-Agent Suite</title>
+  <meta name="description" content="Explore 10 specialized Web3 Agent Catalog on-chain analytics, CEX trading, infrastructure & DeFi operations, built on Google ADK, Gemini Enterprise, and BigQuery Conversational Analytics.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -348,8 +348,8 @@ def build_portal_html(agents_data: list[dict]) -> str:
       <a href="index.html" class="brand-logo">
         <span class="brand-icon">🌐</span>
         <div class="brand-text">
-          <span class="brand-title">Gemini Enterprise Agents for Web3</span>
-          <span class="brand-subtitle">Google ADK & Gemini Enterprise Multi-Agent Platform</span>
+          <span class="brand-title">Web3 Agent Catalog</span>
+          <span class="brand-subtitle">Autonomous Multi-Agent Intelligence Platform</span>
         </div>
       </a>
       <div class="header-actions">
@@ -365,17 +365,17 @@ def build_portal_html(agents_data: list[dict]) -> str:
       <span>🚀</span> 10 Enterprise Web3 Agents Fully Deployed across 3 Domains
     </div>
     <h1 class="hero-title">
-      Gemini Enterprise Agents for <span>Web3</span>
+      Web3 Enterprise <span>Agents Catalog</span>
     </h1>
     <p class="hero-desc">
-      A declarative, multi-agent platform powered by Google Agent Development Kit (ADK), Gemini Enterprise, and BigQuery Conversational Analytics. Real-time quantitative querying against on-chain datasets, grounded with external Google Search market intelligence.
+      A declarative, multi-agent platform powered by Google Agent Development Kit (ADK), Vertex AI, and BigQuery Conversational Analytics. Real-time quantitative querying against on-chain datasets, grounded with external Google Search market intelligence.
     </p>
 
     <!-- Platform Stats -->
     <div class="stat-row">
       <div class="stat-card">
         <div class="stat-number">{total_agents}</div>
-        <div class="stat-label">Gemini Enterprise Agents</div>
+        <div class="stat-label">Web3 Agents</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">{total_domains}</div>
@@ -447,7 +447,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
       <div class="modal-body">
         <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h3 style="color: var(--accent-blue); margin-bottom: 8px;">Tier 1: Presentation & Orchestration</h3>
-          <p style="font-size: 0.9rem; color: var(--text-secondary);">Gemini Enterprise Canvas UI routes user prompts to root <code>LlmAgent</code> (powered by <code>gemini-3.5-flash</code>).</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Web3 Agent UI routes user prompts to root <code>LlmAgent</code> (powered by <code>gemini-3.5-flash</code>).</p>
         </div>
         <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h3 style="color: var(--accent-indigo); margin-bottom: 8px;">Tier 2: Dual Sub-Agent Reasoning</h3>
@@ -497,7 +497,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
           </div>
           <div class="modal-meta-item">
             <span class="modal-meta-label">Platform UI</span>
-            <span class="modal-meta-value">Gemini Enterprise</span>
+            <span class="modal-meta-value">Web3 Agent Platform</span>
           </div>
           <div class="modal-meta-item">
             <span class="modal-meta-label">Data Execution</span>
@@ -524,7 +524,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
   <!-- Site Footer -->
   <footer class="site-footer">
     <p class="footer-text">
-      10 Enterprise Agents across 3 Strategic Web3 Domains (CEX, INFRA, DEFI). Powered by Google ADK, Gemini Enterprise, and BigQuery.
+      10 Enterprise Agents across 3 Strategic Web3 Domains (CEX, INFRA, DEFI). Powered by Google ADK, Vertex AI, and BigQuery.
     </p>
   </footer>
 
@@ -596,7 +596,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
         <li><strong>Turn 1 (Data Insights):</strong> "${{agent.prompts[0] || 'Analyze on-chain transaction metrics.'}}"</li>
         <li><strong>Turn 2 (Market Grounding):</strong> "${{agent.prompts[1] || 'Compare against crypto industry benchmarks.'}}"</li>
         <li><strong>Turn 3 (Visual Analytics):</strong> "${{agent.prompts[2] || 'Render comparison chart artifact.'}}"</li>
-        <li><strong>Turn 4 (Canvas Presentation):</strong> Executive briefing generated in Gemini Enterprise Canvas.</li>
+        <li><strong>Turn 4 (Canvas Presentation):</strong> Executive briefing generated in interactive Canvas mode.</li>
       `;
 
       videoModal.style.display = 'flex';

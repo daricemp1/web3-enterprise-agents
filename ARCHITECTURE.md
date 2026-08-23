@@ -7,11 +7,11 @@
 
 ## 1. System Overview & Core Philosophy
 
-The **Retail Enterprise Agents** platform is an enterprise-grade AI assistant ecosystem built with the **Google Agent Development Kit (ADK)** for **Gemini Enterprise**. It provides retail executives, category managers, store directors, and supply chain analysts with autonomous, natural-language business intelligence grounded in **Google BigQuery data** and **Google Search market intelligence**.
+The **Retail Enterprise Agents** platform is an enterprise-grade AI assistant ecosystem built with the **Google Agent Development Kit (ADK)** for **Web3 Enterprise Intelligence**. It provides retail executives, category managers, store directors, and supply chain analysts with autonomous, natural-language business intelligence grounded in **Google BigQuery data** and **Google Search market intelligence**.
 
 ```mermaid
 graph TD
-    User["Retail Executive / Store Planner"] -->|Natural Language Prompt| GE["Gemini Enterprise Assistant"]
+    User["Retail Executive / Store Planner"] -->|Natural Language Prompt| GE["Web3 Agent Platform"]
     GE -->|Routes to Agent| Root["Root Orchestrator LlmAgent<br/>(gemini-3.5-flash)"]
     
     Root -->|Lifecycle Callback| CB1["tools.callbacks.set_current_date"]
@@ -174,9 +174,9 @@ Demo videos and interactive web players are generated through a headless Playwri
 sequenceDiagram
     participant Harness as record_agent_demo.py
     participant Chrome as Authenticated Chrome Profile
-    participant GE as Gemini Enterprise UI
+    participant GE as Web3 Agent UI
     participant Agent as ADK Root Orchestrator
-    participant Canvas as Gemini Enterprise Canvas
+    participant Canvas as Web3 Canvas
 
     Harness->>Chrome: Launch 1080p Window (1920x1080)
     Harness->>GE: Navigate to Agents Gallery
