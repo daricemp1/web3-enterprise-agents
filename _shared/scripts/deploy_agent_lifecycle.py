@@ -411,37 +411,44 @@ class AgentLifecycleEngine:
         subprocess.run(cmd, cwd=str(REPO_ROOT), check=True)
 
     def verify_deduplication(self, config: AgentDeployConfig, expected_engine_id: str) -> bool:
-        """Verifies exactly 1 reasoning engine and 1 registered card exist and are bound."""
+        """Verifies exactly 1 reasoning engine exists (and 1 registered card if GE is enabled)."""
         matched: dict = {}
         for attempt in range(5):
             engines = self.client.list_reasoning_engines(config.project_id, config.region)
-            cards = self.client.list_ge_agents(config.gemini_enterprise_app_id, config.project_id)
+            cards = self.client.list_ge_agents(config.gemini_enterprise_app_id, config.project_id) if config.gemini_enterprise_app_id else []
             matched = self.match_resources(config, engines, cards)
             
-            if len(matched["matching_engines"]) == 1 and len(matched["matching_cards"]) == 1:
-                card_re = (
-                    matched["matching_cards"][0]
-                    .get("adkAgentDefinition", {})
-                    .get("provisionedReasoningEngine", {})
-                    .get("reasoningEngine", "")
-                )
-                if expected_engine_id in card_re:
-                    return True
+            if not config.gemini_enterprise_app_id:
+                if len(matched["matching_engines"]) == 1:
+                    engine_name = matched["matching_engines"][0].get("name", "")
+                    if expected_engine_id in engine_name:
+                        return True
+            else:
+                if len(matched["matching_engines"]) == 1 and len(matched["matching_cards"]) == 1:
+                    card_re = (
+                        matched["matching_cards"][0]
+                        .get("adkAgentDefinition", {})
+                        .get("provisionedReasoningEngine", {})
+                        .get("reasoningEngine", "")
+                    )
+                    if expected_engine_id in card_re:
+                        return True
             time.sleep(3.0)
             
         if len(matched.get("matching_engines", [])) != 1:
             raise AssertionError(f"Expected exactly 1 Reasoning Engine, found {len(matched.get('matching_engines', []))}")
-        if len(matched.get("matching_cards", [])) != 1:
+        if config.gemini_enterprise_app_id and len(matched.get("matching_cards", [])) != 1:
             raise AssertionError(f"Expected exactly 1 GE Card, found {len(matched.get('matching_cards', []))}")
             
-        card_re = (
-            matched["matching_cards"][0]
-            .get("adkAgentDefinition", {})
-            .get("provisionedReasoningEngine", {})
-            .get("reasoningEngine", "")
-        )
-        if expected_engine_id not in card_re:
-            raise AssertionError(f"Bound engine '{card_re}' does not match expected '{expected_engine_id}'")
+        if config.gemini_enterprise_app_id:
+            card_re = (
+                matched["matching_cards"][0]
+                .get("adkAgentDefinition", {})
+                .get("provisionedReasoningEngine", {})
+                .get("reasoningEngine", "")
+            )
+            if expected_engine_id not in card_re:
+                raise AssertionError(f"Bound engine '{card_re}' does not match expected '{expected_engine_id}'")
         return True
 
     def smoke_test(self, config: AgentDeployConfig, reasoning_engine_id: str) -> str:
@@ -751,24 +758,27 @@ def main(argv: list[str] | None = None) -> int:
             print(f"   ⚠️ Smoke test warning: {e}")
 
         # 5. GE Publish
-        try:
-            print(f"   📢 Publishing to Gemini Enterprise ({config.gemini_enterprise_app_id})...")
-            engine.publish_ge(config, new_engine_id)
-            print("   ✓ Published to Gemini Enterprise")
-        except Exception as e:
-            print(f"   ❌ Publish failed: {e}")
-            # Rollback engine
-            engine.client.delete_reasoning_engine(new_engine_id, config.project_id)
-            all_results.append({
-                "domain": domain,
-                "agent_name": ag_name,
-                "display_name": config.display_name,
-                "before_state": before_state,
-                "cleanup_actions": cleanup_desc,
-                "after_state": "❌ Publish Failed (Rolled Back)",
-                "status": "FAILED"
-            })
-            continue
+        if config.gemini_enterprise_app_id:
+            try:
+                print(f"   📢 Publishing to Gemini Enterprise ({config.gemini_enterprise_app_id})...")
+                engine.publish_ge(config, new_engine_id)
+                print("   ✓ Published to Gemini Enterprise")
+            except Exception as e:
+                print(f"   ❌ Publish failed: {e}")
+                # Rollback engine
+                engine.client.delete_reasoning_engine(new_engine_id, config.project_id)
+                all_results.append({
+                    "domain": domain,
+                    "agent_name": ag_name,
+                    "display_name": config.display_name,
+                    "before_state": before_state,
+                    "cleanup_actions": cleanup_desc,
+                    "after_state": "❌ Publish Failed (Rolled Back)",
+                    "status": "FAILED"
+                })
+                continue
+        else:
+            print("   ℹ️ Gemini Enterprise app ID not set; registered as standalone Vertex AI Reasoning Engine.")
             
         # 6. Verification
         try:
