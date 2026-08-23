@@ -405,52 +405,57 @@ def build_portal_html(agents_data: list[dict]) -> str:
 </head>
 <body>
 
-  <!-- Global Header -->
+  <!-- Global Header matching Retail Top Navbar -->
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="brand-logo">
-        <span class="brand-icon">🌐</span>
+        <span class="brand-icon">🏛️</span>
         <div class="brand-text">
-          <span class="brand-title">Web3 Agent Catalog</span>
-          <span class="brand-subtitle">Autonomous Multi-Agent Intelligence Platform</span>
+          <span class="brand-title">Web3 Enterprise Agents Catalog</span>
+          <span class="brand-subtitle">Google ADK & Vertex AI Multi-Agent Swarm</span>
         </div>
       </a>
       <div class="header-actions">
         <button id="archBtn" class="btn-header"><span>📐</span> Architecture Blueprint</button>
         <button id="themeToggleBtn" class="btn-header"><span id="themeIcon">☀️</span> <span id="themeText">Light</span></button>
+        <a href="https://github.com/daricemp1/web3-enterprise-agents" target="_blank" rel="noopener noreferrer" class="btn-header btn-primary-header"><span>⭐</span> GitHub Repository</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section matching Retail Hero Exactly -->
   <section class="hero">
     <div class="hero-pill">
-      <span>🚀</span> 10 Enterprise Web3 Agents Fully Deployed across 3 Domains
+      <span>🚀</span> 10 Enterprise Agents Fully Deployed (3 Web3 Domains)
     </div>
     <h1 class="hero-title">
-      Web3 Enterprise <span>Agents Catalog</span>
+      Web3 Enterprise Agents for <span>Decentralized Web</span>
     </h1>
     <p class="hero-desc">
-      A declarative, multi-agent platform powered by Google Agent Development Kit (ADK), Vertex AI, and BigQuery Conversational Analytics. Real-time quantitative querying against on-chain datasets, grounded with external Google Search market intelligence.
+      A declarative, multi-agent platform powered by Google Agent Development Kit (ADK), Vertex AI, and BigQuery Conversational Analytics. Real-time quantitative querying against 20+ enterprise Web3 datasets, grounded with external Google Search market intelligence.
     </p>
 
-    <!-- Platform Stats -->
+    <!-- Platform Stats: 5-card row matching Retail 100% -->
     <div class="stat-row">
       <div class="stat-card">
-        <div class="stat-number">{total_agents}</div>
-        <div class="stat-label">Web3 Agents</div>
+        <div class="stat-number">10</div>
+        <div class="stat-label">ENTERPRISE AGENTS</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">{total_domains}</div>
-        <div class="stat-label">Strategic Web3 Domains</div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">WEB3 DOMAINS</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">{total_tables}</div>
-        <div class="stat-label">BigQuery Tables</div>
+        <div class="stat-number">20</div>
+        <div class="stat-label">BIGQUERY TABLES</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">gemini-3.5-flash</div>
-        <div class="stat-label">Core Reasoning LLM</div>
+        <div class="stat-number">1</div>
+        <div class="stat-label">GCP HOSTING REGION</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">AGENTS DEMOS READY</div>
       </div>
     </div>
   </section>
@@ -463,7 +468,7 @@ def build_portal_html(agents_data: list[dict]) -> str:
       <div class="search-row">
         <div class="search-input-wrapper">
           <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" class="search-input" placeholder="Search 10 agents by name, KPI (e.g. TPS, APY, TVL), question, or BigQuery table..." autocomplete="off">
+          <input type="text" id="searchInput" class="search-input" placeholder="Search 10 agents by name, KPI (e.g. TPS, APY, TVL), business question, or BigQuery table..." autocomplete="off">
           <button id="searchClear" class="search-clear">✕</button>
         </div>
       </div>
